@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@import '@scottcheung/ui/styles.css';
+
+html, body { min-height: 100%; }
+body { margin: 0; background: var(--ui-bg, #f8fafc); color: var(--ui-fg, #0f172a); }
+button, input, select, textarea { font: inherit; }
+.starter-shell { min-height: 100vh; }
+.starter-sidebar { width: 15rem; flex: 0 0 15rem; }
+@media (max-width: 760px) { .starter-sidebar { width: 100%; flex: initial; } }
