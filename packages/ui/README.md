@@ -30,7 +30,7 @@ The root export contains server compatible primitives. Interactive components (B
 
 ## Themes
 
-`ThemeProvider` scopes variables to its child tree and accepts `mode="light" | "dark"` and an optional brand key. Consumers can also override tokens through CSS on a wrapper:
+`ThemeProvider` scopes variables to its child tree and accepts `mode="light" | "dark"` and an optional brand key. The look is ported from the Jobby design system: slate surfaces, an OKLCH brand colour with a soft gradient, pill-shaped controls, uppercase field labels and large card radii. Built-in brands: `green` (default, alias `rugby`), `blue`, `purple`, `orange`, `rose`. Consumers can also override tokens through CSS on a wrapper:
 
 ```css
 .rugby-brand {

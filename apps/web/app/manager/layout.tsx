@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: 'Site Manager' };
 export default function ManagerLayout({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider
-      brand="rugby"
+      brand="green"
       className="min-h-screen bg-slate-50 text-slate-900"
     >
       <ManagerProviders>
