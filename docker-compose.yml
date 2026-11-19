@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: rugby_site_manager
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test:
+        ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGODB_URI: mongodb://mongo:27017
+      MONGODB_DB: rugby_site_manager
+      NODE_ENV: production
+    ports:
+      - '3000:3000'
+
+volumes:
+  mongo_data:
