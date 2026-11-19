@@ -1,101 +1,126 @@
-# Rugby AU Site Manager
+# Multi-Site Website Manager
 
-A small Next.js App Router application (plus a reusable UI package) for composing portable page JSON and rendering it across multiple themed rugby websites. The editor and public renderer read from MongoDB; the local stack uses Docker Compose.
+One Next.js app that runs many rugby websites from a shared component library.
+Editors compose pages in **`/manager`** from reusable components and edit their
+content in forms generated from each component's schema. Public pages are
+server-rendered at **`/sites/<site>/<path>`** from portable page JSON, each with
+its own theme. Two fictional sites are seeded: **National XV** (deep green and
+gold, dark) and **Coastal Union** (navy and white, light).
 
-## Run locally
+## 1. Run it
 
-Requirements: Docker Desktop with Compose.
+Requirements: Node 22+, npm, Docker.
 
 ```sh
-docker compose up --build
+cp .env.example .env.local
+docker compose up -d      # MongoDB 7 on localhost:27017
+npm install
+npm run seed              # drops and recreates the two sites and their pages
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) for the manager. Public examples:
+- Manager: http://localhost:3000/manager
+- Sites: http://localhost:3000/sites/national-xv and http://localhost:3000/sites/coastal-union
 
-- [Wallabies](http://localhost:3000/s/wallabies)
-- [Super Rugby Pacific](http://localhost:3000/s/super-rugby)
+Checks, from the repository root: `npm test`, `npm run lint`, `npm run typecheck`,
+`npm run build`.
 
-Compose starts MongoDB, waits for its health check, builds the UI package and the app, seeds two sites with two pages each, then starts Next.js. The seed only fills routes that are still empty, so restarting preserves editor changes. Stop the stack with `Ctrl+C`; remove the local database volume with `docker compose down -v` when you want a clean seed.
+## 2. Architecture
 
-For development without Docker, copy `apps/web/.env.example` to `apps/web/.env.local`, set `MONGODB_URI` and `MONGODB_DB`, start a MongoDB instance, then from the repository root run `npm install`, `npm run seed` and `npm run dev`.
-
-Checks (from the root, across all workspaces): `npm run lint`, `npm run typecheck`, `npm test`.
-
-## Repository layout
+### Repository
 
 An npm-workspaces monorepo with one reusable package and one app:
 
 ```
-packages/ui/          @scottcheung/ui: generic, themeable React primitives (Button, Input,
-                      Select, Card, Dialog, Toast...) and --ui-* design tokens. Knows nothing
-                      about rugby, pages or MongoDB, so other projects can reuse or publish it.
-apps/web/             The task itself: manager, renderer, API, page model and seed.
+packages/ui/   @scottcheung/ui: my own generic, themeable React primitives (Button,
+               Input, Select, Card, Dialog, Toast...). Nothing about rugby, pages or
+               MongoDB, so it can be reused elsewhere. Built to dist/ and consumed
+               like any npm package.
+apps/web/      The task: one Next.js App Router app (manager + renderer).
 ```
 
-The UI package is built to `dist/` (`npm run build:ui`, run automatically by `dev`, `build` and `typecheck`) and consumed by the app like any npm dependency, so the app is never coupled to its source files.
+The manager UI is built with `@scottcheung/ui` plus Tailwind for layout. The
+public site components and their schemas are separate and written for this task.
 
-## App architecture (`apps/web`)
+### The four layers (`apps/web`)
 
 ```
-lib/components/        Component definitions: type, label, Zod props schema. No React.
-  registry.ts          The list of components + parseComponentTree() (validation).
-lib/schema.ts          Schema helpers: metadata, unwrap optional/default, default values.
-lib/theme.ts           Site theme -> CSS variables (including @scottcheung/ui --ui-* tokens).
-components/site/       Renderer: one React component per type + RenderTree.
-components/blocks/     Building blocks the site components use: Heading, ButtonLink, Image.
-components/manager/    Manager UI and the form generated from a Zod schema.
-app/s/[siteSlug]/[[...path]]  Public pages, server-rendered, resolved by site + path.
-app/api/pages          Create / update pages. Validates with the same registry.
+lib/types.ts, lib/db/      1. Page data: Site and Page documents. All MongoDB calls live in lib/db.
+lib/components/            2. Component definitions: Zod schema, label, defaults, registry,
+                              validateTree() and pure tree operations. No React.
+app/manager/, components/manager/, lib/forms/
+                           3. Manager: site list, page list, editor, schema-driven forms,
+                              Server Actions for writes.
+app/sites/, components/site/, components/primitives/
+                           4. Renderer: server components that turn page JSON into HTML.
+lib/theme/                 Default tokens, resolveTheme(), themeToCssVars().
 ```
 
-Page data, component definitions, the manager and the renderer only meet through
-the registry: the manager and API read definitions, the renderer maps each `type`
-to a React component, and stored pages contain nothing but `type`, `props` and
-`children`. These stay inside the app on purpose: they are specific to this
-product, while only the generic UI primitives are worth sharing.
+They only meet through the registry. The manager imports definitions (schemas) and
+never imports render code. The renderer maps each `type` to a React component.
+Stored pages contain nothing but `type`, `props` and `children`, so they can be
+rendered without the manager running, or by another app with the same library.
 
-## Page JSON format
+### Why one Next.js app
 
-Each page document is independent of the editor. It identifies the owning site and route, then stores an ordered tree of component instances. A Section can nest any number of component instances, including another Section.
+Reads are server components and writes are Server Actions, so there is no
+separate API to version, deploy or secure. The manager and the sites share the
+component definitions directly. Splitting the renderer into its own deployment
+later is cheap because it only depends on `lib/components`, `lib/db` and
+`components/site`.
+
+### Scaling to 30+ sites
+
+- A new site is one `sites` document (slug, name, logo, theme overrides). No code
+  change and no deployment.
+- Pages are looked up through the unique compound index `{ siteSlug, path }`; sites
+  through the unique index on `slug`.
+- Every site uses the same component library, so a fix or a new component reaches all
+  sites at once. Visual differences live in data (theme tokens), not in code.
+
+## 3. Page JSON format
+
+A page is one MongoDB document. `tree` is the portable part: plain JSON, with no
+ObjectIds and no Dates. Each node is `{ id, type, props, children? }`; only
+components that accept children (Section) have `children`.
 
 ```json
 {
-  "id": "wallabies-about",
-  "siteId": "wallabies",
+  "_id": { "$oid": "6afef6e915066248f53d9de5" },
+  "siteSlug": "national-xv",
   "path": "/about",
-  "title": "About the Wallabies",
-  "schemaVersion": 1,
-  "status": "published",
-  "updatedAt": "2026-11-19T00:00:00.000Z",
-  "components": [
+  "title": "About the National XV",
+  "description": "Who we are and how to support the team.",
+  "updatedAt": { "$date": "2026-11-19T13:17:29.560Z" },
+  "tree": [
     {
-      "id": "wallabies-about-columns",
+      "id": "28436a45-fa99-42da-98ad-351705c967c1",
       "type": "section",
-      "props": { "layout": "two-column", "background": "none" },
+      "props": { "layout": "full", "background": "light" },
       "children": [
         {
-          "id": "wallabies-about-join",
-          "type": "section",
-          "props": { "layout": "full", "background": "brand" },
-          "children": [
-            {
-              "id": "wallabies-about-join-grid",
-              "type": "card-grid",
-              "props": {
-                "title": "Get involved",
-                "cards": [
-                  {
-                    "image": {
-                      "url": "https://images.unsplash.com/photo-1558151507-c1aa3d917dbb",
-                      "alt": "A player carrying a rugby ball"
-                    },
-                    "heading": "Find a club near you",
-                    "link": { "label": "Back to home", "href": "/" }
-                  }
-                ]
+          "id": "bdb3ad25-1904-43e7-bab4-110ce3f597bd",
+          "type": "cardGrid",
+          "props": {
+            "title": "About the team",
+            "cards": [
+              {
+                "image": {
+                  "url": "https://picsum.photos/seed/national-xv-training/800/500",
+                  "alt": "Placeholder photo (national xv training)"
+                },
+                "heading": "High performance programme"
+              },
+              {
+                "image": {
+                  "url": "https://picsum.photos/seed/national-xv-fans/800/500",
+                  "alt": "Placeholder photo (national xv fans)"
+                },
+                "heading": "Join the supporters club",
+                "link": { "label": "Back to home", "href": "/" }
               }
-            }
-          ]
+            ]
+          }
         }
       ]
     }
@@ -103,34 +128,181 @@ Each page document is independent of the editor. It identifies the owning site a
 }
 ```
 
-MongoDB stores sites and pages in separate collections. The page `siteId` plus `path` pair is unique. The renderer resolves a public page from `/s/[siteSlug]/[...path]`, loads its site theme and published page on the server, then renders the component tree. Unknown site/path combinations return a 404. Links inside page JSON are site-relative (`/about`) so the same page works under any domain or prefix.
+Paths are normalised: `/` for home, otherwise a leading slash, lowercase and no
+trailing slash. Links inside page JSON are site-relative (`/about`) and the renderer
+prefixes them with `/sites/<slug>`, so the same JSON would work under a custom domain.
 
-## Adding a component
+## 4. Adding a new component
 
-1. Create `apps/web/lib/components/<name>.ts` with `defineComponent({ type, label, description, category, allowsChildren, props })`. `props` is a Zod object; add `.meta({ title, description, placeholder, optionLabels, itemLabel })` for editor labels and `.default()` for starting values.
-2. Add it to `componentDefinitions` in `apps/web/lib/components/registry.ts`.
-3. Create its renderer in `apps/web/components/site/<name>.tsx` (typed as `ComponentRenderer<'<type>'>`, so `props` are inferred from the schema) and add it to `renderers` in `apps/web/components/site/render-tree.tsx`. TypeScript fails the build if a registered component has no renderer.
+Example: a "Call to action" with a heading, some text and an optional button. No
+form code is written; the manager builds the form from the schema.
 
-The manager form, API validation and the "Add" buttons are generated from the definition, so no form code is written. Adding a prop to an existing component is one line in its schema plus using it in its renderer. The form generator supports strings, numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional values.
+**1. Define it** in `apps/web/lib/components/callToAction.ts`:
 
-## Decisions and trade-offs
+```ts
+import { z } from 'zod';
+import { defineComponent } from './define';
 
-- **Zod schemas as the single source of truth for props:** one schema per component gives runtime validation (API, seed, manager before save), TypeScript types (`z.infer`) for renderers and seed data, and the description the manager walks to build forms. A custom descriptor format would have needed its own validator and type inference; JSON Schema is still available via `z.toJSONSchema` if another app needs a portable description.
-- **Definitions separate from renderers:** definitions contain no React, so the manager (client), API and seed script can import them without pulling in site components; each site renderer is typed from its definition.
-- **Validation returns a normalised tree:** defaults are applied and unknown props dropped before saving, so stored JSON stays clean. The renderer validates again and skips components it cannot render instead of failing the page, and pages carry `schemaVersion` for future migrations.
-- **Page documents stay portable:** renderer input contains only component types, props, and children. Theme tokens are resolved from the separately stored site when the server renders the page.
-- **MongoDB official Node driver:** each page is a natural document, while sites are shared records. A unique compound index protects route identity, and lookups go through indexed `findOne` queries (by slug, by id, by site + path) rather than loading every site, which matters at 30+ sites.
-- **Themes are design tokens mapped to CSS variables:** colours, heading font and radius per site, including the `--ui-*` tokens of the shared `@scottcheung/ui` primitives. Components never read the theme object directly.
-- **Seed ownership:** sites are owned by the seed and always updated; pages are owned by editors, so the seed only fills empty routes. Connection reuse is cached for long-lived Next.js processes and Vercel functions.
-- **Local Docker stack first:** Compose supplies MongoDB and the Next.js server. To deploy later, provision an Atlas cluster, set `MONGODB_URI` and `MONGODB_DB` in Vercel, and deploy the same Next.js app. Replace the local seed invocation with a one-off seed command or deployment job; do not run seed writes on every serverless request.
-- **Scope:** single editor, published pages only, two seeded sites, Section and Card Grid. Authentication, draft/publish workflow, drag-and-drop ordering, live manager preview, and real content APIs are outside this first pass.
-- **Build time / AI tools:** record total time spent before submission. OpenAI Codex was used for planning, implementation, and code review.
+export const callToActionSchema = z.object({
+  heading: z.string().trim().min(1, 'Add a heading').meta({ label: 'Heading' }),
+  body: z.string().trim().meta({ label: 'Text', multiline: true }),
+  button: z
+    .object({
+      label: z.string().trim().min(1).meta({ label: 'Button text' }),
+      href: z.string().trim().min(1).meta({ label: 'Button link' }),
+    })
+    .optional()
+    .meta({ label: 'Button' }),
+});
+
+export const callToAction = defineComponent({
+  type: 'callToAction',
+  label: 'Call to action',
+  description: 'A short message with an optional button.',
+  schema: callToActionSchema,
+  defaultProps: { heading: 'Join the club', body: '' },
+  acceptsChildren: false,
+});
+```
+
+**2. Register it**: add `callToAction` to `componentDefinitions` in
+`apps/web/lib/components/registry.ts`. It now appears in the manager's "Add
+component" dialog, with a text input, a textarea and an "Add button" toggle, and
+saves are validated against the schema.
+
+**3. Render it** in `apps/web/components/site/CallToAction.tsx`. The props type comes
+from the schema:
+
+```tsx
+export function CallToAction({
+  heading,
+  body,
+  button,
+  siteSlug,
+}: PropsOf<'callToAction'> & { siteSlug: string }) {
+  const href = button && resolveHref(button.href, siteSlug);
+  return (
+    <div className="flex flex-col items-start gap-3 rounded-site bg-surface-light p-site-md">
+      <Heading level={2}>{heading}</Heading>
+      {body && <p className="text-muted-text">{body}</p>}
+      {button && href && <Button href={href}>{button.label}</Button>}
+    </div>
+  );
+}
+```
+
+**4. Map it**: add `callToAction: CallToAction` to `siteComponents` in
+`apps/web/components/site/RenderTree.tsx`. If you forget, `npm run typecheck` fails
+with "Property 'callToAction' is missing", so a registered component can never be
+unrenderable.
+
+Adding a prop to an existing component is the same idea: one line in its schema,
+then use it in its render component. The form updates by itself.
+
+The form generator (`lib/forms/describe.ts`) supports strings (text, textarea, URL),
+numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional
+values (Add / Remove toggle; omitted from props when absent). Labels and hints come
+from `.meta()`, falling back to the humanised prop name.
+
+## 5. Theming
+
+- `lib/theme/defaultTheme.ts` defines the full token set: colours (`brand`,
+  `brandContrast`, `background`, `surfaceLight`, `text`, `mutedText`), `radius`,
+  `fontFamily` and a `spacing` scale (`sm`, `md`, `lg`).
+- A site stores only `ThemeOverrides`, a deep-partial of the theme.
+- `resolveTheme(defaults, overrides)` is a pure deep merge that returns a complete
+  theme (unit-tested).
+- `themeToCssVars(theme)` turns it into CSS variables on the site's wrapper element
+  (`--color-brand`, `--radius-site`, `--font-site`, `--spacing-site-md`...).
+  `app/globals.css` registers the same names as Tailwind theme variables, so site
+  components use plain utilities such as `bg-brand text-brand-contrast rounded-site`.
+
+For this version the two sites override **colours only**; radius, font and spacing
+come from the defaults so the brand family stays consistent. Overriding any other
+token already works the same way: add, for example, `radius: '0'` or
+`fontFamily: 'Georgia, serif'` to a site's `theme` (covered by the tests).
+
+## 6. Key decisions and trade-offs
+
+- **Zod vs JSON Schema.** One Zod schema per component gives the TypeScript prop type
+  (`z.infer`), runtime validation on save and on render, and the description the form
+  generator walks. JSON Schema is more portable across languages, but would need a
+  separate validator and generated types. If another stack ever needs the
+  description, `z.toJSONSchema()` can export it.
+- **Form generation in two steps.** `describeSchema()` turns a schema into plain field
+  descriptors (pure and unit-tested); `SchemaForm` only draws descriptors. Zod
+  internals are touched in one small file.
+- **Official MongoDB driver vs Mongoose.** Pages are already validated by Zod, so a
+  second schema layer would duplicate it. The driver is thin and explicit, and all
+  calls sit in `lib/db`.
+- **Explicit save vs autosave.** Simpler, and it is obvious when data reaches the
+  database. The editor shows an "Unsaved changes" badge and warns before leaving.
+- **Whole page as one document vs normalised components.** A page is read and written
+  as one unit, which matches how it is rendered and keeps it portable. The cost is
+  that a component cannot be shared between pages, and two editors saving the same
+  page at once means the last save wins.
+- **Path-prefix routing vs domain routing.** `/sites/<slug>/...` works locally with no
+  DNS setup. Domains would be a `domains` field on each site plus a Next.js middleware
+  that rewrites `rugby.example.com/about` to `/sites/<slug>/about`; the renderer would
+  not change.
+- **Monorepo for the UI library.** My own `@scottcheung/ui` lives in `packages/ui` so
+  it can be reused and published separately; the app consumes it like an external
+  package.
+- **No authentication**, as allowed by the brief: there is a single editor.
+
+## 7. Assumptions
+
+- With only Section and Card Grid available, the "hero" on each home page is a
+  brand-coloured Section holding a one-card Card Grid (heading, image and button).
+- The page title is used for `<title>` and is rendered as a visually hidden `<h1>`;
+  visible headings come from the components.
+- Paths are lowercase segments of letters, numbers and hyphens. A page's path cannot
+  be changed after creation, and pages cannot be deleted (neither was in scope).
+- Image descriptions (alt text) are required. Image addresses must be `http(s)` URLs.
+  Link addresses are site-relative (`/about`) or full `http(s)` URLs; anything else
+  is not rendered.
+- Strings are trimmed on save. Optional values are omitted from props when absent.
+- On render, a node whose type is unknown or whose props no longer match the schema is
+  skipped (with a warning box in development) instead of failing the whole page.
+- `npm run seed` is destructive by design: it drops and recreates both collections.
+- Mock content only: fictional teams, placeholder images from picsum.photos and
+  placehold.co.
+
+## 8. What's missing and how I would build it
+
+- **Authentication:** Auth.js (or the organisation's SSO) on `/manager` and the Server
+  Actions, with per-site roles stored on the user.
+- **Reordering components:** a `moveNode(tree, id, parentId, index)` tree function next
+  to the existing ones, plus up/down buttons in the outline (lists inside a component
+  can already be reordered). Drag and drop could come later on top of the same
+  function.
+- **Draft and publish:** store `draftTree` and `publishedTree` (or a `versions`
+  collection); the editor saves drafts, "Publish" copies the draft, and the renderer
+  reads only published content.
+- **Live preview:** render the editor's unsaved tree with the same `RenderTree` in an
+  iframe or a side panel, passing the draft through a short-lived preview record.
+- **Data-driven "Latest news" component:** schema `{ source, limit }`, and an async
+  server component that fetches from a mock API at render time.
+- **Vercel and MongoDB Atlas:** set `MONGODB_URI` / `MONGODB_DB` in Vercel, run the
+  seed once as a manual job, and deploy `apps/web` with the workspace build command.
+- **Per-site radius and type overrides:** already supported by `resolveTheme`; the work
+  is choosing the values and checking contrast and layout per site.
+- **Site editing UI:** a form for name, logo, favicon and theme colours that writes the
+  `sites` document, with a contrast check for `brand` / `brandContrast`.
+- **Concurrent editing:** send the page's `updatedAt` with each save and reject the save
+  if it changed in the meantime.
+
+## 9. Time and tools
+
+- Hours spent: TODO: fill in
+- AI tools used: Claude (Claude Code) for scaffolding and implementation, reviewed and
+  edited by me.
 
 ## Environment variables
 
-| Variable      | Purpose                   | Local default               |
+| Variable      | Purpose                   | Default                     |
 | ------------- | ------------------------- | --------------------------- |
 | `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017` |
 | `MONGODB_DB`  | Database name             | `rugby_site_manager`        |
 
-Keep Atlas credentials in Vercel environment variables. Never commit `.env.local` or credentials.
+Put them in `.env.local` at the repository root (never committed).
