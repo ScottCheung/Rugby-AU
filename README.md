@@ -39,8 +39,10 @@ packages/ui/   @scottcheung/ui: my own generic, themeable React primitives (Butt
 apps/web/      The task: one Next.js App Router app (manager + renderer).
 ```
 
-The manager UI is built with `@scottcheung/ui` plus Tailwind for layout. The
-public site components and their schemas are separate and written for this task.
+The manager UI is built with `@scottcheung/ui` (its look is ported from my Jobby
+design system: pill controls, soft gradient brand colour, large rounded panels)
+plus Tailwind and Lucide icons. The public site components and their schemas are
+separate and written for this task.
 
 ### The four layers (`apps/web`)
 
@@ -49,7 +51,8 @@ lib/types.ts, lib/db/      1. Page data: Site and Page documents. All MongoDB ca
 lib/components/            2. Component definitions: Zod schema, label, defaults, registry,
                               validateTree() and pure tree operations. No React.
 app/manager/, components/manager/, lib/forms/
-                           3. Manager: site list, page list, editor, schema-driven forms,
+                           3. Manager: site list, page list, the visual editor
+                              (components/manager/editor), schema-driven forms,
                               Server Actions for writes.
 app/sites/, components/site/, components/primitives/
                            4. Renderer: server components that turn page JSON into HTML.
@@ -60,6 +63,29 @@ They only meet through the registry. The manager imports definitions (schemas) a
 never imports render code. The renderer maps each `type` to a React component.
 Stored pages contain nothing but `type`, `props` and `children`, so they can be
 rendered without the manager running, or by another app with the same library.
+
+### The visual editor
+
+Opening a page shows it as visitors will see it: the canvas renders the real site
+components with the site's theme. Around it:
+
+- **Click to select.** Hovering outlines a block; clicking selects it and shows a
+  toolbar on the block (drag handle, move up, move down, duplicate, delete).
+- **Edit in the side panel.** The selected block's fields are generated from its
+  schema; with nothing selected the panel shows the page title and description.
+- **Drag and drop** (dnd-kit). Drag blocks by their handle, or drag new ones from the
+  component palette. A line shows where the block will land: before or after the
+  block under the pointer, or into an empty Section. Clicking a palette item adds it
+  inside the selected Section or after the selected block.
+- **Layers** outline for picking deeply nested blocks, **desktop / mobile** preview,
+  **undo / redo** (⌘Z / ⇧⌘Z; typing in one field counts as one step), Delete to remove
+  the selected block, ⌘S to save.
+
+All edits go through one `useReducer` over the page draft and the pure functions in
+`lib/components/tree.ts` (`insertNode`, `moveNode`, `removeNode`, `cloneWithNewIds`...),
+so the drag and drop code only works out a drop location and dispatches. Two-column
+Sections use a CSS container query, so the mobile preview stacks them exactly as a
+phone would.
 
 ### Why one Next.js app
 
@@ -235,6 +261,14 @@ token already works the same way: add, for example, `radius: '0'` or
 - **Official MongoDB driver vs Mongoose.** Pages are already validated by Zod, so a
   second schema layer would duplicate it. The driver is thin and explicit, and all
   calls sit in `lib/db`.
+- **Visual canvas, fields in a panel.** Editors see the real page and click what they
+  want to change, but text is edited in generated form fields rather than typed on the
+  page. That keeps "no form code per component" true and avoids per-component inline
+  editing code; inline text editing could be added later with a `.meta({ inline: true })`
+  flag.
+- **dnd-kit for drag and drop.** A small, unopinionated drag library (allowed by the
+  brief, unlike page builders). It only reports what is under the pointer; the drop
+  rules live in `editor/dnd.ts` and the tree changes in `tree.ts`.
 - **Explicit save vs autosave.** Simpler, and it is obvious when data reaches the
   database. The editor shows an "Unsaved changes" badge and warns before leaving.
 - **Whole page as one document vs normalised components.** A page is read and written
@@ -272,15 +306,13 @@ token already works the same way: add, for example, `radius: '0'` or
 
 - **Authentication:** Auth.js (or the organisation's SSO) on `/manager` and the Server
   Actions, with per-site roles stored on the user.
-- **Reordering components:** a `moveNode(tree, id, parentId, index)` tree function next
-  to the existing ones, plus up/down buttons in the outline (lists inside a component
-  can already be reordered). Drag and drop could come later on top of the same
-  function.
+- **Keyboard drag and drop:** blocks can be moved with the toolbar buttons today; dnd-kit's
+  keyboard sensor would add arrow-key dragging.
 - **Draft and publish:** store `draftTree` and `publishedTree` (or a `versions`
   collection); the editor saves drafts, "Publish" copies the draft, and the renderer
   reads only published content.
-- **Live preview:** render the editor's unsaved tree with the same `RenderTree` in an
-  iframe or a side panel, passing the draft through a short-lived preview record.
+- **Inline text editing on the canvas:** mark string fields with `.meta({ inline: true })`
+  and let the canvas make those elements editable.
 - **Data-driven "Latest news" component:** schema `{ source, limit }`, and an async
   server component that fetches from a mock API at render time.
 - **Vercel and MongoDB Atlas:** set `MONGODB_URI` / `MONGODB_DB` in Vercel, run the
