@@ -1,5 +1,5 @@
 import { parseComponentTree } from '../lib/components/registry';
-import { getDatabase } from '../lib/mongo';
+import { closeDb, getDb } from '../lib/db/client';
 import { pages, sites } from '../lib/seed-data';
 
 async function seed() {
@@ -13,7 +13,7 @@ async function seed() {
     page.components = result.components;
   }
 
-  const db = await getDatabase();
+  const db = await getDb();
   const siteCollection = db.collection('sites');
   const pageCollection = db.collection('pages');
   await siteCollection.createIndex({ id: 1 }, { unique: true });
@@ -39,7 +39,7 @@ async function seed() {
   console.log(
     `Seeded ${sites.length} sites and ${pages.length} starter pages (existing pages preserved).`,
   );
-  await db.client.close();
+  await closeDb();
 }
 
 seed().catch((error) => {

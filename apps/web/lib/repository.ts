@@ -1,11 +1,11 @@
-import { getDatabase } from './mongo';
+import { getDb } from './db/client';
 import type { PageDocument, Site } from './model';
 
 /** Never leak Mongo's ObjectId into JSON or Client Components. */
 const withoutMongoId = { projection: { _id: 0 } } as const;
 
 async function collections() {
-  const db = await getDatabase();
+  const db = await getDb();
   return {
     sites: db.collection<Site>('sites'),
     pages: db.collection<PageDocument>('pages'),
