@@ -7,5 +7,8 @@ import { loadEnvConfig } from '@next/env';
  * environment variables always win).
  */
 export function loadRootEnv() {
-  loadEnvConfig(path.resolve(process.cwd(), '../..'), process.env.NODE_ENV !== 'production');
+  loadEnvConfig(
+    path.resolve(process.cwd(), '../..'),
+    process.env.NODE_ENV !== 'production',
+  );
 }
