@@ -3,7 +3,7 @@ import {
   editorReducer,
   initEditor,
   isDirty,
-} from '../components/manager/editorReducer';
+} from '../components/manager/editor/editorReducer';
 import { cardGridSchema } from '../lib/components/cardGrid';
 import { createNode } from '../lib/components/createNode';
 import { sectionSchema } from '../lib/components/section';

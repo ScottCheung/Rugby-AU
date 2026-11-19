@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { PageEditor } from '@/components/manager/PageEditor';
+import { PageEditor } from '@/components/manager/editor/PageEditor';
 import { getPageById } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 

@@ -1,5 +1,7 @@
+import { ArrowRight, ExternalLink, FileText } from 'lucide-react';
 import Link from 'next/link';
-import { Badge, Card, H1, Paragraph } from '@scottcheung/ui';
+import { Card, H1, Paragraph } from '@scottcheung/ui';
+import { PageContainer } from '@/components/manager/PageContainer';
 import { countPagesBySite } from '@/lib/db/pages';
 import { listSites } from '@/lib/db/sites';
 import { defaultTheme } from '@/lib/theme/defaultTheme';
@@ -14,10 +16,11 @@ export default async function ManagerHome() {
   ]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <PageContainer>
       <div>
-        <H1 className="m-0">Your sites</H1>
-        <Paragraph className="mt-1 text-slate-600">
+        <span className="sc-ui-overline">Workspace</span>
+        <H1 className="mt-1">Your sites</H1>
+        <Paragraph className="mt-1">
           Choose a site to create and edit its pages.
         </Paragraph>
       </div>
@@ -29,55 +32,64 @@ export default async function ManagerHome() {
         </Card>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {sites.map((site) => {
           const { colors } = resolveTheme(defaultTheme, site.theme);
           const count = pageCounts[site.slug] ?? 0;
           return (
-            <Card key={site.id} className="flex flex-col gap-4">
+            <Card
+              key={site.id}
+              className="group flex flex-col gap-5 transition hover:shadow-[var(--ui-shadow-md)]"
+            >
+              {/* A small preview of the site's colours. */}
+              <div
+                className="flex h-28 items-end justify-between rounded-2xl p-4 ring-1 ring-black/5"
+                style={{ background: colors.background, color: colors.text }}
+              >
+                <span
+                  className="rounded-full px-3 py-1 text-xs font-bold"
+                  style={{
+                    background: colors.brand,
+                    color: colors.brandContrast,
+                  }}
+                >
+                  {site.name}
+                </span>
+                <span className="flex gap-1.5">
+                  {[colors.brand, colors.surfaceLight, colors.text].map(
+                    (colour) => (
+                      <span
+                        key={colour}
+                        className="size-5 rounded-full ring-2 ring-white/60"
+                        style={{ background: colour }}
+                      />
+                    ),
+                  )}
+                </span>
+              </div>
               <div className="flex items-center gap-3">
                 {site.logoUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={site.logoUrl}
                     alt=""
-                    width={48}
-                    height={48}
-                    className="rounded-lg"
+                    width={44}
+                    height={44}
+                    className="rounded-full"
                   />
                 )}
                 <div className="min-w-0 flex-1">
-                  <h2 className="m-0 text-lg font-semibold">{site.name}</h2>
-                  <p className="m-0 text-sm text-slate-500">
-                    /sites/{site.slug}
+                  <h2 className="sc-ui-typography sc-ui-h2">{site.name}</h2>
+                  <p className="m-0 flex items-center gap-1.5 text-xs text-[var(--ui-muted)]">
+                    <FileText className="size-3.5" />
+                    {count} {count === 1 ? 'page' : 'pages'} · /sites/
+                    {site.slug}
                   </p>
                 </div>
-                <Badge tone="neutral">
-                  {count} {count === 1 ? 'page' : 'pages'}
-                </Badge>
-              </div>
-              <div
-                className="flex items-center gap-2 text-sm text-slate-500"
-                aria-label="Theme colours"
-              >
-                {[colors.brand, colors.background, colors.text].map(
-                  (colour) => (
-                    <span
-                      key={colour}
-                      className="size-6 rounded-full border border-slate-200"
-                      style={{ background: colour }}
-                    />
-                  ),
-                )}
-                Theme
               </div>
               <div className="flex flex-wrap gap-2">
-                <Link
-                  href={`/manager/${site.slug}`}
-                  className="sc-ui-button"
-                  data-size="sm"
-                >
-                  Manage pages
+                <Link href={`/manager/${site.slug}`} className="sc-ui-button">
+                  Manage pages <ArrowRight />
                 </Link>
                 <a
                   href={`/sites/${site.slug}`}
@@ -85,15 +97,14 @@ export default async function ManagerHome() {
                   rel="noreferrer"
                   className="sc-ui-button"
                   data-variant="secondary"
-                  data-size="sm"
                 >
-                  View site ↗
+                  View site <ExternalLink />
                 </a>
               </div>
             </Card>
           );
         })}
       </div>
-    </div>
+    </PageContainer>
   );
 }

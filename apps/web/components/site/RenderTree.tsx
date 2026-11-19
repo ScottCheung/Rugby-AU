@@ -1,26 +1,7 @@
-import type { ComponentType as ReactComponentType, ReactNode } from 'react';
-import {
-  getDefinition,
-  type ComponentType,
-  type PropsOf,
-} from '@/lib/components/registry';
+import { createElement } from 'react';
+import { getDefinition } from '@/lib/components/registry';
 import type { ComponentNode } from '@/lib/types';
-import { CardGrid } from './CardGrid';
-import { Section } from './Section';
-
-type SiteComponent<Type extends ComponentType> = ReactComponentType<
-  PropsOf<Type> & { children?: ReactNode; siteSlug: string }
->;
-
-/**
- * Component type -> React component. Used by the renderer only, so the
- * manager can import the schemas without pulling in render code. The mapped
- * type makes the build fail if a registered component has no renderer.
- */
-const siteComponents: { [Type in ComponentType]: SiteComponent<Type> } = {
-  section: Section,
-  cardGrid: CardGrid,
-};
+import { getSiteComponent } from './siteComponents';
 
 export function RenderTree({
   nodes,
@@ -56,15 +37,12 @@ function RenderNode({
     );
 
   // Safe: the props were just validated against this type's own schema.
-  const Component = siteComponents[definition.type] as ReactComponentType<
-    Record<string, unknown> & { children?: ReactNode; siteSlug: string }
-  >;
-  return (
-    <Component {...parsed.data} siteSlug={siteSlug}>
-      {definition.acceptsChildren && node.children && (
-        <RenderTree nodes={node.children} siteSlug={siteSlug} />
-      )}
-    </Component>
+  return createElement(
+    getSiteComponent(definition.type),
+    { ...parsed.data, siteSlug },
+    definition.acceptsChildren && node.children ? (
+      <RenderTree nodes={node.children} siteSlug={siteSlug} />
+    ) : null,
   );
 }
 

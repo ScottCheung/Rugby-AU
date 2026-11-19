@@ -5,6 +5,7 @@ import {
   Checkbox,
   IconButton,
   Input,
+  SegmentedControl,
   Select,
   Textarea,
 } from '@scottcheung/ui/client';
@@ -144,6 +145,25 @@ function Field({
       );
 
     case 'enum':
+      // A few options read better as a segmented control than a dropdown.
+      if (field.options.length <= 3)
+        return (
+          <div className="flex flex-col gap-1.5">
+            <span className="sc-ui-field-label">{field.label}</span>
+            <SegmentedControl
+              ariaLabel={field.label}
+              className="w-full [&>button]:flex-1 [&>button]:justify-center"
+              value={String(value ?? '')}
+              options={field.options}
+              onValueChange={onChange}
+            />
+            {field.hint && (
+              <span className="sc-ui-field-hint">{field.hint}</span>
+            )}
+            {error && <span className="sc-ui-error">{error}</span>}
+            {removeButton}
+          </div>
+        );
       return (
         <div className="flex flex-col gap-1">
           <Select

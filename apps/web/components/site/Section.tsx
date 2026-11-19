@@ -9,8 +9,9 @@ const backgrounds: Record<PropsOf<'section'>['background'], string> = {
 
 const layouts: Record<PropsOf<'section'>['layout'], string> = {
   full: 'flex flex-col',
-  // Side by side on desktop, stacked on mobile.
-  'two-column': 'grid md:grid-cols-2',
+  // Side by side when the page is wide, stacked when narrow. A container query
+  // (the site wrapper is the container) so the manager's mobile preview works too.
+  'two-column': 'grid @2xl:grid-cols-2',
 };
 
 export function Section({

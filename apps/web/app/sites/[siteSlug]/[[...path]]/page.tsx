@@ -44,7 +44,7 @@ export default async function SitePage({ params }: Props) {
   return (
     <div
       style={themeToCssVars(theme)}
-      className="flex min-h-screen flex-col bg-background font-site text-text"
+      className="@container flex min-h-screen flex-col bg-background font-site text-text"
     >
       <header className="bg-brand text-brand-contrast">
         <Container className="flex items-center gap-3 py-4">
