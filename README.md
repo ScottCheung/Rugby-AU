@@ -1,6 +1,6 @@
 # Rugby AU Site Manager
 
-A small Next.js App Router application for composing portable page JSON and rendering it across multiple themed rugby websites. The editor and public renderer read from MongoDB; the local stack uses Docker Compose.
+A small Next.js App Router application (plus a reusable UI package) for composing portable page JSON and rendering it across multiple themed rugby websites. The editor and public renderer read from MongoDB; the local stack uses Docker Compose.
 
 ## Run locally
 
@@ -15,22 +15,35 @@ Open [http://localhost:3000](http://localhost:3000) for the manager. Public exam
 - [Wallabies](http://localhost:3000/s/wallabies)
 - [Super Rugby Pacific](http://localhost:3000/s/super-rugby)
 
-Compose starts MongoDB, waits for its health check, builds the app, seeds two sites and two home pages, then starts Next.js. Seed records use `$setOnInsert`, so restarting the app preserves editor changes. Stop the stack with `Ctrl+C`; remove the local database volume with `docker compose down -v` when you want a clean seed.
+Compose starts MongoDB, waits for its health check, builds the UI package and the app, seeds two sites with two pages each, then starts Next.js. The seed only fills routes that are still empty, so restarting preserves editor changes. Stop the stack with `Ctrl+C`; remove the local database volume with `docker compose down -v` when you want a clean seed.
 
-For app-only development, copy `.env.example` to `.env.local`, set `MONGODB_URI` and `MONGODB_DB`, start a MongoDB instance, then run `npm install`, `npm run seed`, and `npm run dev`.
+For development without Docker, copy `apps/web/.env.example` to `apps/web/.env.local`, set `MONGODB_URI` and `MONGODB_DB`, start a MongoDB instance, then from the repository root run `npm install`, `npm run seed` and `npm run dev`.
 
-Checks: `npm run lint`, `npm run typecheck`, `npm test` (Vitest, covering tree validation and schema defaults).
+Checks (from the root, across all workspaces): `npm run lint`, `npm run typecheck`, `npm test`.
 
-## Architecture
+## Repository layout
+
+An npm-workspaces monorepo with one reusable package and one app:
+
+```
+packages/ui/          @scottcheung/ui: generic, themeable React primitives (Button, Input,
+                      Select, Card, Dialog, Toast...) and --ui-* design tokens. Knows nothing
+                      about rugby, pages or MongoDB, so other projects can reuse or publish it.
+apps/web/             The task itself: manager, renderer, API, page model and seed.
+```
+
+The UI package is built to `dist/` (`npm run build:ui`, run automatically by `dev`, `build` and `typecheck`) and consumed by the app like any npm dependency, so the app is never coupled to its source files.
+
+## App architecture (`apps/web`)
 
 ```
 lib/components/        Component definitions: type, label, Zod props schema. No React.
   registry.ts          The list of components + parseComponentTree() (validation).
 lib/schema.ts          Schema helpers: metadata, unwrap optional/default, default values.
+lib/theme.ts           Site theme -> CSS variables (including @scottcheung/ui --ui-* tokens).
 components/site/       Renderer: one React component per type + RenderTree.
 components/blocks/     Building blocks the site components use: Heading, ButtonLink, Image.
-components/schema-form.tsx  Manager form generated from a Zod schema.
-components/manager.tsx Manager UI: pages, component tree, save.
+components/manager/    Manager UI and the form generated from a Zod schema.
 app/s/[siteSlug]/[[...path]]  Public pages, server-rendered, resolved by site + path.
 app/api/pages          Create / update pages. Validates with the same registry.
 ```
@@ -38,7 +51,8 @@ app/api/pages          Create / update pages. Validates with the same registry.
 Page data, component definitions, the manager and the renderer only meet through
 the registry: the manager and API read definitions, the renderer maps each `type`
 to a React component, and stored pages contain nothing but `type`, `props` and
-`children`.
+`children`. These stay inside the app on purpose: they are specific to this
+product, while only the generic UI primitives are worth sharing.
 
 ## Page JSON format
 
@@ -93,9 +107,9 @@ MongoDB stores sites and pages in separate collections. The page `siteId` plus `
 
 ## Adding a component
 
-1. Create `lib/components/<name>.ts` with `defineComponent({ type, label, description, category, allowsChildren, props })`. `props` is a Zod object; add `.meta({ title, description, placeholder, optionLabels, itemLabel })` for editor labels and `.default()` for starting values.
-2. Add it to `componentDefinitions` in `lib/components/registry.ts`.
-3. Create its renderer in `components/site/<name>.tsx` (typed as `ComponentRenderer<'<type>'>`, so `props` are inferred from the schema) and add it to `renderers` in `components/site/render-tree.tsx`. TypeScript fails the build if a registered component has no renderer.
+1. Create `apps/web/lib/components/<name>.ts` with `defineComponent({ type, label, description, category, allowsChildren, props })`. `props` is a Zod object; add `.meta({ title, description, placeholder, optionLabels, itemLabel })` for editor labels and `.default()` for starting values.
+2. Add it to `componentDefinitions` in `apps/web/lib/components/registry.ts`.
+3. Create its renderer in `apps/web/components/site/<name>.tsx` (typed as `ComponentRenderer<'<type>'>`, so `props` are inferred from the schema) and add it to `renderers` in `apps/web/components/site/render-tree.tsx`. TypeScript fails the build if a registered component has no renderer.
 
 The manager form, API validation and the "Add" buttons are generated from the definition, so no form code is written. Adding a prop to an existing component is one line in its schema plus using it in its renderer. The form generator supports strings, numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional values.
 

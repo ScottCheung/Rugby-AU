@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Manager } from '@/components/manager';
+import { Manager } from '@/components/manager/manager';
 import { getPages, getSites } from '@/lib/repository';
 
 export const dynamic = 'force-dynamic';

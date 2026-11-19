@@ -1,0 +1,6 @@
+src/
+tests/
+coverage/
+vitest.config.ts
+eslint.config.js
+*.config.ts

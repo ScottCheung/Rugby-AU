@@ -6,7 +6,7 @@ import {
   SchemaForm,
   pathKey,
   type FieldErrors,
-} from '@/components/schema-form';
+} from '@/components/manager/schema-form';
 import {
   componentDefinitions,
   createInstance,
