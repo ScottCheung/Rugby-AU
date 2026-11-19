@@ -88,7 +88,14 @@ function ObjectFields({
   );
 }
 
-function SchemaField({ schema, name, value, onChange, path, errors }: FieldProps) {
+function SchemaField({
+  schema,
+  name,
+  value,
+  onChange,
+  path,
+  errors,
+}: FieldProps) {
   const meta = getMeta(schema);
   const { inner, optional } = unwrapSchema(schema);
   const label = meta.title ?? humanize(name);
@@ -209,7 +216,11 @@ function SchemaField({ schema, name, value, onChange, path, errors }: FieldProps
         error={error}
         value={typeof value === 'string' ? value : ''}
         onChange={(event) =>
-          onChange(optional && event.target.value === '' ? undefined : event.target.value)
+          onChange(
+            optional && event.target.value === ''
+              ? undefined
+              : event.target.value,
+          )
         }
       />
     );

@@ -22,7 +22,11 @@ export function RenderTree({
   context: RenderContext;
 }) {
   return components.map((component) => (
-    <RenderedComponent key={component.id} component={component} context={context} />
+    <RenderedComponent
+      key={component.id}
+      component={component}
+      context={context}
+    />
   ));
 }
 
@@ -38,7 +42,9 @@ function RenderedComponent({
   // instead of failing the whole page.
   const props = definition?.props.safeParse(component.props);
   if (!definition || !props?.success) {
-    console.warn(`Skipping component ${component.id} (${component.type}): invalid or unknown.`);
+    console.warn(
+      `Skipping component ${component.id} (${component.type}): invalid or unknown.`,
+    );
     return null;
   }
   // Safe: props were just validated against this type's schema.

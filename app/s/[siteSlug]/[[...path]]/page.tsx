@@ -66,7 +66,10 @@ export default async function PublicSitePage({ params }: { params: Params }) {
           {site.description}
         </div>
         <h1 className="public-title">{page.title}</h1>
-        <RenderTree components={page.components} context={{ siteSlug: site.slug }} />
+        <RenderTree
+          components={page.components}
+          context={{ siteSlug: site.slug }}
+        />
       </div>
       <footer className="public-footer">
         <span>{site.name}</span>

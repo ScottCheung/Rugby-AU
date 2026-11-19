@@ -19,39 +19,69 @@ Compose starts MongoDB, waits for its health check, builds the app, seeds two si
 
 For app-only development, copy `.env.example` to `.env.local`, set `MONGODB_URI` and `MONGODB_DB`, start a MongoDB instance, then run `npm install`, `npm run seed`, and `npm run dev`.
 
+Checks: `npm run lint`, `npm run typecheck`, `npm test` (Vitest, covering tree validation and schema defaults).
+
+## Architecture
+
+```
+lib/components/        Component definitions: type, label, Zod props schema. No React.
+  registry.ts          The list of components + parseComponentTree() (validation).
+lib/schema.ts          Schema helpers: metadata, unwrap optional/default, default values.
+components/site/       Renderer: one React component per type + RenderTree.
+components/blocks/     Building blocks the site components use: Heading, ButtonLink, Image.
+components/schema-form.tsx  Manager form generated from a Zod schema.
+components/manager.tsx Manager UI: pages, component tree, save.
+app/s/[siteSlug]/[[...path]]  Public pages, server-rendered, resolved by site + path.
+app/api/pages          Create / update pages. Validates with the same registry.
+```
+
+Page data, component definitions, the manager and the renderer only meet through
+the registry: the manager and API read definitions, the renderer maps each `type`
+to a React component, and stored pages contain nothing but `type`, `props` and
+`children`.
+
 ## Page JSON format
 
 Each page document is independent of the editor. It identifies the owning site and route, then stores an ordered tree of component instances. A Section can nest any number of component instances, including another Section.
 
 ```json
 {
-  "id": "wallabies-home",
+  "id": "wallabies-about",
   "siteId": "wallabies",
-  "path": "/",
-  "title": "Wallabies",
+  "path": "/about",
+  "title": "About the Wallabies",
+  "schemaVersion": 1,
   "status": "published",
+  "updatedAt": "2026-11-19T00:00:00.000Z",
   "components": [
     {
-      "id": "home-featured",
+      "id": "wallabies-about-columns",
       "type": "section",
-      "props": { "layout": "full", "background": "brand" },
+      "props": { "layout": "two-column", "background": "none" },
       "children": [
         {
-          "id": "featured-cards",
-          "type": "card-grid",
-          "props": {
-            "title": "Meet the team",
-            "cards": [
-              {
-                "image": {
-                  "url": "https://example.com/team.jpg",
-                  "alt": "Players training"
-                },
-                "heading": "Our squad",
-                "link": { "label": "View players", "href": "/squad" }
+          "id": "wallabies-about-join",
+          "type": "section",
+          "props": { "layout": "full", "background": "brand" },
+          "children": [
+            {
+              "id": "wallabies-about-join-grid",
+              "type": "card-grid",
+              "props": {
+                "title": "Get involved",
+                "cards": [
+                  {
+                    "image": {
+                      "url": "https://images.unsplash.com/photo-1558151507-c1aa3d917dbb",
+                      "alt": "A player carrying a rugby ball"
+                    },
+                    "heading": "Find a club near you",
+                    "link": { "label": "Back to home", "href": "/" }
+                  }
+                ]
               }
-            ]
-          }
+            }
+          ]
         }
       ]
     }
@@ -59,21 +89,25 @@ Each page document is independent of the editor. It identifies the owning site a
 }
 ```
 
-MongoDB stores sites and pages in separate collections. The page `siteId` plus `path` pair is unique. The renderer resolves a public page from `/s/[siteSlug]/[...path]`, loads its site theme and published page on the server, then renders the component tree. Unknown site/path combinations return a 404.
+MongoDB stores sites and pages in separate collections. The page `siteId` plus `path` pair is unique. The renderer resolves a public page from `/s/[siteSlug]/[...path]`, loads its site theme and published page on the server, then renders the component tree. Unknown site/path combinations return a 404. Links inside page JSON are site-relative (`/about`) so the same page works under any domain or prefix.
 
 ## Adding a component
 
-1. Add its typed content shape to `lib/model.ts` and a definition to `lib/definitions.ts`. Each definition supplies the editor label, description, editable field descriptors, default props, and whether it accepts children.
-2. Add a renderer branch in `components/render-tree.tsx` and any associated CSS in `app/globals.css`.
-3. Add a seed instance if the demo site should use it.
+1. Create `lib/components/<name>.ts` with `defineComponent({ type, label, description, category, allowsChildren, props })`. `props` is a Zod object; add `.meta({ title, description, placeholder, optionLabels, itemLabel })` for editor labels and `.default()` for starting values.
+2. Add it to `componentDefinitions` in `lib/components/registry.ts`.
+3. Create its renderer in `components/site/<name>.tsx` (typed as `ComponentRenderer<'<type>'>`, so `props` are inferred from the schema) and add it to `renderers` in `components/site/render-tree.tsx`. TypeScript fails the build if a registered component has no renderer.
 
-The manager loops over each definition's field descriptors to create its editor controls. The `cards` field uses a reusable list editor for nested image, heading, and optional link values. New standard fields can be added in the field renderer without building a separate form for each component.
+The manager form, API validation and the "Add" buttons are generated from the definition, so no form code is written. Adding a prop to an existing component is one line in its schema plus using it in its renderer. The form generator supports strings, numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional values.
 
 ## Decisions and trade-offs
 
-- **Custom field descriptors over a general schema package:** the initial library has two components, so a small typed descriptor format keeps the form generator understandable. The API validates the current component tree and fields; a schema versioning strategy will matter as the library evolves.
+- **Zod schemas as the single source of truth for props:** one schema per component gives runtime validation (API, seed, manager before save), TypeScript types (`z.infer`) for renderers and seed data, and the description the manager walks to build forms. A custom descriptor format would have needed its own validator and type inference; JSON Schema is still available via `z.toJSONSchema` if another app needs a portable description.
+- **Definitions separate from renderers:** definitions contain no React, so the manager (client), API and seed script can import them without pulling in site components; each site renderer is typed from its definition.
+- **Validation returns a normalised tree:** defaults are applied and unknown props dropped before saving, so stored JSON stays clean. The renderer validates again and skips components it cannot render instead of failing the page, and pages carry `schemaVersion` for future migrations.
 - **Page documents stay portable:** renderer input contains only component types, props, and children. Theme tokens are resolved from the separately stored site when the server renders the page.
-- **MongoDB official Node driver:** each page is a natural document, while sites are shared records. A unique compound index protects route identity. Connection reuse is cached for long-lived Next.js processes and Vercel functions.
+- **MongoDB official Node driver:** each page is a natural document, while sites are shared records. A unique compound index protects route identity, and lookups go through indexed `findOne` queries (by slug, by id, by site + path) rather than loading every site, which matters at 30+ sites.
+- **Themes are design tokens mapped to CSS variables:** colours, heading font and radius per site, including the `--ui-*` tokens of the shared `@scottcheung/ui` primitives. Components never read the theme object directly.
+- **Seed ownership:** sites are owned by the seed and always updated; pages are owned by editors, so the seed only fills empty routes. Connection reuse is cached for long-lived Next.js processes and Vercel functions.
 - **Local Docker stack first:** Compose supplies MongoDB and the Next.js server. To deploy later, provision an Atlas cluster, set `MONGODB_URI` and `MONGODB_DB` in Vercel, and deploy the same Next.js app. Replace the local seed invocation with a one-off seed command or deployment job; do not run seed writes on every serverless request.
 - **Scope:** single editor, published pages only, two seeded sites, Section and Card Grid. Authentication, draft/publish workflow, drag-and-drop ordering, live manager preview, and real content APIs are outside this first pass.
 - **Build time / AI tools:** record total time spent before submission. OpenAI Codex was used for planning, implementation, and code review.

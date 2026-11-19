@@ -6,7 +6,8 @@ import { cardGrid } from '../lib/components/card-grid';
 
 describe('parseComponentTree', () => {
   it('accepts every seed page', () => {
-    for (const page of pages) expect(parseComponentTree(page.components).ok).toBe(true);
+    for (const page of pages)
+      expect(parseComponentTree(page.components).ok).toBe(true);
   });
 
   it('applies defaults to new components', () => {
@@ -14,7 +15,12 @@ describe('parseComponentTree', () => {
     expect(result).toEqual({
       ok: true,
       components: [
-        { id: 's1', type: 'section', props: { layout: 'full', background: 'none' }, children: [] },
+        {
+          id: 's1',
+          type: 'section',
+          props: { layout: 'full', background: 'none' },
+          children: [],
+        },
       ],
     });
   });
@@ -27,10 +33,12 @@ describe('parseComponentTree', () => {
     ]);
     expect(result.ok).toBe(false);
     if (result.ok) return;
-    expect(result.issues.map((i) => [i.componentId, i.path.join('.')])).toEqual([
-      ['g1', 'cards.0.image.url'],
-      ['g1', 'cards.0.heading'],
-    ]);
+    expect(result.issues.map((i) => [i.componentId, i.path.join('.')])).toEqual(
+      [
+        ['g1', 'cards.0.image.url'],
+        ['g1', 'cards.0.heading'],
+      ],
+    );
   });
 
   it('rejects unknown types, duplicate ids and children on leaf components', () => {
@@ -51,7 +59,10 @@ describe('parseComponentTree', () => {
   it('allows an optional link to be omitted but validates it when present', () => {
     const card = { image: { url: '', alt: '' }, heading: 'Squad' };
     const ok = cardGrid.props.safeParse({ title: 'T', cards: [card] });
-    const bad = cardGrid.props.safeParse({ title: 'T', cards: [{ ...card, link: { href: '' } }] });
+    const bad = cardGrid.props.safeParse({
+      title: 'T',
+      cards: [{ ...card, link: { href: '' } }],
+    });
     expect(ok.success).toBe(true);
     expect(bad.success).toBe(false);
   });
@@ -60,6 +71,9 @@ describe('parseComponentTree', () => {
 describe('defaultValueFor', () => {
   it('builds a new list item from the schema, leaving optional fields out', () => {
     const cardSchema = cardGrid.props.shape.cards.unwrap().element;
-    expect(defaultValueFor(cardSchema)).toEqual({ image: { url: '', alt: '' }, heading: '' });
+    expect(defaultValueFor(cardSchema)).toEqual({
+      image: { url: '', alt: '' },
+      heading: '',
+    });
   });
 });

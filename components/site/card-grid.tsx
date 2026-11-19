@@ -4,7 +4,10 @@ import { Image } from '@/components/blocks/image';
 import { resolveSiteHref } from '@/lib/links';
 import type { ComponentRenderer } from './types';
 
-export const CardGrid: ComponentRenderer<'card-grid'> = ({ props, context }) => (
+export const CardGrid: ComponentRenderer<'card-grid'> = ({
+  props,
+  context,
+}) => (
   <div className="card-grid-block">
     {props.title && (
       <div className="block-heading">
@@ -14,7 +17,8 @@ export const CardGrid: ComponentRenderer<'card-grid'> = ({ props, context }) => 
     )}
     <div className="site-card-grid">
       {props.cards.map((card, index) => {
-        const href = card.link && resolveSiteHref(card.link.href, context.siteSlug);
+        const href =
+          card.link && resolveSiteHref(card.link.href, context.siteSlug);
         return (
           <article className="site-card" key={index}>
             <div className="site-card-image">

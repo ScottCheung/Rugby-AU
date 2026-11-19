@@ -2,7 +2,11 @@
 
 import { useMemo, useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { SchemaForm, pathKey, type FieldErrors } from '@/components/schema-form';
+import {
+  SchemaForm,
+  pathKey,
+  type FieldErrors,
+} from '@/components/schema-form';
 import {
   componentDefinitions,
   createInstance,
@@ -62,6 +66,7 @@ export function Manager({
     if (issues.length) {
       const result = parseComponentTree(components);
       setIssues(result.ok ? [] : result.issues);
+      if (result.ok) setNotice('');
     }
   }
 
@@ -95,7 +100,9 @@ export function Manager({
     if (!check.ok) {
       setIssues(check.issues);
       setNotice(
-        `Could not save: ${check.issues.length} field${check.issues.length === 1 ? '' : 's'} need attention (highlighted below).`,
+        check.issues.length === 1
+          ? 'Could not save: 1 field needs attention (highlighted below).'
+          : `Could not save: ${check.issues.length} fields need attention (highlighted below).`,
       );
       return;
     }

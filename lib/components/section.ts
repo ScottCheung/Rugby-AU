@@ -4,7 +4,8 @@ import { defineComponent } from './define';
 export const section = defineComponent({
   type: 'section',
   label: 'Section',
-  description: 'A layout container. Holds other components, including Sections.',
+  description:
+    'A layout container. Holds other components, including Sections.',
   category: 'layout',
   allowsChildren: true,
   props: z.object({

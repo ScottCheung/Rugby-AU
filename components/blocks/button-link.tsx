@@ -16,7 +16,12 @@ export function ButtonLink({
   size?: 'sm' | 'md' | 'lg';
 }) {
   return (
-    <a className="sc-ui-button" data-variant={variant} data-size={size} href={href}>
+    <a
+      className="sc-ui-button"
+      data-variant={variant}
+      data-size={size}
+      href={href}
+    >
       {children}
     </a>
   );

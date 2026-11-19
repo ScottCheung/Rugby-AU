@@ -15,7 +15,8 @@ const card = z.object({
         .meta({ title: 'Image URL', placeholder: 'https://…' }),
       alt: z.string().trim().meta({
         title: 'Image description',
-        description: 'Read aloud by screen readers. Describe what is in the photo.',
+        description:
+          'Read aloud by screen readers. Describe what is in the photo.',
         placeholder: 'e.g. Players running onto the field',
       }),
     })
@@ -33,15 +34,12 @@ const card = z.object({
         .min(1, 'Add the link text')
         .default('Learn more')
         .meta({ title: 'Link text' }),
-      href: z
-        .string()
-        .trim()
-        .min(1, 'Add where the link goes')
-        .meta({
-          title: 'Link URL',
-          description: 'A page on this site such as /about, or a full https:// address.',
-          placeholder: '/about',
-        }),
+      href: z.string().trim().min(1, 'Add where the link goes').meta({
+        title: 'Link URL',
+        description:
+          'A page on this site such as /about, or a full https:// address.',
+        placeholder: '/about',
+      }),
     })
     .optional()
     .meta({ title: 'Link' }),
@@ -50,7 +48,8 @@ const card = z.object({
 export const cardGrid = defineComponent({
   type: 'card-grid',
   label: 'Card Grid',
-  description: 'A heading and a grid of cards with an image, heading and optional link.',
+  description:
+    'A heading and a grid of cards with an image, heading and optional link.',
   category: 'content',
   allowsChildren: false,
   props: z.object({

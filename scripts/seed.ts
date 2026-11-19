@@ -23,7 +23,11 @@ async function seed() {
 
   // Sites are owned by the seed (not editable in the manager): always update.
   for (const site of sites)
-    await siteCollection.updateOne({ id: site.id }, { $set: site }, { upsert: true });
+    await siteCollection.updateOne(
+      { id: site.id },
+      { $set: site },
+      { upsert: true },
+    );
   // Pages are owned by editors: only fill routes that are still empty, never
   // overwrite edits (or a page an editor already created at the same path).
   for (const page of pages)

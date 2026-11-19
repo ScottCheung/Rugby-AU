@@ -179,23 +179,28 @@ export const pages: PageDocument[] = [
     ]),
   ]),
   page('super-about', 'super-rugby', '/about', 'About the competition', [
-    node('super-about-columns', 'section', { layout: 'two-column', background: 'light' }, [
-      node('super-about-format', 'card-grid', {
-        title: 'The format',
-        cards: [{ image: images.scrum, heading: '12 teams, 5 nations' }],
-      }),
-      node('super-about-finals', 'section', { background: 'brand' }, [
-        node('super-about-finals-grid', 'card-grid', {
-          title: 'Finals series',
-          cards: [
-            {
-              image: images.stadium,
-              heading: 'Six teams make the playoffs',
-              link: { label: 'Back to home', href: '/' },
-            },
-          ],
+    node(
+      'super-about-columns',
+      'section',
+      { layout: 'two-column', background: 'light' },
+      [
+        node('super-about-format', 'card-grid', {
+          title: 'The format',
+          cards: [{ image: images.scrum, heading: '12 teams, 5 nations' }],
         }),
-      ]),
-    ]),
+        node('super-about-finals', 'section', { background: 'brand' }, [
+          node('super-about-finals-grid', 'card-grid', {
+            title: 'Finals series',
+            cards: [
+              {
+                image: images.stadium,
+                heading: 'Six teams make the playoffs',
+                link: { label: 'Back to home', href: '/' },
+              },
+            ],
+          }),
+        ]),
+      ],
+    ),
   ]),
 ];

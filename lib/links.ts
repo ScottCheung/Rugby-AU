@@ -8,6 +8,7 @@ export function resolveSiteHref(href: string, siteSlug: string) {
   if (/^https?:\/\//i.test(href)) return href;
   if (href === '/') return `/s/${siteSlug}`;
   if (href.startsWith('/')) return `/s/${siteSlug}${href}`;
-  if (/^[a-z0-9-]+(?:\/[a-z0-9-]+)*$/i.test(href)) return `/s/${siteSlug}/${href}`;
+  if (/^[a-z0-9-]+(?:\/[a-z0-9-]+)*$/i.test(href))
+    return `/s/${siteSlug}/${href}`;
   return undefined;
 }

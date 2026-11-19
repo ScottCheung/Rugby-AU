@@ -98,7 +98,11 @@ export function parseComponentTree(value: unknown): TreeParseResult {
     const props = definition.props.safeParse(node.props ?? {});
     if (!props.success)
       for (const issue of props.error.issues)
-        issues.push({ componentId: id, path: issue.path, message: issue.message });
+        issues.push({
+          componentId: id,
+          path: issue.path,
+          message: issue.message,
+        });
 
     if (!definition.allowsChildren && node.children !== undefined)
       issues.push({
