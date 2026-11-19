@@ -43,13 +43,11 @@ describe('describeSchema', () => {
   it('uses schema metadata for labels and falls back to a humanised key', () => {
     const [labelled, plain] = describeSchema(
       z.object({
-        heroTitle: z
-          .string()
-          .meta({
-            label: 'Big title',
-            hint: 'Shown at the top',
-            placeholder: 'Hi',
-          }),
+        heroTitle: z.string().meta({
+          label: 'Big title',
+          hint: 'Shown at the top',
+          placeholder: 'Hi',
+        }),
         heroSubtitle: z.string(),
       }),
     );
