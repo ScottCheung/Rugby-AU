@@ -63,10 +63,14 @@ export function PageEditor({ site, page }: { site: Site; page: Page }) {
   }
 
   function add(type: ComponentType) {
+    const parentId = adding?.parentId;
+    const siblings = parentId
+      ? (findNode(state.draft.tree, parentId)?.children ?? [])
+      : state.draft.tree;
     dispatch({
-      type: 'addNode',
+      type: 'insertNode',
       node: createNode(type),
-      parentId: adding?.parentId,
+      at: { parentId, index: siblings.length },
     });
     setAdding(null);
   }

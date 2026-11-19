@@ -4,11 +4,11 @@ import {
   initEditor,
   isDirty,
 } from '../components/manager/editorReducer';
-import { createNode } from '../lib/components/createNode';
-import { summarizeProps } from '../lib/forms/summarize';
-import { describeSchema } from '../lib/forms/describe';
 import { cardGridSchema } from '../lib/components/cardGrid';
+import { createNode } from '../lib/components/createNode';
 import { sectionSchema } from '../lib/components/section';
+import { describeSchema } from '../lib/forms/describe';
+import { summarizeProps } from '../lib/forms/summarize';
 
 const start = () => initEditor({ title: 'Home', description: '', tree: [] });
 
@@ -22,14 +22,18 @@ describe('editorReducer', () => {
     expect(isDirty(state)).toBe(false);
   });
 
-  it('adds nested nodes, selects them, and deselects when their parent is removed', () => {
+  it('inserts nested nodes, selects them, and deselects when their parent is removed', () => {
     const section = createNode('section');
     const grid = createNode('cardGrid');
-    let state = editorReducer(start(), { type: 'addNode', node: section });
+    let state = editorReducer(start(), {
+      type: 'insertNode',
+      node: section,
+      at: { index: 0 },
+    });
     state = editorReducer(state, {
-      type: 'addNode',
+      type: 'insertNode',
       node: grid,
-      parentId: section.id,
+      at: { parentId: section.id, index: 0 },
     });
     expect(state.draft.tree[0].children?.[0].id).toBe(grid.id);
     expect(state.selectedId).toBe(grid.id);
@@ -38,9 +42,35 @@ describe('editorReducer', () => {
     expect(state.selectedId).toBeNull();
   });
 
+  it('moves a node into a section', () => {
+    const section = createNode('section');
+    const grid = createNode('cardGrid');
+    let state = editorReducer(start(), {
+      type: 'insertNode',
+      node: section,
+      at: { index: 0 },
+    });
+    state = editorReducer(state, {
+      type: 'insertNode',
+      node: grid,
+      at: { index: 1 },
+    });
+    state = editorReducer(state, {
+      type: 'moveNode',
+      id: grid.id,
+      to: { parentId: section.id, index: 0 },
+    });
+    expect(state.draft.tree).toHaveLength(1);
+    expect(state.draft.tree[0].children?.[0].id).toBe(grid.id);
+  });
+
   it('clears save errors once the tree is valid again', () => {
     const grid = createNode('cardGrid');
-    let state = editorReducer(start(), { type: 'addNode', node: grid });
+    let state = editorReducer(start(), {
+      type: 'insertNode',
+      node: grid,
+      at: { index: 0 },
+    });
     state = editorReducer(state, {
       type: 'saveFailed',
       issues: [{ nodeId: grid.id, path: ['title'], message: 'x' }],
@@ -52,6 +82,45 @@ describe('editorReducer', () => {
       props: { title: 'Ok', cards: [] },
     });
     expect(state.issues).toEqual([]);
+  });
+});
+
+describe('undo and redo', () => {
+  it('steps back and forward through structural changes', () => {
+    const a = createNode('section');
+    const b = createNode('cardGrid');
+    let state = editorReducer(start(), {
+      type: 'insertNode',
+      node: a,
+      at: { index: 0 },
+    });
+    state = editorReducer(state, {
+      type: 'insertNode',
+      node: b,
+      at: { index: 1 },
+    });
+    state = editorReducer(state, { type: 'undo' });
+    expect(state.draft.tree.map((node) => node.id)).toEqual([a.id]);
+    expect(state.selectedId).toBeNull(); // b no longer exists
+    state = editorReducer(state, { type: 'redo' });
+    expect(state.draft.tree.map((node) => node.id)).toEqual([a.id, b.id]);
+  });
+
+  it('merges consecutive edits of the same field into one step', () => {
+    let state = start();
+    for (const title of ['W', 'We', 'Wel', 'Welcome'])
+      state = editorReducer(state, { type: 'setTitle', title });
+    expect(state.past).toHaveLength(1);
+    state = editorReducer(state, { type: 'undo' });
+    expect(state.draft.title).toBe('Home');
+    expect(editorReducer(state, { type: 'undo' })).toBe(state); // nothing left to undo
+  });
+
+  it('a new change clears the redo stack', () => {
+    let state = editorReducer(start(), { type: 'setTitle', title: 'A' });
+    state = editorReducer(state, { type: 'undo' });
+    state = editorReducer(state, { type: 'setDescription', description: 'B' });
+    expect(state.future).toEqual([]);
   });
 });
 

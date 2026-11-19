@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
   addNode,
+  cloneWithNewIds,
+  findLocation,
   findNode,
+  insertNode,
+  moveNode,
   removeNode,
   updateNodeProps,
 } from '../lib/components/tree';
@@ -98,5 +102,77 @@ describe('immutability', () => {
     updateNodeProps(tree, 'deep', {});
     expect(tree).toEqual(snapshot);
     expect(added[1]).toBe(tree[1]); // the sibling branch was not copied
+  });
+});
+
+describe('findLocation', () => {
+  it('returns the parent and index at any depth', () => {
+    const tree = makeTree();
+    expect(findLocation(tree, 'sibling')).toEqual({
+      parentId: undefined,
+      index: 1,
+    });
+    expect(findLocation(tree, 'deep')).toEqual({ parentId: 'inner', index: 0 });
+    expect(findLocation(tree, 'missing')).toBeUndefined();
+  });
+});
+
+describe('insertNode', () => {
+  it('inserts at an index in the root and inside a section', () => {
+    expect(
+      insertNode(makeTree(), leaf('new'), { index: 1 }).map((node) => node.id),
+    ).toEqual(['outer', 'new', 'sibling']);
+    const nested = insertNode(makeTree(), leaf('new'), {
+      parentId: 'inner',
+      index: 0,
+    });
+    expect(findNode(nested, 'inner')?.children?.map((node) => node.id)).toEqual(
+      ['new', 'deep'],
+    );
+  });
+});
+
+describe('moveNode', () => {
+  const ids = (nodes: ComponentNode[]) => nodes.map((node) => node.id);
+
+  it('moves down and up within the same list (drop gaps count the node itself)', () => {
+    const tree = [leaf('a'), leaf('b'), leaf('c')];
+    expect(ids(moveNode(tree, 'a', { index: 3 }))).toEqual(['b', 'c', 'a']);
+    expect(ids(moveNode(tree, 'a', { index: 2 }))).toEqual(['b', 'a', 'c']);
+    expect(ids(moveNode(tree, 'c', { index: 0 }))).toEqual(['c', 'a', 'b']);
+    expect(ids(moveNode(tree, 'b', { index: 1 }))).toEqual(['a', 'b', 'c']);
+  });
+
+  it('moves a node into a nested section and back out to the root', () => {
+    const inside = moveNode(makeTree(), 'sibling', {
+      parentId: 'inner',
+      index: 1,
+    });
+    expect(ids(inside)).toEqual(['outer']);
+    expect(ids(findNode(inside, 'inner')?.children ?? [])).toEqual([
+      'deep',
+      'sibling',
+    ]);
+    const out = moveNode(inside, 'deep', { index: 0 });
+    expect(ids(out)).toEqual(['deep', 'outer']);
+  });
+
+  it('refuses to drop a section into itself or its own children', () => {
+    const tree = makeTree();
+    expect(moveNode(tree, 'outer', { parentId: 'outer', index: 0 })).toBe(tree);
+    expect(moveNode(tree, 'outer', { parentId: 'inner', index: 0 })).toBe(tree);
+  });
+});
+
+describe('cloneWithNewIds', () => {
+  it('copies a section and everything inside it with fresh ids', () => {
+    let next = 0;
+    const copy = cloneWithNewIds(makeTree()[0], () => `copy-${next++}`);
+    expect(copy.id).toBe('copy-0');
+    expect(copy.children?.[0].id).toBe('copy-1');
+    expect(copy.children?.[0].children?.[0]).toMatchObject({
+      id: 'copy-2',
+      type: 'cardGrid',
+    });
   });
 });
