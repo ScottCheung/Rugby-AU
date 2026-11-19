@@ -2,20 +2,17 @@
 
 import { useMemo, useState, type FormEvent } from 'react';
 import Link from 'next/link';
+import { SchemaForm, pathKey, type FieldErrors } from '@/components/schema-form';
 import {
   componentDefinitions,
+  createInstance,
   getDefinition,
-  type FieldDefinition,
-} from '@/lib/definitions';
-import type {
-  CardItem,
-  ComponentInstance,
-  ComponentType,
-  PageDocument,
-  Site,
-} from '@/lib/model';
+  parseComponentTree,
+  type ComponentType,
+  type TreeIssue,
+} from '@/lib/components/registry';
+import type { ComponentInstance, PageDocument, Site } from '@/lib/model';
 
-const newId = () => crypto.randomUUID();
 const slugPath = (value: string) =>
   value
     .toLowerCase()
@@ -41,6 +38,7 @@ export function Manager({
   const [newPath, setNewPath] = useState('about');
   const [notice, setNotice] = useState('');
   const [saving, setSaving] = useState(false);
+  const [issues, setIssues] = useState<TreeIssue[]>([]);
   const currentSite = sites.find(
     (site) => site.id === (draft?.siteId ?? siteId),
   );
@@ -54,7 +52,18 @@ export function Manager({
     setActiveId(page.id);
     setSiteId(page.siteId);
     setNotice('');
+    setIssues([]);
   };
+
+  /** Apply a tree change; after a failed save, re-check so fixed fields clear. */
+  function updateComponents(components: ComponentInstance[]) {
+    if (!draft) return;
+    setDraft({ ...draft, components });
+    if (issues.length) {
+      const result = parseComponentTree(components);
+      setIssues(result.ok ? [] : result.issues);
+    }
+  }
 
   async function createPage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,8 +89,18 @@ export function Manager({
 
   async function savePage() {
     if (!draft) return;
-    setSaving(true);
     setNotice('');
+    // Same validation the API runs, so editors see problems instantly.
+    const check = parseComponentTree(draft.components);
+    if (!check.ok) {
+      setIssues(check.issues);
+      setNotice(
+        `Could not save: ${check.issues.length} field${check.issues.length === 1 ? '' : 's'} need attention (highlighted below).`,
+      );
+      return;
+    }
+    setIssues([]);
+    setSaving(true);
     const response = await fetch(`/api/pages/${draft.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -90,6 +109,7 @@ export function Manager({
     const result = await response.json();
     setSaving(false);
     if (!response.ok) {
+      if (Array.isArray(result.issues)) setIssues(result.issues);
       setNotice(result.error || 'Could not save page.');
       return;
     }
@@ -102,35 +122,24 @@ export function Manager({
 
   function addComponent(type: ComponentType, parentId?: string) {
     if (!draft) return;
-    const definition = getDefinition(type);
-    const instance: ComponentInstance = {
-      id: newId(),
-      type,
-      props: structuredClone(definition.defaults),
-      ...(type === 'section' ? { children: [] } : {}),
-    };
-    setDraft({
-      ...draft,
-      components: parentId
+    const instance = createInstance(type);
+    updateComponents(
+      parentId
         ? insertIntoSection(draft.components, parentId, instance)
         : [...draft.components, instance],
-    });
+    );
   }
 
-  function updateProps(id: string, name: string, value: unknown) {
+  function updateProps(id: string, props: Record<string, unknown>) {
     if (!draft) return;
-    setDraft({
-      ...draft,
-      components: mapComponents(draft.components, id, (item) => ({
-        ...item,
-        props: { ...item.props, [name]: value },
-      })),
-    });
+    updateComponents(
+      mapComponents(draft.components, id, (item) => ({ ...item, props })),
+    );
   }
 
   function removeComponent(id: string) {
     if (!draft) return;
-    setDraft({ ...draft, components: removeFromTree(draft.components, id) });
+    updateComponents(removeFromTree(draft.components, id));
   }
 
   return (
@@ -367,6 +376,7 @@ export function Manager({
                           key={component.id}
                           component={component}
                           index={index}
+                          issues={issues}
                           onChange={updateProps}
                           onRemove={removeComponent}
                           onAdd={addComponent}
@@ -425,55 +435,71 @@ export function Manager({
 function ComponentEditor({
   component,
   index,
+  issues,
   onChange,
   onRemove,
   onAdd,
 }: {
   component: ComponentInstance;
   index: number;
-  onChange: (id: string, name: string, value: unknown) => void;
+  issues: TreeIssue[];
+  onChange: (id: string, props: Record<string, unknown>) => void;
   onRemove: (id: string) => void;
   onAdd: (type: ComponentType, parentId?: string) => void;
 }) {
   const definition = getDefinition(component.type);
+  const own = issues.filter((issue) => issue.componentId === component.id);
+  const fieldErrors: FieldErrors = Object.fromEntries(
+    own.map((issue) => [pathKey(issue.path), issue.message]),
+  );
+  const componentErrors = own.filter((issue) => issue.path.length === 0);
+  const isLayout = definition?.category === 'layout';
   return (
     <article
-      className={`component-editor ${component.type === 'section' ? 'is-section' : ''}`}
+      className={`component-editor ${isLayout ? 'is-section' : ''} ${own.length ? 'has-issues' : ''}`}
     >
       <div className="component-editor-head">
-        <span className="drag-handle">⠿</span>
         <span className="component-number">
           {String(index + 1).padStart(2, '0')}
         </span>
         <span className={`component-icon ${component.type}`}>
-          {component.type === 'section' ? '▧' : '▦'}
+          {isLayout ? '▧' : '▦'}
         </span>
         <div className="component-title">
-          <strong>{definition.label}</strong>
-          <small>{definition.description}</small>
+          <strong>{definition?.label ?? `Unknown: ${component.type}`}</strong>
+          <small>
+            {definition?.description ??
+              'This component is no longer in the library. Remove it to save.'}
+          </small>
         </div>
         <span className="component-type-tag">
-          {component.type === 'section' ? 'CONTAINER' : 'CONTENT'}
+          {isLayout ? 'CONTAINER' : 'CONTENT'}
         </span>
         <button
           className="remove-component"
           title="Remove component"
+          aria-label={`Remove ${definition?.label ?? 'component'}`}
           onClick={() => onRemove(component.id)}
         >
           ×
         </button>
       </div>
-      <div className="component-fields">
-        {definition.fields.map((field) => (
-          <FieldEditor
-            key={field.name}
-            field={field}
-            value={component.props[field.name]}
-            onChange={(value) => onChange(component.id, field.name, value)}
+      {componentErrors.map((issue) => (
+        <p key={issue.message} className="sc-ui-error component-error">
+          {issue.message}
+        </p>
+      ))}
+      {definition && (
+        <div className="component-fields">
+          <SchemaForm
+            schema={definition.props}
+            value={component.props}
+            onChange={(props) => onChange(component.id, props)}
+            errors={fieldErrors}
           />
-        ))}
-      </div>
-      {definition.allowsChildren && (
+        </div>
+      )}
+      {definition?.allowsChildren && (
         <div className="nested-content">
           <div className="nested-heading">
             <span>CHILD COMPONENTS</span>
@@ -484,204 +510,28 @@ function ComponentEditor({
               key={child.id}
               component={child}
               index={childIndex}
+              issues={issues}
               onChange={onChange}
               onRemove={onRemove}
               onAdd={onAdd}
             />
           ))}
           <div className="nested-actions">
-            <button onClick={() => onAdd('card-grid', component.id)}>
-              ＋ Add Card Grid
-            </button>
-            <button onClick={() => onAdd('section', component.id)}>
-              ＋ Add nested Section
-            </button>
+            {componentDefinitions.map((child) => (
+              <button
+                key={child.type}
+                onClick={() => onAdd(child.type, component.id)}
+                title={child.description}
+              >
+                ＋ Add {child.label}
+              </button>
+            ))}
           </div>
         </div>
       )}
     </article>
   );
 }
-
-function FieldEditor({
-  field,
-  value,
-  onChange,
-}: {
-  field: FieldDefinition;
-  value: unknown;
-  onChange: (value: unknown) => void;
-}) {
-  if (field.type === 'select')
-    return (
-      <label className="editor-field">
-        <span>{field.label}</span>
-        <select
-          value={String(value ?? '')}
-          onChange={(event) => onChange(event.target.value)}
-        >
-          {field.options?.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </label>
-    );
-  if (field.type === 'cards')
-    return (
-      <CardsEditor
-        value={Array.isArray(value) ? (value as CardItem[]) : []}
-        onChange={onChange}
-        description={field.description}
-      />
-    );
-  if (field.type === 'textarea')
-    return (
-      <label className="editor-field">
-        <span>{field.label}</span>
-        <textarea
-          value={String(value ?? '')}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      </label>
-    );
-  return (
-    <label className="editor-field">
-      <span>{field.label}</span>
-      <input
-        value={String(value ?? '')}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
-function CardsEditor({
-  value,
-  onChange,
-  description,
-}: {
-  value: CardItem[];
-  onChange: (value: unknown) => void;
-  description?: string;
-}) {
-  const update = (index: number, mutate: (item: CardItem) => CardItem) =>
-    onChange(value.map((item, i) => (i === index ? mutate(item) : item)));
-  return (
-    <div className="cards-editor">
-      <div className="cards-editor-heading">
-        <span>
-          Cards <b>{value.length}</b>
-        </span>
-        <button
-          onClick={() =>
-            onChange([
-              ...value,
-              {
-                image: { url: '', alt: '' },
-                heading: '',
-                link: { label: 'Learn more', href: '' },
-              },
-            ])
-          }
-        >
-          ＋ Add card
-        </button>
-      </div>
-      {description && <p className="field-help">{description}</p>}
-      {!value.length && (
-        <p className="no-cards">No cards yet. Add one to get started.</p>
-      )}
-      {value.map((card, index) => (
-        <div className="card-fields" key={index}>
-          <div className="card-fields-heading">
-            <span>Card {String(index + 1).padStart(2, '0')}</span>
-            <button
-              onClick={() => onChange(value.filter((_, i) => i !== index))}
-            >
-              Remove
-            </button>
-          </div>
-          <label>
-            Image URL
-            <input
-              value={card.image?.url ?? ''}
-              onChange={(event) =>
-                update(index, (item) => ({
-                  ...item,
-                  image: { ...item.image, url: event.target.value },
-                }))
-              }
-              placeholder="https://…"
-            />
-          </label>
-          <label>
-            Image description
-            <input
-              value={card.image?.alt ?? ''}
-              onChange={(event) =>
-                update(index, (item) => ({
-                  ...item,
-                  image: { ...item.image, alt: event.target.value },
-                }))
-              }
-              placeholder="Describe the image"
-            />
-          </label>
-          <label>
-            Card heading
-            <input
-              value={card.heading ?? ''}
-              onChange={(event) =>
-                update(index, (item) => ({
-                  ...item,
-                  heading: event.target.value,
-                }))
-              }
-              placeholder="e.g. Our squad"
-            />
-          </label>
-          <div className="card-link-grid">
-            <label>
-              Link label <small>Optional</small>
-              <input
-                value={card.link?.label ?? ''}
-                onChange={(event) =>
-                  update(index, (item) => ({
-                    ...item,
-                    link: {
-                      label: event.target.value,
-                      href: item.link?.href ?? '',
-                    },
-                  }))
-                }
-                placeholder="View more"
-              />
-            </label>
-            <label>
-              Link URL <small>Optional</small>
-              <input
-                value={card.link?.href ?? ''}
-                onChange={(event) =>
-                  update(index, (item) => ({
-                    ...item,
-                    link: {
-                      label: item.link?.label ?? '',
-                      href: event.target.value,
-                    },
-                  }))
-                }
-                placeholder="/squad"
-              />
-            </label>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function mapComponents(
   items: ComponentInstance[],
   id: string,

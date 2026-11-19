@@ -1,0 +1,175 @@
+/*
+ * Public website renderer. Every colour, font and radius comes from the
+ * site theme (see lib/theme.ts), so the same markup looks different per site.
+ */
+.public-site {
+  min-height: 100vh;
+  background: var(--site-bg);
+  color: var(--site-text);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+.public-header {
+  min-height: 76px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 38px;
+  padding: 12px 6.2vw;
+  border-bottom: 1px solid color-mix(in srgb, var(--site-text) 12%, transparent);
+}
+.public-mark {
+  color: var(--site-text);
+  font: 700 20px var(--heading-font);
+  letter-spacing: -0.02em;
+}
+.public-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 14px;
+}
+.public-header nav a:hover,
+.public-header nav a[aria-current='page'] {
+  color: var(--site-text);
+}
+.public-header nav a[aria-current='page'] {
+  text-decoration: underline 2px var(--brand);
+  text-underline-offset: 6px;
+}
+.public-page {
+  min-height: calc(100vh - 130px);
+  padding: 58px 6.2vw 76px;
+}
+.public-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.public-kicker span {
+  width: 17px;
+  height: 2px;
+  background: var(--brand);
+}
+.public-title {
+  margin: 11px 0 31px;
+  font: 600 clamp(34px, 5.3vw, 68px) / 1 var(--heading-font);
+  letter-spacing: -0.04em;
+}
+.public-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 6.2vw;
+  border-top: 1px solid color-mix(in srgb, var(--site-text) 12%, transparent);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Section */
+.site-section {
+  margin-top: 18px;
+  padding: 30px;
+  border-radius: var(--site-radius);
+}
+.site-section .site-section {
+  margin-top: 0;
+}
+.site-section-inner {
+  display: grid;
+  gap: 24px;
+}
+.site-section[data-layout='two-column'] > .site-section-inner {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.site-section[data-background='light'] {
+  background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+}
+.site-section[data-background='brand'] {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.site-section[data-background='brand'] .block-heading .block-heading-text {
+  color: var(--on-brand);
+}
+.site-section[data-background='brand'] .heading-rule {
+  background: color-mix(in srgb, var(--on-brand) 40%, transparent);
+}
+
+/* Card grid */
+.card-grid-block {
+  min-width: 0;
+}
+.block-heading {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-bottom: 17px;
+}
+.block-heading-text {
+  margin: 0;
+  color: var(--site-text);
+  font-family: var(--heading-font);
+  font-weight: 600;
+}
+.heading-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+}
+.site-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+.site-card {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--site-radius);
+  background: var(--surface);
+  color: var(--site-text);
+  box-shadow: 0 7px 24px #17251d14;
+}
+.site-card-image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--brand) 20%, var(--surface));
+}
+.block-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.site-card:hover .block-image {
+  transform: scale(1.035);
+}
+.site-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 17px 18px 18px;
+}
+.site-card-content .block-heading-text {
+  font-size: 18px;
+}
+
+@media (max-width: 760px) {
+  .public-page {
+    padding: 36px 5vw 48px;
+  }
+  .site-section {
+    padding: 17px;
+  }
+  .site-section[data-layout='two-column'] > .site-section-inner {
+    grid-template-columns: 1fr;
+  }
+}

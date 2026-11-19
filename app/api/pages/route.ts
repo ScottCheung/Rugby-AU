@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'node:crypto';
 import { isValidPagePath, normalizePath, type PageDocument } from '@/lib/model';
-import { getPage, getPages, getSites, savePage } from '@/lib/repository';
+import { getPage, getPages, getSiteById, savePage } from '@/lib/repository';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,10 +10,7 @@ export async function GET(request: Request) {
     const siteId = new URL(request.url).searchParams.get('siteId') ?? undefined;
     return NextResponse.json(await getPages(siteId));
   } catch {
-    return NextResponse.json(
-      { error: 'Could not connect to MongoDB.' },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: 'Could not connect to MongoDB.' }, { status: 503 });
   }
 }
 
@@ -27,21 +24,13 @@ export async function POST(request: Request) {
     const siteId = body.siteId?.trim();
     const title = body.title?.trim();
     const path = normalizePath(body.path ?? '');
-    if (!siteId || !title || title.length > 120 || !isValidPagePath(path)) {
+    if (!siteId || !title || title.length > 120 || !isValidPagePath(path))
       return NextResponse.json(
-        {
-          error:
-            'Enter a title and a path using lowercase letters, numbers, and hyphens.',
-        },
+        { error: 'Enter a title and a path using lowercase letters, numbers, and hyphens.' },
         { status: 400 },
       );
-    }
-    const sites = await getSites();
-    if (!sites.some((site) => site.id === siteId))
-      return NextResponse.json(
-        { error: 'Choose a valid site.' },
-        { status: 400 },
-      );
+    if (!(await getSiteById(siteId)))
+      return NextResponse.json({ error: 'Choose a valid site.' }, { status: 400 });
     if (await getPage(siteId, path))
       return NextResponse.json(
         { error: 'This site already has a page at that path.' },
@@ -52,6 +41,7 @@ export async function POST(request: Request) {
       siteId,
       title,
       path,
+      schemaVersion: 1,
       status: 'published',
       components: [],
       updatedAt: new Date().toISOString(),

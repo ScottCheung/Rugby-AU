@@ -1,30 +1,53 @@
-import type { Collection } from 'mongodb';
 import { getDatabase } from './mongo';
 import type { PageDocument, Site } from './model';
 
-export async function getSites() {
+/** Never leak Mongo's ObjectId into JSON or Client Components. */
+const withoutMongoId = { projection: { _id: 0 } } as const;
+
+async function collections() {
   const db = await getDatabase();
-  return db.collection<Site>('sites').find({}).sort({ name: 1 }).toArray();
+  return {
+    sites: db.collection<Site>('sites'),
+    pages: db.collection<PageDocument>('pages'),
+  };
+}
+
+export async function getSites() {
+  const { sites } = await collections();
+  return sites.find({}, withoutMongoId).sort({ name: 1 }).toArray();
+}
+
+export async function getSiteById(id: string) {
+  const { sites } = await collections();
+  return sites.findOne({ id }, withoutMongoId);
+}
+
+export async function getSiteBySlug(slug: string) {
+  const { sites } = await collections();
+  return sites.findOne({ slug }, withoutMongoId);
 }
 
 export async function getPages(siteId?: string) {
-  const db = await getDatabase();
-  const query = siteId ? { siteId } : {};
-  return db
-    .collection<PageDocument>('pages')
-    .find(query)
+  const { pages } = await collections();
+  return pages
+    .find(siteId ? { siteId } : {}, withoutMongoId)
     .sort({ path: 1 })
     .toArray();
 }
 
+export async function getPageById(id: string) {
+  const { pages } = await collections();
+  return pages.findOne({ id }, withoutMongoId);
+}
+
+/** Resolved by the unique (siteId, path) index. */
 export async function getPage(siteId: string, path: string) {
-  const db = await getDatabase();
-  return db.collection<PageDocument>('pages').findOne({ siteId, path });
+  const { pages } = await collections();
+  return pages.findOne({ siteId, path }, withoutMongoId);
 }
 
 export async function savePage(page: PageDocument) {
-  const db = await getDatabase();
-  const pages: Collection<PageDocument> = db.collection('pages');
+  const { pages } = await collections();
   await pages.updateOne({ id: page.id }, { $set: page }, { upsert: true });
   return page;
 }
