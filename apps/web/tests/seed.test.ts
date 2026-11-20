@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { validateTree } from '../lib/components/validateTree';
 import { summarizeArticles } from '../lib/news';
@@ -123,6 +125,25 @@ describe('squads', () => {
     for (const squad of Object.values(squads)) {
       expect(squad.source.url).toMatch(/^https:\/\//);
       expect(squad.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+  });
+
+  it('only uses player photos that exist, each with its matching backdrop', () => {
+    const used = new Set(
+      pages.flatMap(
+        (page) =>
+          JSON.stringify(page.tree).match(
+            /\/players\/[a-z-]+\/[a-z0-9-]+\.webp/g,
+          ) ?? [],
+      ),
+    );
+    expect(used.size).toBeGreaterThan(200);
+    for (const path of used) {
+      expect(existsSync(join(__dirname, '../public', path)), path).toBe(true);
+      const pair = path.endsWith('-bg.webp')
+        ? path.replace('-bg.webp', '.webp')
+        : path.replace('.webp', '-bg.webp');
+      expect(used.has(pair), pair).toBe(true);
     }
   });
 

@@ -172,40 +172,36 @@
 }
 
 /*
- * Profile cards: a cut-out person rising out of a background photo. The
- * card keeps 14% headroom above its panel so the head can rise above it
- * without being clipped by a scrolling carousel. Layers, back to front:
- * panel (photo + colour fade), person, front fade, text.
+ * Profile cards. The photo and the cut-out are the same 3:4 frame (see
+ * scripts/players), so they line up exactly. The photo only shows below
+ * the --headroom line; the person is drawn whole, so the head rises above
+ * the card. Layers, back to front: panel (photo + colour), person, front
+ * fade, text. The colour is picked from the photo (lib/imageColor.ts).
  */
 .profile-card {
+  --headroom: 33%;
   position: relative;
-  aspect-ratio: 3 / 4.4;
+  aspect-ratio: 3 / 4;
   color: white;
 }
 .profile-card__panel,
 .profile-card__front {
   position: absolute;
-  inset: 14% 0 0;
-  overflow: hidden;
-  border-radius: var(--radius-site);
+  inset: 0;
+  clip-path: inset(var(--headroom) 0 0 round var(--radius-site));
 }
-.profile-card__panel img {
+.profile-card__panel img,
+.profile-card__person {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 .profile-card__person {
-  position: absolute;
-  left: 50%;
-  bottom: 24%;
-  height: 74%;
-  max-width: 92%;
-  object-fit: contain;
-  object-position: bottom;
-  translate: -50% 0;
-  transition: scale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: bottom center;
   z-index: 1;
+  transform-origin: 50% 70%;
+  transition: scale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .profile-card__front {
   z-index: 2;
@@ -218,7 +214,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.25rem;
+  gap: 0.125rem;
   padding: var(--spacing-site-sm);
 }
 .profile-card:hover .profile-card__person {
@@ -226,8 +222,8 @@
 }
 .profiles-grid {
   display: grid;
-  gap: var(--spacing-site-sm);
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--spacing-site-md) var(--spacing-site-sm);
+  grid-template-columns: repeat(auto-fill, minmax(min(12rem, 45%), 1fr));
 }
 @media (prefers-reduced-motion: reduce) {
   .profile-card__person {
@@ -236,34 +232,22 @@
 }
 
 /*
- * A profile card without photos: a silhouette and initials in the site's
- * colours, the name below. Compact, so a full squad fits on a page.
+ * No photo: the same card shape, with a silhouette and initials on the
+ * site's colour, so it sits in a row of photo cards without breaking it.
  */
 .profile-card--plain {
-  aspect-ratio: auto;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: var(--radius-site);
+  color: var(--color-brand-contrast);
+}
+.profile-card--plain .profile-card__panel {
   background: linear-gradient(
     160deg,
     var(--color-brand),
     color-mix(in oklch, var(--color-brand), black 35%)
   );
-  color: var(--color-brand-contrast);
-}
-.profile-card--plain .profile-card__text {
-  position: static;
-  padding-top: 0.5rem;
-}
-.profile-card__plain-art {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
 }
 .profile-card__initials {
   position: absolute;
-  top: 0.75rem;
+  top: calc(var(--headroom) + 0.75rem);
   left: var(--spacing-site-sm);
   font-size: 1.75rem;
   font-weight: 800;
@@ -272,16 +256,9 @@
 }
 .profile-card__silhouette {
   position: absolute;
-  right: -6%;
+  right: -4%;
   bottom: 0;
-  width: 78%;
+  width: 70%;
   fill: currentColor;
   opacity: 0.16;
-  transition: translate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.profile-card--plain:hover .profile-card__silhouette {
-  translate: 0 -4%;
-}
-.profiles-grid--plain {
-  grid-template-columns: repeat(auto-fill, minmax(min(9rem, 45%), 1fr));
 }

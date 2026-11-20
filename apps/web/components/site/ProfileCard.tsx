@@ -11,10 +11,11 @@ import { Reveal } from './Reveal';
 type Profile = PropsOf<'profileGrid'>['profiles'][number];
 
 /**
- * One person: the cut-out rises out of a background photo, and the card's
- * colour (taken from the bottom of that photo) fades up over both, so the
- * figure blends into the card. Layers, back to front: background, person,
- * fade, text. Styles in app/globals.css (.profile-card).
+ * One person. The background photo and the cut-out share one frame, so the
+ * person stands exactly where they were in the photo; the photo is only
+ * shown below the card's top edge, so the head rises out of it. The card's
+ * colour (picked from the bottom of the photo) fades up over both and
+ * carries the text. Styles in app/globals.css (.profile-card).
  */
 export function ProfileCard({
   profile,
@@ -35,6 +36,8 @@ export function ProfileCard({
   );
   const shade = color ?? picked ?? '#1f2937';
   const href = profile.link && resolveHref(profile.link.href, siteSlug);
+  const { cutout, background } = profile;
+  const photo = cutout && background;
   const details = (
     <div className="profile-card__text">
       {profile.role && (
@@ -56,15 +59,33 @@ export function ProfileCard({
     </div>
   );
 
-  // No photo: a silhouette and initials in the site's own colours.
-  if (!profile.cutout || !profile.background)
-    return (
-      <Reveal
-        as="article"
-        delay={Math.min(index * 0.05, 0.6)}
-        className={`profile-card profile-card--plain ${href ? 'card-link' : ''} ${className}`}
-      >
-        <div className="profile-card__plain-art" aria-hidden>
+  return (
+    <Reveal
+      as="article"
+      delay={Math.min(index * 0.05, 0.6)}
+      className={`profile-card ${photo ? '' : 'profile-card--plain'} ${href ? 'card-link' : ''} ${className}`}
+    >
+      {cutout && background ? (
+        <>
+          <div className="profile-card__panel" style={{ background: shade }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={background.url} alt="" loading="lazy" />
+            <div style={fade(shade, 20, 58)} />
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="profile-card__person"
+            src={cutout.url}
+            alt={cutout.alt}
+            loading="lazy"
+          />
+          <div className="profile-card__front">
+            <div style={fade(shade, 14, 38)} />
+          </div>
+        </>
+      ) : (
+        // No photo: a silhouette and initials in the site's own colours.
+        <div className="profile-card__panel" aria-hidden>
           <span className="profile-card__initials site-heading">
             {initials(profile.name)}
           </span>
@@ -73,31 +94,7 @@ export function ProfileCard({
             <path d="M14 100c2-24 17-37 36-37s34 13 36 37z" />
           </svg>
         </div>
-        {details}
-      </Reveal>
-    );
-
-  return (
-    <Reveal
-      as="article"
-      delay={Math.min(index * 0.15, 0.6)}
-      className={`profile-card ${href ? 'card-link' : ''} ${className}`}
-    >
-      <div className="profile-card__panel" style={{ background: shade }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={profile.background.url} alt="" loading="lazy" />
-        <div style={fade(shade, 22, 62)} />
-      </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="profile-card__person"
-        src={profile.cutout.url}
-        alt={profile.cutout.alt}
-        loading="lazy"
-      />
-      <div className="profile-card__front">
-        <div style={fade(shade, 16, 44)} />
-      </div>
+      )}
       {details}
     </Reveal>
   );

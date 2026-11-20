@@ -12,8 +12,6 @@ export function ProfileGrid({
   siteSlug,
   data,
 }: PropsOf<'profileGrid'> & { siteSlug: string; data: SiteData }) {
-  // Without photos the cards need no headroom, so they can be smaller.
-  const plain = profiles.every((profile) => !profile.cutout);
   const cards = profiles.map((profile, index) => (
     <ProfileCard
       key={index}
@@ -34,13 +32,7 @@ export function ProfileGrid({
       {display === 'carousel' ? (
         <Carousel label={title || 'People'}>{cards}</Carousel>
       ) : (
-        <div
-          className={
-            plain ? 'profiles-grid profiles-grid--plain' : 'profiles-grid'
-          }
-        >
-          {cards}
-        </div>
+        <div className="profiles-grid">{cards}</div>
       )}
     </div>
   );

@@ -5,7 +5,8 @@ import type { ComponentNode } from '../../lib/types';
 import { images, type SeedImage } from './images';
 import { formatDate } from '../../lib/news';
 import { photoPicker } from './photos';
-import { squads, type Squad } from './squads';
+import { playerPhoto } from './players';
+import { squads, type Squad, type SquadPlayer } from './squads';
 
 /**
  * Page content for the sample sites. Each kind of site (governing body,
@@ -988,6 +989,65 @@ const positionOf: Record<string, string | undefined> = {
  * per group, grouped as the source groups them. No photos: the cards show
  * initials and a silhouette.
  */
+/** Groups too broad to say what a player plays ("Forwards", "Men"). */
+const broadGroups = new Set(['Forwards', 'Backs', 'Squad', 'Men', 'Women']);
+
+/** A squad player's card: their official photo, if one was found. */
+function squadProfile(siteSlug: string, group: string, player: SquadPlayer) {
+  const photo = playerPhoto(siteSlug, player.name);
+  // A position from the group, else from the official squad page (whose
+  // Sevens "positions" are shirt numbers, so those are left out).
+  const official =
+    photo?.position && !photo.position.startsWith('#')
+      ? photo.position
+      : undefined;
+  const role = broadGroups.has(group)
+    ? (official ?? positionOf[group])
+    : positionOf[group];
+  return {
+    name: player.name,
+    ...(role ? { role } : {}),
+    ...(player.note ? { text: player.note } : {}),
+    ...(photo
+      ? {
+          cutout: {
+            url: `${photo.path}.webp`,
+            alt: `${player.name} in the team's official squad photo`,
+          },
+          background: {
+            url: `${photo.path}-bg.webp`,
+            alt: `The backdrop of ${player.name}'s squad photo`,
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * A few players for a team's home page: taken from each group in turn, so
+ * forwards and backs are both there, and only players with a photo.
+ */
+function meetThePlayers(siteSlug: string, squad: Squad, count = 8) {
+  const queues = squad.groups.map((group) =>
+    group.players
+      .filter((player) => playerPhoto(siteSlug, player.name))
+      .map((player) => squadProfile(siteSlug, group.title, player)),
+  );
+  const picked: ReturnType<typeof squadProfile>[] = [];
+  while (picked.length < count && queues.some((queue) => queue.length))
+    for (const queue of queues) {
+      const next = queue.shift();
+      if (next && picked.length < count) picked.push(next);
+    }
+  return section(
+    [node('profileGrid', { title: '', display: 'carousel', profiles: picked })],
+    {
+      heading: 'Meet the players',
+      intro: 'A few of the squad. Everyone is on the Squad page.',
+    },
+  );
+}
+
 const squadPage = (siteSlug: string, squad: Squad): SeedPage =>
   page(siteSlug, '/squad', 'Squad', squad.label, [
     section([
@@ -995,7 +1055,7 @@ const squadPage = (siteSlug: string, squad: Squad): SeedPage =>
         'The squad',
         [
           `${squad.label}.`,
-          `Named ${formatDate(squad.source.date)}, as listed in “${squad.source.title}”.`,
+          `Named ${formatDate(squad.source.date)}, as listed in “${squad.source.title}”. Photos are the official squad photos.`,
         ],
         link('Read the announcement', squad.source.url),
         'centered',
@@ -1007,13 +1067,9 @@ const squadPage = (siteSlug: string, squad: Squad): SeedPage =>
           node('profileGrid', {
             title: '',
             display: 'grid',
-            profiles: group.players.map((player) => ({
-              name: player.name,
-              ...(positionOf[group.title]
-                ? { role: positionOf[group.title] }
-                : {}),
-              ...(player.note ? { text: player.note } : {}),
-            })),
+            profiles: group.players.map((player) =>
+              squadProfile(siteSlug, group.title, player),
+            ),
           }),
         ],
         // A list with a single unnamed group needs no heading.
@@ -1055,6 +1111,9 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         ),
       ),
       statsBand(undefined, team.stats),
+      ...(squads[team.slug]
+        ? [meetThePlayers(team.slug, squads[team.slug])]
+        : []),
       cards(
         'Moments',
         'Swipe through some of the milestones.',
@@ -1658,6 +1717,9 @@ function club(team: Club, pick: Pick): SeedPage[] {
           ),
         ]),
         statsBand(undefined, team.stats),
+        ...(squads[team.slug]
+          ? [meetThePlayers(team.slug, squads[team.slug])]
+          : []),
         story(
           'none',
           text(`Welcome to the ${team.name}`, team.story.slice(0, 2), clubLink),
