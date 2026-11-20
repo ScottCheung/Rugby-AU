@@ -1,6 +1,7 @@
 import type { ComponentType as ReactComponentType, ReactNode } from 'react';
 import type { ComponentType, PropsOf } from '@/lib/components/registry';
 import { CardGrid } from './CardGrid';
+import { ImageSlider } from './ImageSlider';
 import { Section } from './Section';
 
 type SiteComponent<Type extends ComponentType> = ReactComponentType<
@@ -16,6 +17,7 @@ type SiteComponent<Type extends ComponentType> = ReactComponentType<
 const siteComponents: { [Type in ComponentType]: SiteComponent<Type> } = {
   section: Section,
   cardGrid: CardGrid,
+  imageSlider: ImageSlider,
 };
 
 /** Props are typed loosely here: callers must pass props already parsed by the type's schema. */

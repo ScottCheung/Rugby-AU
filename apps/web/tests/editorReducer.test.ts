@@ -149,6 +149,14 @@ describe('summarizeProps', () => {
     expect(
       summarizeProps(describeSchema(cardGridSchema), {
         title: 'Squad',
+        variant: 'carousel',
+        cards: [{}],
+      }),
+    ).toBe('Squad · Carousel');
+    // Older data without the variant: nothing is made up.
+    expect(
+      summarizeProps(describeSchema(cardGridSchema), {
+        title: 'Squad',
         cards: [{}],
       }),
     ).toBe('Squad · 1 card');

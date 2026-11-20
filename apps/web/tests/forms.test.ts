@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 import { cardGridSchema } from '../lib/components/cardGrid';
+import { imageSliderSchema } from '../lib/components/imageSlider';
 import { sectionSchema } from '../lib/components/section';
 import {
   defaultValue,
@@ -68,8 +69,10 @@ describe('describeSchema', () => {
     ).toBe('Outer');
   });
 
-  it('describes the Section schema as two selects with readable options', () => {
-    expect(describeSchema(sectionSchema)).toEqual([
+  it('describes the Section layout and background as choices with readable options', () => {
+    expect(
+      describeSchema(sectionSchema).filter((field) => field.kind === 'enum'),
+    ).toEqual([
       expect.objectContaining({
         key: 'layout',
         kind: 'enum',
@@ -77,6 +80,8 @@ describe('describeSchema', () => {
         options: [
           { value: 'full', label: 'Full width' },
           { value: 'two-column', label: 'Two columns' },
+          { value: 'two-column-wide', label: 'Two columns, wide left' },
+          { value: 'three-column', label: 'Three columns' },
         ],
       }),
       expect.objectContaining({
@@ -88,7 +93,7 @@ describe('describeSchema', () => {
   });
 
   it('describes the Card Grid: a list of cards with a nested image and an optional link', () => {
-    const [title, cards] = describeSchema(cardGridSchema);
+    const [title, , cards] = describeSchema(cardGridSchema);
     expect(title).toMatchObject({
       key: 'title',
       kind: 'text',
@@ -116,7 +121,7 @@ describe('describeSchema', () => {
 
 describe('defaultValue', () => {
   it('builds a new card from the schema, leaving the optional link out', () => {
-    const [, cards] = describeSchema(cardGridSchema);
+    const [, , cards] = describeSchema(cardGridSchema);
     if (cards.kind !== 'array') throw new Error('unexpected shape');
     expect(defaultValue(cards.item)).toEqual({
       image: { url: '', alt: '' },
@@ -148,4 +153,60 @@ describe('humanize', () => {
     ['showDate', 'Show date'],
     ['two-column', 'Two column'],
   ])('%s -> %s', (key, expected) => expect(humanize(key)).toBe(expected));
+});
+
+describe('new component props', () => {
+  it('shows the Card Grid variant as a three-option choice and unwraps its default', () => {
+    const variant = describeSchema(cardGridSchema).find(
+      (field) => field.key === 'variant',
+    );
+    expect(variant).toMatchObject({
+      kind: 'enum',
+      label: 'Display as',
+      optional: false,
+      options: [
+        { value: 'grid', label: 'Grid' },
+        { value: 'carousel', label: 'Carousel' },
+        { value: 'masonry', label: 'Masonry' },
+      ],
+    });
+  });
+
+  it('describes the Image Slider: a list of slides with optional text and button, and a switch', () => {
+    const [slides, autoplay] = describeSchema(imageSliderSchema);
+    expect(autoplay).toMatchObject({ key: 'autoplay', kind: 'boolean' });
+    if (slides.kind !== 'array' || slides.item.kind !== 'object')
+      throw new Error('unexpected shape');
+    expect(
+      slides.item.fields.map((field) => [
+        field.key,
+        field.kind,
+        field.optional,
+      ]),
+    ).toEqual([
+      ['image', 'object', false],
+      ['heading', 'text', false],
+      ['text', 'textarea', true],
+      ['button', 'object', true],
+    ]);
+    expect(slides.item.fields[3].label).toBe('Button');
+  });
+
+  it('gives Section an optional heading and four layouts', () => {
+    const fields = describeSchema(sectionSchema);
+    expect(fields.map((field) => [field.key, field.optional])).toEqual([
+      ['heading', true],
+      ['intro', true],
+      ['layout', false],
+      ['background', false],
+    ]);
+    const layout = fields[2];
+    if (layout.kind !== 'enum') throw new Error('unexpected shape');
+    expect(layout.options.map((option) => option.value)).toEqual([
+      'full',
+      'two-column',
+      'two-column-wide',
+      'three-column',
+    ]);
+  });
 });

@@ -3,37 +3,68 @@ import { Heading } from '@/components/primitives/Heading';
 import { Image } from '@/components/primitives/Image';
 import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
+import { Carousel } from './Carousel';
 
-export function CardGrid({
-  title,
-  cards,
-  siteSlug,
-}: PropsOf<'cardGrid'> & { siteSlug: string }) {
+type Props = PropsOf<'cardGrid'> & { siteSlug: string };
+type CardData = Props['cards'][number];
+
+/** One set of cards, three presentations chosen by the `variant` prop. */
+export function CardGrid({ title, variant = 'grid', cards, siteSlug }: Props) {
+  const items = cards.map((card, index) => (
+    <Card key={index} card={card} siteSlug={siteSlug} variant={variant} />
+  ));
+
   return (
-    <div className="flex flex-col gap-site-sm">
+    <div className="@container flex min-w-0 flex-col gap-site-sm">
       {title && <Heading level={2}>{title}</Heading>}
-      {/* auto-fit: one card fills the row, several share it. */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-site-sm">
-        {cards.map((card, index) => {
-          const href = card.link && resolveHref(card.link.href, siteSlug);
-          return (
-            <article
-              key={index}
-              className="flex flex-col overflow-hidden rounded-site border border-muted-text/20 bg-background text-text shadow-sm"
-            >
-              <div className="aspect-[16/9] max-h-80 bg-surface-light">
-                <Image src={card.image.url} alt={card.image.alt} />
-              </div>
-              <div className="flex flex-1 flex-col items-start gap-3 p-site-sm">
-                <Heading level={3}>{card.heading}</Heading>
-                {card.link && href && (
-                  <Button href={href}>{card.link.label}</Button>
-                )}
-              </div>
-            </article>
-          );
-        })}
-      </div>
+      {variant === 'carousel' ? (
+        <Carousel label={title || 'Cards'}>{items}</Carousel>
+      ) : variant === 'masonry' ? (
+        // CSS columns: cards keep their photo's height and flow top to bottom.
+        <div className="columns-1 gap-site-sm @md:columns-2 @3xl:columns-3">
+          {items}
+        </div>
+      ) : (
+        // auto-fit: one card fills the row, several share it.
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-site-sm">
+          {items}
+        </div>
+      )}
     </div>
+  );
+}
+
+const cardShape: Record<Props['variant'], string> = {
+  grid: '',
+  carousel: 'w-4/5 shrink-0 snap-start @md:w-5/12 @3xl:w-1/3',
+  masonry: 'mb-site-sm break-inside-avoid',
+};
+
+function Card({
+  card,
+  siteSlug,
+  variant,
+}: {
+  card: CardData;
+  siteSlug: string;
+  variant: Props['variant'];
+}) {
+  const href = card.link && resolveHref(card.link.href, siteSlug);
+  return (
+    <article
+      className={`flex flex-col overflow-hidden rounded-site border border-muted-text/20 bg-background text-text shadow-sm ${cardShape[variant]}`}
+    >
+      {variant === 'masonry' ? (
+        <Image src={card.image.url} alt={card.image.alt} fit="natural" />
+      ) : (
+        <div className="aspect-[16/10] bg-surface-light">
+          <Image src={card.image.url} alt={card.image.alt} />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col items-start gap-3 p-site-sm">
+        <Heading level={3}>{card.heading}</Heading>
+        {card.link && href && <Button href={href}>{card.link.label}</Button>}
+      </div>
+    </article>
   );
 }

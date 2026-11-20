@@ -145,7 +145,7 @@ function CanvasNode({ node }: { node: ComponentNode }) {
     // the canvas should show work in progress, the save step validates.
     content = createElement(
       getSiteComponent(definition.type),
-      { ...node.props, siteSlug: editor.siteSlug },
+      { ...definition.defaultProps, ...node.props, siteSlug: editor.siteSlug },
       definition.acceptsChildren ? (
         <NodeList nodes={node.children ?? []} parentId={node.id} />
       ) : null,

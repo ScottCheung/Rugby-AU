@@ -47,6 +47,7 @@ describe('validateTree', () => {
               type: 'cardGrid',
               props: {
                 title: 'Team',
+                variant: 'grid',
                 cards: [{ ...card, heading: 'Our squad' }],
               },
             },
@@ -89,6 +90,13 @@ describe('validateTree', () => {
       ['g1', 'cards.0.heading'],
       ['g1', 'cards.0.link.href'],
     ]);
+  });
+
+  it('fills in the Card Grid variant for pages saved before it existed', () => {
+    const result = validateTree([
+      { id: 'g1', type: 'cardGrid', props: { title: 'Old', cards: [] } },
+    ]);
+    expect(result.ok && result.tree[0].props.variant).toBe('grid');
   });
 
   it('allows the optional link to be left out', () => {

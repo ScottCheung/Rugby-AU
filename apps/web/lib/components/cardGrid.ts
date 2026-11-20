@@ -1,39 +1,6 @@
 import { z } from 'zod';
 import { defineComponent } from './define';
-
-const imageSchema = z
-  .object({
-    url: z
-      .url({
-        protocol: /^https?$/,
-        error: 'Enter a full image address starting with https://',
-      })
-      .meta({ label: 'Image address', placeholder: 'https://…' }),
-    alt: z
-      .string()
-      .trim()
-      .min(1, 'Describe the image for people using screen readers')
-      .meta({
-        label: 'Image description',
-        hint: 'Read aloud by screen readers. Describe what the photo shows.',
-      }),
-  })
-  .meta({ label: 'Image' });
-
-const linkSchema = z
-  .object({
-    label: z
-      .string()
-      .trim()
-      .min(1, 'Add the link text')
-      .meta({ label: 'Link text', placeholder: 'Read more' }),
-    href: z.string().trim().min(1, 'Add where the link goes').meta({
-      label: 'Link address',
-      hint: 'A page on this site such as /about, or a full https:// address.',
-      placeholder: '/about',
-    }),
-  })
-  .meta({ label: 'Link' });
+import { imageSchema, linkSchema } from './fields';
 
 const cardSchema = z.object({
   image: imageSchema,
@@ -46,6 +13,16 @@ export const cardGridSchema = z.object({
     .string()
     .trim()
     .meta({ label: 'Title', placeholder: 'Meet the squad' }),
+  // Same cards, different presentation. Pages saved before this prop existed
+  // get "grid" when they are parsed.
+  variant: z
+    .enum(['grid', 'carousel', 'masonry'])
+    .default('grid')
+    .meta({
+      label: 'Display as',
+      hint: 'Grid lines cards up; Carousel scrolls sideways; Masonry stacks them like a photo wall.',
+      optionLabels: { grid: 'Grid', carousel: 'Carousel', masonry: 'Masonry' },
+    }),
   cards: z.array(cardSchema).meta({ label: 'Cards', itemLabel: 'Card' }),
 });
 
@@ -53,8 +30,8 @@ export const cardGrid = defineComponent({
   type: 'cardGrid',
   label: 'Card Grid',
   description:
-    'A title and a grid of cards, each with an image, a heading and an optional link.',
+    'Cards with an image, a heading and an optional link, shown as a grid, a carousel or masonry.',
   schema: cardGridSchema,
-  defaultProps: { title: 'Meet the squad', cards: [] },
+  defaultProps: { title: 'Meet the squad', variant: 'grid', cards: [] },
   acceptsChildren: false,
 });

@@ -13,10 +13,10 @@ export function summarizeProps(
   for (const field of fields) {
     const value = props[field.key];
     if (field.kind === 'enum') {
-      parts.push(
-        field.options.find((option) => option.value === value)?.label ??
-          String(value),
+      const option = field.options.find(
+        (candidate) => candidate.value === value,
       );
+      if (option) parts.push(option.label);
     } else if (
       (field.kind === 'text' || field.kind === 'textarea') &&
       typeof value === 'string' &&

@@ -1,9 +1,10 @@
 import type { z } from 'zod';
 import { cardGrid } from './cardGrid';
+import { imageSlider } from './imageSlider';
 import { section } from './section';
 
 /** Every component editors can place and the renderer can draw. */
-export const componentDefinitions = [section, cardGrid] as const;
+export const componentDefinitions = [section, cardGrid, imageSlider] as const;
 
 export type AnyComponentDefinition = (typeof componentDefinitions)[number];
 export type ComponentType = AnyComponentDefinition['type'];

@@ -1,4 +1,10 @@
-import { Box, LayoutGrid, PanelsTopLeft, type LucideIcon } from 'lucide-react';
+import {
+  Box,
+  GalleryHorizontalEnd,
+  LayoutGrid,
+  PanelsTopLeft,
+  type LucideIcon,
+} from 'lucide-react';
 import { createElement } from 'react';
 import type { ComponentType } from '@/lib/components/registry';
 
@@ -6,6 +12,7 @@ import type { ComponentType } from '@/lib/components/registry';
 const icons: Partial<Record<ComponentType, LucideIcon>> = {
   section: PanelsTopLeft,
   cardGrid: LayoutGrid,
+  imageSlider: GalleryHorizontalEnd,
 };
 
 export function ComponentIcon({
