@@ -30,7 +30,9 @@ export interface NotchCardProps extends Omit<React.HTMLAttributes<HTMLDivElement
 /**
  * A card with a tab: the title sits on a tab joined to the card by a curved
  * notch. Colours come from --sc-notch-bg and --sc-notch-fg (default: the UI
- * surface and text), so callers can paint it in any brand.
+ * surface and text), so callers can paint it in any brand. The body can
+ * take a gradient through --sc-notch-body-bg, as long as its top edge is
+ * --sc-notch-bg, where the solid tab joins it.
  */
 export function NotchCard({ title, action, size = 'md', className, children, ...props }: NotchCardProps) {
   return (

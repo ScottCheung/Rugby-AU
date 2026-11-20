@@ -353,3 +353,37 @@ html {
 .pill-tone {
   color: color-mix(in oklch, var(--tone), var(--color-text) 35%);
 }
+
+/*
+ * Manager site cards. The logo has the same white outline as the site
+ * header's, and floats on card hover: it rises and falls a little, its
+ * shadow spreading as it rises, so it reads as lifted off the card.
+ */
+.logo-outline {
+  filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white)
+    drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
+}
+.logo-float {
+  filter: drop-shadow(0 6px 5px rgb(0 0 0 / 0.22));
+  transition: translate 0.3s ease;
+}
+@keyframes logo-float {
+  0%,
+  100% {
+    translate: 0 -2px;
+    filter: drop-shadow(0 8px 6px rgb(0 0 0 / 0.24));
+  }
+  50% {
+    translate: 0 -9px;
+    filter: drop-shadow(0 16px 12px rgb(0 0 0 / 0.18));
+  }
+}
+.group:hover .logo-float {
+  animation: logo-float 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .logo-float {
+    animation: none;
+    translate: 0 -4px;
+  }
+}

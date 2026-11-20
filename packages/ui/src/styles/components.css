@@ -136,5 +136,7 @@
 /* Overlaps the tab by a pixel so no seam shows between them. */
 .sc-ui-notch-curve { display: block; flex-shrink: 0; margin-left: -1px; fill: var(--sc-notch-bg); }
 .sc-ui-notch-action { display: flex; align-items: center; gap: 0.5rem; padding-right: 1rem; padding-bottom: 0.25rem; }
-.sc-ui-notch-body { flex: 1; padding: var(--sc-notch-pad); background: var(--sc-notch-bg); border-radius: var(--sc-notch-radius); overflow: visible; }
+/* --sc-notch-body-bg can paint the body with a gradient. Keep its top edge
+   --sc-notch-bg: the tab and the notch are solid, and meet the body there. */
+.sc-ui-notch-body { flex: 1; padding: var(--sc-notch-pad); background: var(--sc-notch-body-bg, var(--sc-notch-bg)); border-radius: var(--sc-notch-radius); overflow: visible; }
 .sc-ui-notch-card[data-tab] .sc-ui-notch-body { border-top-left-radius: 0; margin-top: -1px; }
