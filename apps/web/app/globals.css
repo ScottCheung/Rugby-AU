@@ -200,8 +200,7 @@
 }
 .profile-card__person {
   z-index: 1;
-  transform-origin: 50% 70%;
-  transition: scale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: translate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .profile-card__front {
   z-index: 2;
@@ -217,8 +216,14 @@
   gap: 0.125rem;
   padding: var(--spacing-site-sm);
 }
+.profile-card__line {
+  min-height: 1lh;
+}
+/* Hover: the person rises a little. Not a zoom, which would push them past
+ * the card's sides; the gap left at the bottom is the same photo, under the
+ * colour. */
 .profile-card:hover .profile-card__person {
-  scale: 1.04;
+  translate: 0 -3%;
 }
 .profiles-grid {
   display: grid;

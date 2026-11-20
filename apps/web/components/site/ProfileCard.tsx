@@ -40,15 +40,21 @@ export function ProfileCard({
   const photo = cutout && background;
   const details = (
     <div className="profile-card__text">
-      {profile.role && (
-        <p className="m-0 text-xs font-semibold tracking-wide uppercase opacity-80">
-          {profile.role}
-        </p>
-      )}
+      {/* Role and text lines keep their space when empty, so names line
+          up across a row of cards. */}
+      <p
+        className="profile-card__line m-0 text-xs font-semibold tracking-wide uppercase opacity-80"
+        aria-hidden={!profile.role || undefined}
+      >
+        {profile.role}
+      </p>
       <Heading level={3}>{profile.name}</Heading>
-      {profile.text && (
-        <p className="m-0 text-sm leading-relaxed opacity-85">{profile.text}</p>
-      )}
+      <p
+        className="profile-card__line m-0 text-sm leading-relaxed opacity-85"
+        aria-hidden={!profile.text || undefined}
+      >
+        {profile.text}
+      </p>
       {profile.link && href && (
         <div className="pt-1">
           <Button href={href} stretched>

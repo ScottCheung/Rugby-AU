@@ -995,12 +995,11 @@ const broadGroups = new Set(['Forwards', 'Backs', 'Squad', 'Men', 'Women']);
 /** A squad player's card: their official photo, if one was found. */
 function squadProfile(siteSlug: string, group: string, player: SquadPlayer) {
   const photo = playerPhoto(siteSlug, player.name);
-  // A position from the group, else from the official squad page (whose
-  // Sevens "positions" are shirt numbers, so those are left out).
-  const official =
-    photo?.position && !photo.position.startsWith('#')
-      ? photo.position
-      : undefined;
+  // A position from the group, else from the official squad page. Sevens
+  // pages give each player's shirt number instead ("#9").
+  const official = photo?.position?.startsWith('#')
+    ? `No. ${photo.position.slice(1)}`
+    : (photo?.position ?? undefined);
   const role = broadGroups.has(group)
     ? (official ?? positionOf[group])
     : positionOf[group];
