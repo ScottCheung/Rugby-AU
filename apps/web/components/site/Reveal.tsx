@@ -27,12 +27,17 @@ export function SiteMotion({ children }: { children: ReactNode }) {
 
 const elements = { div: motion.div, article: motion.article } as const;
 
-/** Shared feel for every entrance: rise, fade and come into focus. */
+/**
+ * Shared feel for every entrance: a short rise, a fade and a light blur
+ * that clears. Kept small on purpose: the content should settle in, not
+ * fly in.
+ */
 export const entrance = {
-  hidden: { opacity: 0, y: 24, filter: 'blur(8px)' },
+  hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
   shown: { opacity: 1, y: 0, filter: 'blur(0px)' },
 } as const;
-const ease = [0.22, 1, 0.36, 1] as const;
+/** Ease-out cubic: a gentle start and a long, soft landing. */
+export const ease = [0.33, 1, 0.68, 1] as const;
 
 /**
  * Plays the entrance the first time the element scrolls into view.
@@ -58,8 +63,9 @@ export function Reveal({
       className,
       initial: entrance.hidden,
       whileInView: entrance.shown,
-      viewport: { once: true, amount: 0.15 },
-      transition: { duration: 0.7, ease, delay },
+      // Starts once a quarter of it is on screen, not at the very edge.
+      viewport: { once: true, amount: 0.25 },
+      transition: { duration: 1, ease, delay },
     },
     children,
   );

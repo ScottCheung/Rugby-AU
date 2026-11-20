@@ -1,10 +1,10 @@
-import { createElement } from 'react';
+import { createElement, Fragment } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
 import type { SiteData } from '@/lib/news';
 import type { ComponentNode } from '@/lib/types';
-import { stagger } from '@/lib/motion';
+import { animatesAsWhole, stagger } from '@/lib/motion';
 import { Reveal } from './Reveal';
 import { getSiteComponent } from './siteComponents';
 
@@ -41,28 +41,24 @@ export function RenderTree({
         animate={animate && !first}
       />
     );
-    if (!animate || first)
-      return nested || rootBlockWidth(node) !== 'contained' ? (
-        <div key={node.id} className={nested ? 'min-w-0' : undefined}>
-          {block}
-        </div>
-      ) : (
-        <Container key={node.id}>{block}</Container>
-      );
-    // Blocks side by side in a Section arrive one after another.
-    if (nested)
-      return (
-        <Reveal key={node.id} className="min-w-0" delay={stagger(index, 0.08)}>
+    // Content animates; containers let their contents do it (lib/motion.ts).
+    const content =
+      animate && !first && animatesAsWhole(node.type) ? (
+        <Reveal
+          className={nested ? 'min-w-0' : undefined}
+          // Blocks side by side in a Section arrive one after another.
+          delay={nested ? stagger(index) : 0}
+        >
           {block}
         </Reveal>
+      ) : nested ? (
+        <div className="min-w-0">{block}</div>
+      ) : (
+        block
       );
-    if (rootBlockWidth(node) !== 'contained')
-      return <Reveal key={node.id}>{block}</Reveal>;
-    return (
-      <Container key={node.id}>
-        <Reveal>{block}</Reveal>
-      </Container>
-    );
+    if (nested || rootBlockWidth(node) !== 'contained')
+      return <Fragment key={node.id}>{content}</Fragment>;
+    return <Container key={node.id}>{content}</Container>;
   });
 }
 

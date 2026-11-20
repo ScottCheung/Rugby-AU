@@ -49,11 +49,13 @@ stretched over it) and lifts on hover; a masonry photo without a link opens full
 in a lightbox (arrow keys, Esc). In the editor both are switched off, so a click only
 selects the block.
 
-**Motion.** Public pages use Motion (`motion` 14) for entrances: blocks and cards
-rise, fade and come into focus (y, opacity, blur) the first time they scroll into
-view, and siblings arrive one after another. Slider captions come in line by line on
-each slide change. `Reveal` (`components/site/Reveal.tsx`) is a small client wrapper,
-so the site components stay server-rendered. Choices:
+**Motion.** Public pages use Motion (`motion` 14) for entrances: content settles in
+the first time it scrolls into view, with a short rise, a fade and a light blur that
+clears (12px, 4px blur, 1s, ease-out). Cards and blocks side by side arrive 0.1s
+apart. Only content animates: a Section, Card Grid or Latest news lets its items do
+it, so nothing animates twice (`lib/motion.ts`). Slider captions come in line by line
+on each slide change. `Reveal` (`components/site/Reveal.tsx`) is a small client
+wrapper, so the site components stay server-rendered. Choices:
 
 - The first block on a page is not animated, so the top of the page is there before
   JavaScript runs; a `<noscript>` rule shows everything if it never does.
