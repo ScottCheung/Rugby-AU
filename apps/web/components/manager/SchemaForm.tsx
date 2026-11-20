@@ -11,6 +11,7 @@ import {
 } from '@scottcheung/ui/client';
 import { defaultValue, type FieldDescriptor } from '@/lib/forms/describe';
 import { ImagePreviewPicker } from './ImageField';
+import { hasSketch, Sketch } from './Sketch';
 
 /** Validation messages for one component, keyed by prop path ("cards.0.heading"). */
 export type FieldErrors = Record<string, string>;
@@ -154,6 +155,16 @@ function Field({
       );
 
     case 'enum':
+      // Options with pictures (optionSketches in the schema) are picked visually.
+      if (field.options.every((option) => hasSketch(option.sketch)))
+        return (
+          <SketchPicker
+            field={field}
+            value={String(value ?? '')}
+            onChange={onChange}
+            error={error}
+          />
+        );
       // A few options read better as a segmented control than a dropdown.
       if (field.options.length <= 3)
         return (
@@ -355,6 +366,91 @@ function ListField({
       >
         + Add {itemName}
       </Button>
+    </div>
+  );
+}
+
+/**
+ * An enum shown as small skeleton pictures, one per option. A radio group:
+ * arrow keys move the choice, like native radio buttons.
+ */
+function SketchPicker({
+  field,
+  value,
+  onChange,
+  error,
+}: {
+  field: Extract<FieldDescriptor, { kind: 'enum' }>;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+}) {
+  const options = field.options;
+  const move = (from: number, step: number) => {
+    const next = options[(from + step + options.length) % options.length];
+    onChange(next.value);
+    // Keep focus on the newly chosen option.
+    document
+      .querySelector<HTMLButtonElement>(
+        `[data-sketch-field="${field.key}"][data-value="${next.value}"]`,
+      )
+      ?.focus();
+  };
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="sc-ui-field-label" id={`sketch-${field.key}`}>
+        {field.label}
+      </span>
+      <div
+        role="radiogroup"
+        aria-labelledby={`sketch-${field.key}`}
+        className="grid gap-2"
+        style={{
+          gridTemplateColumns: `repeat(${options.length > 4 ? 3 : options.length}, minmax(0, 1fr))`,
+        }}
+      >
+        {options.map((option, index) => {
+          const selected = option.value === value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              data-sketch-field={field.key}
+              data-value={option.value}
+              // Only the chosen option is in the tab order (radio-group pattern).
+              tabIndex={selected || (!value && index === 0) ? 0 : -1}
+              onClick={() => onChange(option.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                  event.preventDefault();
+                  move(index, 1);
+                } else if (
+                  event.key === 'ArrowLeft' ||
+                  event.key === 'ArrowUp'
+                ) {
+                  event.preventDefault();
+                  move(index, -1);
+                }
+              }}
+              className={`flex flex-col items-stretch gap-1 rounded-xl border p-1.5 text-xs font-semibold transition ${
+                selected
+                  ? 'border-[var(--ui-primary)] bg-[color-mix(in_oklch,var(--ui-primary),transparent_90%)] text-[var(--ui-primary)]'
+                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
+              }`}
+            >
+              <span className="block rounded-md bg-slate-50 px-1 py-0.5">
+                <Sketch name={option.sketch!} />
+              </span>
+              <span className="text-center leading-tight">{option.label}</span>
+            </button>
+          );
+        })}
+      </div>
+      {field.hint && <span className="sc-ui-field-hint">{field.hint}</span>}
+      {error && <span className="sc-ui-error">{error}</span>}
     </div>
   );
 }

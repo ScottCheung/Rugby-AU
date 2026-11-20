@@ -32,6 +32,13 @@ export const sectionSchema = z.object({
         'two-column-wide-right': 'Two columns, wide right',
         'three-column': 'Three columns',
       },
+      optionSketches: {
+        full: 'one-column',
+        'two-column': 'two-column',
+        'two-column-wide': 'two-column-wide',
+        'two-column-wide-right': 'two-column-wide-right',
+        'three-column': 'three-column',
+      },
     }),
   background: z.enum(['none', 'light', 'brand']).meta({
     label: 'Background',
@@ -44,11 +51,16 @@ export const sectionSchema = z.object({
     .default('contained')
     .meta({
       label: 'Width',
-      hint: 'For a Section placed directly on the page. Full-width background stretches the colour to the screen edges; Edge to edge stretches the content too. Inside another Section it follows its parent.',
+      hint: 'Applies to a Section placed directly on the page. Inside another Section it follows its parent.',
       optionLabels: {
         contained: 'Page column',
         'full-background': 'Full-width background',
         'full-width': 'Edge to edge',
+      },
+      optionSketches: {
+        contained: 'contained',
+        'full-background': 'full-background',
+        'full-width': 'full-width',
       },
     }),
 });

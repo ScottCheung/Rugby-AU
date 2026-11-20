@@ -78,11 +78,23 @@ describe('describeSchema', () => {
         kind: 'enum',
         label: 'Layout',
         options: [
-          { value: 'full', label: 'One column' },
-          { value: 'two-column', label: 'Two columns' },
-          { value: 'two-column-wide', label: 'Two columns, wide left' },
-          { value: 'two-column-wide-right', label: 'Two columns, wide right' },
-          { value: 'three-column', label: 'Three columns' },
+          { value: 'full', label: 'One column', sketch: 'one-column' },
+          { value: 'two-column', label: 'Two columns', sketch: 'two-column' },
+          {
+            value: 'two-column-wide',
+            label: 'Two columns, wide left',
+            sketch: 'two-column-wide',
+          },
+          {
+            value: 'two-column-wide-right',
+            label: 'Two columns, wide right',
+            sketch: 'two-column-wide-right',
+          },
+          {
+            value: 'three-column',
+            label: 'Three columns',
+            sketch: 'three-column',
+          },
         ],
       }),
       expect.objectContaining({
@@ -95,9 +107,13 @@ describe('describeSchema', () => {
         kind: 'enum',
         label: 'Width',
         options: [
-          { value: 'contained', label: 'Page column' },
-          { value: 'full-background', label: 'Full-width background' },
-          { value: 'full-width', label: 'Edge to edge' },
+          { value: 'contained', label: 'Page column', sketch: 'contained' },
+          {
+            value: 'full-background',
+            label: 'Full-width background',
+            sketch: 'full-background',
+          },
+          { value: 'full-width', label: 'Edge to edge', sketch: 'full-width' },
         ],
       }),
     ]);
@@ -177,12 +193,12 @@ describe('new component props', () => {
       label: 'Display as',
       optional: false,
       options: [
-        { value: 'grid', label: 'Grid' },
-        { value: 'list', label: 'List (photo beside text)' },
-        { value: 'featured', label: 'Featured (first card large)' },
-        { value: 'overlay', label: 'Overlay (text on photo)' },
-        { value: 'carousel', label: 'Carousel' },
-        { value: 'masonry', label: 'Masonry' },
+        { value: 'grid', label: 'Grid', sketch: 'grid' },
+        { value: 'list', label: 'List', sketch: 'list' },
+        { value: 'featured', label: 'Featured', sketch: 'featured' },
+        { value: 'overlay', label: 'Overlay', sketch: 'overlay' },
+        { value: 'carousel', label: 'Carousel', sketch: 'carousel' },
+        { value: 'masonry', label: 'Masonry', sketch: 'masonry' },
       ],
     });
   });
@@ -225,5 +241,15 @@ describe('new component props', () => {
       'two-column-wide-right',
       'three-column',
     ]);
+  });
+
+  it('leaves options without sketches as a plain choice', () => {
+    const background = describeSchema(sectionSchema).find(
+      (field) => field.key === 'background',
+    );
+    if (background?.kind !== 'enum') throw new Error('unexpected shape');
+    expect(background.options.every((option) => !('sketch' in option))).toBe(
+      true,
+    );
   });
 });

@@ -26,14 +26,23 @@ export const cardGridSchema = z.object({
     .default('grid')
     .meta({
       label: 'Display as',
-      hint: 'The same cards, arranged differently. Featured makes the first card large; Overlay puts the text on the photo; Masonry is a photo wall whose photos open full size.',
+      hint: 'The same cards, arranged differently. Masonry photos open full size.',
       optionLabels: {
         grid: 'Grid',
-        list: 'List (photo beside text)',
-        featured: 'Featured (first card large)',
-        overlay: 'Overlay (text on photo)',
+        list: 'List',
+        featured: 'Featured',
+        overlay: 'Overlay',
         carousel: 'Carousel',
         masonry: 'Masonry',
+      },
+      // Each value is drawn as the sketch of the same name.
+      optionSketches: {
+        grid: 'grid',
+        list: 'list',
+        featured: 'featured',
+        overlay: 'overlay',
+        carousel: 'carousel',
+        masonry: 'masonry',
       },
     }),
   cards: z.array(cardSchema).meta({ label: 'Cards', itemLabel: 'Card' }),

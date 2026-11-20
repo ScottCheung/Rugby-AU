@@ -13,6 +13,12 @@ declare module 'zod' {
     multiline?: boolean;
     /** Human labels for enum values, keyed by value. */
     optionLabels?: Record<string, string>;
+    /**
+     * A sketch name per enum value (see components/manager/Sketch.tsx). When
+     * given, the form shows the options as small skeleton pictures instead
+     * of a dropdown. Plain names, so schemas stay free of UI code.
+     */
+    optionSketches?: Record<string, string>;
     /** Singular name for one item of a list, e.g. "Card". */
     itemLabel?: string;
     /**

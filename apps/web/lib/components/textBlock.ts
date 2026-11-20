@@ -22,6 +22,11 @@ export const textBlockSchema = z.object({
       label: 'Style',
       hint: 'Quote shows the text large, with the heading as who said it.',
       optionLabels: { plain: 'Plain', centered: 'Centred', quote: 'Quote' },
+      optionSketches: {
+        plain: 'text-plain',
+        centered: 'text-centered',
+        quote: 'text-quote',
+      },
     }),
 });
 

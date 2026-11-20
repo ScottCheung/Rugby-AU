@@ -323,6 +323,13 @@ shape, and fails if a schema change breaks it. That is how Card Grid's `variant`
 (`.default('grid')`) and card `text` (`.optional()`) were added. A breaking change
 would need a migration script that rewrites the stored pages.
 
+**Visual choices.** An enum can name a sketch for each option
+(`optionSketches: { grid: 'grid', list: 'list' }` in `.meta()`); the form then shows
+small skeleton pictures to pick from instead of a dropdown. The schema only holds the
+names; the drawings live in the manager (`components/manager/Sketch.tsx`), and a test
+checks every name has one. Card Grid's "Display as", Section's layout and width, and
+Text's style use it.
+
 The form generator (`lib/forms/describe.ts`) supports strings (text, textarea, URL),
 numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional
 values (Add / Remove toggle; omitted from props when absent). Labels and hints come

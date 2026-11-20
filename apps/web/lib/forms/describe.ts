@@ -19,7 +19,11 @@ export type FieldDescriptor =
   | (BaseField & { kind: 'text' | 'textarea' | 'url'; placeholder?: string })
   | (BaseField & { kind: 'number' })
   | (BaseField & { kind: 'boolean' })
-  | (BaseField & { kind: 'enum'; options: { value: string; label: string }[] })
+  | (BaseField & {
+      kind: 'enum';
+      /** `sketch` names a skeleton picture shown instead of a dropdown. */
+      options: { value: string; label: string; sketch?: string }[];
+    })
   | (BaseField & {
       kind: 'object';
       fields: FieldDescriptor[];
@@ -87,6 +91,9 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
       options: values.map((value) => ({
         value,
         label: meta.optionLabels?.[value] ?? humanize(value),
+        ...(meta.optionSketches?.[value]
+          ? { sketch: meta.optionSketches[value] }
+          : {}),
       })),
     };
   }
