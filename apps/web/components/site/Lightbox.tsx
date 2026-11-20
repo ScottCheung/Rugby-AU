@@ -13,11 +13,12 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { ease, timing } from '@scottcheung/ui/motion';
+import { cssEase, ease, timing } from '@scottcheung/ui/motion';
 
 type Photo = { url: string; alt: string; caption: string };
 
 type LightboxContextValue = { group: string; open: (index: number) => void };
+type Box = { left: number; top: number; width: number; height: number };
 const LightboxContext = createContext<LightboxContextValue | null>(null);
 
 /** True in the browser, false while rendering on the server. */
@@ -50,6 +51,10 @@ export function Lightbox({
   // The photo that was clicked. It is the only one linked to its gallery
   // spot; after switching, closing fades out instead of flying back.
   const [linked, setLinked] = useState<number | null>(null);
+  // While closing a linked photo: where its gallery spot is. The photo
+  // flies there itself (a layout animation on the top layer, so nothing in
+  // the page clips it), and is removed only once it has landed.
+  const [landing, setLanding] = useState<Box | null>(null);
   const count = photos.length;
   // The viewer is portalled to <body>, which only exists in the browser.
   const inBrowser = useInBrowser();
@@ -58,7 +63,34 @@ export function Lightbox({
     setIndex(next);
     setLinked(next);
   };
-  const close = () => setIndex(null);
+  const close = () => {
+    if (index === null || landing) return;
+    // Only the photo that was clicked flies back; after switching, fade.
+    const spot =
+      index === linked
+        ? document.querySelector<HTMLElement>(
+            `[data-lightbox-group="${group}"][data-lightbox-index="${index}"]`,
+          )
+        : null;
+    if (!spot?.parentElement) {
+      setIndex(null);
+      return;
+    }
+    // Measure the card, not the gallery photo: Motion may be transforming
+    // the photo itself to match the viewer at this moment.
+    const card = spot.parentElement.getBoundingClientRect();
+    setLanding({
+      left: card.left,
+      top: card.top,
+      width: spot.offsetWidth,
+      height: spot.offsetHeight,
+    });
+  };
+  const landed = () => {
+    if (!landing) return;
+    setLanding(null);
+    setIndex(null);
+  };
   const go = (next: number) => {
     setIndex((next + count) % count);
     setLinked(null);
@@ -85,15 +117,69 @@ export function Lightbox({
       {children}
       {inBrowser &&
         createPortal(
+          // The photo is its own child here, on a layer above the viewer.
+          // Keyed by index, so switching crossfades two photos.
           <AnimatePresence>
             {index !== null && (
               <Viewer
                 key="viewer"
                 photos={photos}
                 index={index}
-                layoutId={index === linked ? photoId(group, index) : undefined}
+                closing={landing !== null}
                 onClose={close}
                 onGo={go}
+              />
+            )}
+            {index !== null && (
+              <motion.img
+                key={`photo-${index}`}
+                src={photos[index].url}
+                alt={photos[index].alt}
+                // Opening: grows out of its gallery spot (shared layoutId).
+                layoutId={index === linked ? photoId(group, index) : undefined}
+                // One photo moving, never two crossfading copies.
+                layoutCrossfade={false}
+                // Closing: `layout` animates the move to `landing` below.
+                layout
+                onLayoutAnimationComplete={landed}
+                // Linked: fully visible from the moment it leaves the
+                // gallery. After switching: a plain crossfade.
+                initial={{ opacity: index === linked ? 1 : 0 }}
+                animate={{ opacity: 1 }}
+                // A landed photo sits exactly on its spot: it can go at once.
+                exit={{
+                  opacity: 0,
+                  transition: { duration: landing ? 0 : timing.crossfade },
+                }}
+                transition={{
+                  duration: timing.crossfade,
+                  ease,
+                  layout: { duration: timing.photo, ease },
+                }}
+                style={
+                  landing
+                    ? // Closing: the photo's box becomes its gallery spot.
+                      {
+                        position: 'fixed',
+                        ...landing,
+                        margin: 0,
+                        objectFit: 'cover',
+                        borderRadius: 0,
+                        zIndex: 1001,
+                      }
+                    : // Open: centred in the space above the caption and
+                      // thumbnails (four insets and auto margins centre it).
+                      {
+                        position: 'fixed',
+                        inset: '1rem 1rem 10rem',
+                        margin: 'auto',
+                        maxWidth: 'calc(100vw - 2rem)',
+                        maxHeight: 'calc(100dvh - 11rem)',
+                        objectFit: 'contain',
+                        borderRadius: '0.5rem',
+                        zIndex: 1001,
+                      }
+                }
               />
             )}
           </AnimatePresence>,
@@ -106,13 +192,14 @@ export function Lightbox({
 function Viewer({
   photos,
   index,
-  layoutId,
+  closing,
   onClose,
   onGo,
 }: {
   photos: Photo[];
   index: number;
-  layoutId?: string;
+  /** The photo is flying back: fade out alongside it. */
+  closing: boolean;
   onClose: () => void;
   onGo: (index: number) => void;
 }) {
@@ -136,7 +223,9 @@ function Viewer({
       aria-modal="true"
       aria-label={photo.caption}
       initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
-      animate={{ backgroundColor: 'rgba(0,0,0,0.92)' }}
+      animate={{
+        backgroundColor: closing ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.92)',
+      }}
       exit={{ backgroundColor: 'rgba(0,0,0,0)' }}
       transition={{ duration: timing.backdrop, ease }}
       onClick={(event) => {
@@ -154,50 +243,17 @@ function Viewer({
         padding: '1rem',
       }}
     >
+      {/* The photo sits above this space (its own layer, see Lightbox). */}
       <div
-        style={{
-          flex: 1,
-          minHeight: 0,
-          width: '100%',
-          display: 'grid',
-          placeItems: 'center',
-        }}
+        style={{ flex: 1, width: '100%' }}
         onClick={(event) => {
           if (event.target === event.currentTarget) onClose();
         }}
-      >
-        {/* popLayout: the outgoing photo leaves the layout at once, so the
-            two never stack while they crossfade. */}
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.img
-            key={index}
-            src={photo.url}
-            alt={photo.alt}
-            layoutId={layoutId}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            // `layout` is the photo growing out of the gallery and back.
-            transition={{
-              duration: timing.crossfade,
-              ease,
-              layout: { duration: timing.photo, ease },
-            }}
-            style={{
-              maxWidth: '100%',
-              // Leave room for the caption and thumbnail strip below; a
-              // percentage would not resolve inside this flexible layout.
-              maxHeight: 'calc(100dvh - 11rem)',
-              objectFit: 'contain',
-              borderRadius: '0.5rem',
-            }}
-          />
-        </AnimatePresence>
-      </div>
+      />
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={closing ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 12 }}
         transition={{ duration: timing.backdrop, ease }}
         style={{
@@ -279,7 +335,14 @@ function Viewer({
       <ViewerButton
         label="Close"
         onClick={onClose}
-        style={{ position: 'absolute', top: 16, right: 16 }}
+        style={{
+          position: 'absolute',
+          top: 16,
+          right: 16,
+          // Fades with the other controls while the photo flies back.
+          opacity: closing ? 0 : 1,
+          transition: `opacity ${timing.backdrop}s ${cssEase}`,
+        }}
       >
         ✕
       </ViewerButton>
@@ -307,6 +370,8 @@ export function LightboxThumb({
     <motion.button
       type="button"
       layoutId={context ? photoId(context.group, index) : undefined}
+      layoutCrossfade={false}
+      data-lightbox-group={context?.group}
       transition={{ layout: { duration: timing.photo, ease } }}
       data-lightbox-index={index}
       aria-label={label}
