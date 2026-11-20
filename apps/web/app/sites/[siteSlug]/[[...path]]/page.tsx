@@ -115,7 +115,7 @@ export default async function SitePage({ params }: Props) {
         )}
       </main>
 
-      <footer className="bg-brand py-site-md text-sm text-brand-contrast">
+      <footer className="surface-strong bg-brand py-site-md text-sm text-brand-contrast">
         <Container className="flex flex-col gap-6">
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="flex max-w-sm flex-col gap-3">

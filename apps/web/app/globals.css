@@ -62,16 +62,49 @@ html {
   text-transform: var(--heading-transform, none);
   letter-spacing: var(--heading-tracking, -0.01em);
 }
-/* Headings use the site's accent on light pages. Where the background is
- * already coloured or a photo, they keep the colour around them. */
+/* Headings use the site's accent on light surfaces. A strong surface or a
+ * photo resets --color-heading, so its headings take the text colour around
+ * them; `currentColor` in `color` is the inherited text colour. */
 .site-heading {
   color: var(--color-heading, inherit);
 }
-.bg-brand .site-heading,
-.media-slider .site-heading,
-.profile-card .site-heading,
-.card-link .site-heading {
-  color: inherit;
+.surface-strong,
+.media-slider,
+.profile-card,
+.card-link {
+  --color-heading: currentColor;
+}
+
+/*
+ * A contained Section with a background is a panel. The panel pads its
+ * sides so text does not touch the colour's edge. On the page it also
+ * reaches out by that same amount, so its content stays on the page
+ * column: adding or removing a background never moves content. Only
+ * horizontal: the Section's Padding option owns the vertical space.
+ *
+ * It reaches out no further than the room beside the column: the page
+ * gutter (Container's px-site-sm) plus whatever is left either side of the
+ * 72rem column (Container's max-w-6xl). 100cqw is the page width (the
+ * `page` container). While the column fills the screen the panel meets the
+ * screen edges, so it is square there.
+ */
+.section-panel {
+  --panel-inset: var(--spacing-site-md);
+  padding-inline: var(--panel-inset);
+  border-radius: var(--radius-site);
+}
+.section-panel--bleed {
+  --panel-inset: min(
+    var(--spacing-site-md),
+    var(--spacing-site-sm) + max(0px, (100cqw - 72rem) / 2)
+  );
+  margin-inline: calc(-1 * var(--panel-inset));
+  border-radius: 0;
+}
+@container page (min-width: 74rem) {
+  .section-panel--bleed {
+    border-radius: var(--radius-site);
+  }
 }
 
 /* A link that makes its whole card clickable (see Button's `stretched`). */

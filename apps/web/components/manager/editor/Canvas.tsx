@@ -20,7 +20,10 @@ import {
   type MouseEvent,
   type ReactNode,
 } from 'react';
-import { Container } from '@/components/primitives/Container';
+import {
+  Container,
+  PageColumnBlock,
+} from '@/components/primitives/Container';
 import { NoMotion } from '@/components/site/Reveal';
 import { getSiteComponent } from '@/components/site/siteComponents';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
@@ -148,7 +151,7 @@ export function Canvas({
                   className={
                     heroFirst
                       ? 'absolute inset-x-0 top-0 z-50'
-                      : 'relative bg-brand text-brand-contrast'
+                      : 'surface-strong relative bg-brand text-brand-contrast'
                   }
                   style={
                     heroFirst
@@ -235,15 +238,8 @@ function NodeList({
         // Same rule as RenderTree: page-level blocks sit in the page column
         // unless a Section asks to be full width.
         if (!root || rootBlockWidth(node) !== 'contained') return block;
-        // Same spacing as RenderTree: sections set their own vertical space.
-        return (
-          <Container
-            key={node.id}
-            className={node.type === 'section' ? '' : 'py-site-md'}
-          >
-            {block}
-          </Container>
-        );
+        // Same flow spacing as RenderTree, for every block type.
+        return <PageColumnBlock key={node.id}>{block}</PageColumnBlock>;
       })}
       {endSlot}
     </>

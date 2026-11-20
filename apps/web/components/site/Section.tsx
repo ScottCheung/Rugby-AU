@@ -2,18 +2,33 @@ import type { ReactNode } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { Heading } from '@/components/primitives/Heading';
 import type { PropsOf } from '@/lib/components/registry';
+import { sectionPadding } from '@/lib/components/section';
 
 type Props = PropsOf<'section'> & { children?: ReactNode; nested?: boolean };
 
-const colours: Record<Props['background'], string> = {
+/*
+ * A Section's style is three independent layers. Each one is set by its own
+ * option and none of them reads another:
+ *
+ *   surface  (Background)  colour only: background and text colour
+ *   padding  (Padding)     vertical space inside the section
+ *   width    (Width)       which column the section and its content use
+ *
+ * So changing the background never moves the content, and changing the
+ * padding never changes the colour. Space *between* page blocks is not the
+ * Section's job at all: the page flow adds it (RenderTree).
+ */
+
+/** Surface: colour only. */
+const surfaces: Record<Props['background'], string> = {
   none: '',
   light: 'bg-surface-light',
-  brand: 'bg-brand text-brand-contrast',
+  brand: 'surface-strong bg-brand text-brand-contrast',
 };
 
-/** Vertical space for the Padding option. */
+/** Padding: vertical space inside the section only. */
 const paddings = {
-  none: 'py-0',
+  none: '',
   sm: 'py-site-sm',
   md: 'py-site-md',
   lg: 'py-site-lg',
@@ -55,23 +70,26 @@ export function Section({
   const body = (
     <div className={`gap-site-md ${layouts[layout]}`}>{children}</div>
   );
-  const coloured = background !== 'none';
+  const base = `@container flex flex-col gap-site-sm ${surfaces[background]} ${paddings[sectionPadding({ padding, width: mode })]}`;
 
+  // In the page column. A coloured surface becomes a panel (globals.css,
+  // .section-panel): it pads its sides and, on the page, reaches out by the
+  // same amount, so the content stays on the page column either way.
   if (mode === 'contained')
     return (
       <section
-        className={`@container flex flex-col gap-site-sm ${colours[background]} ${coloured ? `rounded-site px-site-md ${padding ? paddings[padding] : 'py-site-md'}` : `rounded-site px-[var(--section-inset-x,var(--spacing-site-md))] @2xl:-mx-[var(--section-inset-x,var(--spacing-site-md))] bg-[var(--color-tint)] ${padding ? paddings[padding] : 'py-site-md'}`}`}
+        className={`${base} ${background === 'none' ? '' : nested ? 'section-panel' : 'section-panel section-panel--bleed'}`}
       >
         {header}
         {body}
       </section>
     );
 
-  // Full-width: the colour runs to the screen edges. The heading always
+  // Full-width: the surface runs to the screen edges. The heading always
   // stays in the page column so it lines up with the rest of the page.
   return (
     <section
-      className={`@container flex flex-col gap-site-sm ${colours[background]} ${padding ? paddings[padding] : coloured ? 'py-site-lg' : ''} ${mode === 'full-width' ? 'section-bleed' : ''}`}
+      className={`${base} ${mode === 'full-width' ? 'section-bleed' : ''}`}
     >
       {header && <Container>{header}</Container>}
       {mode === 'full-background' ? <Container>{body}</Container> : body}

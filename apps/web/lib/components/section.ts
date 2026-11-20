@@ -47,14 +47,17 @@ export const sectionSchema = z.object({
     hint: 'Colours come from the site theme.',
     optionLabels: { none: 'None', light: 'Light', brand: 'Brand colour' },
   }),
-  // Space above and below the section. Left out: the look it had before this
-  // option existed (coloured sections take the large space, plain ones none).
-  padding: z.enum(['none', 'sm', 'md', 'lg']).optional().meta({
-    group: 'style',
-    label: 'Padding',
-    hint: 'Space above and below the section.',
-    optionLabels: { none: 'None', sm: 'Small', md: 'Medium', lg: 'Large' },
-  }),
+  // Space inside the section, above and below. Independent of the
+  // background; left out, it follows the width (see sectionPadding).
+  padding: z
+    .enum(['none', 'sm', 'md', 'lg'])
+    .optional()
+    .meta({
+      group: 'style',
+      label: 'Padding',
+      hint: 'Space inside the section, above and below. The same with or without a background. Not set: Medium, or None for Edge to edge.',
+      optionLabels: { none: 'None', sm: 'Small', md: 'Medium', lg: 'Large' },
+    }),
   // Added after the first version, so it has a default (see README, 4).
   width: z
     .enum(['contained', 'full-background', 'full-width'])
@@ -75,6 +78,23 @@ export const sectionSchema = z.object({
       },
     }),
 });
+
+type SectionPadding = NonNullable<z.infer<typeof sectionSchema>['padding']>;
+
+/**
+ * The padding a Section really gets. Never depends on the background, so
+ * switching colours keeps everything in place. Edge to edge (usually a hero
+ * slider) sits flush by default; every other width gets the standard space.
+ */
+export function sectionPadding({
+  padding,
+  width,
+}: {
+  padding?: SectionPadding;
+  width: z.infer<typeof sectionSchema>['width'];
+}): SectionPadding {
+  return padding ?? (width === 'full-width' ? 'none' : 'md');
+}
 
 export const section = defineComponent({
   type: 'section',

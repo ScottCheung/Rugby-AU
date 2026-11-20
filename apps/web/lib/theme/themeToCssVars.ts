@@ -22,13 +22,6 @@ export function themeToCssVars(theme: Theme): CSSProperties {
     '--color-heading': isDarkSite(theme.colors)
       ? theme.colors.text
       : deepColour(theme.colors),
-    // A soft tint behind plain sections on light pages (transparent on dark ones).
-    '--color-tint': isDarkSite(theme.colors)
-      ? 'transparent'
-      : theme.colors.surfaceLight,
-    // Sideways inset of a plain section's tinted box. The box extends this far
-    // beyond the page column, so its text lines up with the column (as on dark
-    // sites, where the box is transparent and this is 0).
     // Hero top: the soft deep fade on every site, so the header sits white
     // with a dark shadow over the photo. The bar takes the theme colours only
     // once it is solid (SiteHeader mixes them in as you scroll).
@@ -38,7 +31,6 @@ export function themeToCssVars(theme: Theme): CSSProperties {
     '--hero-fade': isDarkSite(theme.colors) ? 'var(--color-deep)' : 'var(--color-brand)',
     '--hero-text': isDarkSite(theme.colors) ? '#fff' : 'var(--color-brand-contrast)',
     '--header-text': '#fff',
-    '--section-inset-x': isDarkSite(theme.colors) ? '0px' : theme.spacing.md,
     '--radius-site': theme.radius,
     '--font-site': fontStack(theme.fonts.body),
     '--font-site-heading': fontStack(theme.fonts.heading),

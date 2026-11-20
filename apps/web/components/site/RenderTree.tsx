@@ -1,5 +1,5 @@
 import { createElement, Fragment } from 'react';
-import { Container } from '@/components/primitives/Container';
+import { PageColumnBlock } from '@/components/primitives/Container';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
 import type { SiteData } from '@/lib/news';
@@ -59,17 +59,9 @@ export function RenderTree({
       );
     if (nested || rootBlockWidth(node) !== 'contained')
       return <Fragment key={node.id}>{content}</Fragment>;
-    // Page-column blocks space themselves; full-width blocks (sliders, coloured
-    // sections) add no outer space, so they can sit flush against each other.
-    return (
-      <Container
-        key={node.id}
-        // Sections set their own vertical space; other blocks get a default.
-        className={node.type === 'section' ? '' : 'py-site-md'}
-      >
-        {content}
-      </Container>
-    );
+    // Every page-column block gets the same flow spacing, whatever its type;
+    // full-width blocks (above) add none, so bands sit flush.
+    return <PageColumnBlock key={node.id}>{content}</PageColumnBlock>;
   });
 }
 
