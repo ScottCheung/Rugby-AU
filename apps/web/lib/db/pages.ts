@@ -74,25 +74,49 @@ export async function createPage(input: {
   }
 }
 
+export type UpdatePageResult =
+  | { ok: true; page: Page }
+  | { ok: false; reason: 'not-found' | 'duplicate-path' };
+
 export async function updatePage(
   id: string,
-  changes: { title: string; description?: string; tree: ComponentNode[] },
-): Promise<Page | null> {
-  if (!ObjectId.isValid(id)) return null;
+  changes: {
+    title: string;
+    description?: string;
+    path: string;
+    tree: ComponentNode[];
+  },
+): Promise<UpdatePageResult> {
+  if (!ObjectId.isValid(id)) return { ok: false, reason: 'not-found' };
   const { description, ...rest } = changes;
-  const updated = await (
-    await pages()
-  ).findOneAndUpdate(
-    { _id: new ObjectId(id) },
-    {
-      $set: {
-        ...rest,
-        updatedAt: new Date(),
-        ...(description ? { description } : {}),
+  try {
+    const updated = await (
+      await pages()
+    ).findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          ...rest,
+          updatedAt: new Date(),
+          ...(description ? { description } : {}),
+        },
+        ...(description ? {} : { $unset: { description: '' } }),
       },
-      ...(description ? {} : { $unset: { description: '' } }),
-    },
-    { returnDocument: 'after' },
-  );
-  return updated ? toPage(updated) : null;
+      { returnDocument: 'after' },
+    );
+    return updated
+      ? { ok: true, page: toPage(updated) }
+      : { ok: false, reason: 'not-found' };
+  } catch (error) {
+    // The unique { siteSlug, path } index: another page already has this path.
+    if (error instanceof MongoServerError && error.code === 11000)
+      return { ok: false, reason: 'duplicate-path' };
+    throw error;
+  }
+}
+
+export async function deletePage(id: string): Promise<boolean> {
+  if (!ObjectId.isValid(id)) return false;
+  const result = await (await pages()).deleteOne({ _id: new ObjectId(id) });
+  return result.deletedCount === 1;
 }

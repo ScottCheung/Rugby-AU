@@ -7,6 +7,7 @@ import { findNode } from '@/lib/components/tree';
 import { describeSchema } from '@/lib/forms/describe';
 import { pathKey, SchemaForm, type FieldErrors } from '../SchemaForm';
 import { ComponentIcon } from './componentIcons';
+import { DeletePageButton } from './DeletePageButton';
 import { useEditor } from './editorContext';
 import type { Draft, PageErrors } from './editorReducer';
 
@@ -17,16 +18,21 @@ import type { Draft, PageErrors } from './editorReducer';
 export function PropertiesPanel({
   draft,
   pageErrors,
-  path,
+  pageId,
+  savedPath,
   onTitle,
   onDescription,
+  onPath,
   onProps,
 }: {
   draft: Draft;
   pageErrors: PageErrors;
-  path: string;
+  pageId: string;
+  /** The address as saved; the home page's cannot change. */
+  savedPath: string;
   onTitle: (title: string) => void;
   onDescription: (description: string) => void;
+  onPath: (path: string) => void;
   onProps: (id: string, props: Record<string, unknown>) => void;
 }) {
   const editor = useEditor();
@@ -57,12 +63,26 @@ export function PropertiesPanel({
           error={pageErrors.description}
           onChange={(event) => onDescription(event.target.value)}
         />
-        <p className="m-0 text-sm text-[var(--ui-muted)]">
-          Address{' '}
-          <span className="ml-1 rounded-full bg-[var(--ui-glass)] px-2 py-0.5 font-mono text-xs">
-            {path}
-          </span>
-        </p>
+        {savedPath === '/' ? (
+          <p className="m-0 text-sm text-[var(--ui-muted)]">
+            Address{' '}
+            <span className="ml-1 rounded-full bg-[var(--ui-glass)] px-2 py-0.5 font-mono text-xs">
+              /
+            </span>{' '}
+            (the home page)
+          </p>
+        ) : (
+          <>
+            <Input
+              label="Address"
+              hint="Where the page lives on the site, e.g. /about. Links to the old address stop working when you change it."
+              value={draft.path}
+              error={pageErrors.path}
+              onChange={(event) => onPath(event.target.value)}
+            />
+            <DeletePageButton pageId={pageId} title={draft.title} />
+          </>
+        )}
       </div>
     );
   }

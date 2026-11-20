@@ -10,6 +10,7 @@ import {
   Textarea,
 } from '@scottcheung/ui/client';
 import { defaultValue, type FieldDescriptor } from '@/lib/forms/describe';
+import { ImagePreviewPicker } from './ImageField';
 
 /** Validation messages for one component, keyed by prop path ("cards.0.heading"). */
 export type FieldErrors = Record<string, string>;
@@ -122,6 +123,14 @@ function Field({
             {removeButton}
           </legend>
           {field.hint && <p className="text-sm text-slate-500">{field.hint}</p>}
+          {field.widget === 'image' && (
+            <ImagePreviewPicker
+              value={(value ?? {}) as Record<string, string>}
+              onChange={(image) =>
+                onChange({ ...(value as object | undefined), ...image })
+              }
+            />
+          )}
           <ObjectFields
             fields={field.fields}
             value={(value ?? {}) as Record<string, unknown>}

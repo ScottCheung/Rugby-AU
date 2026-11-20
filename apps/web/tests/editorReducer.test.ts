@@ -10,7 +10,8 @@ import { sectionSchema } from '../lib/components/section';
 import { describeSchema } from '../lib/forms/describe';
 import { summarizeProps } from '../lib/forms/summarize';
 
-const start = () => initEditor({ title: 'Home', description: '', tree: [] });
+const start = () =>
+  initEditor({ title: 'Home', description: '', path: '/', tree: [] });
 
 describe('editorReducer', () => {
   it('tracks unsaved changes until the page is saved', () => {
@@ -160,5 +161,27 @@ describe('summarizeProps', () => {
         cards: [{}],
       }),
     ).toBe('Squad · 1 card');
+  });
+});
+
+describe('page settings and stored pages', () => {
+  it('changes the address as one undoable edit', () => {
+    let state = start();
+    state = editorReducer(state, { type: 'setPath', path: '/a' });
+    state = editorReducer(state, { type: 'setPath', path: '/ab' });
+    expect(state.draft.path).toBe('/ab');
+    expect(isDirty(state)).toBe(true);
+    state = editorReducer(state, { type: 'undo' });
+    expect(state.draft.path).toBe('/');
+  });
+
+  it('flags blocks that no longer match their schema as soon as it opens', () => {
+    const state = initEditor({
+      title: 'Home',
+      description: '',
+      path: '/',
+      tree: [{ id: 'old', type: 'cardGrid', props: { cards: 'not a list' } }],
+    });
+    expect(state.issues.map((issue) => issue.nodeId)).toContain('old');
   });
 });

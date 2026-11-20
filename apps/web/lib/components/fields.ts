@@ -23,7 +23,7 @@ export const imageSchema = z
         hint: 'Read aloud by screen readers. Describe what the photo shows.',
       }),
   })
-  .meta({ label: 'Image' });
+  .meta({ label: 'Image', widget: 'image' });
 
 export const linkSchema = z
   .object({

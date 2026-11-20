@@ -1,0 +1,54 @@
+{
+  "comment": "A page tree as the first version of the schemas stored it: Card Grid without variant, cards without text, Image Slider without autoplay. Do not update this file when you change a schema: it stands for pages already in MongoDB.",
+  "tree": [
+    {
+      "id": "slider",
+      "type": "imageSlider",
+      "props": {
+        "slides": [
+          {
+            "image": {
+              "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57",
+              "alt": "Rugby goal posts in a full stadium"
+            },
+            "heading": "Welcome"
+          }
+        ]
+      }
+    },
+    {
+      "id": "section",
+      "type": "section",
+      "props": {
+        "heading": "Meet the team",
+        "layout": "two-column",
+        "background": "brand"
+      },
+      "children": [
+        {
+          "id": "grid",
+          "type": "cardGrid",
+          "props": {
+            "title": "Squad",
+            "cards": [
+              {
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57",
+                  "alt": "Rugby goal posts in a full stadium"
+                },
+                "heading": "Captain",
+                "link": { "label": "Read more", "href": "/about" }
+              }
+            ]
+          }
+        },
+        {
+          "id": "inner",
+          "type": "section",
+          "props": { "layout": "full", "background": "none" },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

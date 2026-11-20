@@ -13,17 +13,26 @@ import type { ComponentNode } from '@/lib/types';
 export type Draft = {
   title: string;
   description: string;
+  /** The page's address on its site, e.g. "/about". */
+  path: string;
   tree: ComponentNode[];
 };
 
-export type PageErrors = { title?: string; description?: string };
+export type PageErrors = {
+  title?: string;
+  description?: string;
+  path?: string;
+};
 
 export type EditorState = {
   draft: Draft;
   /** The draft as last saved, serialised, to detect unsaved changes. */
   savedSnapshot: string;
   selectedId: string | null;
-  /** Problems reported by the last save; cleared as they get fixed. */
+  /**
+   * Blocks that fail their schema: found on load (a page stored under an
+   * older schema) or by the last save; cleared as they get fixed.
+   */
   issues: TreeIssue[];
   pageErrors: PageErrors;
   /** Undo / redo stacks of earlier and undone drafts. */
@@ -36,6 +45,7 @@ export type EditorState = {
 export type EditorAction =
   | { type: 'setTitle'; title: string }
   | { type: 'setDescription'; description: string }
+  | { type: 'setPath'; path: string }
   | { type: 'insertNode'; node: ComponentNode; at: Location }
   | { type: 'moveNode'; id: string; to: Location }
   | { type: 'removeNode'; id: string }
@@ -49,11 +59,14 @@ export type EditorAction =
 const HISTORY_LIMIT = 100;
 
 export function initEditor(draft: Draft): EditorState {
+  // Check the stored page straight away, so blocks that no longer match
+  // their component's schema are outlined before the editor tries to save.
+  const checked = validateTree(draft.tree);
   return {
     draft,
     savedSnapshot: JSON.stringify(draft),
     selectedId: null,
-    issues: [],
+    issues: checked.ok ? [] : checked.issues,
     pageErrors: {},
     past: [],
     future: [],
@@ -115,6 +128,11 @@ export function editorReducer(
           'description',
         ),
         pageErrors: { ...state.pageErrors, description: undefined },
+      };
+    case 'setPath':
+      return {
+        ...commit(state, { ...draft, path: action.path }, 'path'),
+        pageErrors: { ...state.pageErrors, path: undefined },
       };
     case 'insertNode':
       return {

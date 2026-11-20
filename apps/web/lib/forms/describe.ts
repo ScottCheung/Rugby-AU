@@ -20,7 +20,11 @@ export type FieldDescriptor =
   | (BaseField & { kind: 'number' })
   | (BaseField & { kind: 'boolean' })
   | (BaseField & { kind: 'enum'; options: { value: string; label: string }[] })
-  | (BaseField & { kind: 'object'; fields: FieldDescriptor[] })
+  | (BaseField & {
+      kind: 'object';
+      fields: FieldDescriptor[];
+      widget?: 'image';
+    })
   | (BaseField & { kind: 'array'; itemLabel: string; item: FieldDescriptor })
   | (BaseField & { kind: 'unsupported' });
 
@@ -87,7 +91,12 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
     };
   }
   if (inner instanceof z.ZodObject)
-    return { ...base, kind: 'object', fields: describeSchema(inner) };
+    return {
+      ...base,
+      kind: 'object',
+      fields: describeSchema(inner),
+      ...(meta.widget ? { widget: meta.widget } : {}),
+    };
   if (inner instanceof z.ZodArray) {
     const itemLabel = meta.itemLabel ?? 'Item';
     return {

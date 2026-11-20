@@ -42,7 +42,9 @@ import {
 import { defaultTheme } from '@/lib/theme/defaultTheme';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 import { themeToCssVars } from '@/lib/theme/themeToCssVars';
+import type { LibraryImage } from '@/lib/media';
 import type { ComponentNode, Page, Site } from '@/lib/types';
+import { MediaLibraryProvider } from '../ImageField';
 import { Canvas } from './Canvas';
 import { innermostUnderPointer, resolveDropTarget, type DragData } from './dnd';
 import {
@@ -55,10 +57,23 @@ import { Layers } from './Layers';
 import { Palette } from './Palette';
 import { PropertiesPanel } from './PropertiesPanel';
 
-export function PageEditor({ site, page }: { site: Site; page: Page }) {
+export function PageEditor({
+  site,
+  page,
+  images,
+}: {
+  site: Site;
+  page: Page;
+  images: LibraryImage[];
+}) {
   const [state, dispatch] = useReducer(
     editorReducer,
-    { title: page.title, description: page.description ?? '', tree: page.tree },
+    {
+      title: page.title,
+      description: page.description ?? '',
+      path: page.path,
+      tree: page.tree,
+    },
     initEditor,
   );
   const { draft } = state;
@@ -69,11 +84,29 @@ export function PageEditor({ site, page }: { site: Site; page: Page }) {
   const [saving, startSaving] = useTransition();
   const toast = useToast();
   const dirty = isDirty(state);
-  const liveUrl = `/sites/${site.slug}${page.path === '/' ? '' : page.path}`;
+  // The address as last saved: the live link must not follow unsaved edits.
+  const [savedPath, setSavedPath] = useState(page.path);
+  const liveUrl = `/sites/${site.slug}${savedPath === '/' ? '' : savedPath}`;
   const themeVars = useMemo(
     () => themeToCssVars(resolveTheme(defaultTheme, site.theme)),
     [site.theme],
   );
+
+  // A page stored under an older schema may have blocks that no longer
+  // validate. initEditor outlines them; say so once when the editor opens.
+  const initialIssues = useRef(state.issues.length);
+  useEffect(() => {
+    const count = new Set(state.issues.map((issue) => issue.nodeId)).size;
+    if (initialIssues.current === 0 || count === 0) return;
+    initialIssues.current = 0;
+    toast({
+      title: `${count} ${count === 1 ? 'block needs' : 'blocks need'} attention`,
+      description:
+        'They no longer match their component and are hidden on the live page. Fix the fields outlined in red, then save.',
+      tone: 'danger',
+      duration: 0,
+    });
+  }, [state.issues, toast]);
 
   // ------------------------------------------------------------ actions
 
@@ -119,8 +152,9 @@ export function PageEditor({ site, page }: { site: Site; page: Page }) {
     startSaving(async () => {
       const result = await savePageAction(page.id, draft);
       if (result.ok) {
-        const { title, description = '', tree } = result.page;
-        dispatch({ type: 'saved', draft: { title, description, tree } });
+        const { title, description = '', path, tree } = result.page;
+        dispatch({ type: 'saved', draft: { title, description, path, tree } });
+        setSavedPath(path);
         toast({
           title: 'Page saved',
           description: 'The live page now shows these changes.',
@@ -134,7 +168,10 @@ export function PageEditor({ site, page }: { site: Site; page: Page }) {
         });
         toast({
           title: result.message,
-          description: 'Blocks that need attention are outlined in red.',
+          description:
+            result.issues.length > 0
+              ? 'Blocks that need attention are outlined in red.'
+              : 'Check the page settings on the right.',
           tone: 'danger',
         });
       }
@@ -285,7 +322,7 @@ export function PageEditor({ site, page }: { site: Site; page: Page }) {
                 {draft.title || 'Untitled page'}
               </p>
               <p className="m-0 truncate text-xs text-[var(--ui-muted)]">
-                {site.name} · {page.path}
+                {site.name} · {savedPath}
               </p>
             </div>
             <button
@@ -350,18 +387,22 @@ export function PageEditor({ site, page }: { site: Site; page: Page }) {
               <Canvas site={site} themeVars={themeVars} device={device} />
             </main>
             <aside className="order-3 min-h-0 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-surface)] p-5">
-              <PropertiesPanel
-                draft={draft}
-                pageErrors={state.pageErrors}
-                path={page.path}
-                onTitle={(title) => dispatch({ type: 'setTitle', title })}
-                onDescription={(description) =>
-                  dispatch({ type: 'setDescription', description })
-                }
-                onProps={(id, props) =>
-                  dispatch({ type: 'updateProps', id, props })
-                }
-              />
+              <MediaLibraryProvider images={images}>
+                <PropertiesPanel
+                  draft={draft}
+                  pageErrors={state.pageErrors}
+                  pageId={page.id}
+                  savedPath={savedPath}
+                  onTitle={(title) => dispatch({ type: 'setTitle', title })}
+                  onPath={(path) => dispatch({ type: 'setPath', path })}
+                  onDescription={(description) =>
+                    dispatch({ type: 'setDescription', description })
+                  }
+                  onProps={(id, props) =>
+                    dispatch({ type: 'updateProps', id, props })
+                  }
+                />
+              </MediaLibraryProvider>
             </aside>
           </div>
         </div>

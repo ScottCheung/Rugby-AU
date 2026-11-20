@@ -61,7 +61,12 @@ export function validateTree(input: unknown): ValidateTreeResult {
           path: issue.path.map((key) =>
             typeof key === 'number' ? key : String(key),
           ),
-          message: issue.message,
+          // A missing value usually means the page was saved before this
+          // prop existed; Zod's own wording is meant for developers.
+          message:
+            issue.code === 'invalid_type' && issue.input === undefined
+              ? 'This field is required.'
+              : issue.message,
         });
     }
 

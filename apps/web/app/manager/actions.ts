@@ -3,7 +3,12 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { validateTree, type TreeIssue } from '@/lib/components/validateTree';
-import { createPage, getPageById, updatePage } from '@/lib/db/pages';
+import {
+  createPage,
+  deletePage,
+  getPageById,
+  updatePage,
+} from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { isValidPath, normalizePath } from '@/lib/paths';
 import type { Page } from '@/lib/types';
@@ -55,14 +60,23 @@ const pageSettings = z.object({
     .string()
     .trim()
     .max(300, 'Keep the description under 300 characters.'),
+  path: z
+    .string()
+    .transform(normalizePath)
+    .refine(
+      isValidPath,
+      'Use lowercase letters, numbers and hyphens, for example /about.',
+    ),
 });
+
+type PageErrors = { title?: string; description?: string; path?: string };
 
 export type SavePageResult =
   | { ok: true; page: Page }
   | {
       ok: false;
       message: string;
-      pageErrors: { title?: string; description?: string };
+      pageErrors: PageErrors;
       issues: TreeIssue[];
     };
 
@@ -72,9 +86,10 @@ export type SavePageResult =
  */
 export async function savePageAction(
   pageId: string,
-  input: { title: string; description: string; tree: unknown },
+  input: { title: string; description: string; path: string; tree: unknown },
 ): Promise<SavePageResult> {
-  if (!(await getPageById(pageId)))
+  const existing = await getPageById(pageId);
+  if (!existing)
     return {
       ok: false,
       message: 'This page no longer exists.',
@@ -84,13 +99,17 @@ export async function savePageAction(
 
   const settings = pageSettings.safeParse(input);
   const tree = validateTree(input.tree);
-  if (!settings.success || !tree.ok) {
-    const pageErrors: { title?: string; description?: string } = {};
-    for (const issue of settings.error?.issues ?? []) {
-      const key = issue.path[0];
-      if (key === 'title' || key === 'description')
-        pageErrors[key] = issue.message;
-    }
+  const pageErrors: PageErrors = {};
+  for (const issue of settings.error?.issues ?? []) {
+    const key = issue.path[0];
+    if (key === 'title' || key === 'description' || key === 'path')
+      pageErrors[key] = issue.message;
+  }
+  // Every site keeps its home page at "/".
+  if (settings.success && existing.path === '/' && settings.data.path !== '/')
+    pageErrors.path = 'The home page always lives at /.';
+
+  if (!settings.success || !tree.ok || pageErrors.path) {
     const issues = tree.ok ? [] : tree.issues;
     const count = issues.length + Object.keys(pageErrors).length;
     return {
@@ -101,17 +120,40 @@ export async function savePageAction(
     };
   }
 
-  const page = await updatePage(pageId, {
+  const result = await updatePage(pageId, {
     title: settings.data.title,
     description: settings.data.description || undefined,
+    path: settings.data.path,
     tree: tree.tree,
   });
-  if (!page)
-    return {
-      ok: false,
-      message: 'This page no longer exists.',
-      pageErrors: {},
-      issues: [],
-    };
-  return { ok: true, page };
+  if (!result.ok)
+    return result.reason === 'duplicate-path'
+      ? {
+          ok: false,
+          message: 'Not saved: the address is taken.',
+          pageErrors: {
+            path: `This site already has a page at ${settings.data.path}.`,
+          },
+          issues: [],
+        }
+      : {
+          ok: false,
+          message: 'This page no longer exists.',
+          pageErrors: {},
+          issues: [],
+        };
+  return result;
+}
+
+// ------------------------------------------------------------- delete page
+
+/** Deletes a page and returns to the site's page list. The home page stays. */
+export async function deletePageAction(
+  pageId: string,
+): Promise<{ error: string }> {
+  const page = await getPageById(pageId);
+  if (!page) return { error: 'This page no longer exists.' };
+  if (page.path === '/') return { error: 'The home page cannot be deleted.' };
+  await deletePage(pageId);
+  redirect(`/manager/${page.siteSlug}`);
 }

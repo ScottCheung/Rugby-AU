@@ -88,7 +88,12 @@ components with the site's theme. Around it:
 - **Click to select.** Hovering outlines a block; clicking selects it and shows a
   toolbar on the block (drag handle, move up, move down, duplicate, delete).
 - **Edit in the side panel.** The selected block's fields are generated from its
-  schema; with nothing selected the panel shows the page title and description.
+  schema; with nothing selected the panel shows the page settings: title,
+  description, address (changeable except for the home page) and Delete page, with a
+  confirmation.
+- **Image fields** show a preview and a "Choose image" picker of the images already
+  used on the site (`lib/media.ts` finds them by their `{ url, alt }` shape), so
+  editors rarely need to paste an address.
 - **Drag and drop** (dnd-kit). Drag blocks by their handle, or drag new ones from the
   component palette. A line shows where the block will land: before or after the
   block under the pointer, or into an empty Section. Clicking a palette item adds it
@@ -233,9 +238,11 @@ export const callToAction = defineComponent({
 ```
 
 **2. Register it**: add `callToAction` to `componentDefinitions` in
-`apps/web/lib/components/registry.ts`. It now appears in the manager's "Add
-component" dialog, with a text input, a textarea and an "Add button" toggle, and
-saves are validated against the schema.
+`apps/web/lib/components/registry.ts`. It now appears in the editor's component
+palette, with a text input, a textarea and an "Add button" toggle, and saves are
+validated against the schema. Also add a `callToAction` block to
+`tests/fixtures/stored-page-v1.json`; a test checks that the fixture covers every
+component (see below).
 
 **3. Render it** in `apps/web/components/site/CallToAction.tsx`. The props type comes
 from the schema:
@@ -259,12 +266,22 @@ export function CallToAction({
 ```
 
 **4. Map it**: add `callToAction: CallToAction` to `siteComponents` in
-`apps/web/components/site/RenderTree.tsx`. If you forget, `npm run typecheck` fails
+`apps/web/components/site/siteComponents.ts`. If you forget, `npm run typecheck` fails
 with "Property 'callToAction' is missing", so a registered component can never be
 unrenderable.
 
 Adding a prop to an existing component is the same idea: one line in its schema,
 then use it in its render component. The form updates by itself.
+
+**Rule: a new prop must be `.optional()` or have a `.default()`.** Pages already in
+MongoDB were saved without it and nothing migrates them. A new required prop would
+make them invalid: the renderer skips invalid blocks (the page still renders; in
+development a warning box shows where), and the editor outlines them with "This field
+is required" as soon as the page is opened. `tests/storedPages.test.ts` guards the
+rule: it validates `tests/fixtures/stored-page-v1.json`, a page in the oldest stored
+shape, and fails if a schema change breaks it. That is how Card Grid's `variant`
+(`.default('grid')`) and card `text` (`.optional()`) were added. A breaking change
+would need a migration script that rewrites the stored pages.
 
 The form generator (`lib/forms/describe.ts`) supports strings (text, textarea, URL),
 numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional

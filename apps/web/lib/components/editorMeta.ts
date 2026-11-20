@@ -15,6 +15,11 @@ declare module 'zod' {
     optionLabels?: Record<string, string>;
     /** Singular name for one item of a list, e.g. "Card". */
     itemLabel?: string;
+    /**
+     * A richer control for an object field. 'image' marks an { url, alt }
+     * object: the form adds a preview and a picker of the site's images.
+     */
+    widget?: 'image';
   }
 }
 
