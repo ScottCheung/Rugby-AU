@@ -6,7 +6,7 @@ import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
 import { Carousel } from './Carousel';
 import { stagger } from '@/lib/motion';
-import { Lightbox } from './Lightbox';
+import { Lightbox, LightboxThumb } from './Lightbox';
 import { Reveal } from './Reveal';
 
 type Props = PropsOf<'cardGrid'> & { siteSlug: string };
@@ -119,14 +119,10 @@ export function Card({
 
   const media =
     variant === 'masonry' && !href ? (
-      <button
-        type="button"
-        data-lightbox-index={index}
-        aria-label={`View photo: ${card.heading}`}
-        className="zoomable block w-full cursor-zoom-in overflow-hidden"
-      >
+      // Grows into the full-size viewer when clicked (shared layoutId).
+      <LightboxThumb index={index} label={`View photo: ${card.heading}`}>
         <Image src={card.image.url} alt={card.image.alt} fit="natural" />
-      </button>
+      </LightboxThumb>
     ) : variant === 'masonry' ? (
       <Image src={card.image.url} alt={card.image.alt} fit="natural" />
     ) : (

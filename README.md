@@ -46,7 +46,10 @@ before it existed render as before.
 
 On public pages, a card with a link is clickable as a whole (one link per card,
 stretched over it) and lifts on hover; a masonry photo without a link opens full size
-in a lightbox (arrow keys, Esc). In the editor both are switched off, so a click only
+in a viewer: the photo grows out of its place in the gallery (a Motion `layoutId`
+shared by the gallery photo and the full-size one) and shrinks back on close. A strip
+of thumbnails, the arrow buttons and the arrow keys switch photos with a crossfade, so
+only one photo ever moves across the screen; after switching, closing simply fades. In the editor both are switched off, so a click only
 selects the block.
 
 **Motion.** Public pages use Motion (`motion` 14) for entrances: content settles in
