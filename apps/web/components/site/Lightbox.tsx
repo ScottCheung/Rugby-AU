@@ -13,7 +13,7 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { cssEase, ease, timing } from '@scottcheung/ui/motion';
+import { cssEase, ease } from '@scottcheung/ui/motion';
 
 type Photo = { url: string; alt: string; caption: string };
 
@@ -31,6 +31,14 @@ const useInBrowser = () =>
 
 /** The shared-element name linking a gallery photo to its full-size view. */
 const photoId = (group: string, index: number) => `${group}-photo-${index}`;
+
+/**
+ * The zoom: a spring, like iOS. It starts with the finger's momentum and
+ * settles without a bounce, so it feels physical rather than timed.
+ */
+const zoom = { type: 'spring', visualDuration: 0.4, bounce: 0.1 } as const;
+/** Quick fades for the backdrop and for switching photos. */
+const fade = { duration: 0.25, ease } as const;
 
 /**
  * A full-size photo viewer for a gallery. Gallery photos are rendered with
@@ -65,13 +73,12 @@ export function Lightbox({
   };
   const close = () => {
     if (index === null || landing) return;
-    // Only the photo that was clicked flies back; after switching, fade.
-    const spot =
-      index === linked
-        ? document.querySelector<HTMLElement>(
-            `[data-lightbox-group="${group}"][data-lightbox-index="${index}"]`,
-          )
-        : null;
+    // Fly back to the gallery spot of the photo on screen, whether or not
+    // it was switched to. Only a photo with no spot (e.g. a linked card)
+    // fades out.
+    const spot = document.querySelector<HTMLElement>(
+      `[data-lightbox-group="${group}"][data-lightbox-index="${index}"]`,
+    );
     if (!spot?.parentElement) {
       setIndex(null);
       return;
@@ -149,12 +156,11 @@ export function Lightbox({
                 // A landed photo sits exactly on its spot: it can go at once.
                 exit={{
                   opacity: 0,
-                  transition: { duration: landing ? 0 : timing.crossfade },
+                  transition: landing ? { duration: 0 } : fade,
                 }}
                 transition={{
-                  duration: timing.crossfade,
-                  ease,
-                  layout: { duration: timing.photo, ease },
+                  opacity: fade,
+                  layout: zoom,
                 }}
                 style={
                   landing
@@ -227,7 +233,7 @@ function Viewer({
         backgroundColor: closing ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.92)',
       }}
       exit={{ backgroundColor: 'rgba(0,0,0,0)' }}
-      transition={{ duration: timing.backdrop, ease }}
+      transition={fade}
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -255,7 +261,7 @@ function Viewer({
         initial={{ opacity: 0, y: 12 }}
         animate={closing ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 12 }}
-        transition={{ duration: timing.backdrop, ease }}
+        transition={fade}
         style={{
           width: '100%',
           display: 'flex',
@@ -341,7 +347,7 @@ function Viewer({
           right: 16,
           // Fades with the other controls while the photo flies back.
           opacity: closing ? 0 : 1,
-          transition: `opacity ${timing.backdrop}s ${cssEase}`,
+          transition: `opacity ${fade.duration}s ${cssEase}`,
         }}
       >
         ✕
@@ -372,7 +378,7 @@ export function LightboxThumb({
       layoutId={context ? photoId(context.group, index) : undefined}
       layoutCrossfade={false}
       data-lightbox-group={context?.group}
-      transition={{ layout: { duration: timing.photo, ease } }}
+      transition={{ layout: zoom }}
       data-lightbox-index={index}
       aria-label={label}
       className="zoomable block w-full cursor-zoom-in overflow-hidden"
