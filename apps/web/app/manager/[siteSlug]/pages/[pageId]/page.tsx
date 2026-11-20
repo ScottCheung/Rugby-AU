@@ -4,6 +4,8 @@ import { getPageById, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { collectImages } from '@/lib/media';
 import { summarizeArticles } from '@/lib/news';
+import { profileBackgrounds } from '@/lib/components/profileGrid';
+import { cardColors } from '@/lib/imageColor';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +29,7 @@ export default async function EditPage({
       page={page}
       images={images}
       articles={summarizeArticles(sitePages)}
+      colors={await cardColors(profileBackgrounds(page.tree))}
     />
   );
 }

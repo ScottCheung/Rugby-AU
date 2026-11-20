@@ -97,6 +97,27 @@
       "props": {
         "title": "Latest news"
       }
+    },
+    {
+      "id": "people",
+      "type": "profileGrid",
+      "props": {
+        "title": "The squad",
+        "profiles": [
+          {
+            "name": "A player",
+            "role": "Wing",
+            "cutout": {
+              "url": "/players/max-jorgensen.webp",
+              "alt": "A rugby player"
+            },
+            "background": {
+              "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57",
+              "alt": "A stadium"
+            }
+          }
+        ]
+      }
     }
   ]
 }

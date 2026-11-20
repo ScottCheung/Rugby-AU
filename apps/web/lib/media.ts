@@ -1,3 +1,4 @@
+import { isImageAddress } from './components/fields';
 import type { ComponentNode } from './types';
 
 export type LibraryImage = { url: string; alt: string };
@@ -7,7 +8,7 @@ const isImage = (value: unknown): value is LibraryImage =>
   value !== null &&
   typeof (value as LibraryImage).url === 'string' &&
   typeof (value as LibraryImage).alt === 'string' &&
-  /^https?:\/\//.test((value as LibraryImage).url);
+  isImageAddress((value as LibraryImage).url);
 
 /**
  * Every image already used in these page trees, once each, in the order

@@ -64,12 +64,15 @@ export function PageEditor({
   page,
   images,
   articles,
+  colors,
 }: {
   site: Site;
   page: Page;
   images: LibraryImage[];
   /** The site's articles as saved, for Latest news on the canvas. */
   articles: ArticleSummary[];
+  /** Colours picked from this page's photos (Profile cards). */
+  colors: Record<string, string>;
 }) {
   const [state, dispatch] = useReducer(
     editorReducer,
@@ -186,7 +189,7 @@ export function PageEditor({
   const context: EditorContextValue = {
     tree: draft.tree,
     siteSlug: site.slug,
-    siteData: { articles, pagePath: savedPath },
+    siteData: { articles, pagePath: savedPath, colors },
     selectedId: state.selectedId,
     hoveredId,
     issues: state.issues,

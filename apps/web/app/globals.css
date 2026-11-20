@@ -170,3 +170,67 @@
   gap: var(--spacing-site-md) var(--spacing-site-sm);
   grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
 }
+
+/*
+ * Profile cards: a cut-out person rising out of a background photo. The
+ * card keeps 14% headroom above its panel so the head can rise above it
+ * without being clipped by a scrolling carousel. Layers, back to front:
+ * panel (photo + colour fade), person, front fade, text.
+ */
+.profile-card {
+  position: relative;
+  aspect-ratio: 3 / 4.4;
+  color: white;
+}
+.profile-card__panel,
+.profile-card__front {
+  position: absolute;
+  inset: 14% 0 0;
+  overflow: hidden;
+  border-radius: var(--radius-site);
+}
+.profile-card__panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-card__person {
+  position: absolute;
+  left: 50%;
+  bottom: 24%;
+  height: 74%;
+  max-width: 92%;
+  object-fit: contain;
+  object-position: bottom;
+  translate: -50% 0;
+  transition: scale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom center;
+  z-index: 1;
+}
+.profile-card__front {
+  z-index: 2;
+  pointer-events: none;
+}
+.profile-card__text {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: var(--spacing-site-sm);
+}
+.profile-card:hover .profile-card__person {
+  scale: 1.04;
+}
+.profiles-grid {
+  display: grid;
+  gap: var(--spacing-site-sm);
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile-card__person {
+    transition: none;
+  }
+}

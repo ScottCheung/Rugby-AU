@@ -6,6 +6,8 @@ import { RenderTree } from '@/components/site/RenderTree';
 import { SiteMotion } from '@/components/site/Reveal';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { summarizeArticles } from '@/lib/news';
+import { profileBackgrounds } from '@/lib/components/profileGrid';
+import { cardColors } from '@/lib/imageColor';
 import { getPageByPath, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { pathFromSegments } from '@/lib/paths';
@@ -50,7 +52,13 @@ export default async function SitePage({ params }: Props) {
   const sitePages = await listPages(site.slug);
   const menu = sitePages.filter((item) => item.path.split('/').length === 2);
   // For Latest news: every article on the site, newest first.
-  const data = { articles: summarizeArticles(sitePages), pagePath: page.path };
+  // Profile cards take their colour from their photos, worked out here on
+  // the server so the page arrives with the right colours.
+  const data = {
+    articles: summarizeArticles(sitePages),
+    pagePath: page.path,
+    colors: await cardColors(profileBackgrounds(page.tree)),
+  };
   // An article shows its own headline as the page's h1.
   const hasOwnHeading = page.tree[0]?.type === 'article';
 

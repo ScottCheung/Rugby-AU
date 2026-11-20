@@ -3,6 +3,7 @@ import { article } from './article';
 import { cardGrid } from './cardGrid';
 import { imageSlider } from './imageSlider';
 import { latestNews } from './latestNews';
+import { profileGrid } from './profileGrid';
 import { section } from './section';
 import { stats } from './stats';
 import { textBlock } from './textBlock';
@@ -16,6 +17,7 @@ export const componentDefinitions = [
   stats,
   article,
   latestNews,
+  profileGrid,
 ] as const;
 
 export type AnyComponentDefinition = (typeof componentDefinitions)[number];

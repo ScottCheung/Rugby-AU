@@ -3,6 +3,7 @@
 import { ImageIcon } from 'lucide-react';
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import { Button, Dialog } from '@scottcheung/ui/client';
+import { isImageAddress } from '@/lib/components/fields';
 import type { LibraryImage } from '@/lib/media';
 
 /** The images an editor can pick from: those already used on the site. */
@@ -36,7 +37,7 @@ export function ImagePreviewPicker({
 }) {
   const library = useContext(MediaLibraryContext);
   const [open, setOpen] = useState(false);
-  const url = value.url && /^https?:\/\//.test(value.url) ? value.url : '';
+  const url = value.url && isImageAddress(value.url) ? value.url : '';
 
   return (
     <div className="flex items-center gap-3">
@@ -69,7 +70,7 @@ export function ImagePreviewPicker({
         open={open}
         onOpenChange={setOpen}
         title="Choose an image"
-        description="Images already used on this site. You can also paste any https:// address in the field below."
+        description="Images already used on this site. You can also paste an https:// address, or a path on this site, below."
         style={{ width: 'min(48rem, 100%)' }}
       >
         <ul

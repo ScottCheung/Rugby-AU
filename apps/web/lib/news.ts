@@ -13,9 +13,15 @@ export type ArticleSummary = {
 
 /**
  * Data that data-driven components read while a page renders: the site's
- * articles, and the path of the page being rendered.
+ * articles, the path of the page being rendered, and colours picked from
+ * photos.
  */
-export type SiteData = { articles: ArticleSummary[]; pagePath: string };
+export type SiteData = {
+  articles: ArticleSummary[];
+  pagePath: string;
+  /** Card colours taken from photos, keyed by image address (Profile cards). */
+  colors: Record<string, string>;
+};
 
 function findArticle(nodes: ComponentNode[]): ComponentNode | undefined {
   for (const node of nodes) {

@@ -20,6 +20,7 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 | **Stats**                | A list of small objects without images                                   | `stats[]`: `{ value, label }`                                                                                                                    |
 | **Article**              | A story page: reading layout, date field                                 | `category`, `date` (date picker), `headline`, `standfirst`, `image`, `body` (`## ` starts a subheading)                                          |
 | **Latest news**          | A data-driven component (stretch goal)                                   | `title`, `category?`, `limit`, `display`: grid, list, featured. The cards come from the site's article pages at render time                      |
+| **Profile cards**        | Images that break out of the card; colour taken from a photo             | `title`, `display`: carousel, grid; `profiles[]`: `{ name, role, text?, cutout, background, link? }`                                             |
 
 Section keeps the two layouts and three backgrounds the brief asks for and adds more.
 Variety in how content looks lives mostly in the content components: the same Card
@@ -55,6 +56,18 @@ landed. Handing the return to the gallery photo instead would clip it (its card 
 of thumbnails, the arrow buttons and the arrow keys switch photos with a crossfade, so
 only one photo ever moves across the screen; after switching, closing simply fades. In the editor both are switched off, so a click only
 selects the block.
+
+**Profile cards.** A cut-out person (transparent WebP in `public/players/`) rises out
+of a background photo, and the card's colour fades up over both. The colour is not a
+field: the server reads the bottom of each background with `sharp`
+(`lib/imageColor.ts`, cached per image) and `lib/color.ts` turns it into a shade that
+keeps white text at a contrast of at least 4.5 (tested). The colours are worked out
+before the page renders and passed in `data`, like Latest news, so the page arrives
+with the right colours; in the editor a newly picked background is read in the
+browser with the same rule. Image fields accept site paths (`/players/x.webp`) as
+well as https addresses. The cut-outs were made with an open-source tool; see
+`apps/web/scripts/cutouts/README.md`. The Wallabies' Squad page names players from
+the November 2026 squad on photos of other players, and says so on the page.
 
 **Motion.** Public pages use Motion (`motion` 14) for entrances: content settles in
 the first time it scrolls into view, with a short rise, a fade and a light blur that
@@ -100,7 +113,7 @@ Requirements: Node 22+, npm, Docker.
 cp .env.example .env.local
 docker compose up -d      # MongoDB 7 on localhost:27017
 npm install
-npm run seed              # drops and recreates the 15 sample sites and 123 pages (46 of them articles)
+npm run seed              # drops and recreates the 15 sample sites and 124 pages (46 of them articles)
 npm run dev
 ```
 

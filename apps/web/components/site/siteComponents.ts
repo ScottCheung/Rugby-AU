@@ -5,6 +5,7 @@ import { Article } from './Article';
 import { CardGrid } from './CardGrid';
 import { ImageSlider } from './ImageSlider';
 import { LatestNews } from './LatestNews';
+import { ProfileGrid } from './ProfileGrid';
 import { Section } from './Section';
 import { Stats } from './Stats';
 import { TextBlock } from './TextBlock';
@@ -38,6 +39,7 @@ const siteComponents: { [Type in ComponentType]: SiteComponent<Type> } = {
   stats: Stats,
   article: Article,
   latestNews: LatestNews,
+  profileGrid: ProfileGrid,
 };
 
 /** Props are typed loosely here: callers must pass props already parsed by the type's schema. */

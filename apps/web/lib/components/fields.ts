@@ -6,14 +6,29 @@ import './editorMeta';
  * validated and edited the same way everywhere.
  */
 
+/**
+ * An image address: a full https:// address, or a path on this website
+ * ("/players/name.webp", from the app's public folder).
+ */
+export function isImageAddress(value: string): boolean {
+  if (value.startsWith('/')) return !value.startsWith('//');
+  try {
+    return ['http:', 'https:'].includes(new URL(value).protocol);
+  } catch {
+    return false;
+  }
+}
+
 export const imageSchema = z
   .object({
     url: z
-      .url({
-        protocol: /^https?$/,
-        error: 'Enter a full image address starting with https://',
-      })
-      .meta({ label: 'Image address', placeholder: 'https://…' }),
+      .string()
+      .trim()
+      .refine(
+        isImageAddress,
+        'Enter a full image address (https://…) or a path on this site (/…)',
+      )
+      .meta({ label: 'Image address', placeholder: 'https://… or /images/…' }),
     alt: z
       .string()
       .trim()

@@ -143,7 +143,8 @@ describe('describeSchema', () => {
     const image = cards.item.fields[0];
     if (image.kind !== 'object') throw new Error('unexpected shape');
     expect(image.fields.map((field) => [field.key, field.kind])).toEqual([
-      ['url', 'url'],
+      // Text, not a URL input: a path on this site ("/players/x.webp") is valid too.
+      ['url', 'text'],
       ['alt', 'text'],
     ]);
   });
