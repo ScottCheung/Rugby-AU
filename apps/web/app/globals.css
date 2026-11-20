@@ -19,3 +19,25 @@
   --spacing-site-md: 2rem;
   --spacing-site-lg: 4rem;
 }
+
+/*
+ * Image proportions as plain CSS rather than arbitrary Tailwind classes
+ * (aspect-[16/10]): these decide the page layout, so they must not depend
+ * on a utility being generated in time during development.
+ */
+.media-card {
+  aspect-ratio: 16 / 10;
+}
+.media-slider {
+  aspect-ratio: 4 / 5;
+}
+@container (min-width: 28rem) {
+  .media-slider {
+    aspect-ratio: 16 / 9;
+  }
+}
+@container (min-width: 48rem) {
+  .media-slider {
+    aspect-ratio: 21 / 9;
+  }
+}

@@ -22,7 +22,7 @@ export function Image({
   if (!src)
     return (
       <div
-        className={`aspect-[16/10] w-full bg-surface-light ${className}`}
+        className={`media-card w-full bg-surface-light ${className}`}
         aria-hidden
       />
     );

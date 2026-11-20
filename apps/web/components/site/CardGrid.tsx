@@ -57,7 +57,7 @@ function Card({
       {variant === 'masonry' ? (
         <Image src={card.image.url} alt={card.image.alt} fit="natural" />
       ) : (
-        <div className="aspect-[16/10] bg-surface-light">
+        <div className="media-card overflow-hidden bg-surface-light">
           <Image src={card.image.url} alt={card.image.alt} />
         </div>
       )}

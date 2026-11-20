@@ -35,7 +35,7 @@ export function ImageSlider({
 
   if (count === 0) {
     return (
-      <div className="grid aspect-[21/9] place-items-center rounded-site bg-surface-light text-muted-text">
+      <div className="media-slider grid place-items-center rounded-site bg-surface-light text-muted-text">
         Add a slide to show it here.
       </div>
     );
@@ -54,7 +54,7 @@ export function ImageSlider({
         onMouseLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
-        className="relative aspect-[4/5] overflow-hidden rounded-site bg-surface-light @md:aspect-[16/9] @3xl:aspect-[21/9]"
+        className="media-slider relative overflow-hidden rounded-site bg-surface-light"
       >
         {slides.map((slide, slideIndex) => {
           const active = slideIndex === current;
