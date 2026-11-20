@@ -50,7 +50,9 @@ export function ProfileCard({
       </p>
       <Heading level={3}>{profile.name}</Heading>
       {profile.text && (
-        <p className="m-0 text-sm leading-relaxed opacity-85">{profile.text}</p>
+        <p className="m-0 max-w-[90%] text-left text-sm leading-relaxed text-pretty opacity-85">
+          {profile.text}
+        </p>
       )}
       {profile.link && href && (
         <div className="pt-1">

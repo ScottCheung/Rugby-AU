@@ -26,11 +26,11 @@ export function TextBlock({
       <figure className="m-0 mx-auto flex max-w-3xl flex-col items-center gap-4 py-site-sm text-center">
         <span
           aria-hidden
-          className="site-heading text-6xl leading-none opacity-40"
+          className="site-heading text-8xl leading-none opacity-40"
         >
           “
         </span>
-        <blockquote className="site-heading m-0 flex flex-col gap-3 text-2xl leading-snug font-bold @xl/page:text-3xl">
+        <blockquote className="site-heading m-0 flex flex-col gap-3 text-3xl leading-snug font-bold @xl/page:text-4xl">
           {paragraphs.map((text, index) => (
             <p key={index} className="m-0">
               {text}
@@ -53,7 +53,7 @@ export function TextBlock({
       {paragraphs.map((text, index) => (
         <p
           key={index}
-          className={`m-0 leading-relaxed opacity-90 ${index === 0 ? 'text-lg' : 'text-base'}`}
+          className={`m-0 leading-relaxed opacity-90 ${index === 0 ? 'text-xl' : 'text-base'}`}
         >
           {text}
         </p>

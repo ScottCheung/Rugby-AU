@@ -17,7 +17,7 @@ export function Article({
 }: PropsOf<'article'>) {
   const blocks = body.split(/\n\s*\n/).filter((text) => text.trim());
   return (
-    <article className="mx-auto flex w-full max-w-3xl flex-col gap-site-md">
+    <article className="flex w-full max-w-3xl flex-col gap-site-md">
       <header className="flex flex-col gap-3">
         <p className="m-0 flex flex-wrap items-center gap-2 text-sm">
           <span className="rounded-full bg-brand px-3 py-1 font-semibold text-brand-contrast">
@@ -27,10 +27,10 @@ export function Article({
             {formatDate(date)}
           </time>
         </p>
-        <h1 className="site-heading m-0 text-4xl leading-tight font-bold @xl/page:text-5xl">
+        <h1 className="site-heading m-0 text-6xl leading-[0.95] tracking-tight font-bold @xl/page:text-7xl">
           {headline}
         </h1>
-        <p className="m-0 text-xl leading-relaxed text-muted-text">
+        <p className="m-0 text-2xl leading-relaxed text-muted-text">
           {standfirst}
         </p>
       </header>
@@ -44,7 +44,7 @@ export function Article({
           block.startsWith('## ') ? (
             <h2
               key={index}
-              className="site-heading m-0 mt-4 text-2xl leading-snug font-bold"
+              className="site-heading m-0 mt-4 text-4xl leading-tight font-bold"
             >
               {block.slice(3)}
             </h2>

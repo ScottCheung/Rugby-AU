@@ -144,7 +144,7 @@ export function Card({
       >
         {variant === 'masonry' ? (
           // A photo wall: the heading reads as a caption under the photo.
-          <p className="m-0 text-sm text-muted-text">{card.heading}</p>
+          <p className="m-0 text-base text-muted-text">{card.heading}</p>
         ) : (
           <>
             {kicker}

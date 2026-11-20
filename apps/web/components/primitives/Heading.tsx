@@ -6,9 +6,9 @@ import type { ReactNode } from 'react';
  * preview gets the same sizes as a real screen of that width.
  */
 const sizes = {
-  1: 'text-4xl @xl/page:text-5xl',
-  2: 'text-2xl @xl/page:text-3xl',
-  3: 'text-lg',
+  1: 'text-6xl leading-[0.95] tracking-tight @xl/page:text-7xl',
+  2: 'text-4xl @xl/page:text-5xl',
+  3: 'text-xl @xl/page:text-2xl',
 } as const;
 
 /** Site heading. Colour is inherited, so it works on any background. */
