@@ -7,6 +7,19 @@ server-rendered at **`/sites/<site>/<path>`** from portable page JSON, each with
 its own theme. Two fictional sites are seeded: **National XV** (deep green and
 gold, dark) and **Coastal Union** (navy and white, light).
 
+## The component library
+
+| Component                | What it exercises                                                        | Props                                                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| **Section** (required)   | Nesting: a container whose children can include other Sections           | optional `heading` and `intro`; `layout`: full, two-column, two-column-wide, three-column; `background`: none, light, brand |
+| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, link? { label, href } }`            |
+| **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                |
+
+Section keeps the two layouts and three backgrounds the brief asks for and adds a
+couple more. Variety in how content looks lives in the content components, not in
+Section: the same Card Grid data can be shown as a grid, a sideways-scrolling
+carousel or a masonry photo wall. Section stays a pure layout container.
+
 ## 1. Run it
 
 Requirements: Node 22+, npm, Docker.
@@ -129,6 +142,7 @@ components that accept children (Section) have `children`.
           "type": "cardGrid",
           "props": {
             "title": "About the team",
+            "variant": "grid",
             "cards": [
               {
                 "image": {
@@ -160,7 +174,13 @@ prefixes them with `/sites/<slug>`, so the same JSON would work under a custom d
 
 ## 4. Adding a new component
 
-Example: a "Call to action" with a heading, some text and an optional button. No
+**Image Slider was added this way**, after Section and Card Grid were finished: a
+schema file (`lib/components/imageSlider.ts`, reusing the shared image and link
+fields from `lib/components/fields.ts`), a render component
+(`components/site/ImageSlider.tsx`) and two registry lines. The manager form, the
+palette entry and the save validation came for free.
+
+A second, smaller example: a "Call to action" with a heading, some text and an optional button. No
 form code is written; the manager builds the form from the schema.
 
 **1. Define it** in `apps/web/lib/components/callToAction.ts`:
@@ -250,6 +270,15 @@ token already works the same way: add, for example, `radius: '0'` or
 
 ## 6. Key decisions and trade-offs
 
+- **Variants before new components.** A carousel and a masonry wall show the same data
+  as a grid, so they are a `variant` on Card Grid (one enum in the schema) rather than
+  three components with duplicated card fields. A new component is added when the
+  data is different, as with Image Slider. Adding `variant` later was safe for stored
+  pages: it has a `.default('grid')`, so pages saved before it existed still validate.
+- **Server first, small client islands.** Site components are server components. Only
+  the Image Slider (current slide, autoplay) and the carousel's arrow buttons run in the
+  browser; the carousel itself is CSS scroll snapping and works without JavaScript.
+
 - **Zod vs JSON Schema.** One Zod schema per component gives the TypeScript prop type
   (`z.infer`), runtime validation on save and on render, and the description the form
   generator walks. JSON Schema is more portable across languages, but would need a
@@ -286,8 +315,9 @@ token already works the same way: add, for example, `radius: '0'` or
 
 ## 7. Assumptions
 
-- With only Section and Card Grid available, the "hero" on each home page is a
-  brand-coloured Section holding a one-card Card Grid (heading, image and button).
+- Section's two required layouts (full, two-column) are kept; two-column-wide and
+  three-column are additions. Column counts react to the width a Section actually has
+  (CSS container queries), so a Section nested in a column stacks earlier.
 - The page title is used for `<title>` and is rendered as a visually hidden `<h1>`;
   visible headings come from the components.
 - Paths are lowercase segments of letters, numbers and hyphens. A page's path cannot
