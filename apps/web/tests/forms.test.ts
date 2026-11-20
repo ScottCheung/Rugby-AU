@@ -78,9 +78,10 @@ describe('describeSchema', () => {
         kind: 'enum',
         label: 'Layout',
         options: [
-          { value: 'full', label: 'Full width' },
+          { value: 'full', label: 'One column' },
           { value: 'two-column', label: 'Two columns' },
           { value: 'two-column-wide', label: 'Two columns, wide left' },
+          { value: 'two-column-wide-right', label: 'Two columns, wide right' },
           { value: 'three-column', label: 'Three columns' },
         ],
       }),
@@ -88,6 +89,16 @@ describe('describeSchema', () => {
         key: 'background',
         kind: 'enum',
         label: 'Background',
+      }),
+      expect.objectContaining({
+        key: 'width',
+        kind: 'enum',
+        label: 'Width',
+        options: [
+          { value: 'contained', label: 'Page column' },
+          { value: 'full-background', label: 'Full-width background' },
+          { value: 'full-width', label: 'Edge to edge' },
+        ],
       }),
     ]);
   });
@@ -157,7 +168,7 @@ describe('humanize', () => {
 });
 
 describe('new component props', () => {
-  it('shows the Card Grid variant as a three-option choice and unwraps its default', () => {
+  it('shows the Card Grid variant as a choice of layouts and unwraps its default', () => {
     const variant = describeSchema(cardGridSchema).find(
       (field) => field.key === 'variant',
     );
@@ -167,6 +178,9 @@ describe('new component props', () => {
       optional: false,
       options: [
         { value: 'grid', label: 'Grid' },
+        { value: 'list', label: 'List (photo beside text)' },
+        { value: 'featured', label: 'Featured (first card large)' },
+        { value: 'overlay', label: 'Overlay (text on photo)' },
         { value: 'carousel', label: 'Carousel' },
         { value: 'masonry', label: 'Masonry' },
       ],
@@ -193,13 +207,14 @@ describe('new component props', () => {
     expect(slides.item.fields[3].label).toBe('Button');
   });
 
-  it('gives Section an optional heading and four layouts', () => {
+  it('gives Section an optional heading, five layouts and a width', () => {
     const fields = describeSchema(sectionSchema);
     expect(fields.map((field) => [field.key, field.optional])).toEqual([
       ['heading', true],
       ['intro', true],
       ['layout', false],
       ['background', false],
+      ['width', false],
     ]);
     const layout = fields[2];
     if (layout.kind !== 'enum') throw new Error('unexpected shape');
@@ -207,6 +222,7 @@ describe('new component props', () => {
       'full',
       'two-column',
       'two-column-wide',
+      'two-column-wide-right',
       'three-column',
     ]);
   });

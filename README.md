@@ -11,17 +11,36 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 
 ## The component library
 
-| Component                | What it exercises                                                        | Props                                                                                                                       |
-| ------------------------ | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| **Section** (required)   | Nesting: a container whose children can include other Sections           | optional `heading` and `intro`; `layout`: full, two-column, two-column-wide, three-column; `background`: none, light, brand |
-| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, text?, link? { label, href } }`     |
-| **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                |
-| **Text**                 | Long-form copy: paragraphs from one multiline field                      | `heading?`, `body` (an empty line starts a paragraph), `button?`                                                            |
+| Component                | What it exercises                                                        | Props                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Section** (required)   | Nesting: a container whose children can include other Sections           | `heading?`, `intro?`; `layout`: one column, two columns (even, wide left, wide right), three columns; `background`: none, light, brand; `width`  |
+| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, list, featured, overlay, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, text?, link? { label, href } }` |
+| **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                                     |
+| **Text**                 | Long-form copy: paragraphs from one multiline field                      | `heading?`, `body` (an empty line starts a paragraph), `button?`, `style`: plain, centred, quote                                                 |
+| **Stats**                | A list of small objects without images                                   | `stats[]`: `{ value, label }`                                                                                                                    |
 
-Section keeps the two layouts and three backgrounds the brief asks for and adds a
-couple more. Variety in how content looks lives in the content components, not in
-Section: the same Card Grid data can be shown as a grid, a sideways-scrolling
-carousel or a masonry photo wall. Section stays a pure layout container.
+Section keeps the two layouts and three backgrounds the brief asks for and adds more.
+Variety in how content looks lives mostly in the content components: the same Card
+Grid data can be a grid, a list (photo beside text), a featured layout (first card
+large), overlay tiles (text on the photo), a sideways carousel or a masonry photo
+wall. The arrangements are plain CSS with container queries (`cards-*` in
+`app/globals.css`), so they follow the space a grid really has.
+
+**Width.** A Section placed directly on the page chooses how wide it is:
+
+- **Page column** (default): inside the centred page column, with rounded corners
+  when it has a background.
+- **Full-width background**: the colour runs to the screen edges; the content stays
+  in the column. Used for bands such as Stats or a call to action.
+- **Edge to edge**: the content runs to the edges too, e.g. a hero slider or a photo
+  wall. Its heading stays in the column so it lines up with the page.
+
+The page itself has no container: `RenderTree` puts each page-level block in the
+column unless `rootBlockWidth()` (`lib/components/pageWidth.ts`) says otherwise, and
+the editor canvas uses the same function, so the editor shows exactly what the site
+will. Nested Sections follow their parent; the renderer passes `nested` to every
+component alongside `siteSlug`. `width` has a `.default('contained')`, so pages saved
+before it existed render as before.
 
 On public pages, a card with a link is clickable as a whole (one link per card,
 stretched over it) and lifts on hover; a masonry photo without a link opens full size
@@ -212,7 +231,8 @@ fields from `lib/components/fields.ts`), a render component
 (`components/site/ImageSlider.tsx`) and two registry lines. The manager form, the
 palette entry and the save validation came for free. **Text** was added the same way later
 (`lib/components/textBlock.ts` and `components/site/TextBlock.tsx`), plus an
-optional palette icon and a block in the stored-page fixture.
+optional palette icon and a block in the stored-page fixture. **Stats** followed the same
+steps.
 
 A second, smaller example: a "Call to action" with a heading, some text and an optional button. No
 form code is written; the manager builds the form from the schema.

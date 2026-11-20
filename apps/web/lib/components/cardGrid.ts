@@ -22,12 +22,19 @@ export const cardGridSchema = z.object({
   // Same cards, different presentation. Pages saved before this prop existed
   // get "grid" when they are parsed.
   variant: z
-    .enum(['grid', 'carousel', 'masonry'])
+    .enum(['grid', 'list', 'featured', 'overlay', 'carousel', 'masonry'])
     .default('grid')
     .meta({
       label: 'Display as',
-      hint: 'Grid lines cards up; Carousel scrolls sideways; Masonry stacks them like a photo wall.',
-      optionLabels: { grid: 'Grid', carousel: 'Carousel', masonry: 'Masonry' },
+      hint: 'The same cards, arranged differently. Featured makes the first card large; Overlay puts the text on the photo; Masonry is a photo wall whose photos open full size.',
+      optionLabels: {
+        grid: 'Grid',
+        list: 'List (photo beside text)',
+        featured: 'Featured (first card large)',
+        overlay: 'Overlay (text on photo)',
+        carousel: 'Carousel',
+        masonry: 'Masonry',
+      },
     }),
   cards: z.array(cardSchema).meta({ label: 'Cards', itemLabel: 'Card' }),
 });

@@ -13,9 +13,13 @@ import { photoPicker } from './photos';
  */
 
 type Card = PropsOf<'cardGrid'>['cards'][number];
+type Variant = PropsOf<'cardGrid'>['variant'];
 type Slide = PropsOf<'imageSlider'>['slides'][number];
+type Stat = PropsOf<'stats'>['stats'][number];
+type SectionProps = PropsOf<'section'>;
+type Background = SectionProps['background'];
+type Width = SectionProps['width'];
 type Link = { label: string; href: string };
-type Background = PropsOf<'section'>['background'];
 type Pick = ReturnType<typeof photoPicker>;
 export type SeedPage = Omit<PageDocument, '_id'>;
 
@@ -51,6 +55,7 @@ const slide = (
   ...(button ? { button } : {}),
 });
 const link = (label: string, href: string): Link => ({ label, href });
+const stat = (value: string, label: string): Stat => ({ value, label });
 
 const now = new Date();
 const page = (
@@ -70,18 +75,45 @@ const page = (
 
 // ------------------------------------------------------------ building blocks
 
-/** A single-slide Image Slider used as a page header. */
-const banner = (image: SeedImage, heading: string, text: string) =>
-  node('imageSlider', {
-    autoplay: false,
-    slides: [slide(image, heading, text)],
+/** A Section; anything not given takes the Section's own defaults. */
+const section = (
+  children: ComponentNode[],
+  props: Partial<SectionProps> = {},
+) =>
+  node(
+    'section',
+    { layout: 'full', background: 'none', width: 'contained', ...props },
+    children,
+  );
+
+const grid = (variant: Variant, cards: Card[], title = '') =>
+  node('cardGrid', { title, variant, cards });
+
+/** An Image Slider; edge to edge unless a width is given. */
+const hero = (slides: Slide[], width: Width = 'full-width') =>
+  section([node('imageSlider', { autoplay: slides.length > 1, slides })], {
+    width,
   });
 
+/** A one-slide header for an inner page. */
+const banner = (
+  image: SeedImage,
+  heading: string,
+  text: string,
+  width: Width = 'full-width',
+) => hero([slide(image, heading, text)], width);
+
 /** Paragraphs are separated by an empty line, as editors type them. */
-const text = (heading: string, paragraphs: string[], button?: Link) =>
+const text = (
+  heading: string,
+  paragraphs: string[],
+  button?: Link,
+  style: PropsOf<'textBlock'>['style'] = 'plain',
+) =>
   node('textBlock', {
     heading,
     body: paragraphs.join('\n\n'),
+    style,
     ...(button ? { button } : {}),
   });
 
@@ -89,15 +121,17 @@ const text = (heading: string, paragraphs: string[], button?: Link) =>
 const cards = (
   heading: string,
   intro: string | undefined,
-  variant: 'grid' | 'carousel' | 'masonry',
+  variant: Variant,
   items: Card[],
   background: Background = 'none',
+  width: Width = 'contained',
 ) =>
-  node(
-    'section',
-    { heading, ...(intro ? { intro } : {}), layout: 'full', background },
-    [node('cardGrid', { title: '', variant, cards: items })],
-  );
+  section([grid(variant, items)], {
+    heading,
+    ...(intro ? { intro } : {}),
+    background,
+    width,
+  });
 
 /** One card per column, e.g. "Play / Coach / Referee". */
 const columns = (
@@ -105,26 +139,40 @@ const columns = (
   intro: string,
   background: Background,
   items: Card[],
+  width: Width = 'contained',
 ) =>
-  node(
-    'section',
+  section(
+    items.map((item) => grid('grid', [item])),
     {
       heading,
       intro,
       layout: items.length === 2 ? 'two-column' : 'three-column',
       background,
+      width,
     },
-    items.map((item) =>
-      node('cardGrid', { title: '', variant: 'grid', cards: [item] }),
-    ),
   );
 
-/** Text on the left, a picture card on the right. */
-const story = (background: Background, textBlock: ComponentNode, side: Card) =>
-  node('section', { layout: 'two-column-wide', background }, [
-    textBlock,
-    node('cardGrid', { title: '', variant: 'grid', cards: [side] }),
-  ]);
+/**
+ * Text beside a picture card. `flip` puts the picture on the left, so
+ * consecutive stories can alternate sides.
+ */
+const story = (
+  background: Background,
+  textBlock: ComponentNode,
+  side: Card,
+  flip = false,
+  width: Width = 'contained',
+) =>
+  section(
+    flip
+      ? [grid('grid', [side]), textBlock]
+      : [textBlock, grid('grid', [side])],
+    {
+      layout: flip ? 'two-column-wide-right' : 'two-column-wide',
+      background,
+      width,
+    },
+  );
 
 /** A wide feature on the left and a smaller one on the right. */
 const feature = (
@@ -133,28 +181,55 @@ const feature = (
   main: Card,
   side: Card,
   background: Background = 'none',
+  width: Width = 'contained',
 ) =>
-  node(
-    'section',
-    {
-      heading,
-      ...(intro ? { intro } : {}),
-      layout: 'two-column-wide',
-      background,
-    },
-    [
-      node('cardGrid', { title: '', variant: 'grid', cards: [main] }),
-      node('cardGrid', { title: '', variant: 'grid', cards: [side] }),
-    ],
-  );
+  section([grid('grid', [main]), grid('grid', [side])], {
+    heading,
+    ...(intro ? { intro } : {}),
+    layout: 'two-column-wide',
+    background,
+    width,
+  });
+
+/** A band of big numbers, the colour running to the screen edges. */
+const statsBand = (
+  heading: string | undefined,
+  items: Stat[],
+  background: Background = 'brand',
+) =>
+  section([node('stats', { stats: items })], {
+    ...(heading ? { heading } : {}),
+    background,
+    width: 'full-background',
+  });
+
+/** A centred call to action on a full-width band. */
+const callout = (
+  heading: string,
+  paragraphs: string[],
+  button: Link,
+  background: Background = 'brand',
+) =>
+  section([text(heading, paragraphs, button, 'centered')], {
+    background,
+    width: 'full-background',
+  });
 
 /** Photos without links: clicking one opens it full size. */
-const gallery = (title: string, photos: SeedImage[]) =>
-  node('cardGrid', {
-    title,
-    variant: 'masonry',
-    cards: photos.map((image) => card(image, image.alt)),
-  });
+const gallery = (
+  title: string,
+  photos: SeedImage[],
+  width: Width = 'contained',
+) =>
+  section(
+    [
+      grid(
+        'masonry',
+        photos.map((image) => card(image, image.alt)),
+      ),
+    ],
+    { heading: title, width },
+  );
 
 /** Ways to get involved, shared by the governing body and the unions. */
 const getInvolvedCards = (
@@ -201,29 +276,26 @@ function governingBody(pick: Pick): SeedPage[] {
       'Home',
       'Teams, competitions and community rugby across Australia.',
       [
-        node('imageSlider', {
-          autoplay: true,
-          slides: [
-            slide(
-              pick('crowd'),
-              'Rugby World Cup 2027 is coming home',
-              'Australia hosts the men’s tournament from 1 October to 13 November 2027, with the final in Sydney.',
-              events,
-            ),
-            slide(
-              pick('women'),
-              'Women’s Rugby World Cup 2029',
-              'Two years later, Australia welcomes the world’s best women’s teams.',
-              events,
-            ),
-            slide(
-              pick('juniors'),
-              'Rugby for everyone',
-              'From under 6s to veterans, there is a club near you.',
-              involved,
-            ),
-          ],
-        }),
+        hero([
+          slide(
+            pick('crowd'),
+            'Rugby World Cup 2027 is coming home',
+            'Australia hosts the men’s tournament from 1 October to 13 November 2027, with the final in Sydney.',
+            events,
+          ),
+          slide(
+            pick('women'),
+            'Women’s Rugby World Cup 2029',
+            'Two years later, Australia welcomes the world’s best women’s teams.',
+            events,
+          ),
+          slide(
+            pick('juniors'),
+            'Rugby for everyone',
+            'From under 6s to veterans, there is a club near you.',
+            involved,
+          ),
+        ]),
         story(
           'none',
           text(
@@ -241,7 +313,13 @@ function governingBody(pick: Pick): SeedPage[] {
             events,
           ),
         ),
-        cards('Our teams', 'Four levels of rugby, one game.', 'carousel', [
+        statsBand('Australian rugby in numbers', [
+          stat('1899', 'First Test match'),
+          stat('2', 'Men’s Rugby World Cup titles'),
+          stat('2016', 'Olympic sevens gold for the women'),
+          stat('2027', 'A home Rugby World Cup'),
+        ]),
+        cards('Our teams', 'Four levels of rugby, one game.', 'overlay', [
           card(pick('stadium'), 'Wallabies', 'The men’s national team.', teams),
           card(pick('women'), 'Wallaroos', 'The women’s national team.', teams),
           card(
@@ -256,22 +334,15 @@ function governingBody(pick: Pick): SeedPage[] {
             'Brumbies, Reds, Waratahs and Force.',
             teams,
           ),
-          card(
-            pick('juniors'),
-            'Community rugby',
-            'Clubs in every state and territory.',
-            involved,
-          ),
         ]),
         columns(
           'Get involved',
           'Play, coach, referee or help out at your local club.',
           'light',
           getInvolvedCards(pick, involved, involved, involved),
+          'full-background',
         ),
-        feature(
-          'Competitions',
-          undefined,
+        cards('Competitions', undefined, 'featured', [
           card(
             pick('stadium'),
             'From Test rugby to Saturday club games',
@@ -280,21 +351,31 @@ function governingBody(pick: Pick): SeedPage[] {
           ),
           card(
             pick('trophy'),
-            'Silverware',
-            'The trophies Australian teams play for.',
+            'The Bledisloe Cup',
+            'Australia against New Zealand since 1932.',
             competitions,
           ),
-        ),
-        gallery('Around the country', [
-          images.sydneyAerial,
-          images.brisbaneBridge,
-          images.canberraBalloons,
-          images.perthCity,
-          images.melbourneSkyline,
-          images.adelaideStadium,
-          images.hobartHarbour,
-          images.uluru,
+          card(
+            pick('women'),
+            'Super W',
+            'The national women’s competition.',
+            competitions,
+          ),
         ]),
+        gallery(
+          'Around the country',
+          [
+            images.sydneyAerial,
+            images.brisbaneBridge,
+            images.canberraBalloons,
+            images.perthCity,
+            images.melbourneSkyline,
+            images.adelaideStadium,
+            images.hobartHarbour,
+            images.uluru,
+          ],
+          'full-width',
+        ),
       ],
     ),
     page(
@@ -308,11 +389,19 @@ function governingBody(pick: Pick): SeedPage[] {
           'About Rugby Australia',
           'The national governing body for rugby union in Australia.',
         ),
-        text('Who we are', [
-          'Rugby Australia is the national governing body for rugby union. It selects and runs the national teams, organises Australia’s part in professional competitions, and supports the community game in every state and territory.',
-          'Most of its work happens out of sight: training coaches and referees, setting safety rules for junior rugby, funding development programmes, and helping clubs find and keep volunteers.',
-          'It also bids for and hosts major events. The men’s Rugby World Cup in 2027 and the women’s in 2029 will both be played in Australia.',
-        ]),
+        story(
+          'none',
+          text('Who we are', [
+            'Rugby Australia is the national governing body for rugby union. It selects and runs the national teams, organises Australia’s part in professional competitions, and supports the community game in every state and territory.',
+            'Most of its work happens out of sight: training coaches and referees, setting safety rules for junior rugby, funding development programmes, and helping clubs find and keep volunteers.',
+          ]),
+          card(
+            pick('team'),
+            'Major events',
+            'Two home World Cups this decade.',
+            events,
+          ),
+        ),
         columns(
           'What we do',
           'From the national teams down to the first training session at a local club.',
@@ -337,22 +426,21 @@ function governingBody(pick: Pick): SeedPage[] {
               involved,
             ),
           ],
+          'full-background',
         ),
-        feature(
-          'How rugby is organised',
-          'A partnership between the national body, the state and territory unions, and the clubs.',
-          card(
-            images.sydneyAerial,
-            'State and territory unions',
-            'Each state and territory has its own union, running club competitions, representative teams and development programmes.',
-            competitions,
-          ),
+        story(
+          'none',
+          text('How rugby is organised', [
+            'Rugby in Australia is a partnership. Rugby Australia runs the national game; each state and territory has its own union, running club competitions, representative teams and development programmes.',
+            'Clubs, most of them run by volunteers, are where nearly everyone plays.',
+          ]),
           card(
             pick('volunteers'),
             'Clubs and volunteers',
-            'Volunteers run most clubs, with teams for juniors, seniors, women and veterans.',
+            'Teams for juniors, seniors, women and veterans.',
             involved,
           ),
+          true,
         ),
         cards(
           'A decade of major events',
@@ -373,6 +461,7 @@ function governingBody(pick: Pick): SeedPage[] {
             ),
           ],
           'brand',
+          'full-background',
         ),
       ],
     ),
@@ -387,11 +476,18 @@ function governingBody(pick: Pick): SeedPage[] {
           'Our teams',
           'From the Wallabies and Wallaroos to the next generation coming through.',
         ),
-        text('Many teams, one pathway', [
-          'Australia’s teams range from the Wallabies and Wallaroos to under 20s, sevens squads and four professional clubs.',
-          'They are connected by one pathway. Players are spotted at school and club level, move through state age-group teams and club academies, and the best go on to wear the gold jersey.',
+        section([
+          text(
+            'Many teams, one pathway',
+            [
+              'Australia’s teams range from the Wallabies and Wallaroos to under 20s, sevens squads and four professional clubs.',
+              'They are connected by one pathway: players are spotted at school and club level, move through state age-group teams and club academies, and the best go on to wear the gold jersey.',
+            ],
+            undefined,
+            'centered',
+          ),
         ]),
-        cards('National teams', undefined, 'grid', [
+        cards('National teams', undefined, 'featured', [
           card(
             pick('stadium'),
             'Wallabies',
@@ -407,7 +503,7 @@ function governingBody(pick: Pick): SeedPage[] {
           card(
             images.sevensLineout,
             'Australia Sevens',
-            'Men’s and women’s sevens. The women won the first Olympic rugby sevens gold at Rio 2016.',
+            'The women won the first Olympic rugby sevens gold at Rio 2016.',
             competitions,
           ),
         ]),
@@ -442,11 +538,12 @@ function governingBody(pick: Pick): SeedPage[] {
             ),
           ],
           'light',
+          'full-background',
         ),
-        columns(
+        cards(
           'Pathways',
           'The route from club rugby to the national teams.',
-          'none',
+          'list',
           [
             card(
               pick('juniors'),
@@ -481,19 +578,29 @@ function governingBody(pick: Pick): SeedPage[] {
           'Competitions',
           'Test rugby, Super Rugby and the club games played every weekend.',
         ),
-        text('Rugby all year round', [
-          'Australian rugby runs on three levels. Test matches bring the national teams together against the best in the world. Super Rugby Pacific and Super W are the professional and elite club competitions.',
-          'Underneath them are the state club competitions, played every weekend through autumn and winter, where most players and most supporters spend their Saturdays.',
-        ]),
-        cards('International', undefined, 'grid', [
+        story(
+          'none',
+          text('Rugby all year round', [
+            'Australian rugby runs on three levels. Test matches bring the national teams together against the best in the world. Super Rugby Pacific and Super W are the professional and elite club competitions.',
+            'Underneath them are the state club competitions, played every weekend through autumn and winter.',
+          ]),
+          card(
+            pick('trophy'),
+            'Silverware',
+            'What Australian teams play for.',
+            teams,
+          ),
+          true,
+        ),
+        cards('International', undefined, 'overlay', [
           card(
             pick('setPiece'),
             'The Rugby Championship',
-            'An annual tournament between Australia, New Zealand, South Africa and Argentina.',
+            'Australia, New Zealand, South Africa and Argentina, every year.',
             teams,
           ),
           card(
-            pick('trophy'),
+            pick('crowd'),
             'The Bledisloe Cup',
             'Contested between Australia and New Zealand since 1932.',
             teams,
@@ -521,11 +628,12 @@ function governingBody(pick: Pick): SeedPage[] {
             teams,
           ),
           'light',
+          'full-background',
         ),
         cards(
           'Club rugby',
           'Every state runs its own club competition.',
-          'carousel',
+          'list',
           [
             card(
               images.sydneyAerial,
@@ -549,12 +657,6 @@ function governingBody(pick: Pick): SeedPage[] {
               images.melbourneBridge,
               'Dewar Shield',
               'Melbourne’s premier club competition.',
-              involved,
-            ),
-            card(
-              images.perthAerial,
-              'Premier Grade',
-              'The top club grade in Perth and Adelaide.',
               involved,
             ),
           ],
@@ -590,22 +692,21 @@ function governingBody(pick: Pick): SeedPage[] {
           'Courses run through the year.',
           'light',
           getInvolvedCards(pick, teams, about, competitions),
+          'full-background',
         ),
-        feature(
-          'Off the field',
-          undefined,
+        story(
+          'none',
+          text('Off the field', [
+            'Team managers, first aiders, canteen helpers and committee members keep every club running. Most clubs need a few more hands each season.',
+            'Schools can book coaching visits and programmes that help teachers introduce rugby safely.',
+          ]),
           card(
             pick('volunteers'),
             'Volunteer',
-            'Team managers, first aiders, canteen helpers and committee members keep every club running.',
+            'Every club needs helpers.',
             about,
           ),
-          card(
-            pick('coaching'),
-            'Schools',
-            'Coaching visits and programmes help teachers introduce rugby safely.',
-            teams,
-          ),
+          true,
         ),
         cards('Rugby for every age', undefined, 'carousel', [
           card(
@@ -630,9 +731,14 @@ function governingBody(pick: Pick): SeedPage[] {
             pick('team'),
             'Veterans',
             'Social rugby for players over 35.',
-            backHome,
+            teams,
           ),
         ]),
+        callout(
+          'Ready to start?',
+          ['Clubs in every state and territory are taking new players now.'],
+          teams,
+        ),
       ],
     ),
     page(
@@ -646,17 +752,29 @@ function governingBody(pick: Pick): SeedPage[] {
           'Major events',
           'A decade of world-class rugby in Australia.',
         ),
-        text('World Cups at home', [
-          'Australia hosts the men’s Rugby World Cup from 1 October to 13 November 2027, the first time since 2003. The tournament opens in Perth and finishes with the final in Sydney.',
-          'In 2029 the Women’s Rugby World Cup comes to Australia for the first time, a chance to grow the women’s game in every state.',
+        section([
+          text(
+            'World Cups at home',
+            [
+              'Australia hosts the men’s Rugby World Cup from 1 October to 13 November 2027, the first time since 2003. The tournament opens in Perth and finishes with the final in Sydney.',
+              'In 2029 the Women’s Rugby World Cup comes to Australia for the first time.',
+            ],
+            undefined,
+            'centered',
+          ),
+        ]),
+        statsBand(undefined, [
+          stat('1 Oct', 'Rugby World Cup 2027 starts, in Perth'),
+          stat('13 Nov', 'The final, in Sydney'),
+          stat('2029', 'Women’s Rugby World Cup'),
         ]),
         feature(
           'Rugby World Cup 2027',
           undefined,
           card(
             pick('stadium'),
-            '1 October to 13 November 2027',
-            'Matches in cities across the country, with the final in Sydney.',
+            'Six weeks of rugby',
+            'Matches in cities across the country.',
             teams,
           ),
           card(
@@ -665,25 +783,26 @@ function governingBody(pick: Pick): SeedPage[] {
             'The tournament starts in Western Australia.',
             teams,
           ),
-          'light',
         ),
-        feature(
-          'Women’s Rugby World Cup 2029',
-          undefined,
+        story(
+          'light',
+          text(
+            'Women’s Rugby World Cup 2029',
+            [
+              'The first women’s Rugby World Cup in Australia is a chance to grow the game in every state: more teams, more coaches and more girls playing.',
+            ],
+            involved,
+          ),
           card(
             pick('women'),
             'A home World Cup for the Wallaroos',
-            'More teams, more coaches and more girls playing.',
+            'Building towards 2029.',
             involved,
           ),
-          card(
-            pick('trophy'),
-            'Building towards 2029',
-            'How clubs can get ready.',
-            involved,
-          ),
+          true,
+          'full-background',
         ),
-        cards('Recent events', undefined, 'grid', [
+        cards('Recent events', undefined, 'list', [
           card(
             pick('setPiece'),
             '2025: the British & Irish Lions tour',
@@ -709,6 +828,7 @@ type NationalTeam = {
   name: string;
   slides: Slide[];
   story: string[];
+  stats: Stat[];
   moments: Card[];
   news: Card[];
   timeline: Card[];
@@ -721,7 +841,7 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
   const supporters = link('Supporters', '/supporters');
   return [
     page(team.slug, '/', 'Home', 'News, history and the road ahead.', [
-      node('imageSlider', { autoplay: true, slides: team.slides }),
+      hero(team.slides),
       story(
         'none',
         text(`About the ${team.name}`, team.story.slice(0, 2), history),
@@ -732,75 +852,66 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
           supporters,
         ),
       ),
+      statsBand(undefined, team.stats),
       cards(
         'Moments',
         'Swipe through some of the milestones.',
         'carousel',
         team.moments,
       ),
-      node(
-        'section',
-        { heading: 'Latest', layout: 'two-column-wide', background: 'light' },
-        [
-          node('cardGrid', { title: '', variant: 'grid', cards: team.news }),
-          node('cardGrid', {
-            title: '',
-            variant: 'grid',
-            cards: [
-              card(
-                pick('stadium'),
-                'Next up: a home Test',
-                'Members get first access to tickets.',
-                supporters,
-              ),
-            ],
-          }),
-        ],
-      ),
-      gallery('Gallery', [
-        pick('action'),
-        pick('setPiece'),
-        pick('team'),
-        pick('action'),
-        pick('crowd'),
-        pick('action'),
+      cards('Latest', undefined, 'featured', [
+        ...team.news,
+        card(
+          pick('stadium'),
+          'Next up: a home Test',
+          'Members get first access to tickets.',
+          supporters,
+        ),
       ]),
+      gallery(
+        'Gallery',
+        [
+          pick('action'),
+          pick('setPiece'),
+          pick('team'),
+          pick('action'),
+          pick('crowd'),
+          pick('action'),
+        ],
+        'full-width',
+      ),
     ]),
     page(team.slug, '/history', 'History', 'Where the team comes from.', [
       banner(pick('team'), 'Our history', team.story[0]),
-      text('The story so far', team.story),
+      section([text('The story so far', team.story)]),
       cards(
         'Timeline',
         'Swipe through the milestones.',
         'carousel',
         team.timeline,
         'light',
+        'full-background',
       ),
-      columns(
-        'What the jersey means',
-        'Every player who pulls on the jersey joins a long line.',
-        'none',
-        [
-          card(
-            pick('team'),
-            'A numbered cap',
-            'Each player gets a cap number on debut, counting every international since the first.',
-            matches,
-          ),
-          card(
-            pick('action'),
-            'Green and gold',
-            'Australia’s sporting colours, worn with pride at home and away.',
-            supporters,
-          ),
-          card(
-            pick('juniors'),
-            'From the clubs',
-            'Every international started at a local club.',
-            supporters,
-          ),
-        ],
-      ),
+      cards('What the jersey means', undefined, 'overlay', [
+        card(
+          pick('team'),
+          'A numbered cap',
+          'Each player gets a cap number on debut, counting every international since the first.',
+          matches,
+        ),
+        card(
+          pick('action'),
+          'Green and gold',
+          'Australia’s sporting colours, worn with pride at home and away.',
+          supporters,
+        ),
+        card(
+          pick('juniors'),
+          'From the clubs',
+          'Every international started at a local club.',
+          supporters,
+        ),
+      ]),
     ]),
     page(team.slug, '/matches', 'Matches', 'Competitions and match days.', [
       banner(
@@ -808,14 +919,14 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         'Matches',
         'Test rugby at home and around the world.',
       ),
-      cards('Competitions', undefined, 'grid', team.competitions),
+      cards('Competitions', undefined, 'list', team.competitions),
       story(
         'light',
         text(
           'A Test match day',
           [
             'Gates usually open two hours before kick-off. Arrive early to watch the warm-ups, find your seat and be there for the anthems.',
-            'Most stadiums are easiest to reach by public transport, and match tickets often include travel on the day. Check your ticket before you set out.',
+            'Most stadiums are easiest to reach by public transport. Check your ticket before you set out.',
           ],
           supporters,
         ),
@@ -825,6 +936,8 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
           'Members get first access.',
           supporters,
         ),
+        true,
+        'full-background',
       ),
     ]),
     page(team.slug, '/supporters', 'Supporters', `Follow the ${team.name}.`, [
@@ -833,34 +946,43 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         `Support the ${team.name}`,
         'Wear the colours, join as a member and bring the family.',
       ),
-      text(
-        'Be part of it',
-        [
-          'Supporters are the sixth forward at a home Test. Members get priority tickets, member-only events and a say in the season’s awards.',
-          'Junior members get a welcome pack and the chance to run out with the team at a home game.',
-        ],
-        matches,
-      ),
-      columns('Ways to support', 'Pick what suits you.', 'light', [
-        card(
-          pick('stadium'),
-          'Membership',
-          'Priority tickets for home Tests and member events through the year.',
-          matches,
-        ),
-        card(
-          pick('juniors'),
-          'Kids',
-          'A welcome pack and a chance to run out with the team.',
-          history,
-        ),
-        card(
-          pick('crowd'),
-          'Travel',
-          'Follow the team to away Tests with supporter tours.',
-          backHome,
+      section([
+        text(
+          'Be part of it',
+          [
+            'Supporters are the sixth forward at a home Test. Members get priority tickets, member-only events and a say in the season’s awards.',
+            'Junior members get a welcome pack and the chance to run out with the team at a home game.',
+          ],
+          undefined,
+          'centered',
         ),
       ]),
+      columns(
+        'Ways to support',
+        'Pick what suits you.',
+        'light',
+        [
+          card(
+            pick('stadium'),
+            'Membership',
+            'Priority tickets for home Tests and member events through the year.',
+            matches,
+          ),
+          card(
+            pick('juniors'),
+            'Kids',
+            'A welcome pack and a chance to run out with the team.',
+            history,
+          ),
+          card(
+            pick('crowd'),
+            'Travel',
+            'Follow the team to away Tests with supporter tours.',
+            backHome,
+          ),
+        ],
+        'full-background',
+      ),
       gallery('From the stands', [
         pick('crowd'),
         pick('action'),
@@ -904,6 +1026,12 @@ const wallabies = (pick: Pick) =>
         'Australia played its first Test in 1899, against a touring British Isles side at the Sydney Cricket Ground. The name Wallabies comes from the 1908 tour of Britain and has stayed with the men’s team ever since.',
         'The Wallabies won the Rugby World Cup in 1991 and again in 1999, the first team to lift the trophy twice. They have played New Zealand for the Bledisloe Cup since 1932, and meet New Zealand, South Africa and Argentina every year in The Rugby Championship.',
         'In 2027 the Rugby World Cup returns to Australia for the first time since 2003.',
+      ],
+      stats: [
+        stat('1899', 'First Test'),
+        stat('2', 'Rugby World Cup titles'),
+        stat('1932', 'First Bledisloe Cup'),
+        stat('2027', 'A home World Cup'),
       ],
       moments: [
         card(
@@ -1038,6 +1166,12 @@ const wallaroos = (pick: Pick) =>
         'Their best World Cup finish is third place, in 2010. Since 2018 Super W has given the country’s best players a national club competition and a clearer path into the Wallaroos.',
         'In 2029 Australia hosts the Women’s Rugby World Cup for the first time.',
       ],
+      stats: [
+        stat('1994', 'First Test'),
+        stat('1998', 'First Rugby World Cup'),
+        stat('3rd', 'At the 2010 World Cup'),
+        stat('2029', 'A home World Cup'),
+      ],
       moments: [
         card(
           pick('women'),
@@ -1153,6 +1287,12 @@ const sevens = (pick: Pick) =>
         'Rugby sevens joined the Olympic Games at Rio 2016, where Australia’s women won the first gold medal, beating New Zealand in the final.',
         'Both teams play a world series of tournaments every season, and the pathway runs from schools and clubs to state and national squads.',
       ],
+      stats: [
+        stat('7', 'Players a side'),
+        stat('7 min', 'Each half'),
+        stat('2016', 'Olympic gold for the women'),
+        stat('2', 'Teams: men and women'),
+      ],
       moments: [
         card(
           pick('women'),
@@ -1241,6 +1381,7 @@ type Club = {
   region: string;
   cityImages: [SeedImage, SeedImage];
   story: string[];
+  stats: Stat[];
   honours: { year: string; text: string }[];
 };
 
@@ -1255,35 +1396,33 @@ function club(team: Club, pick: Pick): SeedPage[] {
       'Home',
       `${team.name}: Super Rugby from ${team.city}.`,
       [
-        node('imageSlider', {
-          autoplay: true,
-          slides: [
-            slide(
-              team.cityImages[0],
-              `${team.name}`,
-              `Super Rugby from ${team.city}.`,
-              clubLink,
-            ),
-            slide(
-              pick('crowd'),
-              `Home games at ${team.ground}`,
-              'Bring the family and wear the colours.',
-              matchday,
-            ),
-            slide(
-              pick('action'),
-              'The new season',
-              'Memberships are on sale now.',
-              matchday,
-            ),
-          ],
-        }),
+        hero([
+          slide(
+            team.cityImages[0],
+            `${team.name}`,
+            `Super Rugby from ${team.city}.`,
+            clubLink,
+          ),
+          slide(
+            pick('crowd'),
+            `Home games at ${team.ground}`,
+            'Bring the family and wear the colours.',
+            matchday,
+          ),
+          slide(
+            pick('action'),
+            'The new season',
+            'Memberships are on sale now.',
+            matchday,
+          ),
+        ]),
+        statsBand(undefined, team.stats),
         story(
           'none',
           text(`Welcome to the ${team.name}`, team.story.slice(0, 2), clubLink),
           card(pick('team'), 'Our honours', 'Titles and milestones.', clubLink),
         ),
-        columns('This season', 'Everything you need for match day.', 'light', [
+        cards('This season', 'Everything you need for match day.', 'overlay', [
           card(
             pick('stadium'),
             'Memberships',
@@ -1303,13 +1442,13 @@ function club(team: Club, pick: Pick): SeedPage[] {
             pathways,
           ),
         ]),
-        feature(
-          'Home ground',
-          undefined,
-          card(
-            pick('stadium'),
+        story(
+          'light',
+          text(
             team.ground,
-            `Where the ${team.name} play their home games.`,
+            [
+              `Home games are played at ${team.ground}, with the city of ${team.city} turning out in the club’s colours.`,
+            ],
             matchday,
           ),
           card(
@@ -1318,19 +1457,25 @@ function club(team: Club, pick: Pick): SeedPage[] {
             `The heart of rugby in ${team.region}.`,
             clubLink,
           ),
+          true,
+          'full-background',
         ),
-        gallery('Gallery', [
-          pick('action'),
-          team.cityImages[0],
-          pick('setPiece'),
-          pick('action'),
-          pick('team'),
-        ]),
+        gallery(
+          'Gallery',
+          [
+            pick('action'),
+            team.cityImages[0],
+            pick('setPiece'),
+            pick('action'),
+            pick('team'),
+          ],
+          'full-width',
+        ),
       ],
     ),
     page(team.slug, '/club', 'The club', `The story of the ${team.name}.`, [
       banner(team.cityImages[0], `About the ${team.name}`, team.story[0]),
-      text('Our story', team.story),
+      section([text('Our story', team.story)]),
       cards(
         'Honours and milestones',
         undefined,
@@ -1339,11 +1484,12 @@ function club(team: Club, pick: Pick): SeedPage[] {
           card(pick('team'), honour.year, honour.text, matchday),
         ),
         'brand',
+        'full-background',
       ),
-      columns(
+      cards(
         'More than one team',
         'The club looks after rugby across its region.',
-        'none',
+        'list',
         [
           card(
             pick('action'),
@@ -1405,6 +1551,11 @@ function club(team: Club, pick: Pick): SeedPage[] {
           clubLink,
         ),
       ]),
+      callout(
+        'See you at the game',
+        [`Memberships for the new season at ${team.ground} are on sale now.`],
+        clubLink,
+      ),
     ]),
     page(
       team.slug,
@@ -1417,10 +1568,20 @@ function club(team: Club, pick: Pick): SeedPage[] {
           'Pathways',
           `How young players in ${team.region} reach professional rugby.`,
         ),
-        text('From the local club to Super Rugby', [
-          `Every player in the ${team.name} squad started at a local club. Talented juniors are picked for representative age-group teams, and the best join the club’s academy.`,
-          'The academy adds coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes.',
-        ]),
+        story(
+          'none',
+          text('From the local club to Super Rugby', [
+            `Every player in the ${team.name} squad started at a local club. Talented juniors are picked for representative age-group teams, and the best join the club’s academy.`,
+            'The academy adds coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes.',
+          ]),
+          card(
+            pick('coaching'),
+            'The academy',
+            'Where the next generation trains.',
+            clubLink,
+          ),
+          true,
+        ),
         cards(
           'The route to the top',
           undefined,
@@ -1445,12 +1606,6 @@ function club(team: Club, pick: Pick): SeedPage[] {
               matchday,
             ),
             card(
-              pick('coaching'),
-              'Academy',
-              'Training, strength and conditioning, and study support.',
-              clubLink,
-            ),
-            card(
               pick('stadium'),
               'Debut',
               `Pulling on the ${team.name} jersey.`,
@@ -1458,11 +1613,12 @@ function club(team: Club, pick: Pick): SeedPage[] {
             ),
           ],
           'light',
+          'full-background',
         ),
-        columns(
+        cards(
           'Women’s pathway',
           'Girls can follow the same route, all the way to Super W.',
-          'none',
+          'overlay',
           [
             card(
               pick('women'),
@@ -1497,6 +1653,11 @@ const brumbies = (pick: Pick) =>
         'They won Super Rugby in 2001 and 2004, and the Super Rugby AU title in 2020. Club rugby in the region is played for the John I Dent Cup.',
         'Home games are at Canberra Stadium, where the club also runs its junior clinics and community days.',
       ],
+      stats: [
+        stat('1996', 'First Super Rugby season'),
+        stat('2', 'Super Rugby titles'),
+        stat('2020', 'Super Rugby AU champions'),
+      ],
       honours: [
         { year: '1996', text: 'The club plays its first Super Rugby season.' },
         { year: '2001', text: 'Super Rugby champions.' },
@@ -1520,6 +1681,11 @@ const reds = (pick: Pick) =>
         'Queensland’s rugby story goes back to 1882, when Queensland and New South Wales played their first interstate match. Today the Reds are Queensland’s Super Rugby team.',
         'The Reds won Super Rugby in 2011 and the Super Rugby AU title in 2021. Club rugby in Brisbane is played for the Hospital Cup.',
         'Home games are at Suncorp Stadium in Brisbane.',
+      ],
+      stats: [
+        stat('1882', 'First interstate match'),
+        stat('2011', 'Super Rugby champions'),
+        stat('2021', 'Super Rugby AU champions'),
       ],
       honours: [
         {
@@ -1546,6 +1712,11 @@ const waratahs = (pick: Pick) =>
         'New South Wales has played representative rugby since 1882, when it first met Queensland. The Waratahs, in sky blue, are the state’s Super Rugby team.',
         'They won Super Rugby in 2014. Sydney’s club competition, the Shute Shield, is where many Waratahs come from.',
         'Home games are at Allianz Stadium in Sydney.',
+      ],
+      stats: [
+        stat('1882', 'First interstate match'),
+        stat('2014', 'Super Rugby champions'),
+        stat('Sky blue', 'The state’s colour'),
       ],
       honours: [
         {
@@ -1576,6 +1747,11 @@ const force = (pick: Pick) =>
         'After time outside the competition, the Force returned to Super Rugby in 2020. Home games are at HBF Park in Perth.',
         'In 2027 Perth hosts the opening match of the Rugby World Cup.',
       ],
+      stats: [
+        stat('2006', 'First Super Rugby season'),
+        stat('2020', 'Back in Super Rugby'),
+        stat('2027', 'World Cup opener in Perth'),
+      ],
       honours: [
         { year: '2006', text: 'The club plays its first Super Rugby season.' },
         { year: '2020', text: 'Back in Super Rugby, in Super Rugby AU.' },
@@ -1603,9 +1779,9 @@ function union(body: Union, pick: Pick): SeedPage[] {
   const competitions = link('Competitions', '/competitions');
   return [
     page(body.slug, '/', 'Home', `Club and community rugby in ${body.state}.`, [
-      node('imageSlider', {
-        autoplay: false,
-        slides: [
+      // Community sites keep a rounded slider in the page column.
+      hero(
+        [
           slide(
             body.images[0],
             `Rugby in ${body.state}`,
@@ -1619,7 +1795,8 @@ function union(body: Union, pick: Pick): SeedPage[] {
             involved,
           ),
         ],
-      }),
+        'contained',
+      ),
       story(
         'none',
         text(
@@ -1642,8 +1819,9 @@ function union(body: Union, pick: Pick): SeedPage[] {
         'There is a place in rugby for everyone.',
         'light',
         getInvolvedCards(pick, clubsLink, involved, involved),
+        'full-background',
       ),
-      cards('Club rugby', undefined, 'grid', [
+      cards('Club rugby', undefined, 'featured', [
         card(
           pick('action'),
           body.competition,
@@ -1663,6 +1841,11 @@ function union(body: Union, pick: Pick): SeedPage[] {
           competitions,
         ),
       ]),
+      callout(
+        'Registrations are open',
+        ['Find a club near you and sign up for the new season.'],
+        clubsLink,
+      ),
       gallery('Around the clubs', [
         pick('action'),
         body.images[1],
@@ -1681,46 +1864,57 @@ function union(body: Union, pick: Pick): SeedPage[] {
           body.images[1],
           'Find a club',
           `Clubs across ${body.state} run teams for every age and level.`,
+          'contained',
         ),
-        text('Choosing a club', [
-          'The best club is usually the closest one. Most have junior, senior and women’s teams, and all of them welcome beginners.',
-          'Call in at a training night before you register: you can meet the coaches, try a session and see which team suits you.',
-        ]),
-        columns(
+        story(
+          'none',
+          text('Choosing a club', [
+            'The best club is usually the closest one. Most have junior, senior and women’s teams, and all of them welcome beginners.',
+            'Call in at a training night before you register: you can meet the coaches, try a session and see which team suits you.',
+          ]),
+          card(
+            pick('coaching'),
+            'Your first session',
+            'Sports clothes, boots and a mouthguard.',
+            involved,
+          ),
+          true,
+        ),
+        cards(
           'Where to play',
           'Most clubs have junior, senior and women’s teams.',
-          'light',
+          'overlay',
           [
             card(
               body.images[0],
               'Metropolitan clubs',
-              'City clubs play in the premier competitions, with several grades each weekend.',
+              'Premier competitions with several grades each weekend.',
               competitions,
             ),
             card(
               pick('ball'),
               'Country clubs',
-              'Regional clubs play in local competitions and come together for country championships.',
+              'Local competitions and country championships.',
               competitions,
             ),
           ],
+          'light',
+          'full-background',
         ),
-        feature(
-          'What to expect',
-          undefined,
-          card(
-            pick('coaching'),
-            'Your first session',
-            'Turn up in sports clothes and boots. Mouthguards are a must for contact training.',
-            involved,
-          ),
+        cards('What to expect', undefined, 'list', [
           card(
             pick('team'),
             'Registration',
             'Register online once you have chosen a club.',
             involved,
           ),
-        ),
+          card(
+            pick('juniors'),
+            'Training nights',
+            'Most teams train once or twice a week, with games on the weekend.',
+            competitions,
+          ),
+        ]),
       ],
     ),
     page(
@@ -1733,36 +1927,39 @@ function union(body: Union, pick: Pick): SeedPage[] {
           pick('coaching'),
           'Get involved',
           'Rugby runs on players, coaches, referees and volunteers.',
+          'contained',
         ),
-        text(
-          'There is a role for you',
-          [
-            'Clubs need more than players. Coaches, referees, team managers, first aiders and canteen helpers all make game day happen.',
-            'Courses for coaches and referees run through the year, and most are free for club members.',
-          ],
-          clubsLink,
-        ),
+        section([
+          text(
+            'There is a role for you',
+            [
+              'Clubs need more than players. Coaches, referees, team managers, first aiders and canteen helpers all make game day happen.',
+              'Courses for coaches and referees run through the year, and most are free for club members.',
+            ],
+            clubsLink,
+            'centered',
+          ),
+        ]),
         columns(
           'On the field',
           'Courses run through the year.',
           'light',
           getInvolvedCards(pick, clubsLink, clubsLink, competitions),
+          'full-background',
         ),
-        feature(
-          'Off the field',
-          undefined,
+        story(
+          'none',
+          text('Off the field', [
+            'Team managers, first aiders and canteen helpers keep every club running.',
+            'Schools can book coaching visits and programmes for primary and secondary students.',
+          ]),
           card(
             pick('volunteers'),
             'Volunteer',
-            'Team managers, first aiders and canteen helpers keep every club running.',
+            'Every club needs helpers.',
             clubsLink,
           ),
-          card(
-            pick('juniors'),
-            'Schools',
-            'Coaching visits and programmes for primary and secondary schools.',
-            backHome,
-          ),
+          true,
         ),
       ],
     ),
@@ -1776,12 +1973,17 @@ function union(body: Union, pick: Pick): SeedPage[] {
           pick('action'),
           'Competitions',
           `Club rugby in ${body.state}, from juniors to the top grade.`,
+          'contained',
         ),
-        text('How the season works', [
-          'The club season runs through autumn and winter, with finals at the end. Senior clubs field several grades, so players of every standard get a game.',
-          'Junior competitions are organised by age, with rules that change as players grow: non-contact games for the youngest, then modified tackle rugby, then the full game.',
-        ]),
-        cards('Senior rugby', undefined, 'grid', [
+        story(
+          'none',
+          text('How the season works', [
+            'The club season runs through autumn and winter, with finals at the end. Senior clubs field several grades, so players of every standard get a game.',
+            'Junior competitions are organised by age, with rules that change as players grow.',
+          ]),
+          card(pick('trophy'), 'Finals', 'The end of every season.', clubsLink),
+        ),
+        cards('Senior rugby', undefined, 'overlay', [
           card(
             pick('action'),
             body.competition,
@@ -1801,29 +2003,12 @@ function union(body: Union, pick: Pick): SeedPage[] {
             clubsLink,
           ),
         ]),
-        cards(
-          'Junior rugby',
-          'Age groups from under 6 to under 18.',
-          'carousel',
+        statsBand(
+          'Junior rugby by age',
           [
-            card(
-              pick('juniors'),
-              'Under 6 to under 9',
-              'Non-contact games that teach the basics.',
-              clubsLink,
-            ),
-            card(
-              pick('juniors'),
-              'Under 10 to under 12',
-              'Modified tackle rugby on smaller fields.',
-              clubsLink,
-            ),
-            card(
-              pick('juniors'),
-              'Under 13 to under 18',
-              'Full rugby with age and weight rules.',
-              clubsLink,
-            ),
+            stat('U6–U9', 'Non-contact games that teach the basics'),
+            stat('U10–U12', 'Modified tackle rugby on smaller fields'),
+            stat('U13–U18', 'Full rugby with age and weight rules'),
           ],
           'light',
         ),

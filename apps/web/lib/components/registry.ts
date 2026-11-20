@@ -2,6 +2,7 @@ import type { z } from 'zod';
 import { cardGrid } from './cardGrid';
 import { imageSlider } from './imageSlider';
 import { section } from './section';
+import { stats } from './stats';
 import { textBlock } from './textBlock';
 
 /** Every component editors can place and the renderer can draw. */
@@ -10,6 +11,7 @@ export const componentDefinitions = [
   textBlock,
   cardGrid,
   imageSlider,
+  stats,
 ] as const;
 
 export type AnyComponentDefinition = (typeof componentDefinitions)[number];

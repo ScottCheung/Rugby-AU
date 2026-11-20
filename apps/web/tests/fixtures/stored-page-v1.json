@@ -63,6 +63,18 @@
         "heading": "Our story",
         "body": "First paragraph.\n\nSecond paragraph."
       }
+    },
+    {
+      "id": "stats",
+      "type": "stats",
+      "props": {
+        "stats": [
+          {
+            "value": "2",
+            "label": "World Cup titles"
+          }
+        ]
+      }
     }
   ]
 }

@@ -15,14 +15,21 @@ export const sectionSchema = z.object({
     .optional()
     .meta({ label: 'Intro', multiline: true }),
   layout: z
-    .enum(['full', 'two-column', 'two-column-wide', 'three-column'])
+    .enum([
+      'full',
+      'two-column',
+      'two-column-wide',
+      'two-column-wide-right',
+      'three-column',
+    ])
     .meta({
       label: 'Layout',
       hint: 'How the components inside are arranged on wide screens. On phones they always stack.',
       optionLabels: {
-        full: 'Full width',
+        full: 'One column',
         'two-column': 'Two columns',
         'two-column-wide': 'Two columns, wide left',
+        'two-column-wide-right': 'Two columns, wide right',
         'three-column': 'Three columns',
       },
     }),
@@ -31,6 +38,19 @@ export const sectionSchema = z.object({
     hint: 'Colours come from the site theme.',
     optionLabels: { none: 'None', light: 'Light', brand: 'Brand colour' },
   }),
+  // Added after the first version, so it has a default (see README, 4).
+  width: z
+    .enum(['contained', 'full-background', 'full-width'])
+    .default('contained')
+    .meta({
+      label: 'Width',
+      hint: 'For a Section placed directly on the page. Full-width background stretches the colour to the screen edges; Edge to edge stretches the content too. Inside another Section it follows its parent.',
+      optionLabels: {
+        contained: 'Page column',
+        'full-background': 'Full-width background',
+        'full-width': 'Edge to edge',
+      },
+    }),
 });
 
 export const section = defineComponent({
@@ -39,6 +59,6 @@ export const section = defineComponent({
   description:
     'Groups other components, with an optional heading, a layout and a background.',
   schema: sectionSchema,
-  defaultProps: { layout: 'full', background: 'none' },
+  defaultProps: { layout: 'full', background: 'none', width: 'contained' },
   acceptsChildren: true,
 });

@@ -40,7 +40,12 @@ describe('validateTree', () => {
         {
           id: 's1',
           type: 'section',
-          props: { layout: 'two-column', background: 'brand' },
+          // width was not stored: the schema default fills it in.
+          props: {
+            layout: 'two-column',
+            background: 'brand',
+            width: 'contained',
+          },
           children: [
             {
               id: 'g1',

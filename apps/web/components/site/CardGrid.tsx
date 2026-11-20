@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Button } from '@/components/primitives/Button';
 import { Heading } from '@/components/primitives/Heading';
 import { Image } from '@/components/primitives/Image';
@@ -7,9 +8,14 @@ import { Carousel } from './Carousel';
 import { Lightbox } from './Lightbox';
 
 type Props = PropsOf<'cardGrid'> & { siteSlug: string };
+type Variant = Props['variant'];
 type CardData = Props['cards'][number];
 
-/** One set of cards, three presentations chosen by the `variant` prop. */
+/**
+ * One set of cards, several presentations chosen by the `variant` prop.
+ * The arrangement classes (cards-*) are plain CSS with container queries
+ * in app/globals.css, so they follow the space the grid really has.
+ */
 export function CardGrid({ title, variant = 'grid', cards, siteSlug }: Props) {
   const items = cards.map((card, index) => (
     <Card
@@ -21,37 +27,37 @@ export function CardGrid({ title, variant = 'grid', cards, siteSlug }: Props) {
     />
   ));
 
+  let body: ReactNode;
+  if (variant === 'carousel')
+    body = <Carousel label={title || 'Cards'}>{items}</Carousel>;
+  else if (variant === 'masonry')
+    // Photos without a link open full size.
+    body = (
+      <Lightbox
+        photos={cards.map((card) => ({
+          url: card.image.url,
+          alt: card.image.alt,
+          caption: card.heading,
+        }))}
+      >
+        <div className="cards-masonry">{items}</div>
+      </Lightbox>
+    );
+  else body = <div className={`cards-${variant}`}>{items}</div>;
+
   return (
     <div className="@container flex min-w-0 flex-col gap-site-sm">
       {title && <Heading level={2}>{title}</Heading>}
-      {variant === 'carousel' ? (
-        <Carousel label={title || 'Cards'}>{items}</Carousel>
-      ) : variant === 'masonry' ? (
-        // CSS columns: cards keep their photo's height and flow top to bottom.
-        // Photos without a link open full size.
-        <Lightbox
-          photos={cards.map((card) => ({
-            url: card.image.url,
-            alt: card.image.alt,
-            caption: card.heading,
-          }))}
-        >
-          <div className="columns-1 gap-site-sm @md:columns-2 @3xl:columns-3">
-            {items}
-          </div>
-        </Lightbox>
-      ) : (
-        // auto-fit: one card fills the row, several share it.
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-site-sm">
-          {items}
-        </div>
-      )}
+      {body}
     </div>
   );
 }
 
-const cardShape: Record<Props['variant'], string> = {
+const cardShape: Record<Variant, string> = {
   grid: '',
+  list: '',
+  featured: '',
+  overlay: '',
   carousel: 'w-4/5 shrink-0 snap-start @md:w-5/12 @3xl:w-1/3',
   masonry: 'mb-site-sm break-inside-avoid',
 };
@@ -65,30 +71,62 @@ function Card({
   card: CardData;
   index: number;
   siteSlug: string;
-  variant: Props['variant'];
+  variant: Variant;
 }) {
   const href = card.link && resolveHref(card.link.href, siteSlug);
+  const button = card.link && href && (
+    // mt-auto keeps buttons on one line across a row of cards.
+    <div className="mt-auto pt-2">
+      <Button href={href} stretched>
+        {card.link.label}
+      </Button>
+    </div>
+  );
+
+  // Text over the photo, darkened at the bottom so it stays readable.
+  if (variant === 'overlay')
+    return (
+      <article
+        className={`relative flex min-h-80 flex-col justify-end overflow-hidden rounded-site text-white shadow-sm ${href ? 'card-link' : ''}`}
+      >
+        <div className="absolute inset-0">
+          <Image src={card.image.url} alt={card.image.alt} />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+        <div className="relative flex flex-col items-start gap-2 p-site-sm">
+          <Heading level={3}>{card.heading}</Heading>
+          {card.text && (
+            <p className="m-0 leading-relaxed text-white/85">{card.text}</p>
+          )}
+          {button}
+        </div>
+      </article>
+    );
+
+  const media =
+    variant === 'masonry' && !href ? (
+      <button
+        type="button"
+        data-lightbox-index={index}
+        aria-label={`View photo: ${card.heading}`}
+        className="zoomable block w-full cursor-zoom-in overflow-hidden"
+      >
+        <Image src={card.image.url} alt={card.image.alt} fit="natural" />
+      </button>
+    ) : variant === 'masonry' ? (
+      <Image src={card.image.url} alt={card.image.alt} fit="natural" />
+    ) : (
+      <div className="media-card overflow-hidden bg-surface-light">
+        <Image src={card.image.url} alt={card.image.alt} />
+      </div>
+    );
+
   return (
     <article
       // relative: a card's link stretches over the whole card.
       className={`relative flex flex-col overflow-hidden rounded-site border border-muted-text/20 bg-background text-text shadow-sm ${href ? 'card-link' : ''} ${cardShape[variant]}`}
     >
-      {variant === 'masonry' && !href ? (
-        <button
-          type="button"
-          data-lightbox-index={index}
-          aria-label={`View photo: ${card.heading}`}
-          className="zoomable block w-full cursor-zoom-in overflow-hidden"
-        >
-          <Image src={card.image.url} alt={card.image.alt} fit="natural" />
-        </button>
-      ) : variant === 'masonry' ? (
-        <Image src={card.image.url} alt={card.image.alt} fit="natural" />
-      ) : (
-        <div className="media-card overflow-hidden bg-surface-light">
-          <Image src={card.image.url} alt={card.image.alt} />
-        </div>
-      )}
+      {media}
       <div
         className={`flex flex-1 flex-col items-start gap-2 ${variant === 'masonry' ? 'px-3 py-2' : 'p-site-sm'}`}
       >
@@ -101,14 +139,7 @@ function Card({
         {card.text && (
           <p className="m-0 leading-relaxed text-muted-text">{card.text}</p>
         )}
-        {card.link && href && (
-          // mt-auto keeps buttons on one line across a row of cards.
-          <div className="mt-auto pt-2">
-            <Button href={href} stretched>
-              {card.link.label}
-            </Button>
-          </div>
-        )}
+        {button}
       </div>
     </article>
   );

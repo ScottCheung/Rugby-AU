@@ -15,7 +15,9 @@ import {
   type MouseEvent,
   type ReactNode,
 } from 'react';
+import { Container } from '@/components/primitives/Container';
 import { getSiteComponent } from '@/components/site/siteComponents';
+import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
 import type { Location } from '@/lib/components/tree';
 import type { ComponentNode, Site } from '@/lib/types';
@@ -63,9 +65,9 @@ export function Canvas({
             {site.name}
           </span>
         </header>
-        <div
-          className={`flex flex-col gap-site-md px-site-sm pt-12 pb-site-lg ${device === 'desktop' ? 'sm:px-site-md' : ''}`}
-        >
+        {/* Like the public page: no page-wide container, each block
+            decides its width (see NodeList). */}
+        <div className="flex flex-col gap-site-md pt-12 pb-site-lg">
           <NodeList nodes={editor.tree} />
         </div>
       </div>
@@ -81,21 +83,35 @@ function NodeList({
   nodes: ComponentNode[];
   parentId?: string;
 }) {
+  const root = parentId === undefined;
+  const endSlot = (
+    <EndSlot
+      at={{ parentId, index: nodes.length }}
+      empty={nodes.length === 0}
+      root={root}
+    />
+  );
   return (
     <>
-      {nodes.map((node) => (
-        <CanvasNode key={node.id} node={node} />
-      ))}
-      <EndSlot
-        at={{ parentId, index: nodes.length }}
-        empty={nodes.length === 0}
-        root={parentId === undefined}
-      />
+      {nodes.map((node) => {
+        const block = <CanvasNode key={node.id} node={node} nested={!root} />;
+        // Same rule as RenderTree: page-level blocks sit in the page column
+        // unless a Section asks to be full width.
+        if (!root || rootBlockWidth(node) !== 'contained') return block;
+        return <Container key={node.id}>{block}</Container>;
+      })}
+      {root ? <Container>{endSlot}</Container> : endSlot}
     </>
   );
 }
 
-function CanvasNode({ node }: { node: ComponentNode }) {
+function CanvasNode({
+  node,
+  nested,
+}: {
+  node: ComponentNode;
+  nested: boolean;
+}) {
   const editor = useEditor();
   const definition = getDefinition(node.type);
   const label = definition?.label ?? `Unknown (${node.type})`;
@@ -138,7 +154,12 @@ function CanvasNode({ node }: { node: ComponentNode }) {
     // the canvas should show work in progress, the save step validates.
     content = createElement(
       getSiteComponent(definition.type),
-      { ...definition.defaultProps, ...node.props, siteSlug: editor.siteSlug },
+      {
+        ...definition.defaultProps,
+        ...node.props,
+        siteSlug: editor.siteSlug,
+        nested,
+      },
       definition.acceptsChildren ? (
         <NodeList nodes={node.children ?? []} parentId={node.id} />
       ) : null,

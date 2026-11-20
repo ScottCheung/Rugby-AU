@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { RenderTree } from '@/components/site/RenderTree';
+import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getPageByPath, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { pathFromSegments } from '@/lib/paths';
@@ -87,15 +88,22 @@ export default async function SitePage({ params }: Props) {
         </Container>
       </header>
 
-      <main className="flex-1">
-        <Container className="flex flex-col gap-site-md py-site-lg">
-          <h1 className="sr-only">{page.title}</h1>
-          {page.tree.length > 0 ? (
-            <RenderTree nodes={page.tree} siteSlug={site.slug} />
-          ) : (
+      {/* No page-wide container: each block decides its width (RenderTree). */}
+      <main
+        className={`flex flex-1 flex-col gap-site-md pb-site-lg ${
+          page.tree[0] && rootBlockWidth(page.tree[0]) === 'full-width'
+            ? '' // an edge-to-edge first block sits right under the header
+            : 'pt-site-lg'
+        }`}
+      >
+        <h1 className="sr-only">{page.title}</h1>
+        {page.tree.length > 0 ? (
+          <RenderTree nodes={page.tree} siteSlug={site.slug} />
+        ) : (
+          <Container>
             <p className="text-muted-text">This page has no content yet.</p>
-          )}
-        </Container>
+          </Container>
+        )}
       </main>
 
       <footer className="bg-brand py-site-md text-sm text-brand-contrast">

@@ -87,3 +87,80 @@
     transition: none;
   }
 }
+
+/* Edge-to-edge Sections: a slider inside one loses its rounded corners. */
+.section-bleed .media-slider {
+  border-radius: 0;
+}
+
+/*
+ * Card Grid arrangements (the `variant` prop). Container queries, so they
+ * respond to the grid's own width: a grid in a narrow column stacks.
+ */
+.cards-grid,
+.cards-overlay {
+  display: grid;
+  gap: var(--spacing-site-sm);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+.cards-masonry {
+  columns: 1;
+  column-gap: var(--spacing-site-sm);
+}
+@container (min-width: 28rem) {
+  .cards-masonry {
+    columns: 2;
+  }
+}
+@container (min-width: 48rem) {
+  .cards-masonry {
+    columns: 3;
+  }
+}
+/* List: one card per row, photo beside the text on wide enough grids. */
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-site-sm);
+}
+@container (min-width: 36rem) {
+  .cards-list > article {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+  }
+  .cards-list > article .media-card {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 12rem;
+  }
+}
+/* Featured: the first card is large, the rest line up beside and below it. */
+.cards-featured {
+  display: grid;
+  gap: var(--spacing-site-sm);
+}
+@container (min-width: 42rem) {
+  .cards-featured {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .cards-featured > :first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .cards-featured > :first-child .media-card {
+    aspect-ratio: auto;
+    flex: 1;
+    min-height: 18rem;
+  }
+  /* The photo takes the extra height, not the text under it. */
+  .cards-featured > :first-child > :last-child {
+    flex: 0 0 auto;
+  }
+}
+
+/* Stats: as many numbers per row as fit, at least 9rem each. */
+.stats-row {
+  display: grid;
+  gap: var(--spacing-site-md) var(--spacing-site-sm);
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}

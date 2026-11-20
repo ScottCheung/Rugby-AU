@@ -15,6 +15,14 @@ export const textBlockSchema = z.object({
     hint: 'Leave an empty line between paragraphs.',
   }),
   button: linkSchema.optional().meta({ label: 'Button' }),
+  style: z
+    .enum(['plain', 'centered', 'quote'])
+    .default('plain')
+    .meta({
+      label: 'Style',
+      hint: 'Quote shows the text large, with the heading as who said it.',
+      optionLabels: { plain: 'Plain', centered: 'Centred', quote: 'Quote' },
+    }),
 });
 
 export const textBlock = defineComponent({
@@ -26,6 +34,7 @@ export const textBlock = defineComponent({
   defaultProps: {
     heading: 'About us',
     body: 'Write a few sentences here.',
+    style: 'plain',
   },
   acceptsChildren: false,
 });
