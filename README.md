@@ -4,8 +4,10 @@ One Next.js app that runs many rugby websites from a shared component library.
 Editors compose pages in **`/manager`** from reusable components and edit their
 content in forms generated from each component's schema. Public pages are
 server-rendered at **`/sites/<site>/<path>`** from portable page JSON, each with
-its own theme. Two fictional sites are seeded: **National XV** (deep green and
-gold, dark) and **Coastal Union** (navy and white, light).
+its own theme. The seed creates **15 sites modelled on Australian rugby**: Rugby
+Australia, the Wallabies, Wallaroos and Australia Sevens, the four Australian Super
+Rugby clubs and seven state and territory unions, each with two pages and its own
+colours (for example the Wallabies dark green and gold, the Reds maroon on white).
 
 ## The component library
 
@@ -28,12 +30,13 @@ Requirements: Node 22+, npm, Docker.
 cp .env.example .env.local
 docker compose up -d      # MongoDB 7 on localhost:27017
 npm install
-npm run seed              # drops and recreates the two sites and their pages
+npm run seed              # drops and recreates the 15 sample sites and 30 pages
 npm run dev
 ```
 
 - Manager: http://localhost:3000/manager
-- Sites: http://localhost:3000/sites/national-xv and http://localhost:3000/sites/coastal-union
+- Sites: for example http://localhost:3000/sites/wallabies, http://localhost:3000/sites/reds,
+  http://localhost:3000/sites/rugby-australia (all of them are listed in the manager)
 
 Checks, from the repository root: `npm test`, `npm run lint`, `npm run typecheck`,
 `npm run build`.
@@ -110,6 +113,12 @@ later is cheap because it only depends on `lib/components`, `lib/db` and
 
 ### Scaling to 30+ sites
 
+The seed already has 15 sites, built from data: `scripts/seed/sites.ts` lists each
+site (name, category, tagline, colours) and `scripts/seed/pages.ts` fills one page
+template per kind of site (governing body, national team, Super Rugby club, state
+union). The manager groups sites by category and has a search box, so it stays usable
+as the list grows.
+
 - A new site is one `sites` document (slug, name, logo, theme overrides). No code
   change and no deployment.
 - Pages are looked up through the unique compound index `{ siteSlug, path }`; sites
@@ -125,39 +134,51 @@ components that accept children (Section) have `children`.
 
 ```json
 {
-  "_id": { "$oid": "6afef6e915066248f53d9de5" },
-  "siteSlug": "national-xv",
-  "path": "/about",
-  "title": "About the National XV",
-  "description": "Who we are and how to support the team.",
-  "updatedAt": { "$date": "2026-11-19T13:17:29.560Z" },
+  "_id": {
+    "$oid": "6affae335bf06984678bcf3a"
+  },
+  "siteSlug": "wallaroos",
+  "path": "/history",
+  "title": "History",
+  "description": "Where the team comes from.",
+  "updatedAt": {
+    "$date": "2026-11-20T02:19:31.695Z"
+  },
   "tree": [
     {
-      "id": "28436a45-fa99-42da-98ad-351705c967c1",
+      "id": "dc0c9323-9032-4b4a-a731-25d3e3701275",
       "type": "section",
-      "props": { "layout": "full", "background": "light" },
+      "props": {
+        "heading": "Our history",
+        "intro": "The Wallaroos played their first Test on 2 September 1994 against the Black Ferns in Sydney.",
+        "layout": "full",
+        "background": "brand"
+      },
       "children": [
         {
-          "id": "bdb3ad25-1904-43e7-bab4-110ce3f597bd",
+          "id": "9d38f378-5d94-4243-b1cb-1c99dca70836",
           "type": "cardGrid",
           "props": {
-            "title": "About the team",
+            "title": "",
             "variant": "grid",
             "cards": [
               {
                 "image": {
-                  "url": "https://picsum.photos/seed/national-xv-training/800/500",
-                  "alt": "Placeholder photo (national xv training)"
+                  "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Black and white photo of women playing rugby"
                 },
-                "heading": "High performance programme"
+                "heading": "1998: first World Cup"
               },
               {
                 "image": {
-                  "url": "https://picsum.photos/seed/national-xv-fans/800/500",
-                  "alt": "Placeholder photo (national xv fans)"
+                  "url": "https://images.unsplash.com/photo-1767190937750-d6aaf8ea99d0?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Rugby stadium with goalposts and spectators in the stands"
                 },
-                "heading": "Join the supporters club",
-                "link": { "label": "Back to home", "href": "/" }
+                "heading": "2029: home World Cup",
+                "link": {
+                  "label": "Back to home",
+                  "href": "/"
+                }
               }
             ]
           }
@@ -263,7 +284,7 @@ from `.meta()`, falling back to the humanised prop name.
   `app/globals.css` registers the same names as Tailwind theme variables, so site
   components use plain utilities such as `bg-brand text-brand-contrast rounded-site`.
 
-For this version the two sites override **colours only**; radius, font and spacing
+For this version every site overrides **colours only**; radius, font and spacing
 come from the defaults so the brand family stays consistent. Overriding any other
 token already works the same way: add, for example, `radius: '0'` or
 `fontFamily: 'Georgia, serif'` to a site's `theme` (covered by the tests).
@@ -329,8 +350,15 @@ token already works the same way: add, for example, `radius: '0'` or
 - On render, a node whose type is unknown or whose props no longer match the schema is
   skipped (with a warning box in development) instead of failing the whole page.
 - `npm run seed` is destructive by design: it drops and recreates both collections.
-- Mock content only: fictional teams, placeholder images from picsum.photos and
-  placehold.co.
+- Sample content, not the real sites. The organisations are real and their names and
+  colours are used as sample data, but the copy was written for this demo from a few
+  public facts (first Test dates, titles, home grounds, the 2027 and 2029 World Cups),
+  no text was copied from rugby.com.au or the club sites, and logos are plain text
+  badges from placehold.co rather than the real marks. Player names are deliberately
+  not used, because squads change.
+- Photos come from Unsplash (free to use under the Unsplash License). Their alt text
+  describes what is actually in each photo; none is presented as a specific
+  Australian venue. The list is in `apps/web/scripts/seed/images.ts`.
 
 ## 8. What's missing and how I would build it
 
