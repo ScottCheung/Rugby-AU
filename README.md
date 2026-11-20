@@ -353,8 +353,13 @@ token already works the same way: add, for example, `radius: '0'` or
 - Sample content, not the real sites. The organisations are real and their names and
   colours are used as sample data, but the copy was written for this demo from a few
   public facts (first Test dates, titles, home grounds, the 2027 and 2029 World Cups),
-  no text was copied from rugby.com.au or the club sites, and logos are plain text
-  badges from placehold.co rather than the real marks. Player names are deliberately
+  no text was copied from rugby.com.au or the club sites.
+- Logos are the organisations' official logos, used here only to make the demo
+  realistic. They are hotlinked from the files on their English Wikipedia articles
+  (upload.wikimedia.org), not copied into this repository, and remain the property
+  of their owners. If a logo fails to load, the site shows its initials instead
+  (`components/primitives/SiteLogo.tsx`). For a public deployment I would use logo
+  files supplied by each organisation and store them with the site. Player names are deliberately
   not used, because squads change.
 - Photos come from Unsplash (free to use under the Unsplash License). Their alt text
   describes what is actually in each photo; none is presented as a specific

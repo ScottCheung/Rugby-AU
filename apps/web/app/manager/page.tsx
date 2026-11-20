@@ -2,6 +2,7 @@ import { ArrowRight, ExternalLink, FileText, Search } from 'lucide-react';
 import Link from 'next/link';
 import { Card, H1, Paragraph } from '@scottcheung/ui';
 import { PageContainer } from '@/components/manager/PageContainer';
+import { SiteLogo } from '@/components/primitives/SiteLogo';
 import { countPagesBySite } from '@/lib/db/pages';
 import { listSites } from '@/lib/db/sites';
 import { defaultTheme } from '@/lib/theme/defaultTheme';
@@ -103,12 +104,7 @@ function SiteCard({ site, pageCount }: { site: Site; pageCount: number }) {
         className="flex h-20 items-end justify-between rounded-2xl p-3 ring-1 ring-black/5"
         style={{ background: colors.background, color: colors.text }}
       >
-        <span
-          className="max-w-[70%] truncate rounded-full px-3 py-1 text-xs font-bold"
-          style={{ background: colors.brand, color: colors.brandContrast }}
-        >
-          {site.name}
-        </span>
+        <SiteLogo src={site.logoUrl} name={site.name} size="lg" />
         <span className="flex gap-1">
           {[colors.brand, colors.surfaceLight, colors.text].map(
             (colour, index) => (

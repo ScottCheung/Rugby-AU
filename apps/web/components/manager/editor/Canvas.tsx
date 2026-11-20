@@ -21,6 +21,7 @@ import type { Location } from '@/lib/components/tree';
 import type { ComponentNode, Site } from '@/lib/types';
 import type { DragData, DropData } from './dnd';
 import { useEditor } from './editorContext';
+import { SiteLogo } from '@/components/primitives/SiteLogo';
 
 /**
  * The page as visitors will see it, rendered with the site's own components
@@ -57,16 +58,7 @@ export function Canvas({
       >
         <header className="bg-brand px-5 py-3 text-brand-contrast">
           <span className="flex items-center gap-3 font-bold">
-            {site.logoUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={site.logoUrl}
-                alt=""
-                width={32}
-                height={32}
-                className="rounded-site"
-              />
-            )}
+            <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
             {site.name}
           </span>
         </header>

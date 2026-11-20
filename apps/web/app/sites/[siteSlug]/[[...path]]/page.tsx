@@ -9,6 +9,7 @@ import { pathFromSegments } from '@/lib/paths';
 import { defaultTheme } from '@/lib/theme/defaultTheme';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 import { themeToCssVars } from '@/lib/theme/themeToCssVars';
+import { SiteLogo } from '@/components/primitives/SiteLogo';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,16 +53,7 @@ export default async function SitePage({ params }: Props) {
             href={`/sites/${site.slug}`}
             className="flex items-center gap-3 text-xl font-bold"
           >
-            {site.logoUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={site.logoUrl}
-                alt=""
-                width={40}
-                height={40}
-                className="rounded-site"
-              />
-            )}
+            <SiteLogo src={site.logoUrl} name={site.name} />
             {site.name}
           </a>
         </Container>
