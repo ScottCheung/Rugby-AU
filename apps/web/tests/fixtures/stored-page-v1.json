@@ -1,5 +1,5 @@
 {
-  "comment": "A page tree as the first version of the schemas stored it: Card Grid without variant, cards without text, Image Slider without autoplay. Do not update this file when you change a schema: it stands for pages already in MongoDB.",
+  "comment": "Pages as they were first stored: each block in the shape of its component's first version (Card Grid without variant, cards without text, Image Slider without autoplay). Do not update a block when you change a schema: they stand for pages already in MongoDB. When you add a component, add a block in its first shape.",
   "tree": [
     {
       "id": "slider",
@@ -37,7 +37,10 @@
                   "alt": "Rugby goal posts in a full stadium"
                 },
                 "heading": "Captain",
-                "link": { "label": "Read more", "href": "/about" }
+                "link": {
+                  "label": "Read more",
+                  "href": "/about"
+                }
               }
             ]
           }
@@ -45,10 +48,21 @@
         {
           "id": "inner",
           "type": "section",
-          "props": { "layout": "full", "background": "none" },
+          "props": {
+            "layout": "full",
+            "background": "none"
+          },
           "children": []
         }
       ]
+    },
+    {
+      "id": "text",
+      "type": "textBlock",
+      "props": {
+        "heading": "Our story",
+        "body": "First paragraph.\n\nSecond paragraph."
+      }
     }
   ]
 }

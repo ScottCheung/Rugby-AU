@@ -98,10 +98,34 @@ export default async function SitePage({ params }: Props) {
         </Container>
       </main>
 
-      <footer className="border-t border-muted-text/20 py-6 text-sm text-muted-text">
-        <Container className="flex flex-wrap justify-between gap-2">
-          <span>© {site.name}</span>
-          <span>{site.tagline}</span>
+      <footer className="bg-brand py-site-md text-sm text-brand-contrast">
+        <Container className="flex flex-col gap-6">
+          <div className="flex flex-wrap items-start justify-between gap-6">
+            <div className="flex max-w-sm flex-col gap-3">
+              <span className="site-heading flex items-center gap-3 text-lg font-bold">
+                <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
+                {site.name}
+              </span>
+              <span className="opacity-80">{site.tagline}</span>
+            </div>
+            <nav aria-label="Footer">
+              <ul className="m-0 grid list-none grid-cols-2 gap-x-8 gap-y-2 p-0">
+                {menu.map((item) => (
+                  <li key={item.id}>
+                    <a
+                      href={resolveHref(item.path, site.slug)}
+                      className="opacity-80 hover:underline hover:opacity-100"
+                    >
+                      {item.path === '/' ? 'Home' : item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+          <span className="border-t border-current/20 pt-4 opacity-70">
+            © {site.name}. A demo site with sample content.
+          </span>
         </Container>
       </footer>
     </div>

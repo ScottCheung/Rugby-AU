@@ -3,6 +3,7 @@ import type { ComponentType, PropsOf } from '@/lib/components/registry';
 import { CardGrid } from './CardGrid';
 import { ImageSlider } from './ImageSlider';
 import { Section } from './Section';
+import { TextBlock } from './TextBlock';
 
 type SiteComponent<Type extends ComponentType> = ReactComponentType<
   PropsOf<Type> & { children?: ReactNode; siteSlug: string }
@@ -16,6 +17,7 @@ type SiteComponent<Type extends ComponentType> = ReactComponentType<
  */
 const siteComponents: { [Type in ComponentType]: SiteComponent<Type> } = {
   section: Section,
+  textBlock: TextBlock,
   cardGrid: CardGrid,
   imageSlider: ImageSlider,
 };

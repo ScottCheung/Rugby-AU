@@ -16,11 +16,17 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 | **Section** (required)   | Nesting: a container whose children can include other Sections           | optional `heading` and `intro`; `layout`: full, two-column, two-column-wide, three-column; `background`: none, light, brand |
 | **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, text?, link? { label, href } }`     |
 | **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                |
+| **Text**                 | Long-form copy: paragraphs from one multiline field                      | `heading?`, `body` (an empty line starts a paragraph), `button?`                                                            |
 
 Section keeps the two layouts and three backgrounds the brief asks for and adds a
 couple more. Variety in how content looks lives in the content components, not in
 Section: the same Card Grid data can be shown as a grid, a sideways-scrolling
 carousel or a masonry photo wall. Section stays a pure layout container.
+
+On public pages, a card with a link is clickable as a whole (one link per card,
+stretched over it) and lifts on hover; a masonry photo without a link opens full size
+in a lightbox (arrow keys, Esc). In the editor both are switched off, so a click only
+selects the block.
 
 ## 1. Run it
 
@@ -204,7 +210,9 @@ prefixes them with `/sites/<slug>`, so the same JSON would work under a custom d
 schema file (`lib/components/imageSlider.ts`, reusing the shared image and link
 fields from `lib/components/fields.ts`), a render component
 (`components/site/ImageSlider.tsx`) and two registry lines. The manager form, the
-palette entry and the save validation came for free.
+palette entry and the save validation came for free. **Text** was added the same way later
+(`lib/components/textBlock.ts` and `components/site/TextBlock.tsx`), plus an
+optional palette icon and a block in the stored-page fixture.
 
 A second, smaller example: a "Call to action" with a heading, some text and an optional button. No
 form code is written; the manager builds the form from the schema.
@@ -392,9 +400,12 @@ class), so a site can still override any single token on top of its look.
   (`components/primitives/SiteLogo.tsx`). For a public deployment I would use logo
   files supplied by each organisation and store them with the site. Player names are deliberately
   not used, because squads change.
-- Photos come from Unsplash (free to use under the Unsplash License). Their alt text
-  describes what is actually in each photo; none is presented as a specific
-  Australian venue. The list is in `apps/web/scripts/seed/images.ts`.
+- Photos come from Unsplash (free to use under the Unsplash License; Unsplash+
+  photos were excluded). I looked at each one and wrote its alt text to describe
+  what is actually in it; none is presented as a specific Australian venue, team
+  or player. The list is in `apps/web/scripts/seed/images.ts`; `photos.ts` groups
+  them by subject and gives each site its own starting point, so pages rarely
+  repeat a photo.
 
 ## 8. What's missing and how I would build it
 

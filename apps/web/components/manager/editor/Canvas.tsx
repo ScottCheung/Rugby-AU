@@ -48,9 +48,10 @@ export function Canvas({
       <div
         style={themeVars}
         className="@container min-h-[60vh] bg-background font-site text-text"
-        // Links inside the page must not navigate away while editing.
+        // Links must not navigate away and photos must not open full size
+        // while editing: a click on the canvas only selects.
         onClickCapture={(event) => {
-          if ((event.target as HTMLElement).closest('a'))
+          if ((event.target as HTMLElement).closest('a, [data-lightbox-index]'))
             event.preventDefault();
         }}
         onClick={() => editor.select(null)}

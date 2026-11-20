@@ -52,3 +52,38 @@
   text-transform: var(--heading-transform, none);
   letter-spacing: var(--heading-tracking, -0.01em);
 }
+
+/* A link that makes its whole card clickable (see Button's `stretched`). */
+.stretched-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Cards that link somewhere lift a little and zoom their photo on hover. */
+.card-link {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.card-link:hover,
+.card-link:focus-within {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.14);
+}
+.card-link img,
+.zoomable img {
+  transition: transform 0.4s ease;
+}
+.card-link:hover img,
+.zoomable:hover img {
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-link,
+  .card-link img,
+  .zoomable img {
+    transition: none;
+  }
+}
