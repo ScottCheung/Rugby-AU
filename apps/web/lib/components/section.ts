@@ -23,6 +23,7 @@ export const sectionSchema = z.object({
       'three-column',
     ])
     .meta({
+      group: 'layout',
       label: 'Layout',
       hint: 'How the components inside are arranged on wide screens. On phones they always stack.',
       optionLabels: {
@@ -41,6 +42,7 @@ export const sectionSchema = z.object({
       },
     }),
   background: z.enum(['none', 'light', 'brand']).meta({
+    group: 'style',
     label: 'Background',
     hint: 'Colours come from the site theme.',
     optionLabels: { none: 'None', light: 'Light', brand: 'Brand colour' },
@@ -50,6 +52,7 @@ export const sectionSchema = z.object({
     .enum(['contained', 'full-background', 'full-width'])
     .default('contained')
     .meta({
+      group: 'layout',
       label: 'Width',
       hint: 'Applies to a Section placed directly on the page. Inside another Section it follows its parent.',
       optionLabels: {

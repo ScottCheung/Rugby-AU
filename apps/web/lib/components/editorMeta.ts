@@ -11,6 +11,12 @@ declare module 'zod' {
     placeholder?: string;
     /** Render a string as a multi-line textarea. */
     multiline?: boolean;
+    /**
+     * Which tab of the editing form the field sits in: what the block says
+     * (content, the default), how it is arranged (layout), or how it looks
+     * and moves (style).
+     */
+    group?: 'content' | 'layout' | 'style';
     /** Render a string as a date picker (the value is YYYY-MM-DD). */
     format?: 'date';
     /** Human labels for enum values, keyed by value. */

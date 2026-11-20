@@ -56,8 +56,7 @@ import {
   type EditorContextValue,
 } from './editorContext';
 import { editorReducer, initEditor, isDirty } from './editorReducer';
-import { Layers } from './Layers';
-import { Palette } from './Palette';
+import { Sidebar } from './Sidebar';
 import { PropertiesPanel } from './PropertiesPanel';
 
 export function PageEditor({
@@ -383,32 +382,32 @@ export function PageEditor({
             </Button>
           </div>
 
-          {/* Palette and layers | canvas | properties */}
-          <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[16rem_minmax(0,1fr)_22rem]">
-            <aside className="order-2 flex min-h-0 flex-col gap-6 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-surface)] p-4 lg:order-1">
-              <Palette />
-              <Layers />
-            </aside>
-            <main className="order-1 min-h-0 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-bg-secondary)] p-4 lg:order-2 lg:p-6">
+          {/* Canvas | one sidebar (Add, Layers, Edit) */}
+          <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1fr)_26rem]">
+            <main className="min-h-0 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-bg-secondary)] p-4 lg:p-6">
               <Canvas site={site} themeVars={themeVars} device={device} />
             </main>
-            <aside className="order-3 min-h-0 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-surface)] p-5">
-              <MediaLibraryProvider images={images}>
-                <PropertiesPanel
-                  draft={draft}
-                  pageErrors={state.pageErrors}
-                  pageId={page.id}
-                  savedPath={savedPath}
-                  onTitle={(title) => dispatch({ type: 'setTitle', title })}
-                  onPath={(path) => dispatch({ type: 'setPath', path })}
-                  onDescription={(description) =>
-                    dispatch({ type: 'setDescription', description })
-                  }
-                  onProps={(id, props) =>
-                    dispatch({ type: 'updateProps', id, props })
-                  }
-                />
-              </MediaLibraryProvider>
+            <aside className="flex min-h-0 flex-col overflow-hidden rounded-[1.5rem] bg-[var(--ui-surface)]">
+              <Sidebar
+                edit={
+                  <MediaLibraryProvider images={images}>
+                    <PropertiesPanel
+                      draft={draft}
+                      pageErrors={state.pageErrors}
+                      pageId={page.id}
+                      savedPath={savedPath}
+                      onTitle={(title) => dispatch({ type: 'setTitle', title })}
+                      onPath={(path) => dispatch({ type: 'setPath', path })}
+                      onDescription={(description) =>
+                        dispatch({ type: 'setDescription', description })
+                      }
+                      onProps={(id, props) =>
+                        dispatch({ type: 'updateProps', id, props })
+                      }
+                    />
+                  </MediaLibraryProvider>
+                }
+              />
             </aside>
           </div>
         </div>

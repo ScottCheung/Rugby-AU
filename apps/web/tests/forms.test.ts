@@ -3,10 +3,12 @@ import { z } from 'zod';
 import { cardGridSchema } from '../lib/components/cardGrid';
 import { imageSliderSchema } from '../lib/components/imageSlider';
 import { sectionSchema } from '../lib/components/section';
+import { statsSchema } from '../lib/components/stats';
 import {
   defaultValue,
   describeField,
   describeSchema,
+  groupFields,
   humanize,
 } from '../lib/forms/describe';
 import '../lib/components/editorMeta';
@@ -251,5 +253,23 @@ describe('new component props', () => {
     expect(background.options.every((option) => !('sketch' in option))).toBe(
       true,
     );
+  });
+});
+
+describe('groupFields', () => {
+  it('splits a Section form into content, layout and style tabs', () => {
+    const groups = groupFields(describeSchema(sectionSchema)).map((entry) => [
+      entry.group,
+      entry.fields.map((field) => field.key),
+    ]);
+    expect(groups).toEqual([
+      ['content', ['heading', 'intro']],
+      ['layout', ['layout', 'width']],
+      ['style', ['background']],
+    ]);
+  });
+
+  it('gives a content-only component a single group, so no tabs', () => {
+    expect(groupFields(describeSchema(statsSchema))).toHaveLength(1);
   });
 });

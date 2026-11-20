@@ -17,6 +17,7 @@ const slideSchema = z.object({
 export const imageSliderSchema = z.object({
   slides: z.array(slideSchema).meta({ label: 'Slides', itemLabel: 'Slide' }),
   autoplay: z.boolean().default(false).meta({
+    group: 'style',
     label: 'Change slides automatically',
     hint: 'Every 6 seconds. Pauses while a visitor points at or focuses the slider.',
   }),

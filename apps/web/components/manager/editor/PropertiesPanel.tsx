@@ -5,7 +5,8 @@ import { Input, Textarea } from '@scottcheung/ui/client';
 import { getDefinition } from '@/lib/components/registry';
 import { findNode } from '@/lib/components/tree';
 import { describeSchema } from '@/lib/forms/describe';
-import { pathKey, SchemaForm, type FieldErrors } from '../SchemaForm';
+import { GroupedForm } from '../GroupedForm';
+import { pathKey, type FieldErrors } from '../SchemaForm';
 import { ComponentIcon } from './componentIcons';
 import { DeletePageButton } from './DeletePageButton';
 import { useEditor } from './editorContext';
@@ -43,12 +44,9 @@ export function PropertiesPanel({
   if (!node) {
     return (
       <div className="flex flex-col gap-4">
-        <div>
-          <span className="sc-ui-overline">Page settings</span>
-          <p className="m-0 mt-1 text-sm text-[var(--ui-muted)]">
-            Click a block on the page to edit it.
-          </p>
-        </div>
+        <p className="m-0 text-sm text-[var(--ui-muted)]">
+          Click a block on the page to edit it.
+        </p>
         <Input
           label="Title"
           hint="Shown in the browser tab and search results."
@@ -135,8 +133,8 @@ export function PropertiesPanel({
           </p>
         ))}
       {definition && (
-        <SchemaForm
-          // Remount per block so list items and inputs never carry over.
+        <GroupedForm
+          // Remount per block so tabs, list items and inputs never carry over.
           key={node.id}
           fields={describeSchema(definition.schema)}
           value={node.props}

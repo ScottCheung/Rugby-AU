@@ -23,6 +23,7 @@ export const latestNewsSchema = z.object({
     .enum(['grid', 'list', 'featured'])
     .default('featured')
     .meta({
+      group: 'layout',
       label: 'Display as',
       optionLabels: { grid: 'Grid', list: 'List', featured: 'Featured' },
       optionSketches: { grid: 'grid', list: 'list', featured: 'featured' },

@@ -157,10 +157,17 @@ components with the site's theme. Around it:
 
 - **Click to select.** Hovering outlines a block; clicking selects it and shows a
   toolbar on the block (drag handle, move up, move down, duplicate, delete).
-- **Edit in the side panel.** The selected block's fields are generated from its
-  schema; with nothing selected the panel shows the page settings: title,
-  description, address (changeable except for the home page) and Delete page, with a
-  confirmation.
+- **One sidebar** beside the canvas, with three tabs: **Add** (the component
+  palette), **Layers** (the outline) and **Edit**. Selecting a block, on the canvas,
+  in Layers or by adding one, opens Edit; a breadcrumb ("Page settings › Section")
+  leads back to the page's own settings: title, description, address (changeable
+  except for the home page) and Delete page, with a confirmation.
+- **Edit splits a block's fields into Content, Layout and Style tabs.** Each schema
+  field says which (`.meta({ group: 'layout' })`; content is the default), so the
+  form generator builds the tabs; a component with content only gets no tabs. A tab
+  holding a field with an error shows a red dot, and the form opens on it.
+- **Long text** boxes grow with what is typed, and "Expand" opens a large editor
+  (live on the canvas, with a word count) for articles and other long copy.
 - **Image fields** show a preview and a "Choose image" picker of the images already
   used on the site (`lib/media.ts` finds them by their `{ url, alt }` shape), so
   editors rarely need to paste an address.
@@ -367,6 +374,9 @@ rule: it validates `tests/fixtures/stored-page-v1.json`, a page in the oldest st
 shape, and fails if a schema change breaks it. That is how Card Grid's `variant`
 (`.default('grid')`) and card `text` (`.optional()`) were added. A breaking change
 would need a migration script that rewrites the stored pages.
+
+**Tabs.** `.meta({ group: 'content' | 'layout' | 'style' })` puts a field on a tab of
+the editing form; `groupFields()` in `lib/forms/describe.ts` does the split.
 
 **Visual choices.** An enum can name a sketch for each option
 (`optionSketches: { grid: 'grid', list: 'list' }` in `.meta()`); the form then shows

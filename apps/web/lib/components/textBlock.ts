@@ -19,6 +19,7 @@ export const textBlockSchema = z.object({
     .enum(['plain', 'centered', 'quote'])
     .default('plain')
     .meta({
+      group: 'style',
       label: 'Style',
       hint: 'Quote shows the text large, with the heading as who said it.',
       optionLabels: { plain: 'Plain', centered: 'Centred', quote: 'Quote' },

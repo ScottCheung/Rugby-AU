@@ -1,8 +1,11 @@
 'use client';
 
+import { Maximize2 } from 'lucide-react';
+import { useState } from 'react';
 import {
   Button,
   Checkbox,
+  Dialog,
   IconButton,
   Input,
   SegmentedControl,
@@ -230,11 +233,23 @@ function Field({
         </div>
       );
 
+    case 'textarea':
+      return (
+        <div className="flex flex-col gap-1">
+          <LongTextField
+            field={field}
+            value={typeof value === 'string' ? value : ''}
+            onChange={onChange}
+            error={error}
+          />
+          {removeButton}
+        </div>
+      );
+
     case 'text':
     case 'url':
-    case 'date':
-    case 'textarea': {
-      const Control = field.kind === 'textarea' ? Textarea : Input;
+    case 'date': {
+      const Control = Input;
       return (
         <div className="flex flex-col gap-1">
           <Control
@@ -457,5 +472,83 @@ function SketchPicker({
       {field.hint && <span className="sc-ui-field-hint">{field.hint}</span>}
       {error && <span className="sc-ui-error">{error}</span>}
     </div>
+  );
+}
+
+/** A text box that grows with its content, between these heights. */
+const growing = {
+  fieldSizing: 'content',
+  minHeight: '7.5rem',
+  maxHeight: '60vh',
+  resize: 'vertical',
+} as const;
+
+/**
+ * Multi-line text: the box grows as you type, and "Expand" opens a large
+ * editor for long copy such as an article. Edits apply as you type in
+ * either place, so the canvas behind the dialog stays up to date.
+ */
+function LongTextField({
+  field,
+  value,
+  onChange,
+  error,
+}: {
+  field: { label: string; hint?: string; placeholder?: string };
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div className="flex items-end justify-between gap-2">
+        <span className="sc-ui-field-label">{field.label}</span>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold text-[var(--ui-primary)] hover:bg-[var(--ui-glass)]"
+        >
+          <Maximize2 className="size-3" aria-hidden />
+          Expand
+        </button>
+      </div>
+      <Textarea
+        aria-label={field.label}
+        hint={field.hint}
+        placeholder={field.placeholder}
+        error={error}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        style={growing}
+      />
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+        title={field.label}
+        description={field.hint}
+        style={{ width: 'min(56rem, 100%)', maxHeight: '90dvh' }}
+      >
+        <div className="flex flex-col gap-3">
+          <Textarea
+            aria-label={field.label}
+            autoFocus
+            value={value}
+            error={error}
+            onChange={(event) => onChange(event.target.value)}
+            style={{ minHeight: '60vh', resize: 'vertical', fontSize: '1rem' }}
+          />
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs text-[var(--ui-muted)]">
+              {value.trim() ? value.trim().split(/\s+/).length : 0} words ·
+              changes apply as you type
+            </span>
+            <Button type="button" onClick={() => setOpen(false)}>
+              Done
+            </Button>
+          </div>
+        </div>
+      </Dialog>
+    </>
   );
 }

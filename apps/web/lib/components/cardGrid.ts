@@ -25,6 +25,7 @@ export const cardGridSchema = z.object({
     .enum(['grid', 'list', 'featured', 'overlay', 'carousel', 'masonry'])
     .default('grid')
     .meta({
+      group: 'layout',
       label: 'Display as',
       hint: 'The same cards, arranged differently. Masonry photos open full size.',
       optionLabels: {
