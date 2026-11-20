@@ -10,7 +10,12 @@ import {
   Trash2,
 } from 'lucide-react';
 import {
+  createContext,
   createElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
   type CSSProperties,
   type MouseEvent,
   type ReactNode,
@@ -22,13 +27,20 @@ import { getDefinition } from '@/lib/components/registry';
 import type { Location } from '@/lib/components/tree';
 import type { ComponentNode, Site } from '@/lib/types';
 import type { DragData, DropData } from './dnd';
+import { devices, fitScale, type Device } from './devices';
 import { useEditor } from './editorContext';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
+
+/** The canvas zoom, so editing chrome can stay readable when it is small. */
+const ScaleContext = createContext(1);
 
 /**
  * The page as visitors will see it, rendered with the site's own components
  * and theme, plus editing chrome: click a block to select it, drag it by its
  * handle, drop between blocks or into a Section.
+ *
+ * The page is laid out at the device's real width and scaled down to fit,
+ * so a desktop preview has the same columns as a desktop screen.
  */
 export function Canvas({
   site,
@@ -37,38 +49,84 @@ export function Canvas({
 }: {
   site: Site;
   themeVars: CSSProperties;
-  device: 'desktop' | 'mobile';
+  device: Device;
 }) {
   const editor = useEditor();
+  const { label, width } = devices[device];
+  const outer = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
+  const [available, setAvailable] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  // Track the space the editor gives the canvas and the page's own height.
+  useEffect(() => {
+    const observer = new ResizeObserver(() => {
+      if (outer.current) setAvailable(outer.current.clientWidth);
+      if (frame.current) setHeight(frame.current.offsetHeight);
+    });
+    if (outer.current) observer.observe(outer.current);
+    if (frame.current) observer.observe(frame.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const scale = fitScale(available, width);
 
   return (
-    <div
-      className="mx-auto overflow-hidden rounded-[1.5rem] bg-white shadow-[0_12px_32px_rgb(15_23_42/0.10)] transition-[max-width] duration-300"
-      // A phone-sized canvas: Section's container query then stacks two columns.
-      style={{ maxWidth: device === 'mobile' ? 390 : '100%' }}
-    >
+    <div className="flex flex-col gap-2">
+      <p className="m-0 text-center text-xs font-semibold text-[var(--ui-muted)]">
+        {label} · {width}px · {Math.round(scale * 100)}%
+      </p>
       <div
-        style={themeVars}
-        className="@container min-h-[60vh] bg-background font-site text-text"
-        // Links must not navigate away and photos must not open full size
-        // while editing: a click on the canvas only selects.
-        onClickCapture={(event) => {
-          if ((event.target as HTMLElement).closest('a, [data-lightbox-index]'))
-            event.preventDefault();
+        ref={outer}
+        className="relative w-full overflow-hidden"
+        // A scaled element keeps its full layout size, so reserve only the
+        // scaled height. Hidden until measured, to avoid a full-size flash.
+        style={{
+          height: height ? height * scale : undefined,
+          visibility: available ? 'visible' : 'hidden',
         }}
-        onClick={() => editor.select(null)}
-        onMouseLeave={() => editor.hover(null)}
       >
-        <header className="bg-brand px-5 py-3 text-brand-contrast">
-          <span className="site-heading flex items-center gap-3 font-bold">
-            <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
-            {site.name}
-          </span>
-        </header>
-        {/* Like the public page: no page-wide container, each block
-            decides its width (see NodeList). */}
-        <div className="flex flex-col gap-site-md pt-12 pb-site-lg">
-          <NodeList nodes={editor.tree} />
+        <div
+          ref={frame}
+          className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_12px_32px_rgb(15_23_42/0.10)]"
+          style={{
+            width,
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            // Centre a page narrower than the space (e.g. the phone).
+            marginLeft: Math.max(0, (available - width * scale) / 2),
+          }}
+        >
+          <ScaleContext.Provider value={scale}>
+            <div
+              style={themeVars}
+              className="@container/page min-h-[60vh] bg-background font-site text-text"
+              // Links must not navigate away and photos must not open full size
+              // while editing: a click on the canvas only selects.
+              onClickCapture={(event) => {
+                if (
+                  (event.target as HTMLElement).closest(
+                    'a, [data-lightbox-index]',
+                  )
+                )
+                  event.preventDefault();
+              }}
+              onClick={() => editor.select(null)}
+              onMouseLeave={() => editor.hover(null)}
+            >
+              <header className="bg-brand px-5 py-3 text-brand-contrast">
+                <span className="site-heading flex items-center gap-3 font-bold">
+                  <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
+                  {site.name}
+                </span>
+              </header>
+              {/* Like the public page: no page-wide container, each block
+                  decides its width (see NodeList). */}
+              <div className="flex flex-col gap-site-md pt-12 pb-site-lg">
+                <NodeList nodes={editor.tree} />
+              </div>
+            </div>
+          </ScaleContext.Provider>
         </div>
       </div>
     </div>
@@ -136,6 +194,7 @@ function CanvasNode({
     data: { kind: 'node', nodeId: node.id, label } satisfies DragData,
   });
 
+  const scale = useContext(ScaleContext);
   const stop = (handler: () => void) => (event: MouseEvent) => {
     event.stopPropagation();
     handler();
@@ -187,8 +246,13 @@ function CanvasNode({
     >
       {(selected || hovered || hasIssues) && (
         <div
-          className="absolute -top-2 left-0 z-20 flex -translate-y-full items-center gap-0.5 rounded-full bg-[var(--ui-primary)] py-0.5 pr-1.5 pl-0.5 font-sans text-xs font-semibold whitespace-nowrap text-white shadow-md"
+          className="absolute -top-2 left-0 z-20 flex items-center gap-0.5 rounded-full bg-[var(--ui-primary)] py-0.5 pr-1.5 pl-0.5 font-sans text-xs font-semibold whitespace-nowrap text-white shadow-md"
           onClick={(event) => event.stopPropagation()}
+          // Undo the canvas zoom so the toolbar stays a readable size.
+          style={{
+            transform: `translateY(-100%) scale(${1 / scale})`,
+            transformOrigin: 'left bottom',
+          }}
         >
           <button
             type="button"

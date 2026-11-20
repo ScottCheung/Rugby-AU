@@ -1,8 +1,13 @@
 import type { ReactNode } from 'react';
 
+/**
+ * Sizes follow the page's width (the `page` container on the site wrapper
+ * and the editor canvas), not the browser window, so the editor's scaled
+ * preview gets the same sizes as a real screen of that width.
+ */
 const sizes = {
-  1: 'text-4xl sm:text-5xl',
-  2: 'text-2xl sm:text-3xl',
+  1: 'text-4xl @xl/page:text-5xl',
+  2: 'text-2xl @xl/page:text-3xl',
   3: 'text-lg',
 } as const;
 

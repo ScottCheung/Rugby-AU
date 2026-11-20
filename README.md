@@ -123,15 +123,24 @@ components with the site's theme. Around it:
   component palette. A line shows where the block will land: before or after the
   block under the pointer, or into an empty Section. Clicking a palette item adds it
   inside the selected Section or after the selected block.
-- **Layers** outline for picking deeply nested blocks, **desktop / mobile** preview,
+- **Layers** outline for picking deeply nested blocks, **desktop / tablet / mobile**
+  preview,
   **undo / redo** (⌘Z / ⇧⌘Z; typing in one field counts as one step), Delete to remove
   the selected block, ⌘S to save.
 
 All edits go through one `useReducer` over the page draft and the pure functions in
 `lib/components/tree.ts` (`insertNode`, `moveNode`, `removeNode`, `cloneWithNewIds`...),
-so the drag and drop code only works out a drop location and dispatches. Two-column
-Sections use a CSS container query, so the mobile preview stacks them exactly as a
-phone would.
+so the drag and drop code only works out a drop location and dispatches.
+
+**The preview matches the live site.** The canvas lays the page out at the device's
+real width (1280, 768 or 390 px, `devices.ts`) and scales it down to fit the editor,
+showing the zoom ("Desktop · 1280px · 57%"). Layouts respond to container width, not
+the browser window: Sections and Card Grids are CSS containers, and heading sizes
+follow a `page` container on the site wrapper and the canvas. So a desktop preview has
+desktop columns even in a narrow editor, and the phone preview stacks exactly as a
+phone would. Clicks and drag and drop work on the scaled page (the browser hit-tests
+transformed elements), and the selected block's toolbar is scaled back up so it stays
+readable.
 
 ### Why one Next.js app
 

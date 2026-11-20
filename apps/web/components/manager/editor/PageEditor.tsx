@@ -16,6 +16,7 @@ import {
   Monitor,
   Redo2,
   Smartphone,
+  Tablet,
   Undo2,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -46,6 +47,7 @@ import type { LibraryImage } from '@/lib/media';
 import type { ComponentNode, Page, Site } from '@/lib/types';
 import { MediaLibraryProvider } from '../ImageField';
 import { Canvas } from './Canvas';
+import type { Device } from './devices';
 import { innermostUnderPointer, resolveDropTarget, type DragData } from './dnd';
 import {
   EditorContext,
@@ -78,7 +80,7 @@ export function PageEditor({
   );
   const { draft } = state;
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [device, setDevice] = useState<Device>('desktop');
   const [dragLabel, setDragLabel] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
   const [saving, startSaving] = useTransition();
@@ -350,11 +352,10 @@ export function PageEditor({
             <SegmentedControl
               ariaLabel="Preview width"
               value={device}
-              onValueChange={(value) =>
-                setDevice(value as 'desktop' | 'mobile')
-              }
+              onValueChange={(value) => setDevice(value as Device)}
               options={[
                 { value: 'desktop', label: <Monitor aria-label="Desktop" /> },
+                { value: 'tablet', label: <Tablet aria-label="Tablet" /> },
                 { value: 'mobile', label: <Smartphone aria-label="Mobile" /> },
               ]}
             />

@@ -30,7 +30,7 @@ export function TextBlock({
         >
           “
         </span>
-        <blockquote className="site-heading m-0 flex flex-col gap-3 text-2xl leading-snug font-bold sm:text-3xl">
+        <blockquote className="site-heading m-0 flex flex-col gap-3 text-2xl leading-snug font-bold @xl/page:text-3xl">
           {paragraphs.map((text, index) => (
             <p key={index} className="m-0">
               {text}

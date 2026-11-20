@@ -9,7 +9,7 @@ export function Stats({ stats }: PropsOf<'stats'>) {
           <dt className="order-2 text-sm leading-snug opacity-80">
             {stat.label}
           </dt>
-          <dd className="site-heading order-1 m-0 text-4xl leading-none font-bold sm:text-5xl">
+          <dd className="site-heading order-1 m-0 text-4xl leading-none font-bold @xl/page:text-5xl">
             {stat.value}
           </dd>
         </div>
