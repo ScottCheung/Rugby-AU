@@ -122,3 +122,19 @@
 @media (prefers-reduced-motion: reduce) {
   .sc-ui-theme *, .sc-ui-theme *::before, .sc-ui-theme *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* Notch card: a tab joined to the card by a curved notch. Paint it with
+   --sc-notch-bg / --sc-notch-fg. */
+.sc-ui-notch-card { --sc-notch-bg: var(--ui-surface); --sc-notch-fg: var(--ui-fg); --sc-notch-radius: 2rem; --sc-notch-pad: 1.5rem; display: flex; flex-direction: column; color: var(--sc-notch-fg); }
+.sc-ui-notch-card[data-size='sm'] { --sc-notch-radius: 1rem; --sc-notch-pad: 1rem; }
+.sc-ui-notch-card[data-size='lg'] { --sc-notch-radius: 3rem; --sc-notch-pad: 2rem; }
+/* Above the body: the title drops into it a little. */
+.sc-ui-notch-tab-row { position: relative; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between; }
+.sc-ui-notch-tab-wrap { display: flex; align-items: flex-end; min-width: 0; }
+.sc-ui-notch-tab { display: flex; align-items: flex-end; height: 30px; min-width: 0; padding-left: var(--sc-notch-pad); background: var(--sc-notch-bg); border-top-left-radius: 1.5rem; font-weight: 700; }
+.sc-ui-notch-tab > span { margin-bottom: -0.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Overlaps the tab by a pixel so no seam shows between them. */
+.sc-ui-notch-curve { display: block; flex-shrink: 0; margin-left: -1px; fill: var(--sc-notch-bg); }
+.sc-ui-notch-action { display: flex; align-items: center; gap: 0.5rem; padding-right: 1rem; padding-bottom: 0.25rem; }
+.sc-ui-notch-body { flex: 1; padding: var(--sc-notch-pad); background: var(--sc-notch-bg); border-radius: var(--sc-notch-radius); overflow: visible; }
+.sc-ui-notch-card[data-tab] .sc-ui-notch-body { border-top-left-radius: 0; margin-top: -1px; }

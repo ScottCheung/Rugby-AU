@@ -1,6 +1,7 @@
-import { ArrowRight, ExternalLink, FileText, Search } from 'lucide-react';
+import { ChevronRight, ExternalLink, FileText, Search } from 'lucide-react';
 import Link from 'next/link';
-import { Card, H1, Paragraph } from '@scottcheung/ui';
+import type { CSSProperties } from 'react';
+import { Card, H1, NotchCard, Paragraph } from '@scottcheung/ui';
 import { PageContainer } from '@/components/manager/PageContainer';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
 import { countPagesBySite } from '@/lib/db/pages';
@@ -79,7 +80,8 @@ export default async function ManagerHome({
             <span className="sc-ui-overline">
               {siteCategoryLabels[category]} · {group.length}
             </span>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {/* Extra room between rows: each card's logo rises above it. */}
+            <div className="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
               {group.map((site) => (
                 <SiteCard
                   key={site.id}
@@ -95,57 +97,61 @@ export default async function ManagerHome({
   );
 }
 
+/**
+ * One site, in its own colours: a notch card (from @scottcheung/ui) painted
+ * with the site's brand colour, its logo rising out of the top right. The
+ * whole card opens the site's pages; "View site" opens the public site.
+ */
 function SiteCard({ site, pageCount }: { site: Site; pageCount: number }) {
   const { colors } = resolveTheme(defaultTheme, site.theme);
   return (
-    <Card className="flex flex-col gap-4 p-4 transition hover:shadow-[var(--ui-shadow-md)]">
-      {/* The site at a glance: its brand colour, logo and palette. */}
-      <div
-        className="relative grid place-items-center overflow-hidden rounded-2xl"
-        style={{ background: colors.brand, height: 128 }}
+    <NotchCard
+      title={site.name}
+      className="group relative h-full transition-transform duration-300 hover:scale-[1.02]"
+      style={
+        {
+          '--sc-notch-bg': colors.brand,
+          '--sc-notch-fg': colors.brandContrast,
+        } as CSSProperties
+      }
+    >
+      <div className="flex h-full items-start gap-4">
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          <p className="m-0 line-clamp-3 text-sm leading-relaxed opacity-85">
+            {site.tagline}
+          </p>
+          <div className="mt-auto flex flex-wrap items-center gap-2 text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-current/15 px-2.5 py-1">
+              <FileText aria-hidden className="size-3.5" />
+              {pageCount} {pageCount === 1 ? 'page' : 'pages'}
+            </span>
+            {/* Above the card's own link (z-index), so it stays clickable. */}
+            <a
+              href={`/sites/${site.slug}`}
+              target="_blank"
+              rel="noreferrer"
+              className="relative z-10 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 opacity-80 transition hover:bg-current/15 hover:opacity-100"
+            >
+              View site <ExternalLink aria-hidden className="size-3.5" />
+            </a>
+          </div>
+        </div>
+        {/* The logo rises out of the card, beside the tab. */}
+        <div className="-mt-[60px] flex shrink-0 flex-col items-center">
+          <SiteLogo src={site.logoUrl} name={site.name} size="md" />
+        </div>
+      </div>
+      <Link
+        href={`/manager/${site.slug}`}
+        aria-label={`Manage the pages of ${site.name}`}
+        className="stretched-link"
+      />
+      <span
+        aria-hidden
+        className="absolute right-5 bottom-5 grid size-8 place-items-center rounded-full bg-current/15 opacity-0 transition-opacity group-hover:opacity-100"
       >
-        <SiteLogo src={site.logoUrl} name={site.name} size="lg" />
-        <span className="absolute right-3 bottom-3 flex gap-1">
-          {[colors.brand, colors.surfaceLight, colors.text].map(
-            (colour, index) => (
-              <span
-                key={index}
-                className="size-3 rounded-full ring-2 ring-white/70"
-                style={{ background: colour }}
-              />
-            ),
-          )}
-        </span>
-      </div>
-      <div className="min-w-0">
-        <h2 className="sc-ui-typography sc-ui-h2 truncate">{site.name}</h2>
-        <p className="m-0 line-clamp-1 text-xs text-[var(--ui-muted)]">
-          {site.tagline}
-        </p>
-        <p className="m-0 mt-1 flex items-center gap-1.5 text-xs text-[var(--ui-faint)]">
-          <FileText className="size-3.5" />
-          {pageCount} {pageCount === 1 ? 'page' : 'pages'} · /sites/{site.slug}
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <Link
-          href={`/manager/${site.slug}`}
-          className="sc-ui-button"
-          data-size="sm"
-        >
-          Manage pages <ArrowRight />
-        </Link>
-        <a
-          href={`/sites/${site.slug}`}
-          target="_blank"
-          rel="noreferrer"
-          className="sc-ui-button"
-          data-variant="secondary"
-          data-size="sm"
-        >
-          View site <ExternalLink />
-        </a>
-      </div>
-    </Card>
+        <ChevronRight className="size-4" />
+      </span>
+    </NotchCard>
   );
 }

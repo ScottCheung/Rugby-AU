@@ -19,3 +19,36 @@ export function Popover({ trigger, children, className, label }: PopoverProps) {
 export interface ThemeProviderProps extends React.HTMLAttributes<HTMLDivElement> { mode?: 'light'|'dark'; brand?: string; }
 export function ThemeProvider({ mode = 'light', brand, className, ...props }: ThemeProviderProps) { return <div className={`sc-ui-theme${className ? ` ${className}` : ''}`} data-mode={mode} data-brand={brand} {...props}/>; }
 export type Theme = ThemeProviderProps['mode'];
+
+export interface NotchCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  /** Text on the tab that rises out of the card's top-left corner. Without it, a plain rounded card. */
+  title?: React.ReactNode;
+  /** Shown at the right of the tab row, e.g. a small button. */
+  action?: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg';
+}
+/**
+ * A card with a tab: the title sits on a tab joined to the card by a curved
+ * notch. Colours come from --sc-notch-bg and --sc-notch-fg (default: the UI
+ * surface and text), so callers can paint it in any brand.
+ */
+export function NotchCard({ title, action, size = 'md', className, children, ...props }: NotchCardProps) {
+  return (
+    <div className={`sc-ui-notch-card${className ? ` ${className}` : ''}`} data-size={size} data-tab={title ? '' : undefined} {...props}>
+      {(title || action) && (
+        <div className="sc-ui-notch-tab-row">
+          {title ? (
+            <div className="sc-ui-notch-tab-wrap">
+              <div className="sc-ui-notch-tab"><span>{title}</span></div>
+              <svg className="sc-ui-notch-curve" width="60" height="30" viewBox="0 0 60 42" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 0H7.0783C14.772 0 21.7836 4.4132 25.111 11.3501L33.8889 29.6498C37.2164 36.5868 44.228 41 51.9217 41H60V42H0V0Z" />
+              </svg>
+            </div>
+          ) : <span />}
+          {action && <div className="sc-ui-notch-action">{action}</div>}
+        </div>
+      )}
+      <div className="sc-ui-notch-body">{children}</div>
+    </div>
+  );
+}
