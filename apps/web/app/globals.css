@@ -62,14 +62,16 @@
 }
 
 /* Cards that link somewhere lift a little and zoom their photo on hover. */
+/* `translate`, not `transform`: cards also play a Motion entrance, which
+   writes `transform` inline and would cancel a transform on hover. */
 .card-link {
   transition:
-    transform 0.2s ease,
+    translate 0.2s ease,
     box-shadow 0.2s ease;
 }
 .card-link:hover,
 .card-link:focus-within {
-  transform: translateY(-3px);
+  translate: 0 -3px;
   box-shadow: 0 12px 28px rgb(0 0 0 / 0.14);
 }
 .card-link img,
@@ -81,6 +83,10 @@
   transform: scale(1.04);
 }
 @media (prefers-reduced-motion: reduce) {
+  .card-link:hover,
+  .card-link:focus-within {
+    translate: none;
+  }
   .card-link,
   .card-link img,
   .zoomable img {

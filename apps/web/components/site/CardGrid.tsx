@@ -5,7 +5,9 @@ import { Image } from '@/components/primitives/Image';
 import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
 import { Carousel } from './Carousel';
+import { stagger } from '@/lib/motion';
 import { Lightbox } from './Lightbox';
+import { Reveal } from './Reveal';
 
 type Props = PropsOf<'cardGrid'> & { siteSlug: string };
 type Variant = Props['variant'];
@@ -95,7 +97,9 @@ export function Card({
   // Text over the photo, darkened at the bottom so it stays readable.
   if (variant === 'overlay')
     return (
-      <article
+      <Reveal
+        as="article"
+        delay={stagger(index)}
         className={`relative flex min-h-80 flex-col justify-end overflow-hidden rounded-site text-white shadow-sm ${href ? 'card-link' : ''}`}
       >
         <div className="absolute inset-0">
@@ -110,7 +114,7 @@ export function Card({
           )}
           {button}
         </div>
-      </article>
+      </Reveal>
     );
 
   const media =
@@ -132,7 +136,9 @@ export function Card({
     );
 
   return (
-    <article
+    <Reveal
+      as="article"
+      delay={stagger(index)}
       // relative: a card's link stretches over the whole card.
       className={`relative flex flex-col overflow-hidden rounded-site border border-muted-text/20 bg-background text-text shadow-sm ${href ? 'card-link' : ''} ${cardShape[variant]}`}
     >
@@ -154,6 +160,6 @@ export function Card({
         )}
         {button}
       </div>
-    </article>
+    </Reveal>
   );
 }

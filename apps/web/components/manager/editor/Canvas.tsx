@@ -21,6 +21,7 @@ import {
   type ReactNode,
 } from 'react';
 import { Container } from '@/components/primitives/Container';
+import { NoMotion } from '@/components/site/Reveal';
 import { getSiteComponent } from '@/components/site/siteComponents';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
@@ -115,43 +116,46 @@ export function Canvas({
             marginLeft: Math.max(0, (available - width * scale) / 2),
           }}
         >
-          <ScaleContext.Provider value={scale}>
-            <div
-              style={themeVars}
-              className="@container/page min-h-[60vh] bg-background font-site text-text"
-              // Links must not navigate away and photos must not open full size
-              // while editing: a click on the canvas only selects.
-              onClickCapture={(event) => {
-                if (
-                  (event.target as HTMLElement).closest(
-                    'a, [data-lightbox-index]',
-                  )
-                )
-                  event.preventDefault();
-              }}
-              onClick={() => editor.select(null)}
-              onMouseLeave={() => editor.hover(null)}
-            >
-              <header className="bg-brand px-5 py-3 text-brand-contrast">
-                <span className="site-heading flex items-center gap-3 font-bold">
-                  <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
-                  {site.name}
-                </span>
-              </header>
-              {/* Like the public page: no page-wide container, each block
-                  decides its width (see NodeList). */}
+          {/* No entrance animations while editing: blocks are just there. */}
+          <NoMotion>
+            <ScaleContext.Provider value={scale}>
               <div
-                className={`flex flex-col gap-site-md pb-site-lg ${
-                  editor.tree[0] &&
-                  rootBlockWidth(editor.tree[0]) === 'full-width'
-                    ? '' // same spacing rule as the public page
-                    : 'pt-site-lg'
-                }`}
+                style={themeVars}
+                className="@container/page min-h-[60vh] bg-background font-site text-text"
+                // Links must not navigate away and photos must not open full size
+                // while editing: a click on the canvas only selects.
+                onClickCapture={(event) => {
+                  if (
+                    (event.target as HTMLElement).closest(
+                      'a, [data-lightbox-index]',
+                    )
+                  )
+                    event.preventDefault();
+                }}
+                onClick={() => editor.select(null)}
+                onMouseLeave={() => editor.hover(null)}
               >
-                <NodeList nodes={editor.tree} />
+                <header className="bg-brand px-5 py-3 text-brand-contrast">
+                  <span className="site-heading flex items-center gap-3 font-bold">
+                    <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
+                    {site.name}
+                  </span>
+                </header>
+                {/* Like the public page: no page-wide container, each block
+                  decides its width (see NodeList). */}
+                <div
+                  className={`flex flex-col gap-site-md pb-site-lg ${
+                    editor.tree[0] &&
+                    rootBlockWidth(editor.tree[0]) === 'full-width'
+                      ? '' // same spacing rule as the public page
+                      : 'pt-site-lg'
+                  }`}
+                >
+                  <NodeList nodes={editor.tree} />
+                </div>
               </div>
-            </div>
-          </ScaleContext.Provider>
+            </ScaleContext.Provider>
+          </NoMotion>
         </div>
       </div>
     </div>

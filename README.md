@@ -49,6 +49,20 @@ stretched over it) and lifts on hover; a masonry photo without a link opens full
 in a lightbox (arrow keys, Esc). In the editor both are switched off, so a click only
 selects the block.
 
+**Motion.** Public pages use Motion (`motion` 14) for entrances: blocks and cards
+rise, fade and come into focus (y, opacity, blur) the first time they scroll into
+view, and siblings arrive one after another. Slider captions come in line by line on
+each slide change. `Reveal` (`components/site/Reveal.tsx`) is a small client wrapper,
+so the site components stay server-rendered. Choices:
+
+- The first block on a page is not animated, so the top of the page is there before
+  JavaScript runs; a `<noscript>` rule shows everything if it never does.
+- The editor canvas turns animation off (`NoMotion`): blocks should just be there
+  while editing.
+- `MotionConfig reducedMotion="user"`: visitors who ask for less motion get fades
+  only. Card hover uses CSS `translate`, which Motion's inline `transform` does not
+  override.
+
 **Articles and Latest news.** Cards that point to a section ("About us") are
 navigation; stories are articles. An article is an ordinary page with an Article
 block, under `/news/...`. Latest news is the data-driven component: the editor sets

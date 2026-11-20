@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { RenderTree } from '@/components/site/RenderTree';
+import { SiteMotion } from '@/components/site/Reveal';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { summarizeArticles } from '@/lib/news';
 import { getPageByPath, listPages } from '@/lib/db/pages';
@@ -102,7 +103,15 @@ export default async function SitePage({ params }: Props) {
       >
         {!hasOwnHeading && <h1 className="sr-only">{page.title}</h1>}
         {page.tree.length > 0 ? (
-          <RenderTree nodes={page.tree} siteSlug={site.slug} data={data} />
+          <>
+            {/* Without JavaScript, entrance animations never run: show it all. */}
+            <noscript>
+              <style>{`main [style*="opacity:0"]{opacity:1!important;filter:none!important;transform:none!important}`}</style>
+            </noscript>
+            <SiteMotion>
+              <RenderTree nodes={page.tree} siteSlug={site.slug} data={data} />
+            </SiteMotion>
+          </>
         ) : (
           <Container>
             <p className="text-muted-text">This page has no content yet.</p>

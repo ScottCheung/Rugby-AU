@@ -1,11 +1,27 @@
 'use client';
 
+import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/primitives/Button';
 import { Heading } from '@/components/primitives/Heading';
 import { Image } from '@/components/primitives/Image';
 import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
+import { entrance } from './Reveal';
+
+// The caption of the active slide comes in line by line: heading, text,
+// then button.
+const caption = {
+  hidden: {},
+  shown: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+};
+const captionLine = {
+  hidden: entrance.hidden,
+  shown: {
+    ...entrance.shown,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
 
 const INTERVAL_MS = 6000;
 
@@ -74,17 +90,31 @@ export function ImageSlider({
               />
               {/* A dark fade at the bottom keeps the caption readable on any photo. */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 flex max-w-2xl flex-col items-start gap-3 p-site-md text-white">
-                <Heading level={2}>{slide.heading}</Heading>
+              <motion.div
+                className="absolute inset-x-0 bottom-0 flex max-w-2xl flex-col items-start gap-3 p-site-md text-white"
+                variants={caption}
+                // Start in place: the first caption is visible before
+                // JavaScript runs; later slide changes animate.
+                initial={false}
+                animate={active ? 'shown' : 'hidden'}
+              >
+                <motion.div variants={captionLine}>
+                  <Heading level={2}>{slide.heading}</Heading>
+                </motion.div>
                 {slide.text && (
-                  <p className="text-base leading-relaxed text-white/85">
+                  <motion.p
+                    variants={captionLine}
+                    className="text-base leading-relaxed text-white/85"
+                  >
                     {slide.text}
-                  </p>
+                  </motion.p>
                 )}
                 {slide.button && href && (
-                  <Button href={href}>{slide.button.label}</Button>
+                  <motion.div variants={captionLine}>
+                    <Button href={href}>{slide.button.label}</Button>
+                  </motion.div>
                 )}
-              </div>
+              </motion.div>
             </div>
           );
         })}

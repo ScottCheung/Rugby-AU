@@ -4,6 +4,8 @@ import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
 import type { SiteData } from '@/lib/news';
 import type { ComponentNode } from '@/lib/types';
+import { stagger } from '@/lib/motion';
+import { Reveal } from './Reveal';
 import { getSiteComponent } from './siteComponents';
 
 /**
@@ -16,25 +18,51 @@ export function RenderTree({
   siteSlug,
   data,
   nested = false,
+  animate = true,
 }: {
   nodes: ComponentNode[];
   siteSlug: string;
   /** Read by data-driven components such as Latest news. */
   data: SiteData;
   nested?: boolean;
+  /** False inside the first block, which is on screen when the page opens. */
+  animate?: boolean;
 }) {
-  return nodes.map((node) => {
+  return nodes.map((node, index) => {
+    // The first block on the page is visible straight away: hiding it until
+    // JavaScript runs would leave the top of the page blank.
+    const first = !nested && index === 0;
     const block = (
       <RenderNode
-        key={node.id}
         node={node}
         siteSlug={siteSlug}
         data={data}
         nested={nested}
+        animate={animate && !first}
       />
     );
-    if (nested || rootBlockWidth(node) !== 'contained') return block;
-    return <Container key={node.id}>{block}</Container>;
+    if (!animate || first)
+      return nested || rootBlockWidth(node) !== 'contained' ? (
+        <div key={node.id} className={nested ? 'min-w-0' : undefined}>
+          {block}
+        </div>
+      ) : (
+        <Container key={node.id}>{block}</Container>
+      );
+    // Blocks side by side in a Section arrive one after another.
+    if (nested)
+      return (
+        <Reveal key={node.id} className="min-w-0" delay={stagger(index, 0.08)}>
+          {block}
+        </Reveal>
+      );
+    if (rootBlockWidth(node) !== 'contained')
+      return <Reveal key={node.id}>{block}</Reveal>;
+    return (
+      <Container key={node.id}>
+        <Reveal>{block}</Reveal>
+      </Container>
+    );
   });
 }
 
@@ -43,11 +71,13 @@ function RenderNode({
   siteSlug,
   data,
   nested,
+  animate,
 }: {
   node: ComponentNode;
   siteSlug: string;
   data: SiteData;
   nested: boolean;
+  animate: boolean;
 }) {
   const definition = getDefinition(node.type);
   if (!definition)
@@ -73,6 +103,7 @@ function RenderNode({
         siteSlug={siteSlug}
         data={data}
         nested
+        animate={animate}
       />
     ) : null,
   );
