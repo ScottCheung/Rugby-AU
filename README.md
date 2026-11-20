@@ -20,7 +20,7 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 | **Stats**                | A list of small objects without images                                   | `stats[]`: `{ value, label }`                                                                                                                    |
 | **Article**              | A story page: reading layout, date field                                 | `category`, `date` (date picker), `headline`, `standfirst`, `image`, `body` (`## ` starts a subheading)                                          |
 | **Latest news**          | A data-driven component (stretch goal)                                   | `title`, `category?`, `limit`, `display`: grid, list, featured. The cards come from the site's article pages at render time                      |
-| **Profile cards**        | People: cut-out over own photo, colour picked from it; or initials  | `title`, `display`: carousel, grid; `profiles[]`: `{ name, role?, text?, cutout?, background?, link? }`                                           |
+| **Profile cards**        | People: cut-out over own photo, colour picked from it; or initials  | `title`, `display`: carousel, grid; `rows`: one, two; `profiles[]`: `{ name, role?, text?, cutout?, background?, link? }`                                           |
 
 Section keeps the two layouts and three backgrounds the brief asks for and adds more.
 Variety in how content looks lives mostly in the content components: the same Card
@@ -78,8 +78,10 @@ links to that source. Photos are the official squad photos from each team's squa
 page on rugby.com.au or the club's site (list in `scripts/players/official.json`),
 matched to players by name; a player without one (a new signing, a placeholder on
 the club site) gets the plain card. `scripts/players/frame.py` cuts each person out
-(rembg) and frames everyone the same way: official 3:4 headshots as they are, other
-photos by the detected face. `publish.py` copies them into `public/players/` and
+(rembg), cleans the edge (tightened slightly, softened, and the backdrop's colour
+taken out of edge pixels, plus any patch of a green branded backdrop left beside
+the head) and frames everyone the same way: official 3:4 headshots as they are,
+other photos by the detected face. `publish.py` copies them into `public/players/` and
 writes `scripts/seed/playerPhotos.ts`. Tests check each Squad page has exactly the
 players in its source list and that every photo used exists with its backdrop.
 

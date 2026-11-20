@@ -40,8 +40,8 @@ export function ProfileCard({
   const photo = cutout && background;
   const details = (
     <div className="profile-card__text">
-      {/* Role and text lines keep their space when empty, so names line
-          up across a row of cards. */}
+      {/* The role line keeps its space when empty, so names line up across
+          a row of cards. */}
       <p
         className="profile-card__line m-0 text-xs font-semibold tracking-wide uppercase opacity-80"
         aria-hidden={!profile.role || undefined}
@@ -49,12 +49,9 @@ export function ProfileCard({
         {profile.role}
       </p>
       <Heading level={3}>{profile.name}</Heading>
-      <p
-        className="profile-card__line m-0 text-sm leading-relaxed opacity-85"
-        aria-hidden={!profile.text || undefined}
-      >
-        {profile.text}
-      </p>
+      {profile.text && (
+        <p className="m-0 text-sm leading-relaxed opacity-85">{profile.text}</p>
+      )}
       {profile.link && href && (
         <div className="pt-1">
           <Button href={href} stretched>
@@ -78,13 +75,15 @@ export function ProfileCard({
             <img src={background.url} alt="" loading="lazy" />
             <div style={fade(shade, 20, 58)} />
           </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className="profile-card__person"
-            src={cutout.url}
-            alt={cutout.alt}
-            loading="lazy"
-          />
+          <div className="profile-card__figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="profile-card__person"
+              src={cutout.url}
+              alt={cutout.alt}
+              loading="lazy"
+            />
+          </div>
           <div className="profile-card__front">
             <div style={fade(shade, 14, 38)} />
           </div>

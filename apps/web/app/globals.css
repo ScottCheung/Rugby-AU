@@ -198,9 +198,17 @@
   height: 100%;
   object-fit: cover;
 }
-.profile-card__person {
+/* Holds the person: open at the top so the head can rise out of the card,
+ * clipped at the sides and bottom so the hover zoom stays inside it. */
+.profile-card__figure {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  transition: translate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  clip-path: inset(-50% 0 0 round 0 0 var(--radius-site) var(--radius-site));
+}
+.profile-card__person {
+  transform-origin: 50% 100%;
+  transition: scale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .profile-card__front {
   z-index: 2;
@@ -216,14 +224,21 @@
   gap: 0.125rem;
   padding: var(--spacing-site-sm);
 }
+/* The name's line box leaves space under the letters; pull it down so the
+ * letters sit as far from the bottom edge as from the left one. */
+.profile-card__text > :last-child {
+  margin-bottom: -0.17em;
+}
 .profile-card__line {
   min-height: 1lh;
 }
-/* Hover: the person rises a little. Not a zoom, which would push them past
- * the card's sides; the gap left at the bottom is the same photo, under the
- * colour. */
 .profile-card:hover .profile-card__person {
-  translate: 0 -3%;
+  scale: 1.015;
+}
+.profiles-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-site-md);
 }
 .profiles-grid {
   display: grid;

@@ -1003,10 +1003,12 @@ function squadProfile(siteSlug: string, group: string, player: SquadPlayer) {
   const role = broadGroups.has(group)
     ? (official ?? positionOf[group])
     : positionOf[group];
+  // A note ("Captain") joins the position on the small line above the name,
+  // so every card's name sits at the same height.
+  const label = [role, player.note].filter(Boolean).join(' · ');
   return {
     name: player.name,
-    ...(role ? { role } : {}),
-    ...(player.note ? { text: player.note } : {}),
+    ...(label ? { role: label } : {}),
     ...(photo
       ? {
           cutout: {
@@ -1026,7 +1028,7 @@ function squadProfile(siteSlug: string, group: string, player: SquadPlayer) {
  * A few players for a team's home page: taken from each group in turn, so
  * forwards and backs are both there, and only players with a photo.
  */
-function meetThePlayers(siteSlug: string, squad: Squad, count = 8) {
+function meetThePlayers(siteSlug: string, squad: Squad, count = 16) {
   const queues = squad.groups.map((group) =>
     group.players
       .filter((player) => playerPhoto(siteSlug, player.name))
@@ -1039,7 +1041,14 @@ function meetThePlayers(siteSlug: string, squad: Squad, count = 8) {
       if (next && picked.length < count) picked.push(next);
     }
   return section(
-    [node('profileGrid', { title: '', display: 'carousel', profiles: picked })],
+    [
+      node('profileGrid', {
+        title: '',
+        display: 'carousel',
+        rows: 'two',
+        profiles: picked,
+      }),
+    ],
     {
       heading: 'Meet the players',
       intro: 'A few of the squad. Everyone is on the Squad page.',
@@ -1066,6 +1075,7 @@ const squadPage = (siteSlug: string, squad: Squad): SeedPage =>
           node('profileGrid', {
             title: '',
             display: 'grid',
+            rows: 'one',
             profiles: group.players.map((player) =>
               squadProfile(siteSlug, group.title, player),
             ),

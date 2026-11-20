@@ -42,6 +42,15 @@ export const profileGridSchema = z.object({
       optionLabels: { carousel: 'Carousel', grid: 'Grid' },
       optionSketches: { carousel: 'carousel', grid: 'grid' },
     }),
+  rows: z
+    .enum(['one', 'two'])
+    .default('one')
+    .meta({
+      group: 'layout',
+      label: 'Carousel rows',
+      description: 'Two rows show twice as many people at a time.',
+      optionLabels: { one: 'One row', two: 'Two rows' },
+    }),
   profiles: z
     .array(profileSchema)
     .meta({ label: 'People', itemLabel: 'Person' }),
@@ -53,7 +62,12 @@ export const profileGrid = defineComponent({
   description:
     'People as cards: a cut-out photo rising out of a background, or initials and a silhouette when there is no photo.',
   schema: profileGridSchema,
-  defaultProps: { title: 'The squad', display: 'carousel', profiles: [] },
+  defaultProps: {
+    title: 'The squad',
+    display: 'carousel',
+    rows: 'one',
+    profiles: [],
+  },
   acceptsChildren: false,
 });
 
