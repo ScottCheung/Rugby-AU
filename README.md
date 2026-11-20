@@ -11,16 +11,17 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 
 ## The component library
 
-| Component                | What it exercises                                                        | Props                                                                                                                                            |
-| ------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Section** (required)   | Nesting: a container whose children can include other Sections           | `heading?`, `intro?`; `layout`: one column, two columns (even, wide left, wide right), three columns; `background`: none, light, brand; `width`  |
-| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, list, featured, overlay, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, text?, link? { label, href } }` |
-| **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                                     |
-| **Text**                 | Long-form copy: paragraphs from one multiline field                      | `heading?`, `body` (an empty line starts a paragraph), `button?`, `style`: plain, centred, quote                                                 |
-| **Stats**                | A list of small objects without images                                   | `stats[]`: `{ value, label }`                                                                                                                    |
-| **Article**              | A story page: reading layout, date field                                 | `category`, `date` (date picker), `headline`, `standfirst`, `image`, `body` (`## ` starts a subheading)                                          |
-| **Latest news**          | A data-driven component (stretch goal)                                   | `title`, `category?`, `limit`, `display`: grid, list, featured. The cards come from the site's article pages at render time                      |
-| **Profile cards**        | People: cut-out over own photo, colour picked from it; or initials  | `title`, `display`: carousel, grid; `rows`: one, two; `profiles[]`: `{ name, role?, text?, cutout?, background?, link? }`                                           |
+| Component                | What it exercises                                                        | Props                                                                                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Section** (required)   | Nesting: a container whose children can include other Sections           | `heading?`, `intro?`; `layout`: one column, two columns (even, wide left, wide right), three columns; `background`: none, light, brand; `padding?`; `width` |
+| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, list, featured, overlay, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, text?, link? { label, href } }`            |
+| **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                                                |
+| **Text**                 | Long-form copy: paragraphs from one multiline field                      | `heading?`, `body` (an empty line starts a paragraph), `button?`, `style`: plain, centred, quote                                                            |
+| **Stats**                | A list of small objects without images                                   | `stats[]`: `{ value, label }`                                                                                                                               |
+| **Article**              | A story page: reading layout, date field                                 | `category`, `date` (date picker), `headline`, `standfirst`, `image`, `body` (`## ` starts a subheading)                                                     |
+| **Latest news**          | A data-driven component (stretch goal)                                   | `title`, `category?`, `limit`, `display`: grid, list, featured. The cards come from the site's article pages at render time                                 |
+| **Fixture list**         | A data-driven component fed by a mock API                                | `title`, `team?` (an Australian team), `show`: upcoming, results, both; `limit`. Matches come from the fixtures API at render time                          |
+| **Profile cards**        | People: cut-out over own photo, colour picked from it; or initials       | `title`, `display`: carousel, grid; `rows`: one, two; `profiles[]`: `{ name, role?, text?, cutout?, background?, link? }`                                   |
 
 Section keeps the two layouts and three backgrounds the brief asks for and adds more.
 Variety in how content looks lives mostly in the content components: the same Card
@@ -44,6 +45,25 @@ the editor canvas uses the same function, so the editor shows exactly what the s
 will. Nested Sections follow their parent; the renderer passes `nested` to every
 component alongside `siteSlug`. `width` has a `.default('contained')`, so pages saved
 before it existed render as before.
+
+**Section style: three independent layers.** Each style option of a Section
+changes one thing, and none of them reads another:
+
+- **Background** is colour only (`surfaces` in `Section.tsx`). On a Section in
+  the page column, a background turns it into a panel (`.section-panel` in
+  `app/globals.css`) that pads its sides _and_ reaches out by the same amount,
+  so adding or removing a background never moves the content off the page column.
+- **Padding** is the space inside the section, above and below. Left out, it
+  follows the width only (`sectionPadding()` in `lib/components/section.ts`:
+  Medium, or None for Edge to edge), never the background.
+- **Space between blocks** belongs to the page, not to any block:
+  `PageColumnBlock` gives every page-column block the same spacing, whatever its
+  type, in the public renderer and the editor canvas alike. Full-width blocks sit
+  flush, so coloured bands and a hero meet without gaps.
+
+Editors choose named steps (`sm`, `md`, `lg`; `light`, `brand`), never pixel
+values or colours: the site theme decides what each step looks like, so 30 sites
+stay on brand and an editor cannot break a layout.
 
 On public pages, a card with a link is clickable as a whole (one link per card,
 stretched over it) and lifts on hover; a masonry photo without a link opens full size
@@ -117,6 +137,35 @@ Trade-off: summaries are worked out from the page trees on each request, which i
 for dozens of articles per site. With thousands, I would store an article's summary
 (date, category, headline) on the page document when it is saved, index
 `{ siteSlug, date }`, and let Latest news query that.
+
+**Fixture list and the mock fixtures API.** The stretch goal asks for data from a mock
+API at render time, and fixture lists are one of the blocks the brief names. The
+editor sets only `title`, `team`, `show` and `limit`; the matches come from
+`lib/fixtures/mockApi.ts`, which stands in for a sports data provider:
+
+- It behaves like a live feed. Status and score depend on the time of the request:
+  a match has no score until it is over (two hours after kick-off for XVs, half an
+  hour for sevens), so the same page shows "upcoming" one week and a result the next.
+  Scores are sample data, made up from a stable hash of the match, so they never
+  change between requests.
+- The same API is served over HTTP at `GET /api/fixtures?team=wallabies`. The
+  renderer calls `getFixtures()` directly instead (same process, no round trip);
+  replacing the mock with a real provider means swapping that one function for a
+  `fetch` returning the same `Fixture` shape.
+- While a page renders, `fixturesForTree()` (`lib/fixtures/forTree.ts`) finds the
+  page's Fixture lists, including ones nested in Sections, and makes one call per
+  team they ask for, or none if the page has no Fixture list. The editor loads
+  every fixture instead, so switching a list to another team updates the canvas
+  straight away.
+- `selectFixtures()` is pure and shared by the site and the canvas: upcoming
+  matches soonest first, results newest first. Kick-off times are shown in Sydney
+  time (`Sun, 8 Nov, 2:10 am AEDT`) with a fixed time zone, so server and browser
+  render the same text.
+- The block has no background of its own: borders and secondary text use the current
+  colour, so it reads on a plain, light or brand Section and on dark sites alike.
+
+The seed puts a Fixture list on the Rugby Australia home page (every team), on each
+national team's Matches page and on each Super Rugby club's home page.
 
 The seeded articles are evergreen explainers, history and guides built from public
 facts. None reports an invented event or quotes anyone.
@@ -503,8 +552,9 @@ class), so a site can still override any single token on top of its look.
   (CSS container queries), so a Section nested in a column stacks earlier.
 - The page title is used for `<title>` and is rendered as a visually hidden `<h1>`;
   visible headings come from the components.
-- Paths are lowercase segments of letters, numbers and hyphens. A page's path cannot
-  be changed after creation, and pages cannot be deleted (neither was in scope).
+- Paths are lowercase segments of letters, numbers and hyphens. A page's path can be
+  changed in the editor (links to the old address then stop working) and a page can
+  be deleted after a confirmation; neither was required by the brief.
 - Image descriptions (alt text) are required. Image addresses must be `http(s)` URLs.
   Link addresses are site-relative (`/about`) or full `http(s)` URLs; anything else
   is not rendered.
