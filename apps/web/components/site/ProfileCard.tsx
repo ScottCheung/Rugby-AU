@@ -30,9 +30,52 @@ export function ProfileCard({
   siteSlug: string;
   className?: string;
 }) {
-  const picked = usePickedColor(color ? undefined : profile.background.url);
+  const picked = usePickedColor(
+    color || !profile.background ? undefined : profile.background.url,
+  );
   const shade = color ?? picked ?? '#1f2937';
   const href = profile.link && resolveHref(profile.link.href, siteSlug);
+  const details = (
+    <div className="profile-card__text">
+      {profile.role && (
+        <p className="m-0 text-xs font-semibold tracking-wide uppercase opacity-80">
+          {profile.role}
+        </p>
+      )}
+      <Heading level={3}>{profile.name}</Heading>
+      {profile.text && (
+        <p className="m-0 text-sm leading-relaxed opacity-85">{profile.text}</p>
+      )}
+      {profile.link && href && (
+        <div className="pt-1">
+          <Button href={href} stretched>
+            {profile.link.label}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+
+  // No photo: a silhouette and initials in the site's own colours.
+  if (!profile.cutout || !profile.background)
+    return (
+      <Reveal
+        as="article"
+        delay={Math.min(index * 0.05, 0.6)}
+        className={`profile-card profile-card--plain ${href ? 'card-link' : ''} ${className}`}
+      >
+        <div className="profile-card__plain-art" aria-hidden>
+          <span className="profile-card__initials site-heading">
+            {initials(profile.name)}
+          </span>
+          <svg viewBox="0 0 100 100" className="profile-card__silhouette">
+            <circle cx="50" cy="36" r="17" />
+            <path d="M14 100c2-24 17-37 36-37s34 13 36 37z" />
+          </svg>
+        </div>
+        {details}
+      </Reveal>
+    );
 
   return (
     <Reveal
@@ -55,26 +98,17 @@ export function ProfileCard({
       <div className="profile-card__front">
         <div style={fade(shade, 16, 44)} />
       </div>
-      <div className="profile-card__text">
-        <p className="m-0 text-xs font-semibold tracking-wide uppercase opacity-80">
-          {profile.role}
-        </p>
-        <Heading level={3}>{profile.name}</Heading>
-        {profile.text && (
-          <p className="m-0 text-sm leading-relaxed opacity-85">
-            {profile.text}
-          </p>
-        )}
-        {profile.link && href && (
-          <div className="pt-1">
-            <Button href={href} stretched>
-              {profile.link.label}
-            </Button>
-          </div>
-        )}
-      </div>
+      {details}
     </Reveal>
   );
+}
+
+/** "Joseph-Aukuso Suaalii" -> "JS": first and last name. */
+function initials(name: string) {
+  const words = name.split(/\s+/).filter(Boolean);
+  const first = words[0]?.[0] ?? '';
+  const last = words.length > 1 ? words[words.length - 1][0] : '';
+  return (first + last).toUpperCase();
 }
 
 /** The card colour, solid at the bottom and fading out going up. */

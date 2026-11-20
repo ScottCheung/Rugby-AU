@@ -3,7 +3,9 @@ import type { ComponentType, PropsOf } from '../../lib/components/registry';
 import type { PageDocument } from '../../lib/db/documents';
 import type { ComponentNode } from '../../lib/types';
 import { images, type SeedImage } from './images';
+import { formatDate } from '../../lib/news';
 import { photoPicker } from './photos';
+import { squads, type Squad } from './squads';
 
 /**
  * Page content for the sample sites. Each kind of site (governing body,
@@ -958,92 +960,69 @@ function governingBody(pick: Pick): SeedPage[] {
   ];
 }
 
-// ---------------------------------------------------------- national teams
+// -------------------------------------------------------------------- squads
 
-type Profile = PropsOf<'profileGrid'>['profiles'][number];
-
-/** Shown wherever player cards appear: the photos are not of these players. */
-const squadNote = 'Photos are illustrative and do not show the named players.';
-
-/** A player card: a cut-out from public/players/ on a background photo. */
-const player = (
-  name: string,
-  role: string,
-  cutout: string,
-  shows: string,
-  background: SeedImage,
-): Profile => ({
-  name,
-  role,
-  cutout: { url: `/players/${cutout}.webp`, alt: shows },
-  background,
-});
+/** "Props" -> "Prop": a player's position from the group the source uses. */
+const positionOf: Record<string, string | undefined> = {
+  Forwards: 'Forward',
+  Backs: 'Back',
+  Props: 'Prop',
+  Hookers: 'Hooker',
+  Locks: 'Lock',
+  'Back row': 'Back row',
+  'Back rowers': 'Back rower',
+  'Loose forwards': 'Loose forward',
+  'Scrum-halves': 'Scrum-half',
+  Halfbacks: 'Halfback',
+  'Half-backs': 'Half-back',
+  'Fly-halves': 'Fly-half',
+  Flyhalves: 'Flyhalf',
+  Centres: 'Centre',
+  Midfield: 'Midfield',
+  'Outside backs': 'Outside back',
+  Utility: 'Utility',
+};
 
 /**
- * Wallabies named for the November 2026 Tests (rugby.com.au), each on a
- * different Australian place, so the card colours (taken from the bottom of
- * each background) differ. Cut-outs were
- * made from free Unsplash photos of other rugby players; `shows` describes
- * what each photo actually shows.
+ * A team's Squad page: where the list comes from, then one grid of cards
+ * per group, grouped as the source groups them. No photos: the cards show
+ * initials and a silhouette.
  */
-const wallabiesSquad: Profile[] = [
-  player(
-    'Taniela Tupou',
-    'Prop',
-    'taniela-tupou',
-    'A rugby player in a red and white headguard and a muddy yellow jersey',
-    images.uluru,
-  ),
-  player(
-    'Fraser McReight',
-    'Flanker',
-    'fraser-mcreight',
-    'A rugby player in a headband and a navy, white and red jersey',
-    images.sydneyHarbour,
-  ),
-  player(
-    'Rob Valetini',
-    'Number 8',
-    'rob-valetini',
-    'A rugby player in a maroon and white jersey carrying the ball',
-    images.brisbaneBridge,
-  ),
-  player(
-    'Tate McDermott',
-    'Scrum-half',
-    'tate-mcdermott',
-    'A black-and-white photo of a rugby player running with the ball',
-    images.hobartHarbour,
-  ),
-  player(
-    'Carter Gordon',
-    'Fly-half',
-    'carter-gordon',
-    'A rugby player in red kicking the ball',
-    images.stadiumSunset,
-  ),
-  player(
-    'Len Ikitau',
-    'Centre',
-    'len-ikitau',
-    'A rugby player in a white jersey with a black and orange band',
-    images.melbourneSkyline,
-  ),
-  player(
-    'Joseph-Aukuso Suaalii',
-    'Centre',
-    'joseph-suaalii',
-    'A rugby player in a green and white striped jersey',
-    images.perthCity,
-  ),
-  player(
-    'Max Jorgensen',
-    'Wing',
-    'max-jorgensen',
-    'A rugby player in yellow and white leaping with the ball',
-    images.canberraBalloons,
-  ),
-];
+const squadPage = (siteSlug: string, squad: Squad): SeedPage =>
+  page(siteSlug, '/squad', 'Squad', squad.label, [
+    section([
+      text(
+        'The squad',
+        [
+          `${squad.label}.`,
+          `Named ${formatDate(squad.source.date)}, as listed in “${squad.source.title}”.`,
+        ],
+        link('Read the announcement', squad.source.url),
+        'centered',
+      ),
+    ]),
+    ...squad.groups.map((group) =>
+      section(
+        [
+          node('profileGrid', {
+            title: '',
+            display: 'grid',
+            profiles: group.players.map((player) => ({
+              name: player.name,
+              ...(positionOf[group.title]
+                ? { role: positionOf[group.title] }
+                : {}),
+              ...(player.note ? { text: player.note } : {}),
+            })),
+          }),
+        ],
+        // A list with a single unnamed group needs no heading.
+        group.title === 'Squad' ? {} : { heading: group.title },
+      ),
+    ),
+  ]);
+
+// ---------------------------------------------------------- national teams
 
 type NationalTeam = {
   slug: string;
@@ -1056,8 +1035,6 @@ type NationalTeam = {
   feature: Story;
   timeline: Card[];
   competitions: Card[];
-  /** Profile cards for a Squad page, if the team has one. */
-  squad?: Profile[];
 };
 
 function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
@@ -1078,23 +1055,6 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         ),
       ),
       statsBand(undefined, team.stats),
-      ...(team.squad
-        ? [
-            section(
-              [
-                node('profileGrid', {
-                  title: '',
-                  display: 'carousel',
-                  profiles: team.squad,
-                }),
-              ],
-              {
-                heading: 'Meet the players',
-                intro: squadNote,
-              },
-            ),
-          ]
-        : []),
       cards(
         'Moments',
         'Swipe through some of the milestones.',
@@ -1147,28 +1107,6 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         ),
       ]),
     ]),
-    ...(team.squad
-      ? [
-          page(team.slug, '/squad', 'Squad', `The ${team.name} squad.`, [
-            section([
-              text(
-                'The squad',
-                [
-                  `Players named in the ${team.name} squad for the November Tests.`,
-                  squadNote,
-                ],
-                undefined,
-                'centered',
-              ),
-            ]),
-            node('profileGrid', {
-              title: '',
-              display: 'grid',
-              profiles: team.squad,
-            }),
-          ]),
-        ]
-      : []),
     page(team.slug, '/matches', 'Matches', 'Competitions and match days.', [
       banner(
         pick('crowd'),
@@ -1285,6 +1223,7 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         },
       ],
     ),
+    ...(squads[team.slug] ? [squadPage(team.slug, squads[team.slug])] : []),
   ];
 }
 
@@ -1296,7 +1235,6 @@ const wallabies = (pick: Pick) =>
     {
       slug: 'wallabies',
       name: 'Wallabies',
-      squad: wallabiesSquad,
       slides: [
         slide(
           pick('setPiece'),
@@ -1996,6 +1934,7 @@ function club(team: Club, pick: Pick): SeedPage[] {
         },
       ],
     ),
+    ...(squads[team.slug] ? [squadPage(team.slug, squads[team.slug])] : []),
   ];
 }
 

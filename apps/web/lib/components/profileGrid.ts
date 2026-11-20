@@ -7,7 +7,8 @@ const profileSchema = z.object({
   role: z
     .string()
     .trim()
-    .min(1, 'Add a role or position')
+    .min(1, 'Add a role or position, or remove it')
+    .optional()
     .meta({ label: 'Role or position', placeholder: 'Fly-half' }),
   text: z
     .string()
@@ -15,12 +16,14 @@ const profileSchema = z.object({
     .min(1, 'Add some text or remove it')
     .optional()
     .meta({ label: 'Text', multiline: true }),
-  cutout: imageSchema.meta({
+  // Photos are optional: without them the card shows a silhouette and
+  // initials in the site's colours.
+  cutout: imageSchema.optional().meta({
     label: 'Cut-out photo',
     hint: 'A PNG or WebP with a transparent background. The person can rise above the top of the card.',
     widget: 'image',
   }),
-  background: imageSchema.meta({
+  background: imageSchema.optional().meta({
     label: 'Background',
     hint: 'The card colour is taken from the bottom of this photo automatically.',
     widget: 'image',
@@ -48,7 +51,7 @@ export const profileGrid = defineComponent({
   type: 'profileGrid',
   label: 'Profile cards',
   description:
-    'People as cards: a cut-out photo rising out of a background, with a colour taken from the photo.',
+    'People as cards: a cut-out photo rising out of a background, or initials and a silhouette when there is no photo.',
   schema: profileGridSchema,
   defaultProps: { title: 'The squad', display: 'carousel', profiles: [] },
   acceptsChildren: false,

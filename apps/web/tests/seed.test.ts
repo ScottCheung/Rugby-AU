@@ -4,6 +4,7 @@ import { summarizeArticles } from '../lib/news';
 import type { ComponentNode } from '../lib/types';
 import { pages } from '../scripts/seed/pages';
 import { sites } from '../scripts/seed/sites';
+import { squads } from '../scripts/seed/squads';
 
 /** Every site-relative href in a tree (card links and slide buttons). */
 function hrefs(nodes: ComponentNode[]): string[] {
@@ -86,6 +87,51 @@ describe('seed data', () => {
       const underNews = own.filter((page) => page.path.startsWith('/news/'));
       expect(underNews.length, site.slug).toBeGreaterThanOrEqual(3);
       expect(summarizeArticles(underNews)).toHaveLength(underNews.length);
+    }
+  });
+});
+
+describe('squads', () => {
+  const teamSites = [
+    'wallabies',
+    'wallaroos',
+    'australia-sevens',
+    'brumbies',
+    'reds',
+    'waratahs',
+    'western-force',
+  ];
+
+  it('gives every team site a Squad page with every player in its source list', () => {
+    for (const slug of teamSites) {
+      const squad = squads[slug];
+      expect(squad, slug).toBeDefined();
+      const squadPage = pages.find(
+        (page) => page.siteSlug === slug && page.path === '/squad',
+      );
+      expect(squadPage, slug).toBeDefined();
+      const shown = JSON.stringify(squadPage!.tree).match(/"name":"/g) ?? [];
+      const listed = squad.groups.reduce(
+        (sum, group) => sum + group.players.length,
+        0,
+      );
+      expect(shown.length, slug).toBe(listed);
+    }
+  });
+
+  it('records where each squad comes from', () => {
+    for (const squad of Object.values(squads)) {
+      expect(squad.source.url).toMatch(/^https:\/\//);
+      expect(squad.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+  });
+
+  it('lists nobody twice within one squad', () => {
+    for (const [slug, squad] of Object.entries(squads)) {
+      const all = squad.groups.flatMap((group) =>
+        group.players.map((player) => player.name),
+      );
+      expect(new Set(all).size, slug).toBe(all.length);
     }
   });
 });
