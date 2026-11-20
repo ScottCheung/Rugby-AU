@@ -4,6 +4,7 @@ import type { PageDocument } from '../../lib/db/documents';
 import type { ComponentNode } from '../../lib/types';
 import { images, type SeedImage } from './images';
 import { formatDate } from '../../lib/news';
+import { australianTeamIds } from '../../lib/fixtures/teams';
 import { photoPicker } from './photos';
 import { playerPhoto } from './players';
 import { squads, type Squad, type SquadPlayer } from './squads';
@@ -293,6 +294,23 @@ const latest = (
     ...(category ? { category } : {}),
   });
 
+/**
+ * The data-driven Fixture list in its own band: one team's matches, or every
+ * Australian team's when `team` is left out.
+ */
+const fixturesBand = (title: string, team?: string, limit = 3) => {
+  const followed = australianTeamIds.find((id) => id === team);
+  if (team && !followed) throw new Error(`No fixtures for team "${team}"`);
+  return section([
+    node('fixtureList', {
+      title,
+      show: 'both',
+      limit,
+      ...(followed ? { team: followed } : {}),
+    }),
+  ]);
+};
+
 /** An article page: the story, then more news (which leaves this one out). */
 const articlePage = (siteSlug: string, story: Story): SeedPage =>
   page(siteSlug, `/news/${story.slug}`, story.headline, story.standfirst, [
@@ -447,6 +465,7 @@ function governingBody(pick: Pick): SeedPage[] {
             events,
           ),
         ),
+        fixturesBand('Fixtures and results', undefined, 4),
         statsBand('Australian rugby in numbers', [
           stat('1899', 'First Test match'),
           stat('2', 'Men’s Rugby World Cup titles'),
@@ -1181,6 +1200,7 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         'Matches',
         'Test rugby at home and around the world.',
       ),
+      fixturesBand('Fixtures and results', team.slug, 4),
       cards('Competitions', undefined, 'list', team.competitions),
       story(
         'light',
@@ -1726,6 +1746,7 @@ function club(team: Club, pick: Pick): SeedPage[] {
           ),
         ]),
         statsBand(undefined, team.stats),
+        fixturesBand('Fixtures and results', team.slug),
         ...(squads[team.slug]
           ? [meetThePlayers(team.slug, squads[team.slug])]
           : []),

@@ -99,6 +99,13 @@
       }
     },
     {
+      "id": "fixtures",
+      "type": "fixtureList",
+      "props": {
+        "title": "Fixtures"
+      }
+    },
+    {
       "id": "people",
       "type": "profileGrid",
       "props": {

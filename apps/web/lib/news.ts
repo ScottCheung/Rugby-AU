@@ -1,4 +1,5 @@
 import { articleSchema } from './components/article';
+import type { Fixture } from './fixtures/types';
 import type { ComponentNode } from './types';
 
 /** What a news card needs to know about an article page. */
@@ -21,6 +22,10 @@ export type SiteData = {
   pagePath: string;
   /** Card colours taken from photos, keyed by image address (Profile cards). */
   colors: Record<string, string>;
+  /** Matches from the fixtures API (Fixture list). */
+  fixtures: Fixture[];
+  /** When the page was rendered (ISO): what "upcoming" is measured from. */
+  now: string;
 };
 
 function findArticle(nodes: ComponentNode[]): ComponentNode | undefined {

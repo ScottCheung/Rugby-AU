@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  CalendarDays,
   Box,
   Contact,
   FileText,
@@ -22,6 +23,7 @@ const icons: Partial<Record<ComponentType, LucideIcon>> = {
   stats: BarChart3,
   article: FileText,
   latestNews: Newspaper,
+  fixtureList: CalendarDays,
   profileGrid: Contact,
 };
 

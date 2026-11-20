@@ -58,6 +58,7 @@ import {
 import { editorReducer, initEditor, isDirty } from './editorReducer';
 import { Sidebar } from './Sidebar';
 import { PropertiesPanel } from './PropertiesPanel';
+import type { Fixture } from '@/lib/fixtures/types';
 
 export function PageEditor({
   site,
@@ -66,6 +67,8 @@ export function PageEditor({
   images,
   articles,
   colors,
+  fixtures,
+  now,
 }: {
   site: Site;
   page: Page;
@@ -75,6 +78,10 @@ export function PageEditor({
   articles: ArticleSummary[];
   /** Colours picked from this page's photos (Profile cards). */
   colors: Record<string, string>;
+  /** Every match from the fixtures API, for Fixture lists on the canvas. */
+  fixtures: Fixture[];
+  /** When the editor was opened (ISO). */
+  now: string;
 }) {
   const [state, dispatch] = useReducer(
     editorReducer,
@@ -191,7 +198,7 @@ export function PageEditor({
   const context: EditorContextValue = {
     tree: draft.tree,
     siteSlug: site.slug,
-    siteData: { articles, pagePath: savedPath, colors },
+    siteData: { articles, pagePath: savedPath, colors, fixtures, now },
     selectedId: state.selectedId,
     hoveredId,
     issues: state.issues,

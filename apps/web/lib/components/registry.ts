@@ -1,6 +1,7 @@
 import type { z } from 'zod';
 import { article } from './article';
 import { cardGrid } from './cardGrid';
+import { fixtureList } from './fixtureList';
 import { imageSlider } from './imageSlider';
 import { latestNews } from './latestNews';
 import { profileGrid } from './profileGrid';
@@ -17,6 +18,7 @@ export const componentDefinitions = [
   stats,
   article,
   latestNews,
+  fixtureList,
   profileGrid,
 ] as const;
 

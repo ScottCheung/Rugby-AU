@@ -3,6 +3,7 @@ import type { ComponentType, PropsOf } from '@/lib/components/registry';
 import type { SiteData } from '@/lib/news';
 import { Article } from './Article';
 import { CardGrid } from './CardGrid';
+import { FixtureList } from './FixtureList';
 import { ImageSlider } from './ImageSlider';
 import { LatestNews } from './LatestNews';
 import { ProfileGrid } from './ProfileGrid';
@@ -39,6 +40,7 @@ const siteComponents: { [Type in ComponentType]: SiteComponent<Type> } = {
   stats: Stats,
   article: Article,
   latestNews: LatestNews,
+  fixtureList: FixtureList,
   profileGrid: ProfileGrid,
 };
 

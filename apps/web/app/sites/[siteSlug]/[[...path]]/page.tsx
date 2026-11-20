@@ -8,6 +8,7 @@ import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { summarizeArticles } from '@/lib/news';
 import { profileBackgrounds } from '@/lib/components/profileGrid';
 import { cardColors } from '@/lib/imageColor';
+import { fixturesForTree } from '@/lib/fixtures/forTree';
 import { getPageByPath, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { pathFromSegments } from '@/lib/paths';
@@ -55,10 +56,14 @@ export default async function SitePage({ params }: Props) {
   // For Latest news: every article on the site, newest first.
   // Profile cards take their colour from their photos, worked out here on
   // the server so the page arrives with the right colours.
+  // Fixture lists ask the fixtures API for their teams' matches.
+  const now = new Date();
   const data = {
     articles: summarizeArticles(sitePages),
     pagePath: page.path,
     colors: await cardColors(profileBackgrounds(page.tree)),
+    fixtures: await fixturesForTree(page.tree, now),
+    now: now.toISOString(),
   };
   // An article shows its own headline as the page's h1.
   const hasOwnHeading = page.tree[0]?.type === 'article';
