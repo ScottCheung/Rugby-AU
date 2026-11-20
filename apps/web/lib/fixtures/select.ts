@@ -39,6 +39,15 @@ export function selectFixtures(
  * current one. A fixed time zone, so server and browser agree.
  */
 export function formatKickoff(kickoff: string, now: Date): string {
+  const { day, time } = kickoffParts(kickoff, now);
+  return `${day}, ${time}`;
+}
+
+/** The day and the time of kick-off apart, for layouts that set them differently. */
+export function kickoffParts(
+  kickoff: string,
+  now: Date,
+): { day: string; time: string } {
   const date = new Date(kickoff);
   const zone = 'Australia/Sydney';
   const year = (value: Date) =>
@@ -56,7 +65,7 @@ export function formatKickoff(kickoff: string, now: Date): string {
     timeZoneName: 'short',
     timeZone: zone,
   });
-  return `${day}, ${time}`;
+  return { day, time };
 }
 
 /** Won, lost or drawn, from one team's side. Undefined without a score. */

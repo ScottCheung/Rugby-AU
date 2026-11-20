@@ -336,3 +336,20 @@ html {
   fill: currentColor;
   opacity: 0.16;
 }
+
+/*
+ * Fixture list cards. Theme-agnostic: the card is the page background
+ * nudged toward the text colour (a little darker on light sites, a little
+ * lighter on dark ones), and a status pill's text mixes its tone with the
+ * text colour, so it stays readable on either.
+ */
+.fixture-card {
+  background: color-mix(
+    in oklch,
+    var(--color-background),
+    var(--color-text) 5%
+  );
+}
+.pill-tone {
+  color: color-mix(in oklch, var(--tone), var(--color-text) 35%);
+}
