@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { site, page } = found;
   return {
     title: `${page.title} | ${site.name}`,
-    description: page.description,
+    description: page.description ?? site.tagline,
     icons: site.faviconUrl ? { icon: site.faviconUrl } : undefined,
   };
 }
@@ -79,7 +79,10 @@ export default async function SitePage({ params }: Props) {
       </main>
 
       <footer className="border-t border-muted-text/20 py-6 text-sm text-muted-text">
-        <Container>© {site.name}</Container>
+        <Container className="flex flex-wrap justify-between gap-2">
+          <span>© {site.name}</span>
+          <span>{site.tagline}</span>
+        </Container>
       </footer>
     </div>
   );

@@ -1,7 +1,8 @@
 import { validateTree } from '../lib/components/validateTree';
 import { closeDb } from '../lib/db/client';
 import { resetDatabase } from '../lib/db/reset';
-import { pages, sites } from './seedData';
+import { pages } from './seed/pages';
+import { sites } from './seed/sites';
 
 /** Idempotent: drops and recreates both collections every time it runs. */
 async function seed() {

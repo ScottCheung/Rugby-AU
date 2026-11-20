@@ -15,11 +15,30 @@ export type ComponentNode = {
   children?: ComponentNode[];
 };
 
+/** Groups sites in the manager; with dozens of sites a flat list stops working. */
+export const siteCategories = [
+  'governing-body',
+  'national-team',
+  'super-rugby',
+  'state-union',
+] as const;
+export type SiteCategory = (typeof siteCategories)[number];
+
+export const siteCategoryLabels: Record<SiteCategory, string> = {
+  'governing-body': 'Governing body',
+  'national-team': 'National teams',
+  'super-rugby': 'Super Rugby clubs',
+  'state-union': 'State and territory unions',
+};
+
 /** A site as the app uses it (the Mongo _id is exposed as a string id). */
 export type Site = {
   id: string;
   slug: string;
   name: string;
+  category: SiteCategory;
+  /** One line about the site, shown in the manager and the site footer. */
+  tagline: string;
   faviconUrl?: string;
   logoUrl?: string;
   /** Only the tokens this site changes; see lib/theme/resolveTheme.ts. */
