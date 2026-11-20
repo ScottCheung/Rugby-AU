@@ -13,11 +13,11 @@ type BaseField = {
   hint?: string;
   /** Optional fields get an Add / Remove toggle and are omitted when absent. */
   optional: boolean;
-  /** The form tab: content (default), layout or style. */
+  /** The form tab: content (default) or style. Layout fields live in Style too. */
   group: FieldGroup;
 };
 
-export const fieldGroups = ['content', 'layout', 'style'] as const;
+export const fieldGroups = ['content', 'style'] as const;
 export type FieldGroup = (typeof fieldGroups)[number];
 
 export type FieldDescriptor =
@@ -79,7 +79,8 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
     label: meta.label ?? humanize(key),
     hint: meta.hint,
     optional,
-    group: meta.group ?? 'content',
+    // Layout and style share one tab.
+    group: meta.group === 'layout' || meta.group === 'style' ? 'style' : (meta.group ?? 'content'),
   };
 
   if (inner instanceof z.ZodURL)

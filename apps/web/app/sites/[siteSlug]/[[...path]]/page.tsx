@@ -15,6 +15,7 @@ import { defaultTheme } from '@/lib/theme/defaultTheme';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 import { themeToCssVars } from '@/lib/theme/themeToCssVars';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
+import { SiteHeader } from '@/components/site/SiteHeader';
 import { resolveHref } from '@/lib/links';
 
 export const dynamic = 'force-dynamic';
@@ -61,52 +62,39 @@ export default async function SitePage({ params }: Props) {
   };
   // An article shows its own headline as the page's h1.
   const hasOwnHeading = page.tree[0]?.type === 'article';
+  const heroFirst =
+    !!page.tree[0] && rootBlockWidth(page.tree[0]) === 'full-width';
 
   return (
     <div
       style={themeToCssVars(theme)}
       className="@container/page flex min-h-screen flex-col bg-background font-site text-text"
     >
-      <header className="bg-brand text-brand-contrast">
-        <Container className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3">
-          <a
-            href={`/sites/${site.slug}`}
-            className="site-heading flex shrink-0 items-center gap-3 text-xl font-bold"
-          >
-            <SiteLogo src={site.logoUrl} name={site.name} />
-            {site.name}
-          </a>
-          <nav aria-label="Main" className="-mx-2 max-w-full overflow-x-auto">
-            <ul className="m-0 flex list-none gap-1 p-0 whitespace-nowrap">
-              {menu.map((item) => {
-                const current = item.path === page.path;
-                return (
-                  <li key={item.id}>
-                    <a
-                      href={resolveHref(item.path, site.slug)}
-                      aria-current={current ? 'page' : undefined}
-                      className={`block rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
-                        current
-                          ? 'bg-brand-contrast text-brand'
-                          : 'hover:bg-brand-contrast/15'
-                      }`}
-                    >
-                      {item.path === '/' ? 'Home' : item.title}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </Container>
-      </header>
+      {/* A full-width first block is a hero: the header floats over it. */}
+      <SiteHeader
+        siteName={site.name}
+        logoUrl={site.logoUrl}
+        homeHref={`/sites/${site.slug}`}
+        editHref={
+          process.env.NODE_ENV === 'development'
+            ? `/manager/${site.slug}/pages/${page.id}`
+            : undefined
+        }
+        managerHref={process.env.NODE_ENV === 'development' ? '/manager' : undefined}
+        overlay={heroFirst}
+        links={menu.map((item) => ({
+          id: item.id,
+          href: resolveHref(item.path, site.slug) ?? '#',
+          label: item.path === '/' ? 'Home' : item.title,
+          current: item.path === page.path,
+        }))}
+      />
+      {!heroFirst && <div aria-hidden className="h-16 md:h-[72px]" />}
 
       {/* No page-wide container: each block decides its width (RenderTree). */}
       <main
-        className={`flex flex-1 flex-col gap-site-md pb-site-lg ${
-          page.tree[0] && rootBlockWidth(page.tree[0]) === 'full-width'
-            ? '' // an edge-to-edge first block sits right under the header
-            : 'pt-site-lg'
+        className={`flex flex-1 flex-col pb-site-lg ${
+          heroFirst ? '' : 'pt-site-lg'
         }`}
       >
         {!hasOwnHeading && <h1 className="sr-only">{page.title}</h1>}

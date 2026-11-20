@@ -59,12 +59,19 @@ export function Canvas({
   site,
   themeVars,
   device,
+  menu,
 }: {
   site: Site;
   themeVars: CSSProperties;
   device: Device;
+  /** The site's top-level pages, as the public header lists them. */
+  menu: { id: string; label: string; current: boolean }[];
 }) {
   const editor = useEditor();
+  // Same rule as the public page: a full-width first block is a hero, and the
+  // header floats over it instead of taking its own band.
+  const heroFirst =
+    !!editor.tree[0] && rootBlockWidth(editor.tree[0]) === 'full-width';
   const windowWidth = useWindowWidth();
   const { label } = devices[device];
   const width = previewWidth(device, windowWidth);
@@ -121,7 +128,7 @@ export function Canvas({
             <ScaleContext.Provider value={scale}>
               <div
                 style={themeVars}
-                className="@container/page min-h-[60vh] bg-background font-site text-text"
+                className="@container/page relative min-h-[60vh] bg-background font-site text-text"
                 // Links must not navigate away and photos must not open full size
                 // while editing: a click on the canvas only selects.
                 onClickCapture={(event) => {
@@ -135,20 +142,63 @@ export function Canvas({
                 onClick={() => editor.select(null)}
                 onMouseLeave={() => editor.hover(null)}
               >
-                <header className="bg-brand px-5 py-3 text-brand-contrast">
-                  <span className="site-heading flex items-center gap-3 font-bold">
-                    <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
-                    {site.name}
-                  </span>
+                {/* Mirrors SiteHeader. Its breakpoints are container queries
+                  on this page, so they follow the preview width, not the window. */}
+                <header
+                  className={
+                    heroFirst
+                      ? 'absolute inset-x-0 top-0 z-50'
+                      : 'relative bg-brand text-brand-contrast'
+                  }
+                  style={
+                    heroFirst
+                      ? {
+                          color: 'var(--header-text, #fff)',
+                          textShadow:
+                            '0 1px 2px rgba(0,0,0,0.7), 0 0 10px rgba(0,0,0,0.5)',
+                        }
+                      : undefined
+                  }
+                >
+                  <Container className="relative flex h-16 items-center justify-between gap-4 @3xl:h-[72px] @3xl:gap-6">
+                    <span className="site-heading flex min-w-0 items-center gap-3 text-lg font-bold @3xl:text-xl">
+                      <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
+                      <span className="truncate">{site.name}</span>
+                    </span>
+                    <nav aria-label="Main" className="hidden @3xl:block">
+                      <ul className="m-0 flex list-none gap-1 p-0 whitespace-nowrap">
+                        {menu.map((item) => (
+                          <li key={item.id}>
+                            <span
+                              className={`block rounded-full px-3 py-1.5 text-sm font-semibold ${
+                                item.current
+                                  ? 'bg-brand-contrast text-brand'
+                                  : ''
+                              }`}
+                            >
+                              {item.label}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                    <span
+                      aria-hidden
+                      className="relative grid size-11 shrink-0 place-items-center @3xl:hidden"
+                    >
+                      <span className="relative block h-4 w-6">
+                        <span className="absolute left-0 top-0 block h-0.5 w-6 rounded bg-current" />
+                        <span className="absolute left-0 top-[7px] block h-0.5 w-6 rounded bg-current" />
+                        <span className="absolute left-0 top-[14px] block h-0.5 w-6 rounded bg-current" />
+                      </span>
+                    </span>
+                  </Container>
                 </header>
                 {/* Like the public page: no page-wide container, each block
                   decides its width (see NodeList). */}
                 <div
-                  className={`flex flex-col gap-site-md pb-site-lg ${
-                    editor.tree[0] &&
-                    rootBlockWidth(editor.tree[0]) === 'full-width'
-                      ? '' // same spacing rule as the public page
-                      : 'pt-site-lg'
+                  className={`flex flex-col pb-site-lg ${
+                    heroFirst ? '' : 'pt-site-lg'
                   }`}
                 >
                   <NodeList nodes={editor.tree} />
@@ -185,7 +235,15 @@ function NodeList({
         // Same rule as RenderTree: page-level blocks sit in the page column
         // unless a Section asks to be full width.
         if (!root || rootBlockWidth(node) !== 'contained') return block;
-        return <Container key={node.id}>{block}</Container>;
+        // Same spacing as RenderTree: sections set their own vertical space.
+        return (
+          <Container
+            key={node.id}
+            className={node.type === 'section' ? '' : 'py-site-md'}
+          >
+            {block}
+          </Container>
+        );
       })}
       {endSlot}
     </>

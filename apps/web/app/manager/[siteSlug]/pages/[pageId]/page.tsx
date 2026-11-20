@@ -23,10 +23,19 @@ export default async function EditPage({
   if (!site || !page || page.siteSlug !== site.slug) notFound();
   // The site's image library: every image its pages already use.
   const images = collectImages(sitePages.map((sitePage) => sitePage.tree));
+  // The same menu the public header shows: top-level pages only.
+  const menu = sitePages
+    .filter((item) => item.path.split('/').length === 2)
+    .map((item) => ({
+      id: item.id,
+      label: item.path === '/' ? 'Home' : item.title,
+      current: item.id === page.id,
+    }));
   return (
     <PageEditor
       site={site}
       page={page}
+      menu={menu}
       images={images}
       articles={summarizeArticles(sitePages)}
       colors={await cardColors(profileBackgrounds(page.tree))}

@@ -105,6 +105,18 @@ describe('describeSchema', () => {
         label: 'Background',
       }),
       expect.objectContaining({
+        key: 'padding',
+        kind: 'enum',
+        label: 'Padding',
+        optional: true,
+        options: [
+          { value: 'none', label: 'None' },
+          { value: 'sm', label: 'Small' },
+          { value: 'md', label: 'Medium' },
+          { value: 'lg', label: 'Large' },
+        ],
+      }),
+      expect.objectContaining({
         key: 'width',
         kind: 'enum',
         label: 'Width',
@@ -226,13 +238,14 @@ describe('new component props', () => {
     expect(slides.item.fields[3].label).toBe('Button');
   });
 
-  it('gives Section an optional heading, five layouts and a width', () => {
+  it('gives Section an optional heading, five layouts, an optional padding and a width', () => {
     const fields = describeSchema(sectionSchema);
     expect(fields.map((field) => [field.key, field.optional])).toEqual([
       ['heading', true],
       ['intro', true],
       ['layout', false],
       ['background', false],
+      ['padding', true],
       ['width', false],
     ]);
     const layout = fields[2];
@@ -258,15 +271,14 @@ describe('new component props', () => {
 });
 
 describe('groupFields', () => {
-  it('splits a Section form into content, layout and style tabs', () => {
+  it('splits a Section form into content and style tabs', () => {
     const groups = groupFields(describeSchema(sectionSchema)).map((entry) => [
       entry.group,
       entry.fields.map((field) => field.key),
     ]);
     expect(groups).toEqual([
       ['content', ['heading', 'intro']],
-      ['layout', ['layout', 'width']],
-      ['style', ['background']],
+      ['style', ['layout', 'background', 'padding', 'width']],
     ]);
   });
 

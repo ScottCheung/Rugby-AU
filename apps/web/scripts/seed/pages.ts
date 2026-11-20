@@ -85,7 +85,7 @@ const section = (
 ) =>
   node(
     'section',
-    { layout: 'full', background: 'none', width: 'contained', ...props },
+    { layout: 'full', background: 'none', width: 'full-background', ...props },
     children,
   );
 
@@ -127,7 +127,7 @@ const cards = (
   variant: Variant,
   items: Card[],
   background: Background = 'none',
-  width: Width = 'contained',
+  width: Width = 'full-background',
 ) =>
   section([grid(variant, items)], {
     heading,
@@ -142,7 +142,7 @@ const columns = (
   intro: string,
   background: Background,
   items: Card[],
-  width: Width = 'contained',
+  width: Width = 'full-background',
 ) =>
   section(
     items.map((item) => grid('grid', [item])),
@@ -164,7 +164,7 @@ const story = (
   textBlock: ComponentNode,
   side: Card,
   flip = false,
-  width: Width = 'contained',
+  width: Width = 'full-background',
 ) =>
   section(
     flip
@@ -184,7 +184,7 @@ const feature = (
   main: Card,
   side: Card,
   background: Background = 'none',
-  width: Width = 'contained',
+  width: Width = 'full-background',
 ) =>
   section([grid('grid', [main]), grid('grid', [side])], {
     heading,

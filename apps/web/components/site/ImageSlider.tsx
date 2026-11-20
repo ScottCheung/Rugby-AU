@@ -90,39 +90,53 @@ export function ImageSlider({
                 alt={slide.image.alt}
                 eager={slideIndex === 0}
               />
-              {/* A dark fade at the bottom keeps the caption readable on any photo. */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+              {/* Theme-coloured fades: the bottom carries the caption, the top
+                  keeps light photos readable. */}
               <motion.div
-                className="absolute inset-x-0 bottom-0 flex max-w-2xl flex-col items-start gap-3 p-site-md text-white"
+                className="absolute inset-x-0 bottom-0 z-20"
+                style={{ color: 'var(--hero-text, #fff)' }}
                 variants={caption}
                 // Start in place: the first caption is visible before
                 // JavaScript runs; later slide changes animate.
                 initial={false}
                 animate={active ? 'shown' : 'hidden'}
               >
-                <motion.div variants={captionLine}>
-                  <Heading level={2}>{slide.heading}</Heading>
-                </motion.div>
-                {slide.text && (
-                  <motion.p
-                    variants={captionLine}
-                    className="text-base leading-relaxed text-white/85"
-                  >
-                    {slide.text}
-                  </motion.p>
-                )}
-                {slide.button && href && (
+                {/* Full width and as tall as the caption, so the fill follows
+                    the text. It runs past the bottom edge and is tilted:
+                    higher on the left (the caption), lower on the right. */}
+                <div className="relative mx-auto flex w-full max-w-6xl flex-col items-start gap-3 px-site-sm pt-site-lg pb-site-md">
                   <motion.div variants={captionLine}>
-                    <Button href={href}>{slide.button.label}</Button>
+                    <Heading level={2}>{slide.heading}</Heading>
                   </motion.div>
-                )}
+                  {slide.text && (
+                    <motion.p
+                      variants={captionLine}
+                      className="text-lg leading-relaxed text-white/85"
+                    >
+                      {slide.text}
+                    </motion.p>
+                  )}
+                  {slide.button && href && (
+                    <motion.div variants={captionLine}>
+                      <Button href={href}>{slide.button.label}</Button>
+                    </motion.div>
+                  )}
+                </div>
               </motion.div>
             </div>
           );
         })}
 
+        {/* Fixed across slides, so it does not cross-fade with the photos. */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24" style={{ background: "linear-gradient(to bottom, var(--hero-top-tint, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 35%, transparent)) var(--hero-top-hold, 0%), transparent)" }} />
+
+        {/* Fixed across slides: the photos change under it, the fade does not. */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 -bottom-8 z-10 h-[50%]" style={{ background: "linear-gradient(to top, var(--hero-fade, var(--color-deep)) 0%, var(--hero-fade, var(--color-deep)) 18%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 85%, transparent) 35%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 45%, transparent) 60%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 15%, transparent) 85%, transparent 100%)", transform: 'skewY(2deg)', transformOrigin: 'left bottom' }} />
+
         {count > 1 && (
-          <div className="absolute right-4 bottom-4 flex items-center gap-2 @md:right-site-md @md:bottom-site-md">
+          // Same column as the caption, so the controls line up with the content.
+          <div className="pointer-events-none absolute inset-x-0 bottom-4 z-30 mx-auto flex w-full max-w-6xl justify-end px-site-sm @md:bottom-site-md">
+          <div className="pointer-events-auto flex items-center gap-2">
             <SliderButton
               label="Previous slide"
               onClick={() => go(current - 1)}
@@ -144,6 +158,7 @@ export function ImageSlider({
             <SliderButton label="Next slide" onClick={() => go(current + 1)}>
               →
             </SliderButton>
+          </div>
           </div>
         )}
       </div>

@@ -59,7 +59,17 @@ export function RenderTree({
       );
     if (nested || rootBlockWidth(node) !== 'contained')
       return <Fragment key={node.id}>{content}</Fragment>;
-    return <Container key={node.id}>{content}</Container>;
+    // Page-column blocks space themselves; full-width blocks (sliders, coloured
+    // sections) add no outer space, so they can sit flush against each other.
+    return (
+      <Container
+        key={node.id}
+        // Sections set their own vertical space; other blocks get a default.
+        className={node.type === 'section' ? '' : 'py-site-md'}
+      >
+        {content}
+      </Container>
+    );
   });
 }
 

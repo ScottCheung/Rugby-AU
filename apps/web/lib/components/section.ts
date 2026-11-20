@@ -23,7 +23,7 @@ export const sectionSchema = z.object({
       'three-column',
     ])
     .meta({
-      group: 'layout',
+      group: 'style',
       label: 'Layout',
       hint: 'How the components inside are arranged on wide screens. On phones they always stack.',
       optionLabels: {
@@ -47,12 +47,20 @@ export const sectionSchema = z.object({
     hint: 'Colours come from the site theme.',
     optionLabels: { none: 'None', light: 'Light', brand: 'Brand colour' },
   }),
+  // Space above and below the section. Left out: the look it had before this
+  // option existed (coloured sections take the large space, plain ones none).
+  padding: z.enum(['none', 'sm', 'md', 'lg']).optional().meta({
+    group: 'style',
+    label: 'Padding',
+    hint: 'Space above and below the section.',
+    optionLabels: { none: 'None', sm: 'Small', md: 'Medium', lg: 'Large' },
+  }),
   // Added after the first version, so it has a default (see README, 4).
   width: z
     .enum(['contained', 'full-background', 'full-width'])
     .default('contained')
     .meta({
-      group: 'layout',
+      group: 'style',
       label: 'Width',
       hint: 'Applies to a Section placed directly on the page. Inside another Section it follows its parent.',
       optionLabels: {

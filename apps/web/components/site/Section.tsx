@@ -11,6 +11,14 @@ const colours: Record<Props['background'], string> = {
   brand: 'bg-brand text-brand-contrast',
 };
 
+/** Vertical space for the Padding option. */
+const paddings = {
+  none: 'py-0',
+  sm: 'py-site-sm',
+  md: 'py-site-md',
+  lg: 'py-site-lg',
+} as const;
+
 // Columns only apply when the section itself is wide enough; narrower,
 // everything stacks. Container queries rather than screen breakpoints, so a
 // section nested in a column, or the manager's phone preview, lays out by
@@ -33,6 +41,7 @@ export function Section({
   layout,
   background,
   width,
+  padding,
   nested = false,
   children,
 }: Props) {
@@ -40,7 +49,7 @@ export function Section({
   const header = (heading || intro) && (
     <header className="flex max-w-2xl flex-col gap-2">
       {heading && <Heading level={2}>{heading}</Heading>}
-      {intro && <p className="text-base leading-relaxed opacity-80">{intro}</p>}
+      {intro && <p className="text-xl leading-relaxed opacity-80">{intro}</p>}
     </header>
   );
   const body = (
@@ -51,7 +60,7 @@ export function Section({
   if (mode === 'contained')
     return (
       <section
-        className={`@container flex flex-col gap-site-sm ${colours[background]} ${coloured ? 'rounded-site p-site-md' : ''}`}
+        className={`@container flex flex-col gap-site-sm ${colours[background]} ${coloured ? `rounded-site px-site-md ${padding ? paddings[padding] : 'py-site-md'}` : `rounded-site px-[var(--section-inset-x,var(--spacing-site-md))] @2xl:-mx-[var(--section-inset-x,var(--spacing-site-md))] bg-[var(--color-tint)] ${padding ? paddings[padding] : 'py-site-md'}`}`}
       >
         {header}
         {body}
@@ -62,7 +71,7 @@ export function Section({
   // stays in the page column so it lines up with the rest of the page.
   return (
     <section
-      className={`@container flex flex-col gap-site-sm ${colours[background]} ${coloured ? 'py-site-lg' : ''} ${mode === 'full-width' ? 'section-bleed' : ''}`}
+      className={`@container flex flex-col gap-site-sm ${colours[background]} ${padding ? paddings[padding] : coloured ? 'py-site-lg' : ''} ${mode === 'full-width' ? 'section-bleed' : ''}`}
     >
       {header && <Container>{header}</Container>}
       {mode === 'full-background' ? <Container>{body}</Container> : body}

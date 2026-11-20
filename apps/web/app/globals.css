@@ -22,6 +22,16 @@
 }
 
 /*
+ * Always reserve the scrollbar's width, even while it is hidden (e.g. when
+ * the Lightbox sets overflow: hidden on the page). Without this the page
+ * jumps sideways when a dialog opens or closes. On overlay scrollbars
+ * (macOS default) the reserved width is 0, so nothing changes there.
+ */
+html {
+  scrollbar-gutter: stable;
+}
+
+/*
  * Image proportions as plain CSS rather than arbitrary Tailwind classes
  * (aspect-[16/10]): these decide the page layout, so they must not depend
  * on a utility being generated in time during development.
@@ -51,6 +61,17 @@
   font-family: var(--font-site-heading);
   text-transform: var(--heading-transform, none);
   letter-spacing: var(--heading-tracking, -0.01em);
+}
+/* Headings use the site's accent on light pages. Where the background is
+ * already coloured or a photo, they keep the colour around them. */
+.site-heading {
+  color: var(--color-heading, inherit);
+}
+.bg-brand .site-heading,
+.media-slider .site-heading,
+.profile-card .site-heading,
+.card-link .site-heading {
+  color: inherit;
 }
 
 /* A link that makes its whole card clickable (see Button's `stretched`). */

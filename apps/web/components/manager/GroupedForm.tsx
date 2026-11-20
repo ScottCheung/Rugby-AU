@@ -10,7 +10,6 @@ import { SchemaForm, type FieldErrors } from './SchemaForm';
 
 const tabLabels: Record<FieldGroup, string> = {
   content: 'Content',
-  layout: 'Layout',
   style: 'Style',
 };
 

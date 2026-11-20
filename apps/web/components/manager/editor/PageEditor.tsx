@@ -62,12 +62,14 @@ import { PropertiesPanel } from './PropertiesPanel';
 export function PageEditor({
   site,
   page,
+  menu,
   images,
   articles,
   colors,
 }: {
   site: Site;
   page: Page;
+  menu: { id: string; label: string; current: boolean }[];
   images: LibraryImage[];
   /** The site's articles as saved, for Latest news on the canvas. */
   articles: ArticleSummary[];
@@ -388,7 +390,7 @@ export function PageEditor({
           {/* Canvas | one sidebar (Add, Layers, Edit) */}
           <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1fr)_26rem]">
             <main className="min-h-0 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-bg-secondary)] p-4 lg:p-6">
-              <Canvas site={site} themeVars={themeVars} device={device} />
+              <Canvas site={site} themeVars={themeVars} device={device} menu={menu} />
             </main>
             <aside className="flex min-h-0 flex-col overflow-hidden rounded-[1.5rem] bg-[var(--ui-surface)]">
               <Sidebar
