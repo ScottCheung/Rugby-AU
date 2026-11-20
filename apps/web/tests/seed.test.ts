@@ -55,4 +55,17 @@ describe('seed data', () => {
       }
     }
   });
+
+  it('gives every site several pages, each linked from another page', () => {
+    for (const site of sites) {
+      const own = pages.filter((page) => page.siteSlug === site.slug);
+      expect(own.length, site.slug).toBeGreaterThanOrEqual(4);
+      for (const target of own.filter((page) => page.path !== '/')) {
+        const linked = own.some(
+          (page) => page !== target && hrefs(page.tree).includes(target.path),
+        );
+        expect(linked, `${site.slug}${target.path} is never linked`).toBe(true);
+      }
+    }
+  });
 });

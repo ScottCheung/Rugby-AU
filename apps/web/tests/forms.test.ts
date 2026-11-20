@@ -92,7 +92,7 @@ describe('describeSchema', () => {
     ]);
   });
 
-  it('describes the Card Grid: a list of cards with a nested image and an optional link', () => {
+  it('describes the Card Grid: a list of cards with a nested image, optional text and an optional link', () => {
     const [title, , cards] = describeSchema(cardGridSchema);
     expect(title).toMatchObject({
       key: 'title',
@@ -108,6 +108,7 @@ describe('describeSchema', () => {
     ).toEqual([
       ['image', 'object', false],
       ['heading', 'text', false],
+      ['text', 'textarea', true],
       ['link', 'object', true],
     ]);
     const image = cards.item.fields[0];

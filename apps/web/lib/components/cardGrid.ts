@@ -5,6 +5,12 @@ import { imageSchema, linkSchema } from './fields';
 const cardSchema = z.object({
   image: imageSchema,
   heading: z.string().trim().min(1, 'Add a heading').meta({ label: 'Heading' }),
+  text: z
+    .string()
+    .trim()
+    .min(1, 'Add some text or remove it')
+    .optional()
+    .meta({ label: 'Text', multiline: true }),
   link: linkSchema.optional(),
 });
 
@@ -30,7 +36,7 @@ export const cardGrid = defineComponent({
   type: 'cardGrid',
   label: 'Card Grid',
   description:
-    'Cards with an image, a heading and an optional link, shown as a grid, a carousel or masonry.',
+    'Cards with an image, a heading, optional text and an optional link, shown as a grid, a carousel or masonry.',
   schema: cardGridSchema,
   defaultProps: { title: 'Meet the squad', variant: 'grid', cards: [] },
   acceptsChildren: false,

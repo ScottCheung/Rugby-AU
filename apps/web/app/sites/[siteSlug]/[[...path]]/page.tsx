@@ -3,13 +3,14 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { RenderTree } from '@/components/site/RenderTree';
-import { getPageByPath } from '@/lib/db/pages';
+import { getPageByPath, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { pathFromSegments } from '@/lib/paths';
 import { defaultTheme } from '@/lib/theme/defaultTheme';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 import { themeToCssVars } from '@/lib/theme/themeToCssVars';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
+import { resolveHref } from '@/lib/links';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,6 +42,11 @@ export default async function SitePage({ params }: Props) {
   if (!found) notFound();
   const { site, page } = found;
   const theme = resolveTheme(defaultTheme, site.theme);
+  // The menu is the site's top-level pages, so a page created in the
+  // manager shows up here without any extra setup. "/" sorts first.
+  const menu = (await listPages(site.slug)).filter(
+    (item) => item.path.split('/').length === 2,
+  );
 
   return (
     <div
@@ -48,14 +54,36 @@ export default async function SitePage({ params }: Props) {
       className="@container flex min-h-screen flex-col bg-background font-site text-text"
     >
       <header className="bg-brand text-brand-contrast">
-        <Container className="flex items-center gap-3 py-4">
+        <Container className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3">
           <a
             href={`/sites/${site.slug}`}
-            className="flex items-center gap-3 text-xl font-bold"
+            className="flex shrink-0 items-center gap-3 text-xl font-bold"
           >
             <SiteLogo src={site.logoUrl} name={site.name} />
             {site.name}
           </a>
+          <nav aria-label="Main" className="-mx-2 max-w-full overflow-x-auto">
+            <ul className="m-0 flex list-none gap-1 p-0 whitespace-nowrap">
+              {menu.map((item) => {
+                const current = item.path === page.path;
+                return (
+                  <li key={item.id}>
+                    <a
+                      href={resolveHref(item.path, site.slug)}
+                      aria-current={current ? 'page' : undefined}
+                      className={`block rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
+                        current
+                          ? 'bg-brand-contrast text-brand'
+                          : 'hover:bg-brand-contrast/15'
+                      }`}
+                    >
+                      {item.path === '/' ? 'Home' : item.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
         </Container>
       </header>
 

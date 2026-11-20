@@ -61,9 +61,17 @@ function Card({
           <Image src={card.image.url} alt={card.image.alt} />
         </div>
       )}
-      <div className="flex flex-1 flex-col items-start gap-3 p-site-sm">
+      <div className="flex flex-1 flex-col items-start gap-2 p-site-sm">
         <Heading level={3}>{card.heading}</Heading>
-        {card.link && href && <Button href={href}>{card.link.label}</Button>}
+        {card.text && (
+          <p className="m-0 leading-relaxed text-muted-text">{card.text}</p>
+        )}
+        {card.link && href && (
+          // mt-auto keeps buttons on one line across a row of cards.
+          <div className="mt-auto pt-2">
+            <Button href={href}>{card.link.label}</Button>
+          </div>
+        )}
       </div>
     </article>
   );

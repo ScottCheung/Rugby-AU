@@ -14,7 +14,7 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 | Component                | What it exercises                                                        | Props                                                                                                                       |
 | ------------------------ | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
 | **Section** (required)   | Nesting: a container whose children can include other Sections           | optional `heading` and `intro`; `layout`: full, two-column, two-column-wide, three-column; `background`: none, light, brand |
-| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, link? { label, href } }`            |
+| **Card Grid** (required) | Rich props: a list of nested objects with an optional link, plus theming | `title`, `variant`: grid, carousel, masonry; `cards[]`: `{ image { url, alt }, heading, text?, link? { label, href } }`     |
 | **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                |
 
 Section keeps the two layouts and three backgrounds the brief asks for and adds a
@@ -30,7 +30,7 @@ Requirements: Node 22+, npm, Docker.
 cp .env.example .env.local
 docker compose up -d      # MongoDB 7 on localhost:27017
 npm install
-npm run seed              # drops and recreates the 15 sample sites and 30 pages
+npm run seed              # drops and recreates the 15 sample sites and 62 pages
 npm run dev
 ```
 
@@ -384,6 +384,9 @@ token already works the same way: add, for example, `radius: '0'` or
   is choosing the values and checking contrast and layout per site.
 - **Site editing UI:** a form for name, logo, favicon and theme colours that writes the
   `sites` document, with a contrast check for `brand` / `brandContrast`.
+- **Menu control:** the public menu lists a site's top-level pages, home first, then by
+  path. A `nav { label, order, hidden }` field on the page document would let editors
+  rename, reorder or hide entries.
 - **Concurrent editing:** send the page's `updatedAt` with each save and reject the save
   if it changed in the meantime.
 
