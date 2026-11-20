@@ -55,8 +55,10 @@ selects the block.
 **Motion.** Public pages use Motion (`motion` 14) for entrances: content settles in
 the first time it scrolls into view, with a short rise, a fade and a light blur that
 clears (12px, 4px blur, 1.2s, ease in and out). Cards and blocks side by side
-arrive 0.15s apart. All timings live in `timing` in `lib/motion.ts`. Only content animates: a Section, Card Grid or Latest news lets its items do
-it, so nothing animates twice (`lib/motion.ts`). Slider captions come in line by line
+arrive 0.15s apart. The timings, easing and entrance are a shared module in the UI package,
+`@scottcheung/ui/motion`, so other products can move with the same rhythm. Only content animates: a Section, Card Grid or Latest news lets its items do
+it, so nothing animates twice (`animatesAsWhole` in `apps/web/lib/motion.ts`, the one
+rule specific to this app). Slider captions come in line by line
 on each slide change. `Reveal` (`components/site/Reveal.tsx`) is a small client
 wrapper, so the site components stay server-rendered. Choices:
 

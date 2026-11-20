@@ -1,7 +1,7 @@
 'use client';
 
 import { MotionConfig, motion } from 'motion/react';
-import { ease, timing } from '@/lib/motion';
+import { ease, entrance, timing } from '@scottcheung/ui/motion';
 import {
   createContext,
   createElement,
@@ -27,16 +27,6 @@ export function SiteMotion({ children }: { children: ReactNode }) {
 }
 
 const elements = { div: motion.div, article: motion.article } as const;
-
-/**
- * Shared feel for every entrance: a short rise, a fade and a light blur
- * that clears. Kept small on purpose: the content should settle in, not
- * fly in.
- */
-export const entrance = {
-  hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
-  shown: { opacity: 1, y: 0, filter: 'blur(0px)' },
-} as const;
 
 /**
  * Plays the entrance the first time the element scrolls into view.

@@ -7,8 +7,7 @@ import { Heading } from '@/components/primitives/Heading';
 import { Image } from '@/components/primitives/Image';
 import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
-import { ease, timing } from '@/lib/motion';
-import { entrance } from './Reveal';
+import { ease, entrance, timing } from '@scottcheung/ui/motion';
 
 // The caption of the active slide comes in line by line: heading, text,
 // then button.

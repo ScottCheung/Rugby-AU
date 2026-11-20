@@ -5,7 +5,7 @@ import { Image } from '@/components/primitives/Image';
 import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
 import { Carousel } from './Carousel';
-import { stagger } from '@/lib/motion';
+import { stagger } from '@scottcheung/ui/motion';
 import { Lightbox, LightboxThumb } from './Lightbox';
 import { Reveal } from './Reveal';
 

@@ -13,7 +13,7 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { ease, timing } from '@/lib/motion';
+import { ease, timing } from '@scottcheung/ui/motion';
 
 type Photo = { url: string; alt: string; caption: string };
 

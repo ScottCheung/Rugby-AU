@@ -4,7 +4,8 @@ import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
 import type { SiteData } from '@/lib/news';
 import type { ComponentNode } from '@/lib/types';
-import { animatesAsWhole, stagger } from '@/lib/motion';
+import { stagger } from '@scottcheung/ui/motion';
+import { animatesAsWhole } from '@/lib/motion';
 import { Reveal } from './Reveal';
 import { getSiteComponent } from './siteComponents';
 

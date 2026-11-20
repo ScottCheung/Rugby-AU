@@ -47,6 +47,26 @@ The root export contains server compatible primitives. Interactive components (B
 
 Button, IconButton, Input, Textarea, Select, Checkbox, Switch, Radio, Card, Badge, Dialog/Modal, Drawer, Popover, Tooltip, SegmentedControl, Typography (H1/H2/H3/Paragraph), Toast, ToastProvider/useToast, and Skeleton.
 
+## Motion
+
+`@scottcheung/ui/motion` holds one rhythm for every animation: durations and gaps
+(`timing`), a slow-in, slow-out curve (`ease`, and `cssEase` for CSS), a sibling delay
+(`stagger(i)`: 0.15s apart, at most 0.6s) and an entrance (`entrance.hidden` /
+`entrance.shown`: a 12px rise, a fade and a 4px blur that clears). They are plain
+values with no dependency on an animation library.
+
+```tsx
+import { motion } from 'motion/react';
+import { ease, entrance, stagger, timing } from '@scottcheung/ui/motion';
+
+<motion.div
+  initial={entrance.hidden}
+  whileInView={entrance.shown}
+  viewport={{ once: true }}
+  transition={{ duration: timing.entrance, ease, delay: stagger(index) }}
+/>;
+```
+
 ## Development
 
 ```sh
