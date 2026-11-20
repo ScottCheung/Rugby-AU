@@ -20,11 +20,11 @@ describe('resolveTheme', () => {
   it('supports overriding any token, at any depth', () => {
     const theme = resolveTheme(defaultTheme, {
       radius: '0',
-      fontFamily: 'Georgia, serif',
+      fonts: { heading: 'oswald' },
       spacing: { lg: '6rem' },
     });
     expect(theme.radius).toBe('0');
-    expect(theme.fontFamily).toBe('Georgia, serif');
+    expect(theme.fonts).toEqual({ body: 'inter', heading: 'oswald' });
     expect(theme.spacing).toEqual({ ...defaultTheme.spacing, lg: '6rem' });
   });
 
@@ -46,8 +46,28 @@ describe('themeToCssVars', () => {
       '--color-brand-contrast': defaultTheme.colors.brandContrast,
       '--color-muted-text': defaultTheme.colors.mutedText,
       '--radius-site': defaultTheme.radius,
-      '--font-site': defaultTheme.fontFamily,
       '--spacing-site-lg': defaultTheme.spacing.lg,
     });
+  });
+
+  it('turns font names into loaded font stacks and sets the heading case', () => {
+    const vars = themeToCssVars(
+      resolveTheme(defaultTheme, {
+        fonts: { heading: 'oswald' },
+        headingCase: 'uppercase',
+      }),
+    ) as Record<string, string>;
+    expect(vars['--font-site']).toContain('Inter Variable');
+    expect(vars['--font-site-heading']).toContain('Oswald Variable');
+    expect(vars['--heading-transform']).toBe('uppercase');
+  });
+
+  it('falls back to Inter for a font name the app does not ship', () => {
+    const theme = {
+      ...defaultTheme,
+      fonts: { body: 'comic-sans', heading: 'inter' },
+    } as unknown as typeof defaultTheme;
+    const vars = themeToCssVars(theme) as Record<string, string>;
+    expect(vars['--font-site']).toContain('Inter Variable');
   });
 });

@@ -19,7 +19,7 @@ export function Heading({
   const Tag = `h${level}` as const;
   return (
     <Tag
-      className={`font-site font-bold leading-tight tracking-tight ${sizes[level]} ${className}`}
+      className={`site-heading font-bold leading-tight ${sizes[level]} ${className}`}
     >
       {children}
     </Tag>

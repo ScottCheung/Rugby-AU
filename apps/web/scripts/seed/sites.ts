@@ -1,9 +1,11 @@
 import type { SiteDocument } from '../../lib/db/documents';
-import type { Theme } from '../../lib/theme/types';
+import type { Theme, ThemeOverrides } from '../../lib/theme/types';
+import type { SiteCategory } from '../../lib/types';
 
 /**
- * Sample sites modelled on Australian rugby. Each site overrides colours only
- * (radius, font and spacing stay shared).
+ * Sample sites modelled on Australian rugby. Each site sets its own colours;
+ * its fonts, corner radius and spacing come from a look shared by its kind
+ * of site, so national teams, clubs and state unions each feel distinct.
  *
  * Logos are the organisations' own logos, hotlinked from the files used on
  * their English Wikipedia articles (upload.wikimedia.org). They are not copied
@@ -32,6 +34,33 @@ const logos: Record<string, string> = {
   'nt-rugby': `${wiki}/en/4/43/Northern_Territory_Rugby_Union_logo%2C_June_2013.png`,
 };
 
+/** One look per kind of site. Colours stay per site. */
+const looks: Record<SiteCategory, Omit<ThemeOverrides, 'colors'>> = {
+  // Modern and official.
+  'governing-body': {
+    fonts: { body: 'inter', heading: 'montserrat' },
+    radius: '0.75rem',
+  },
+  // Bold Test-match headlines, near-square corners, more room.
+  'national-team': {
+    fonts: { body: 'inter', heading: 'oswald' },
+    headingCase: 'uppercase',
+    radius: '0.25rem',
+    spacing: { md: '2.5rem', lg: '5rem' },
+  },
+  // Match-day poster: condensed capitals and square corners.
+  'super-rugby': {
+    fonts: { body: 'inter', heading: 'barlowCondensed' },
+    headingCase: 'uppercase',
+    radius: '0',
+  },
+  // Friendly and local: rounded type and soft corners.
+  'state-union': {
+    fonts: { body: 'nunito', heading: 'nunito' },
+    radius: '1.5rem',
+  },
+};
+
 function site(
   slug: string,
   name: string,
@@ -46,7 +75,7 @@ function site(
     tagline,
     logoUrl: logos[slug],
     faviconUrl: logos[slug],
-    theme: { colors },
+    theme: { ...looks[category], colors },
   };
 }
 

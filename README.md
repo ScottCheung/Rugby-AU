@@ -292,7 +292,12 @@ from `.meta()`, falling back to the humanised prop name.
 
 - `lib/theme/defaultTheme.ts` defines the full token set: colours (`brand`,
   `brandContrast`, `background`, `surfaceLight`, `text`, `mutedText`), `radius`,
-  `fontFamily` and a `spacing` scale (`sm`, `md`, `lg`).
+  `fonts` (`body`, `heading`), `headingCase` (`normal` or `uppercase`) and a
+  `spacing` scale (`sm`, `md`, `lg`).
+- Fonts are named, not CSS stacks: `lib/theme/fonts.ts` lists the fonts the app
+  ships (self-hosted from `@fontsource` packages, imported in `app/layout.tsx`), and
+  a theme picks one by name (`'oswald'`). Stored themes stay short and cannot point
+  at a font that isn't loaded; an unknown name falls back to Inter.
 - A site stores only `ThemeOverrides`, a deep-partial of the theme.
 - `resolveTheme(defaults, overrides)` is a pure deep merge that returns a complete
   theme (unit-tested).
@@ -301,10 +306,19 @@ from `.meta()`, falling back to the humanised prop name.
   `app/globals.css` registers the same names as Tailwind theme variables, so site
   components use plain utilities such as `bg-brand text-brand-contrast rounded-site`.
 
-For this version every site overrides **colours only**; radius, font and spacing
-come from the defaults so the brand family stays consistent. Overriding any other
-token already works the same way: add, for example, `radius: '0'` or
-`fontFamily: 'Georgia, serif'` to a site's `theme` (covered by the tests).
+Each seeded site sets its own colours, and takes its fonts, radius and spacing from
+a look shared by its kind of site (`looks` in `scripts/seed/sites.ts`). The same
+components then look clearly different without a line of component code changing:
+
+| Kind of site      | Headings                    | Corners          | Feel                 |
+| ----------------- | --------------------------- | ---------------- | -------------------- |
+| Governing body    | Montserrat                  | 0.75rem          | Modern, official     |
+| National teams    | Oswald, uppercase           | 0.25rem, roomier | Test-match headlines |
+| Super Rugby clubs | Barlow Condensed, uppercase | Square           | Match-day poster     |
+| State unions      | Nunito (body too)           | 1.5rem           | Friendly, local      |
+
+Components only use the tokens (`rounded-site`, `font-site`, the `site-heading`
+class), so a site can still override any single token on top of its look.
 
 ## 6. Key decisions and trade-offs
 

@@ -57,7 +57,7 @@ export default async function SitePage({ params }: Props) {
         <Container className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3">
           <a
             href={`/sites/${site.slug}`}
-            className="flex shrink-0 items-center gap-3 text-xl font-bold"
+            className="site-heading flex shrink-0 items-center gap-3 text-xl font-bold"
           >
             <SiteLogo src={site.logoUrl} name={site.name} />
             {site.name}

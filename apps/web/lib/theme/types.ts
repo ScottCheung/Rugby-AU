@@ -1,3 +1,5 @@
+import type { FontName } from './fonts';
+
 /** The full set of design tokens every site component can use. */
 export type Theme = {
   colors: {
@@ -9,8 +11,12 @@ export type Theme = {
     text: string;
     mutedText: string;
   };
+  /** Corner radius of cards, images, buttons and panels. */
   radius: string;
-  fontFamily: string;
+  /** Fonts by name from lib/theme/fonts.ts. */
+  fonts: { body: FontName; heading: FontName };
+  /** Uppercase headings suit condensed sports fonts. */
+  headingCase: 'normal' | 'uppercase';
   spacing: { sm: string; md: string; lg: string };
 };
 

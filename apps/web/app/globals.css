@@ -15,6 +15,7 @@
   --color-muted-text: #5b6863;
   --radius-site: 0.75rem;
   --font-site: ui-sans-serif, system-ui, sans-serif;
+  --font-site-heading: ui-sans-serif, system-ui, sans-serif;
   --spacing-site-sm: 1rem;
   --spacing-site-md: 2rem;
   --spacing-site-lg: 4rem;
@@ -40,4 +41,14 @@
   .media-slider {
     aspect-ratio: 21 / 9;
   }
+}
+
+/*
+ * Site headings follow the theme's heading font, case and tracking. Plain
+ * CSS for the same reason as the image ratios above.
+ */
+.site-heading {
+  font-family: var(--font-site-heading);
+  text-transform: var(--heading-transform, none);
+  letter-spacing: var(--heading-tracking, -0.01em);
 }

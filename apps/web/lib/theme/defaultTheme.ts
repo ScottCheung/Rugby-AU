@@ -11,7 +11,7 @@ export const defaultTheme: Theme = {
     mutedText: '#5b6863',
   },
   radius: '0.75rem',
-  fontFamily:
-    "Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif",
+  fonts: { body: 'inter', heading: 'inter' },
+  headingCase: 'normal',
   spacing: { sm: '1rem', md: '2rem', lg: '4rem' },
 };

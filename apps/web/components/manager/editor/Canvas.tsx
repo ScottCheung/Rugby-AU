@@ -57,7 +57,7 @@ export function Canvas({
         onMouseLeave={() => editor.hover(null)}
       >
         <header className="bg-brand px-5 py-3 text-brand-contrast">
-          <span className="flex items-center gap-3 font-bold">
+          <span className="site-heading flex items-center gap-3 font-bold">
             <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
             {site.name}
           </span>

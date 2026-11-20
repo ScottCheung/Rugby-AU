@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { fontStack } from './fonts';
 import type { Theme } from './types';
 
 /**
@@ -15,7 +16,13 @@ export function themeToCssVars(theme: Theme): CSSProperties {
     '--color-text': theme.colors.text,
     '--color-muted-text': theme.colors.mutedText,
     '--radius-site': theme.radius,
-    '--font-site': theme.fontFamily,
+    '--font-site': fontStack(theme.fonts.body),
+    '--font-site-heading': fontStack(theme.fonts.heading),
+    '--heading-transform':
+      theme.headingCase === 'uppercase' ? 'uppercase' : 'none',
+    // Uppercase condensed headings read better with a little more spacing.
+    '--heading-tracking':
+      theme.headingCase === 'uppercase' ? '0.02em' : '-0.01em',
     '--spacing-site-sm': theme.spacing.sm,
     '--spacing-site-md': theme.spacing.md,
     '--spacing-site-lg': theme.spacing.lg,
