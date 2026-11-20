@@ -99,18 +99,18 @@ function SiteCard({ site, pageCount }: { site: Site; pageCount: number }) {
   const { colors } = resolveTheme(defaultTheme, site.theme);
   return (
     <Card className="flex flex-col gap-4 p-4 transition hover:shadow-[var(--ui-shadow-md)]">
-      {/* A small preview of the site's colours. */}
+      {/* The site at a glance: its brand colour, logo and palette. */}
       <div
-        className="flex h-20 items-end justify-between rounded-2xl p-3 ring-1 ring-black/5"
-        style={{ background: colors.background, color: colors.text }}
+        className="relative grid place-items-center overflow-hidden rounded-2xl"
+        style={{ background: colors.brand, height: 128 }}
       >
         <SiteLogo src={site.logoUrl} name={site.name} size="lg" />
-        <span className="flex gap-1">
+        <span className="absolute right-3 bottom-3 flex gap-1">
           {[colors.brand, colors.surfaceLight, colors.text].map(
             (colour, index) => (
               <span
                 key={index}
-                className="size-4 rounded-full ring-2 ring-white/60"
+                className="size-3 rounded-full ring-2 ring-white/70"
                 style={{ background: colour }}
               />
             ),

@@ -2,10 +2,19 @@
 
 import { useState } from 'react';
 
+const sizes = {
+  sm: { height: 36, maxWidth: 110 },
+  md: { height: 44, maxWidth: 140 },
+  lg: { height: 64, maxWidth: 200 },
+} as const;
+
 /**
  * A site's logo on a white rounded plate, so logos of any colour stay
  * readable on any theme. Logos are hotlinked from their owners, so if one
  * fails to load the site's initials are shown instead of a broken image.
+ *
+ * Sizes are inline styles on purpose: a logo must never render at its
+ * natural size, even if a stylesheet is late or stale.
  */
 export function SiteLogo({
   src,
@@ -14,10 +23,10 @@ export function SiteLogo({
 }: {
   src?: string;
   name: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: keyof typeof sizes;
 }) {
   const [failed, setFailed] = useState(false);
-  const height = { sm: 'h-9', md: 'h-11', lg: 'h-14' }[size];
+  const { height, maxWidth } = sizes[size];
   const initials = name
     .split(/\s+/)
     .map((word) => word[0])
@@ -29,7 +38,8 @@ export function SiteLogo({
     return (
       <span
         aria-hidden
-        className={`${height} grid min-w-9 place-items-center rounded-xl bg-white px-2 text-xs font-black text-black/80`}
+        style={{ height, minWidth: height }}
+        className="grid shrink-0 place-items-center rounded-xl bg-white px-2 text-xs font-black text-black/80"
       >
         {initials}
       </span>
@@ -37,14 +47,21 @@ export function SiteLogo({
   }
   return (
     <span
-      className={`${height} flex shrink-0 items-center rounded-xl bg-white px-2 py-1.5`}
+      style={{ height, padding: Math.round(height / 8) }}
+      className="flex shrink-0 items-center rounded-xl bg-white"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt=""
         onError={() => setFailed(true)}
-        className="h-full w-auto max-w-32 object-contain"
+        style={{
+          display: 'block',
+          height: '100%',
+          width: 'auto',
+          maxWidth,
+          objectFit: 'contain',
+        }}
       />
     </span>
   );
