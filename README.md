@@ -133,14 +133,17 @@ All edits go through one `useReducer` over the page draft and the pure functions
 so the drag and drop code only works out a drop location and dispatches.
 
 **The preview matches the live site.** The canvas lays the page out at the device's
-real width (1280, 768 or 390 px, `devices.ts`) and scales it down to fit the editor,
-showing the zoom ("Desktop · 1280px · 57%"). Layouts respond to container width, not
+real width and scales it down to fit the editor (`devices.ts`): desktop uses the
+browser window the editor is open in, so it matches opening the live site in that
+window; tablet is 768 px and phone 390 px. It shows the zoom
+("Desktop · 1440px · 51%"). Layouts respond to container width, not
 the browser window: Sections and Card Grids are CSS containers, and heading sizes
 follow a `page` container on the site wrapper and the canvas. So a desktop preview has
 desktop columns even in a narrow editor, and the phone preview stacks exactly as a
 phone would. Clicks and drag and drop work on the scaled page (the browser hit-tests
 transformed elements), and the selected block's toolbar is scaled back up so it stays
-readable.
+readable. The canvas also uses the live page's spacing rules (no hidden drop zones
+taking up space), so a block measures the same in both.
 
 ### Why one Next.js app
 

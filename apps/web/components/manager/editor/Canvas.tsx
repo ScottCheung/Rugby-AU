@@ -27,9 +27,21 @@ import { getDefinition } from '@/lib/components/registry';
 import type { Location } from '@/lib/components/tree';
 import type { ComponentNode, Site } from '@/lib/types';
 import type { DragData, DropData } from './dnd';
-import { devices, fitScale, type Device } from './devices';
+import { devices, fitScale, previewWidth, type Device } from './devices';
 import { useEditor } from './editorContext';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
+
+/** The browser window's width (0 before the first render in the browser). */
+function useWindowWidth() {
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const update = () => setWidth(window.innerWidth);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return width;
+}
 
 /** The canvas zoom, so editing chrome can stay readable when it is small. */
 const ScaleContext = createContext(1);
@@ -52,7 +64,9 @@ export function Canvas({
   device: Device;
 }) {
   const editor = useEditor();
-  const { label, width } = devices[device];
+  const windowWidth = useWindowWidth();
+  const { label } = devices[device];
+  const width = previewWidth(device, windowWidth);
   const outer = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLDivElement>(null);
   const [available, setAvailable] = useState(0);
@@ -60,10 +74,14 @@ export function Canvas({
 
   // Track the space the editor gives the canvas and the page's own height.
   useEffect(() => {
-    const observer = new ResizeObserver(() => {
+    const measure = () => {
       if (outer.current) setAvailable(outer.current.clientWidth);
       if (frame.current) setHeight(frame.current.offsetHeight);
-    });
+    };
+    // Measure straight away too: some browsers delay observer callbacks
+    // for background tabs, and the canvas stays hidden until measured.
+    measure();
+    const observer = new ResizeObserver(measure);
     if (outer.current) observer.observe(outer.current);
     if (frame.current) observer.observe(frame.current);
     return () => observer.disconnect();
@@ -122,7 +140,14 @@ export function Canvas({
               </header>
               {/* Like the public page: no page-wide container, each block
                   decides its width (see NodeList). */}
-              <div className="flex flex-col gap-site-md pt-12 pb-site-lg">
+              <div
+                className={`flex flex-col gap-site-md pb-site-lg ${
+                  editor.tree[0] &&
+                  rootBlockWidth(editor.tree[0]) === 'full-width'
+                    ? '' // same spacing rule as the public page
+                    : 'pt-site-lg'
+                }`}
+              >
                 <NodeList nodes={editor.tree} />
               </div>
             </div>
@@ -158,7 +183,7 @@ function NodeList({
         if (!root || rootBlockWidth(node) !== 'contained') return block;
         return <Container key={node.id}>{block}</Container>;
       })}
-      {root ? <Container>{endSlot}</Container> : endSlot}
+      {endSlot}
     </>
   );
 }
@@ -359,10 +384,12 @@ function EndSlot({
     editor.dropTarget?.nodeId === undefined &&
     editor.dropTarget?.at.parentId === at.parentId;
 
+  // Hidden: out of the flow, so it adds no gap and the canvas spacing
+  // matches the live page. It only needs a real box while dragging.
   if (!empty && !editor.dragging)
-    return <div ref={setNodeRef} className="col-span-full h-0" />;
+    return <div ref={setNodeRef} className="absolute h-0 w-0" />;
 
-  return (
+  const slot = (
     <div
       ref={setNodeRef}
       className={`col-span-full flex items-center justify-center gap-2 rounded-site border-2 border-dashed font-sans text-sm transition-colors ${
@@ -381,4 +408,6 @@ function EndSlot({
           : 'Drop here'}
     </div>
   );
+  // On the page itself the slot sits in the page column, like blocks do.
+  return root ? <Container>{slot}</Container> : slot;
 }

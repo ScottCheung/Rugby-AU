@@ -28,11 +28,12 @@
     }
   },
   "scripts": {
-    "build": "node scripts/clean-dist.mjs && tsc -p tsconfig.build.json && cat src/styles/tokens.css src/styles/components.css > dist/styles.css && cp src/styles/tokens.css dist/tokens.css",
+    "build": "tsc -p tsconfig.build.json && cat src/styles/tokens.css src/styles/components.css > dist/styles.css.tmp && mv dist/styles.css.tmp dist/styles.css && cp src/styles/tokens.css dist/tokens.css.tmp && mv dist/tokens.css.tmp dist/tokens.css",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests",
     "test": "vitest run",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "clean": "node scripts/clean-dist.mjs"
   },
   "peerDependencies": {
     "react": ">=18.2.0",
