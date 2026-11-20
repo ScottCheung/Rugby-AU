@@ -368,10 +368,6 @@ export const images = {
     '1578269174936-2709b6aeb913',
     'A gold trophy on a white background',
   ),
-  trophyField: unsplash(
-    '1637635753380-20bf6f46ede0',
-    'A trophy standing on the grass of a field',
-  ),
 } as const;
 
 export type SeedImage = (typeof images)[keyof typeof images];

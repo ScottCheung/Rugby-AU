@@ -92,7 +92,9 @@ export const pools = {
     images.ballFieldClose,
     images.ballLeaves,
   ],
-  trophy: [images.trophyField, images.trophy],
+  // Titles and wins. Only one trophy photo is clearly not another sport's,
+  // so celebrations fill the rest.
+  trophy: [images.trophy, images.celebration, images.teamHoops],
 } satisfies Record<string, SeedImage[]>;
 
 export type Pool = keyof typeof pools;

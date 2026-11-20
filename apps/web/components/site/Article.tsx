@@ -3,8 +3,9 @@ import type { PropsOf } from '@/lib/components/registry';
 import { formatDate } from '@/lib/news';
 
 /**
- * A story laid out for reading: a narrow column for the text, the photo a
- * little wider. Lines starting with "## " become subheadings.
+ * A story laid out for reading. Header, photo and body share one column,
+ * so everything lines up on the same left edge. Lines starting with "## "
+ * become subheadings.
  */
 export function Article({
   category,
@@ -16,8 +17,8 @@ export function Article({
 }: PropsOf<'article'>) {
   const blocks = body.split(/\n\s*\n/).filter((text) => text.trim());
   return (
-    <article className="flex flex-col gap-site-md">
-      <header className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+    <article className="mx-auto flex w-full max-w-3xl flex-col gap-site-md">
+      <header className="flex flex-col gap-3">
         <p className="m-0 flex flex-wrap items-center gap-2 text-sm">
           <span className="rounded-full bg-brand px-3 py-1 font-semibold text-brand-contrast">
             {category}
@@ -33,12 +34,12 @@ export function Article({
           {standfirst}
         </p>
       </header>
-      <figure className="m-0 mx-auto w-full max-w-5xl">
+      <figure className="m-0">
         <div className="media-card overflow-hidden rounded-site bg-surface-light">
           <Image src={image.url} alt={image.alt} eager />
         </div>
       </figure>
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 text-lg leading-relaxed">
+      <div className="flex flex-col gap-4 text-lg leading-relaxed">
         {blocks.map((block, index) =>
           block.startsWith('## ') ? (
             <h2
