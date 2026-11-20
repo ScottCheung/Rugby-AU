@@ -1,7 +1,10 @@
 import type { ComponentType as ReactComponentType, ReactNode } from 'react';
 import type { ComponentType, PropsOf } from '@/lib/components/registry';
+import type { SiteData } from '@/lib/news';
+import { Article } from './Article';
 import { CardGrid } from './CardGrid';
 import { ImageSlider } from './ImageSlider';
+import { LatestNews } from './LatestNews';
 import { Section } from './Section';
 import { Stats } from './Stats';
 import { TextBlock } from './TextBlock';
@@ -10,7 +13,12 @@ import { TextBlock } from './TextBlock';
  * Besides its own props, every site component gets the render context:
  * the site (for links) and whether it sits inside another block.
  */
-export type RenderContext = { siteSlug: string; nested: boolean };
+export type RenderContext = {
+  siteSlug: string;
+  nested: boolean;
+  /** What data-driven components (Latest news) read; see lib/news.ts. */
+  data: SiteData;
+};
 
 type SiteComponent<Type extends ComponentType> = ReactComponentType<
   PropsOf<Type> & { children?: ReactNode } & RenderContext
@@ -28,6 +36,8 @@ const siteComponents: { [Type in ComponentType]: SiteComponent<Type> } = {
   cardGrid: CardGrid,
   imageSlider: ImageSlider,
   stats: Stats,
+  article: Article,
+  latestNews: LatestNews,
 };
 
 /** Props are typed loosely here: callers must pass props already parsed by the type's schema. */

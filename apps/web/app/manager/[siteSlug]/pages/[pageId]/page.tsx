@@ -3,6 +3,7 @@ import { PageEditor } from '@/components/manager/editor/PageEditor';
 import { getPageById, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { collectImages } from '@/lib/media';
+import { summarizeArticles } from '@/lib/news';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,5 +21,12 @@ export default async function EditPage({
   if (!site || !page || page.siteSlug !== site.slug) notFound();
   // The site's image library: every image its pages already use.
   const images = collectImages(sitePages.map((sitePage) => sitePage.tree));
-  return <PageEditor site={site} page={page} images={images} />;
+  return (
+    <PageEditor
+      site={site}
+      page={page}
+      images={images}
+      articles={summarizeArticles(sitePages)}
+    />
+  );
 }

@@ -11,6 +11,8 @@ declare module 'zod' {
     placeholder?: string;
     /** Render a string as a multi-line textarea. */
     multiline?: boolean;
+    /** Render a string as a date picker (the value is YYYY-MM-DD). */
+    format?: 'date';
     /** Human labels for enum values, keyed by value. */
     optionLabels?: Record<string, string>;
     /**

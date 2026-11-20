@@ -18,6 +18,8 @@ colours (for example the Wallabies dark green and gold, the Reds maroon on white
 | **Image Slider**         | Adding a component after the fact; a small interactive (client) piece    | `slides[]`: `{ image, heading, text?, button? }`; `autoplay`                                                                                     |
 | **Text**                 | Long-form copy: paragraphs from one multiline field                      | `heading?`, `body` (an empty line starts a paragraph), `button?`, `style`: plain, centred, quote                                                 |
 | **Stats**                | A list of small objects without images                                   | `stats[]`: `{ value, label }`                                                                                                                    |
+| **Article**              | A story page: reading layout, date field                                 | `category`, `date` (date picker), `headline`, `standfirst`, `image`, `body` (`## ` starts a subheading)                                          |
+| **Latest news**          | A data-driven component (stretch goal)                                   | `title`, `category?`, `limit`, `display`: grid, list, featured. The cards come from the site's article pages at render time                      |
 
 Section keeps the two layouts and three backgrounds the brief asks for and adds more.
 Variety in how content looks lives mostly in the content components: the same Card
@@ -47,6 +49,24 @@ stretched over it) and lifts on hover; a masonry photo without a link opens full
 in a lightbox (arrow keys, Esc). In the editor both are switched off, so a click only
 selects the block.
 
+**Articles and Latest news.** Cards that point to a section ("About us") are
+navigation; stories are articles. An article is an ordinary page with an Article
+block, under `/news/...`. Latest news is the data-driven component: the editor sets
+only `title`, `category`, `limit` and `display`, and when a page renders the cards are
+filled from the site's article pages, newest first (`lib/news.ts`, pure and tested).
+The renderer reads the site's pages once per request and hands every component a
+`data` object next to `siteSlug`; the editor canvas gets the same data, so the preview
+shows real articles. Under an article, Latest news leaves that article out, so "More
+news" never repeats the page you are on.
+
+Trade-off: summaries are worked out from the page trees on each request, which is fine
+for dozens of articles per site. With thousands, I would store an article's summary
+(date, category, headline) on the page document when it is saved, index
+`{ siteSlug, date }`, and let Latest news query that.
+
+The seeded articles are evergreen explainers, history and guides built from public
+facts. None reports an invented event or quotes anyone.
+
 ## 1. Run it
 
 Requirements: Node 22+, npm, Docker.
@@ -55,7 +75,7 @@ Requirements: Node 22+, npm, Docker.
 cp .env.example .env.local
 docker compose up -d      # MongoDB 7 on localhost:27017
 npm install
-npm run seed              # drops and recreates the 15 sample sites and 62 pages
+npm run seed              # drops and recreates the 15 sample sites and 123 pages (46 of them articles)
 npm run dev
 ```
 
@@ -457,8 +477,6 @@ class), so a site can still override any single token on top of its look.
   reads only published content.
 - **Inline text editing on the canvas:** mark string fields with `.meta({ inline: true })`
   and let the canvas make those elements editable.
-- **Data-driven "Latest news" component:** schema `{ source, limit }`, and an async
-  server component that fetches from a mock API at render time.
 - **Vercel and MongoDB Atlas:** set `MONGODB_URI` / `MONGODB_DB` in Vercel, run the
   seed once as a manual job, and deploy `apps/web` with the workspace build command.
 - **Per-site radius and type overrides:** already supported by `resolveTheme`; the work

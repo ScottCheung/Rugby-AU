@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react';
 import type { ComponentType } from '@/lib/components/registry';
 import type { Location } from '@/lib/components/tree';
 import type { TreeIssue } from '@/lib/components/validateTree';
+import type { SiteData } from '@/lib/news';
 import type { ComponentNode } from '@/lib/types';
 
 /** Where a dragged item would land, shown as a line or a highlighted zone. */
@@ -17,6 +18,8 @@ export type DropTarget = {
 export type EditorContextValue = {
   tree: ComponentNode[];
   siteSlug: string;
+  /** What data-driven blocks (Latest news) show on the canvas. */
+  siteData: SiteData;
   selectedId: string | null;
   hoveredId: string | null;
   issues: TreeIssue[];

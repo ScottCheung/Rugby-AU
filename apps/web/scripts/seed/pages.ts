@@ -260,6 +260,137 @@ const getInvolvedCards = (
 
 const backHome = link('Back to home', '/');
 
+// ------------------------------------------------------------------ articles
+
+type Category = PropsOf<'article'>['category'];
+
+/** An article: evergreen copy built from facts, never an invented event. */
+type Story = {
+  slug: string;
+  category: Category;
+  date: string;
+  headline: string;
+  standfirst: string;
+  image: SeedImage;
+  /** Paragraphs; a paragraph starting with "## " is a subheading. */
+  body: string[];
+};
+
+/** The data-driven Latest news block. */
+const latest = (
+  title: string,
+  limit: number,
+  display: PropsOf<'latestNews'>['display'],
+  category?: Category,
+) =>
+  node('latestNews', {
+    title,
+    limit,
+    display,
+    ...(category ? { category } : {}),
+  });
+
+/** An article page: the story, then more news (which leaves this one out). */
+const articlePage = (siteSlug: string, story: Story): SeedPage =>
+  page(siteSlug, `/news/${story.slug}`, story.headline, story.standfirst, [
+    node('article', {
+      category: story.category,
+      date: story.date,
+      headline: story.headline,
+      standfirst: story.standfirst,
+      image: story.image,
+      body: story.body.join('\n\n'),
+    }),
+    section([latest('More news', 3, 'grid')], {
+      background: 'light',
+      width: 'full-background',
+    }),
+  ]);
+
+/** The site's news page and its article pages. */
+const newsPages = (siteSlug: string, intro: string, stories: Story[]) => [
+  page(siteSlug, '/news', 'News', intro, [
+    section([text('News', [intro], undefined, 'centered')]),
+    latest('', 12, 'featured'),
+  ]),
+  ...stories.map((story) => articlePage(siteSlug, story)),
+];
+
+/** Publish dates, newest first, a week apart. Sample content. */
+const dates = ['2026-11-18', '2026-11-11', '2026-11-04', '2026-10-28'];
+
+/** Rugby Australia's articles. */
+const governingBodyStories = (pick: Pick): Story[] => [
+  {
+    slug: 'two-home-world-cups',
+    category: 'Events',
+    date: dates[0],
+    headline: 'Two home World Cups: what’s coming in 2027 and 2029',
+    standfirst:
+      'Australia hosts the men’s Rugby World Cup in 2027 and the women’s in 2029. Here is what that means for fans and clubs.',
+    image: pick('crowd'),
+    body: [
+      'For the rest of the decade, the biggest events in world rugby are coming to Australia. The men’s Rugby World Cup runs from 1 October to 13 November 2027, the first time the tournament has been played here since 2003.',
+      '## Where the matches are',
+      'The tournament opens in Perth and finishes with the final in Sydney, with pool matches in cities across the country. For many fans it will be the first chance to see the world’s best teams without leaving home.',
+      '## 2029: a first for the women’s game',
+      'Two years later, Australia hosts the Women’s Rugby World Cup for the first time. It is a chance to grow the women’s game in every state, from more girls’ teams at clubs to more women coaching and refereeing.',
+      '## What it means for clubs',
+      'Home tournaments tend to bring new players to local clubs. If your club is planning for the next few seasons, now is a good time to think about coaches, volunteers and room for new teams.',
+    ],
+  },
+  {
+    slug: 'bledisloe-cup-explained',
+    category: 'Explainer',
+    date: dates[1],
+    headline: 'The Bledisloe Cup, explained',
+    standfirst:
+      'Australia and New Zealand have played for the Bledisloe Cup since 1932. Here is how the trophy works.',
+    image: pick('trophy'),
+    body: [
+      'The Bledisloe Cup is the trophy at stake when the Wallabies play New Zealand. It has been contested since 1932 and is one of the best-known rivalries in the sport.',
+      '## How it is won',
+      'The cup is decided over the Tests the two countries play in a year. The holder keeps it unless the challenger wins the series, so a drawn series leaves the cup where it is.',
+      '## Where it fits in the season',
+      'Bledisloe Tests are usually played during The Rugby Championship, the annual tournament between Australia, New Zealand, South Africa and Argentina, so one match can count towards both.',
+    ],
+  },
+  {
+    slug: 'how-rugby-is-organised',
+    category: 'Explainer',
+    date: dates[2],
+    headline: 'How rugby is organised in Australia',
+    standfirst:
+      'From the national teams to the local club, here is who looks after what.',
+    image: pick('team'),
+    body: [
+      'Rugby in Australia is a partnership. Rugby Australia runs the national teams and the professional game, the state and territory unions run competitions in their regions, and clubs are where nearly everyone plays.',
+      '## The national body',
+      'Rugby Australia selects and manages the Wallabies, Wallaroos, Australia Sevens and youth teams, and organises Australia’s part in Super Rugby Pacific and Super W.',
+      '## The states and territories',
+      'Each state and territory has its own union. They run the club competitions, pick representative teams and look after coach and referee development.',
+      '## The clubs',
+      'Clubs, most of them run by volunteers, field teams for juniors, seniors, women and veterans. They are the first stop for anyone who wants to play.',
+    ],
+  },
+  {
+    slug: 'your-first-season',
+    category: 'Community',
+    date: dates[3],
+    headline: 'Your first season at a rugby club',
+    standfirst:
+      'Never played before? Here is what to expect from your first few weeks.',
+    image: pick('juniors'),
+    body: [
+      'Most clubs welcome new players at any time of the season, and you don’t need any experience. Coaches will find a team that suits your age, size and level.',
+      '## What to bring',
+      'Sports clothes, boots and a water bottle are enough for the first session. A mouthguard is a must once you start contact training.',
+      '## How training works',
+      'Teams usually train once or twice a week, with games on the weekend. Younger juniors play non-contact and modified games that build skills before tackling is introduced.',
+    ],
+  },
+];
+
 // ---------------------------------------------------------- governing body
 
 function governingBody(pick: Pick): SeedPage[] {
@@ -342,6 +473,7 @@ function governingBody(pick: Pick): SeedPage[] {
           getInvolvedCards(pick, involved, involved, involved),
           'full-background',
         ),
+        latest('Latest news', 3, 'featured'),
         cards('Competitions', undefined, 'featured', [
           card(
             pick('stadium'),
@@ -818,6 +950,11 @@ function governingBody(pick: Pick): SeedPage[] {
         ]),
       ],
     ),
+    ...newsPages(
+      slug,
+      'Stories, explainers and guides from across Australian rugby.',
+      governingBodyStories(pick),
+    ),
   ];
 }
 
@@ -830,7 +967,8 @@ type NationalTeam = {
   story: string[];
   stats: Stat[];
   moments: Card[];
-  news: Card[];
+  /** A feature article specific to this team. */
+  feature: Story;
   timeline: Card[];
   competitions: Card[];
 };
@@ -859,15 +997,7 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         'carousel',
         team.moments,
       ),
-      cards('Latest', undefined, 'featured', [
-        ...team.news,
-        card(
-          pick('stadium'),
-          'Next up: a home Test',
-          'Members get first access to tickets.',
-          supporters,
-        ),
-      ]),
+      latest('Latest news', 3, 'featured'),
       gallery(
         'Gallery',
         [
@@ -991,6 +1121,44 @@ function nationalTeam(team: NationalTeam, pick: Pick): SeedPage[] {
         pick('stadium'),
       ]),
     ]),
+    ...newsPages(
+      team.slug,
+      `News, history and match-day guides from the ${team.name}.`,
+      [
+        team.feature,
+        {
+          slug: 'the-story-so-far',
+          category: 'History',
+          date: dates[1],
+          headline: `The ${team.name}: the story so far`,
+          standfirst: team.story[0],
+          image: pick('team'),
+          body: [
+            ...team.story.slice(1),
+            '## Who plays',
+            `Players reach the ${team.name} through club rugby, state teams and the national pathway. Every player who pulls on the jersey gets a cap number, counting every international since the first.`,
+          ],
+        },
+        {
+          slug: 'first-test-match',
+          category: 'Match day',
+          date: dates[2],
+          headline: 'A first-timer’s guide to a Test match',
+          standfirst:
+            'Going to your first international? Here is how to make the most of the day.',
+          image: pick('crowd'),
+          body: [
+            'A Test match is the biggest day on the rugby calendar. Crowds are bigger than at club or Super Rugby games, so a little planning goes a long way.',
+            '## Getting there',
+            'Public transport is usually the easiest way to reach the stadium. Gates open about two hours before kick-off, and arriving early means you see the warm-ups and are in your seat for the anthems.',
+            '## In the stands',
+            'Wear the colours and bring a jacket for night games. Kids are welcome, and many stadiums have family areas.',
+            '## After the game',
+            'Expect queues for transport after the final whistle. Staying for a drink or a bite while the crowd clears often makes for an easier trip home.',
+          ],
+        },
+      ],
+    ),
   ];
 }
 
@@ -1065,20 +1233,24 @@ const wallabies = (pick: Pick) =>
           matchesLink,
         ),
       ],
-      news: [
-        card(
-          pick('action'),
-          'Squad named for the next Test window',
-          'A mix of experienced players and new faces.',
-          matchesLink,
-        ),
-        card(
-          pick('coaching'),
-          'Young players called into camp',
-          'Under 20s and academy players train with the squad.',
-          historyLink,
-        ),
-      ],
+      feature: {
+        slug: 'two-world-cups',
+        category: 'History',
+        date: dates[0],
+        headline: '1991 and 1999: the two World Cup wins',
+        standfirst:
+          'The Wallabies were the first team to win the Rugby World Cup twice. A look back at both titles.',
+        image: pick('trophy'),
+        body: [
+          'Australia has won the men’s Rugby World Cup twice, in 1991 and 1999. At the time of the second win, no other country had lifted the trophy more than once.',
+          '## 1991',
+          'The 1991 tournament was played in Britain, Ireland and France. Australia met England in the final at Twickenham and won to become world champions for the first time.',
+          '## 1999',
+          'Eight years later the final was in Cardiff, where Australia beat France to take the title again.',
+          '## Next: a home World Cup',
+          'In 2027 the tournament comes to Australia, with the final in Sydney.',
+        ],
+      },
       timeline: [
         card(
           pick('ball'),
@@ -1198,20 +1370,22 @@ const wallaroos = (pick: Pick) =>
           matchesLink,
         ),
       ],
-      news: [
-        card(
-          pick('women'),
-          'Squad named for the international season',
-          'Players from across the Super W clubs.',
-          matchesLink,
-        ),
-        card(
-          pick('coaching'),
-          'Pathway players join the national camp',
-          'The next generation trains with the squad.',
-          historyLink,
-        ),
-      ],
+      feature: {
+        slug: 'super-w-and-the-wallaroos',
+        category: 'Pathways',
+        date: dates[0],
+        headline: 'Super W and the road to the Wallaroos',
+        standfirst:
+          'Since 2018, Super W has given Australia’s best women players a national club competition.',
+        image: pick('women'),
+        body: [
+          'Super W began in 2018. It brings together teams from around the country and gives the best women players regular, high-level games outside the international season.',
+          '## Why it matters',
+          'Before Super W, the step from club rugby to the Wallaroos was a big one. A national competition lets selectors see players against strong opposition week after week.',
+          '## Looking ahead',
+          'With the Women’s Rugby World Cup coming to Australia in 2029, the pathway from club and school rugby through Super W to the Wallaroos has never mattered more.',
+        ],
+      },
       timeline: [
         card(
           pick('women'),
@@ -1313,20 +1487,22 @@ const sevens = (pick: Pick) =>
           historyLink,
         ),
       ],
-      news: [
-        card(
-          pick('action'),
-          'Squads named for the next tournament',
-          'Both teams travel together.',
-          matchesLink,
-        ),
-        card(
-          pick('coaching'),
-          'Training camp on the Gold Coast',
-          'A week of speed and conditioning work.',
-          historyLink,
-        ),
-      ],
+      feature: {
+        slug: 'rio-2016',
+        category: 'History',
+        date: dates[0],
+        headline: 'Rio 2016: the first Olympic gold',
+        standfirst:
+          'When rugby sevens joined the Olympics, Australia’s women won the first gold medal.',
+        image: pick('women'),
+        body: [
+          'Rugby returned to the Olympic Games at Rio 2016 in its sevens form, with men’s and women’s tournaments.',
+          '## The final',
+          'Australia’s women reached the final and beat New Zealand to become the first Olympic champions in rugby sevens.',
+          '## Why sevens is different',
+          'Seven players a side and seven-minute halves make for a fast, open game, with tournaments played over a weekend. Speed and fitness count for as much as size.',
+        ],
+      },
       timeline: [
         card(
           pick('action'),
@@ -1422,6 +1598,7 @@ function club(team: Club, pick: Pick): SeedPage[] {
           text(`Welcome to the ${team.name}`, team.story.slice(0, 2), clubLink),
           card(pick('team'), 'Our honours', 'Titles and milestones.', clubLink),
         ),
+        latest('Latest news', 3, 'grid'),
         cards('This season', 'Everything you need for match day.', 'overlay', [
           card(
             pick('stadium'),
@@ -1636,6 +1813,62 @@ function club(team: Club, pick: Pick): SeedPage[] {
         ),
       ],
     ),
+    ...newsPages(
+      team.slug,
+      `News, stories and match-day guides from the ${team.name}.`,
+      [
+        {
+          slug: 'our-story',
+          category: 'History',
+          date: dates[0],
+          headline: `The ${team.name} story`,
+          standfirst: team.story[0],
+          image: team.cityImages[0],
+          body: [
+            ...team.story.slice(1),
+            '## Honours',
+            team.honours
+              .map((honour) => `${honour.year}: ${honour.text}`)
+              .join(' '),
+          ],
+        },
+        {
+          slug: 'match-day-guide',
+          category: 'Match day',
+          date: dates[1],
+          headline: `Match day at ${team.ground}: what to know`,
+          standfirst:
+            'Tickets, getting there and what to expect at a home game.',
+          image: pick('stadium'),
+          body: [
+            `Home games at ${team.ground} are a day out for the whole family. Here is how to plan yours.`,
+            '## Tickets',
+            'Members keep the same seat all season. Single tickets go on sale before each game, and children’s tickets are discounted.',
+            '## Getting there',
+            `Public transport is the easiest way to ${team.ground} on game day. Allow extra time: the roads around the ground are busy before kick-off.`,
+            '## At the ground',
+            'Gates open well before kick-off, with activities for kids on the concourse. Stay after the game for signing sessions on selected dates.',
+          ],
+        },
+        {
+          slug: 'inside-the-academy',
+          category: 'Pathways',
+          date: dates[2],
+          headline: 'Inside the academy: from club rugby to Super Rugby',
+          standfirst: `How young players in ${team.region} find their way into the ${team.name} squad.`,
+          image: pick('coaching'),
+          body: [
+            `Every player in the ${team.name} squad started at a local club. The academy is the bridge between club rugby and the professional game.`,
+            '## Who is picked',
+            'Talented juniors are spotted in club and school rugby and in representative age-group teams, then invited to train with the academy.',
+            '## What the academy adds',
+            'Coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes.',
+            '## Girls and women',
+            'The same pathway leads to the club’s Super W team.',
+          ],
+        },
+      ],
+    ),
   ];
 }
 
@@ -1821,6 +2054,7 @@ function union(body: Union, pick: Pick): SeedPage[] {
         getInvolvedCards(pick, clubsLink, involved, involved),
         'full-background',
       ),
+      latest('Latest news', 3, 'list'),
       cards('Club rugby', undefined, 'featured', [
         card(
           pick('action'),
@@ -2012,6 +2246,63 @@ function union(body: Union, pick: Pick): SeedPage[] {
           ],
           'light',
         ),
+      ],
+    ),
+    ...newsPages(
+      body.slug,
+      `News and guides for players, coaches, referees and volunteers in ${body.state}.`,
+      [
+        {
+          slug: 'choosing-a-club',
+          category: 'Community',
+          date: dates[0],
+          headline: 'How to choose a rugby club',
+          standfirst:
+            'Close to home, the right teams, a welcoming feel: what to look for.',
+          image: pick('team'),
+          body: [
+            `There are clubs across ${body.state} for every age and level. The right one is usually the closest, but it is worth a look around.`,
+            '## Check the teams',
+            'Make sure the club has a team for you: juniors by age group, senior grades, women’s fifteens and sevens, or veterans.',
+            '## Visit a training night',
+            'Most clubs are happy for you to try a session before you register. You can meet the coaches and see how the club feels.',
+            '## Register',
+            'Once you have chosen, registration is done online, and the club will tell you when and where to turn up.',
+          ],
+        },
+        {
+          slug: 'becoming-a-referee',
+          category: 'Community',
+          date: dates[1],
+          headline: 'Thinking about refereeing? Here’s how to start',
+          standfirst:
+            'Referees are needed every weekend, and you don’t need to have played.',
+          image: pick('action'),
+          body: [
+            'Every game needs a referee, and clubs are always looking for more. Many referees start in their teens, others after their playing days.',
+            '## Training',
+            'An introductory course covers the laws, positioning and managing a game. New referees usually start with junior matches.',
+            '## Support',
+            'A mentor watches your first games and helps you improve. As you gain experience you can move up to senior and representative rugby.',
+          ],
+        },
+        {
+          slug: 'junior-rugby-explained',
+          category: 'Pathways',
+          date: dates[2],
+          headline: 'Junior rugby explained',
+          standfirst: 'Age groups, rules and what changes as players grow.',
+          image: pick('juniors'),
+          body: [
+            'Junior rugby is organised by age, and the rules change as players grow so the game stays safe and fun.',
+            '## The youngest players',
+            'The youngest age groups play non-contact games that teach passing, running and teamwork.',
+            '## Moving to tackle rugby',
+            'Tackling is introduced gradually, often on smaller fields with fewer players, before juniors move to the full game.',
+            '## Teenagers',
+            'Older juniors play full rugby, with age and size rules to keep matches fair. The best are picked for representative teams.',
+          ],
+        },
       ],
     ),
   ];

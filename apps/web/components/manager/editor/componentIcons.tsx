@@ -1,6 +1,8 @@
 import {
   BarChart3,
   Box,
+  FileText,
+  Newspaper,
   GalleryHorizontalEnd,
   LayoutGrid,
   PanelsTopLeft,
@@ -17,6 +19,8 @@ const icons: Partial<Record<ComponentType, LucideIcon>> = {
   cardGrid: LayoutGrid,
   imageSlider: GalleryHorizontalEnd,
   stats: BarChart3,
+  article: FileText,
+  latestNews: Newspaper,
 };
 
 export function ComponentIcon({

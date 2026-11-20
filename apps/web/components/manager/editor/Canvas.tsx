@@ -243,6 +243,7 @@ function CanvasNode({
         ...node.props,
         siteSlug: editor.siteSlug,
         nested,
+        data: editor.siteData,
       },
       definition.acceptsChildren ? (
         <NodeList nodes={node.children ?? []} parentId={node.id} />

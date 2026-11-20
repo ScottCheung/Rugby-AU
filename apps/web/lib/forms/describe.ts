@@ -16,7 +16,10 @@ type BaseField = {
 };
 
 export type FieldDescriptor =
-  | (BaseField & { kind: 'text' | 'textarea' | 'url'; placeholder?: string })
+  | (BaseField & {
+      kind: 'text' | 'textarea' | 'url' | 'date';
+      placeholder?: string;
+    })
   | (BaseField & { kind: 'number' })
   | (BaseField & { kind: 'boolean' })
   | (BaseField & {
@@ -78,7 +81,8 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
   if (inner instanceof z.ZodString)
     return {
       ...base,
-      kind: meta.multiline ? 'textarea' : 'text',
+      kind:
+        meta.format === 'date' ? 'date' : meta.multiline ? 'textarea' : 'text',
       placeholder: meta.placeholder,
     };
   if (inner instanceof z.ZodNumber) return { ...base, kind: 'number' };

@@ -44,6 +44,7 @@ import { defaultTheme } from '@/lib/theme/defaultTheme';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 import { themeToCssVars } from '@/lib/theme/themeToCssVars';
 import type { LibraryImage } from '@/lib/media';
+import type { ArticleSummary } from '@/lib/news';
 import type { ComponentNode, Page, Site } from '@/lib/types';
 import { MediaLibraryProvider } from '../ImageField';
 import { Canvas } from './Canvas';
@@ -63,10 +64,13 @@ export function PageEditor({
   site,
   page,
   images,
+  articles,
 }: {
   site: Site;
   page: Page;
   images: LibraryImage[];
+  /** The site's articles as saved, for Latest news on the canvas. */
+  articles: ArticleSummary[];
 }) {
   const [state, dispatch] = useReducer(
     editorReducer,
@@ -183,6 +187,7 @@ export function PageEditor({
   const context: EditorContextValue = {
     tree: draft.tree,
     siteSlug: site.slug,
+    siteData: { articles, pagePath: savedPath },
     selectedId: state.selectedId,
     hoveredId,
     issues: state.issues,

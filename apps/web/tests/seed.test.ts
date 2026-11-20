@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateTree } from '../lib/components/validateTree';
+import { summarizeArticles } from '../lib/news';
 import type { ComponentNode } from '../lib/types';
 import { pages } from '../scripts/seed/pages';
 import { sites } from '../scripts/seed/sites';
@@ -56,16 +57,35 @@ describe('seed data', () => {
     }
   });
 
-  it('gives every site several pages, each linked from another page', () => {
+  it('gives every site several pages, each one reachable', () => {
     for (const site of sites) {
       const own = pages.filter((page) => page.siteSlug === site.slug);
       expect(own.length, site.slug).toBeGreaterThanOrEqual(4);
+      // Top-level pages are in the site menu; articles are reached through
+      // Latest news. Anything else needs a link from another page.
+      const articles = summarizeArticles(own).map((article) => article.path);
       for (const target of own.filter((page) => page.path !== '/')) {
-        const linked = own.some(
-          (page) => page !== target && hrefs(page.tree).includes(target.path),
-        );
+        const linked =
+          target.path.split('/').length === 2 ||
+          articles.includes(target.path) ||
+          own.some(
+            (page) => page !== target && hrefs(page.tree).includes(target.path),
+          );
         expect(linked, `${site.slug}${target.path} is never linked`).toBe(true);
       }
+    }
+  });
+
+  it('gives every site a news page and valid articles under /news/', () => {
+    for (const site of sites) {
+      const own = pages.filter((page) => page.siteSlug === site.slug);
+      expect(
+        own.some((page) => page.path === '/news'),
+        site.slug,
+      ).toBe(true);
+      const underNews = own.filter((page) => page.path.startsWith('/news/'));
+      expect(underNews.length, site.slug).toBeGreaterThanOrEqual(3);
+      expect(summarizeArticles(underNews)).toHaveLength(underNews.length);
     }
   });
 });

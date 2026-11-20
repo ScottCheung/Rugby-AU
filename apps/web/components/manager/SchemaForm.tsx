@@ -232,12 +232,17 @@ function Field({
 
     case 'text':
     case 'url':
+    case 'date':
     case 'textarea': {
       const Control = field.kind === 'textarea' ? Textarea : Input;
       return (
         <div className="flex flex-col gap-1">
           <Control
-            type={field.kind === 'url' ? 'url' : undefined}
+            type={
+              field.kind === 'url' || field.kind === 'date'
+                ? field.kind
+                : undefined
+            }
             label={field.label}
             hint={field.hint}
             placeholder={field.placeholder}

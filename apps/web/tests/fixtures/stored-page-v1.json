@@ -75,6 +75,28 @@
           }
         ]
       }
+    },
+    {
+      "id": "article",
+      "type": "article",
+      "props": {
+        "category": "News",
+        "date": "2026-11-01",
+        "headline": "A story",
+        "standfirst": "In short.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57",
+          "alt": "Rugby goal posts in a full stadium"
+        },
+        "body": "First paragraph.\n\n## A subheading\n\nSecond paragraph."
+      }
+    },
+    {
+      "id": "news",
+      "type": "latestNews",
+      "props": {
+        "title": "Latest news"
+      }
     }
   ]
 }

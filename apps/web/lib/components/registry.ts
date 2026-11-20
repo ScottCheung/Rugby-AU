@@ -1,6 +1,8 @@
 import type { z } from 'zod';
+import { article } from './article';
 import { cardGrid } from './cardGrid';
 import { imageSlider } from './imageSlider';
+import { latestNews } from './latestNews';
 import { section } from './section';
 import { stats } from './stats';
 import { textBlock } from './textBlock';
@@ -12,6 +14,8 @@ export const componentDefinitions = [
   cardGrid,
   imageSlider,
   stats,
+  article,
+  latestNews,
 ] as const;
 
 export type AnyComponentDefinition = (typeof componentDefinitions)[number];

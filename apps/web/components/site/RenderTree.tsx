@@ -2,6 +2,7 @@ import { createElement } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
+import type { SiteData } from '@/lib/news';
 import type { ComponentNode } from '@/lib/types';
 import { getSiteComponent } from './siteComponents';
 
@@ -13,10 +14,13 @@ import { getSiteComponent } from './siteComponents';
 export function RenderTree({
   nodes,
   siteSlug,
+  data,
   nested = false,
 }: {
   nodes: ComponentNode[];
   siteSlug: string;
+  /** Read by data-driven components such as Latest news. */
+  data: SiteData;
   nested?: boolean;
 }) {
   return nodes.map((node) => {
@@ -25,6 +29,7 @@ export function RenderTree({
         key={node.id}
         node={node}
         siteSlug={siteSlug}
+        data={data}
         nested={nested}
       />
     );
@@ -36,10 +41,12 @@ export function RenderTree({
 function RenderNode({
   node,
   siteSlug,
+  data,
   nested,
 }: {
   node: ComponentNode;
   siteSlug: string;
+  data: SiteData;
   nested: boolean;
 }) {
   const definition = getDefinition(node.type);
@@ -59,9 +66,14 @@ function RenderNode({
   // Safe: the props were just validated against this type's own schema.
   return createElement(
     getSiteComponent(definition.type),
-    { ...parsed.data, siteSlug, nested },
+    { ...parsed.data, siteSlug, nested, data },
     definition.acceptsChildren && node.children ? (
-      <RenderTree nodes={node.children} siteSlug={siteSlug} nested />
+      <RenderTree
+        nodes={node.children}
+        siteSlug={siteSlug}
+        data={data}
+        nested
+      />
     ) : null,
   );
 }

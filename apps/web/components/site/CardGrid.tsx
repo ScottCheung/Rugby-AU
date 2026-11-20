@@ -62,17 +62,26 @@ const cardShape: Record<Variant, string> = {
   masonry: 'mb-site-sm break-inside-avoid',
 };
 
-function Card({
+/** One card. Also used by Latest news, which adds an `eyebrow` line. */
+export function Card({
   card,
   index,
   siteSlug,
   variant,
+  eyebrow,
 }: {
   card: CardData;
   index: number;
   siteSlug: string;
   variant: Variant;
+  /** A small line above the heading, e.g. "History · 12 November 2026". */
+  eyebrow?: string;
 }) {
+  const kicker = eyebrow && (
+    <p className="m-0 text-xs font-semibold tracking-wide uppercase opacity-70">
+      {eyebrow}
+    </p>
+  );
   const href = card.link && resolveHref(card.link.href, siteSlug);
   const button = card.link && href && (
     // mt-auto keeps buttons on one line across a row of cards.
@@ -94,6 +103,7 @@ function Card({
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         <div className="relative flex flex-col items-start gap-2 p-site-sm">
+          {kicker}
           <Heading level={3}>{card.heading}</Heading>
           {card.text && (
             <p className="m-0 leading-relaxed text-white/85">{card.text}</p>
@@ -134,7 +144,10 @@ function Card({
           // A photo wall: the heading reads as a caption under the photo.
           <p className="m-0 text-sm text-muted-text">{card.heading}</p>
         ) : (
-          <Heading level={3}>{card.heading}</Heading>
+          <>
+            {kicker}
+            <Heading level={3}>{card.heading}</Heading>
+          </>
         )}
         {card.text && (
           <p className="m-0 leading-relaxed text-muted-text">{card.text}</p>

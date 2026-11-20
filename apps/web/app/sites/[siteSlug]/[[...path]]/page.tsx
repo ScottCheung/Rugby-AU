@@ -4,6 +4,7 @@ import { cache } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { RenderTree } from '@/components/site/RenderTree';
 import { rootBlockWidth } from '@/lib/components/pageWidth';
+import { summarizeArticles } from '@/lib/news';
 import { getPageByPath, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { pathFromSegments } from '@/lib/paths';
@@ -45,9 +46,12 @@ export default async function SitePage({ params }: Props) {
   const theme = resolveTheme(defaultTheme, site.theme);
   // The menu is the site's top-level pages, so a page created in the
   // manager shows up here without any extra setup. "/" sorts first.
-  const menu = (await listPages(site.slug)).filter(
-    (item) => item.path.split('/').length === 2,
-  );
+  const sitePages = await listPages(site.slug);
+  const menu = sitePages.filter((item) => item.path.split('/').length === 2);
+  // For Latest news: every article on the site, newest first.
+  const data = { articles: summarizeArticles(sitePages), pagePath: page.path };
+  // An article shows its own headline as the page's h1.
+  const hasOwnHeading = page.tree[0]?.type === 'article';
 
   return (
     <div
@@ -96,9 +100,9 @@ export default async function SitePage({ params }: Props) {
             : 'pt-site-lg'
         }`}
       >
-        <h1 className="sr-only">{page.title}</h1>
+        {!hasOwnHeading && <h1 className="sr-only">{page.title}</h1>}
         {page.tree.length > 0 ? (
-          <RenderTree nodes={page.tree} siteSlug={site.slug} />
+          <RenderTree nodes={page.tree} siteSlug={site.slug} data={data} />
         ) : (
           <Container>
             <p className="text-muted-text">This page has no content yet.</p>
