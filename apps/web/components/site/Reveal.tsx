@@ -1,6 +1,7 @@
 'use client';
 
 import { MotionConfig, motion } from 'motion/react';
+import { ease, timing } from '@/lib/motion';
 import {
   createContext,
   createElement,
@@ -36,8 +37,6 @@ export const entrance = {
   hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
   shown: { opacity: 1, y: 0, filter: 'blur(0px)' },
 } as const;
-/** Ease-out cubic: a gentle start and a long, soft landing. */
-export const ease = [0.33, 1, 0.68, 1] as const;
 
 /**
  * Plays the entrance the first time the element scrolls into view.
@@ -65,7 +64,7 @@ export function Reveal({
       whileInView: entrance.shown,
       // Starts once a quarter of it is on screen, not at the very edge.
       viewport: { once: true, amount: 0.25 },
-      transition: { duration: 1, ease, delay },
+      transition: { duration: timing.entrance, ease, delay },
     },
     children,
   );

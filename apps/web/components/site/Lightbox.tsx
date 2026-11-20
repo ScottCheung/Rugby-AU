@@ -13,7 +13,7 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { ease } from './Reveal';
+import { ease, timing } from '@/lib/motion';
 
 type Photo = { url: string; alt: string; caption: string };
 
@@ -138,7 +138,7 @@ function Viewer({
       initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
       animate={{ backgroundColor: 'rgba(0,0,0,0.92)' }}
       exit={{ backgroundColor: 'rgba(0,0,0,0)' }}
-      transition={{ duration: 0.35 }}
+      transition={{ duration: timing.backdrop, ease }}
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -177,7 +177,12 @@ function Viewer({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease }}
+            // `layout` is the photo growing out of the gallery and back.
+            transition={{
+              duration: timing.crossfade,
+              ease,
+              layout: { duration: timing.photo, ease },
+            }}
             style={{
               maxWidth: '100%',
               // Leave room for the caption and thumbnail strip below; a
@@ -194,7 +199,7 @@ function Viewer({
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 12 }}
-        transition={{ duration: 0.35, ease }}
+        transition={{ duration: timing.backdrop, ease }}
         style={{
           width: '100%',
           display: 'flex',
@@ -302,6 +307,7 @@ export function LightboxThumb({
     <motion.button
       type="button"
       layoutId={context ? photoId(context.group, index) : undefined}
+      transition={{ layout: { duration: timing.photo, ease } }}
       data-lightbox-index={index}
       aria-label={label}
       className="zoomable block w-full cursor-zoom-in overflow-hidden"

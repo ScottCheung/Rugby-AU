@@ -7,19 +7,22 @@ import { Heading } from '@/components/primitives/Heading';
 import { Image } from '@/components/primitives/Image';
 import type { PropsOf } from '@/lib/components/registry';
 import { resolveHref } from '@/lib/links';
-import { ease, entrance } from './Reveal';
+import { ease, timing } from '@/lib/motion';
+import { entrance } from './Reveal';
 
 // The caption of the active slide comes in line by line: heading, text,
 // then button.
 const caption = {
   hidden: {},
-  shown: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+  shown: {
+    transition: { staggerChildren: timing.step, delayChildren: 0.2 },
+  },
 };
 const captionLine = {
   hidden: entrance.hidden,
   shown: {
     ...entrance.shown,
-    transition: { duration: 0.8, ease },
+    transition: { duration: timing.caption, ease },
   },
 };
 
