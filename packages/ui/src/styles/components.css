@@ -140,3 +140,35 @@
    --sc-notch-bg: the tab and the notch are solid, and meet the body there. */
 .sc-ui-notch-body { flex: 1; padding: var(--sc-notch-pad); background: var(--sc-notch-body-bg, var(--sc-notch-bg)); border-radius: var(--sc-notch-radius); overflow: visible; }
 .sc-ui-notch-card[data-tab] .sc-ui-notch-body { border-top-left-radius: 0; margin-top: -1px; }
+
+/* Tree item: one row of an outline. Actions appear on hover, focus or selection. */
+.sc-ui-tree-item { display: flex; align-items: center; gap: 0.25rem; min-height: 2.5rem; padding-right: 0.25rem; border-radius: var(--ui-radius-md); color: var(--ui-fg); transition: background-color 0.15s; }
+.sc-ui-tree-item:hover { background: var(--ui-glass); }
+.sc-ui-tree-item[data-selected] { background: var(--ui-primary-soft); box-shadow: inset 2px 0 0 var(--ui-primary); }
+.sc-ui-tree-item-main { display: flex; flex: 1; min-width: 0; align-items: center; gap: 0.5rem; padding: 0.35rem 0.25rem; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.sc-ui-tree-item-main:focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; border-radius: var(--ui-radius-sm); }
+.sc-ui-tree-item-icon { display: grid; place-items: center; flex-shrink: 0; color: var(--ui-muted); }
+.sc-ui-tree-item-icon svg { width: 1rem; height: 1rem; }
+.sc-ui-tree-item-text { display: grid; min-width: 0; flex: 1; }
+.sc-ui-tree-item-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8125rem; font-weight: 600; }
+.sc-ui-tree-item-description { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.75rem; color: var(--ui-faint); }
+.sc-ui-tree-item-invalid { width: 0.5rem; height: 0.5rem; flex-shrink: 0; border-radius: 50%; background: var(--ui-danger); }
+/* Hidden actions take no room, so labels get the full width until needed. */
+.sc-ui-tree-item-actions { display: none; flex-shrink: 0; gap: 0.1rem; }
+.sc-ui-tree-item:hover .sc-ui-tree-item-actions, .sc-ui-tree-item:focus-within .sc-ui-tree-item-actions, .sc-ui-tree-item[data-selected] .sc-ui-tree-item-actions { display: flex; }
+.sc-ui-tree-item-actions .sc-ui-icon-button { width: 1.75rem; height: 1.75rem; }
+.sc-ui-tree-item-actions .sc-ui-icon-button svg { width: 0.875rem; height: 0.875rem; }
+
+/* Collapsible: a summary row that expands to show its body. */
+.sc-ui-collapsible { border: 1px solid var(--ui-border); border-radius: var(--ui-radius-md); background: var(--ui-surface); }
+.sc-ui-collapsible[data-invalid] { border-color: var(--ui-danger); }
+.sc-ui-collapsible-header { display: flex; align-items: center; gap: 0.25rem; padding-right: 0.35rem; }
+.sc-ui-collapsible-trigger { display: flex; flex: 1; min-width: 0; align-items: center; gap: 0.5rem; padding: 0.6rem 0.75rem; border: 0; background: transparent; color: var(--ui-fg); font: inherit; font-size: 0.875rem; font-weight: 600; text-align: left; cursor: pointer; }
+.sc-ui-collapsible-trigger:focus-visible { outline: 2px solid var(--ui-primary); outline-offset: -2px; border-radius: var(--ui-radius-md); }
+.sc-ui-collapsible-summary { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-ui-collapsible-chevron { width: 0.45rem; height: 0.45rem; flex-shrink: 0; border-right: 2px solid var(--ui-muted); border-bottom: 2px solid var(--ui-muted); transform: rotate(-45deg); transition: transform 0.15s; }
+.sc-ui-collapsible[data-open] .sc-ui-collapsible-chevron { transform: rotate(45deg); }
+.sc-ui-collapsible-actions { display: flex; flex-shrink: 0; gap: 0.1rem; }
+.sc-ui-collapsible-actions .sc-ui-icon-button { width: 1.75rem; height: 1.75rem; }
+.sc-ui-collapsible-actions .sc-ui-icon-button svg { width: 0.875rem; height: 0.875rem; }
+.sc-ui-collapsible-body { display: grid; gap: 1rem; padding: 0.25rem 0.75rem 0.85rem; }
