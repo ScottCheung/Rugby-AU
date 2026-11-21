@@ -1,10 +1,11 @@
 'use client';
 
-import { Maximize2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Maximize2, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import {
   Button,
   Checkbox,
+  Collapsible,
   Dialog,
   IconButton,
   Input,
@@ -13,6 +14,7 @@ import {
   Textarea,
 } from '@scottcheung/ui/client';
 import { defaultValue, type FieldDescriptor } from '@/lib/forms/describe';
+import { summarizeProps } from '@/lib/forms/summarize';
 import { ImagePreviewPicker } from './ImageField';
 import { hasSketch, Sketch } from './Sketch';
 
@@ -292,42 +294,69 @@ function ListField({
   error?: string;
 }) {
   const itemName = field.itemLabel.toLowerCase();
+  // Which items are expanded, by position. Kept in step with moves below.
+  const [open, setOpen] = useState<boolean[]>(() => value.map(() => false));
+  const isOpen = (index: number) => open[index] ?? false;
+  const setOpenAt = (index: number, next: boolean) =>
+    setOpen((current) => {
+      const copy = value.map((_, i) => current[i] ?? false);
+      copy[index] = next;
+      return copy;
+    });
+
   const replace = (index: number, next: unknown) =>
     onChange(value.map((item, i) => (i === index ? next : item)));
   const move = (from: number, to: number) => {
-    const next = [...value];
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    onChange(next);
+    const reorder = <T,>(list: T[]) => {
+      const next = [...list];
+      const [item] = next.splice(from, 1);
+      next.splice(to, 0, item);
+      return next;
+    };
+    onChange(reorder(value));
+    setOpen((current) => reorder(value.map((_, i) => current[i] ?? false)));
+  };
+  const remove = (index: number) => {
+    onChange(value.filter((_, i) => i !== index));
+    setOpen((current) => current.filter((_, i) => i !== index));
+  };
+  const add = () => {
+    onChange([...value, defaultValue(field.item)]);
+    // A new item opens straight away, ready to fill in.
+    setOpen((current) => [...value.map((_, i) => current[i] ?? false), true]);
+  };
+  const itemHasError = (index: number) => {
+    const prefix = pathKey([...path, index]);
+    return Object.keys(errors).some(
+      (key) => key === prefix || key.startsWith(`${prefix}.`),
+    );
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <div>
-        <p className="text-sm font-semibold text-slate-800">
-          {field.label}{' '}
-          <span className="font-normal text-slate-500">({value.length})</span>
+        <p className="sc-ui-field-label m-0">
+          {field.label} ({value.length})
         </p>
-        {field.hint && <p className="text-sm text-slate-500">{field.hint}</p>}
-        {error && <p className="sc-ui-error">{error}</p>}
+        {field.hint && <p className="sc-ui-field-hint m-0">{field.hint}</p>}
+        {error && <p className="sc-ui-error m-0">{error}</p>}
       </div>
 
       {value.length === 0 && (
-        <p className="rounded-lg bg-slate-50 px-3 py-4 text-center text-sm text-slate-500">
+        <p className="m-0 rounded-lg bg-[var(--ui-glass)] px-3 py-4 text-center text-sm text-[var(--ui-muted)]">
           No {itemName}s yet. Add one to get started.
         </p>
       )}
 
       {value.map((item, index) => (
-        <div
+        <Collapsible
           key={index}
-          className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-3"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-wide text-slate-500 uppercase">
-              {field.itemLabel} {index + 1}
-            </span>
-            <span className="flex items-center gap-1">
+          open={isOpen(index)}
+          onOpenChange={(next) => setOpenAt(index, next)}
+          invalid={itemHasError(index)}
+          summary={itemSummary(field, item, index)}
+          actions={
+            <>
               <IconButton
                 type="button"
                 variant="ghost"
@@ -335,7 +364,7 @@ function ListField({
                 disabled={index === 0}
                 onClick={() => move(index, index - 1)}
               >
-                ↑
+                <ArrowUp />
               </IconButton>
               <IconButton
                 type="button"
@@ -344,20 +373,21 @@ function ListField({
                 disabled={index === value.length - 1}
                 onClick={() => move(index, index + 1)}
               >
-                ↓
+                <ArrowDown />
               </IconButton>
-              <Button
+              <IconButton
                 type="button"
                 variant="ghost"
-                size="sm"
-                onClick={() => onChange(value.filter((_, i) => i !== index))}
+                label={`Remove ${itemName} ${index + 1}`}
+                onClick={() => remove(index)}
               >
-                Remove
-              </Button>
-            </span>
-          </div>
+                <Trash2 />
+              </IconButton>
+            </>
+          }
+        >
           {field.item.kind === 'object' ? (
-            // The item heading already names it, so skip the extra fieldset.
+            // The summary row already names the item, so skip the extra fieldset.
             <ObjectFields
               fields={field.item.fields}
               value={(item ?? {}) as Record<string, unknown>}
@@ -374,7 +404,7 @@ function ListField({
               errors={errors}
             />
           )}
-        </div>
+        </Collapsible>
       ))}
 
       <Button
@@ -382,12 +412,29 @@ function ListField({
         variant="secondary"
         size="sm"
         className="self-start"
-        onClick={() => onChange([...value, defaultValue(field.item)])}
+        onClick={add}
       >
-        + Add {itemName}
+        <Plus /> Add {itemName}
       </Button>
     </div>
   );
+}
+
+/** One line for a collapsed list item: its main text, or "Card 3". */
+function itemSummary(
+  field: Extract<FieldDescriptor, { kind: 'array' }>,
+  item: unknown,
+  index: number,
+): string {
+  const fallback = `${field.itemLabel} ${index + 1}`;
+  if (field.item.kind === 'object' && item && typeof item === 'object') {
+    const summary = summarizeProps(
+      field.item.fields,
+      item as Record<string, unknown>,
+    );
+    return summary ? `${index + 1}. ${summary}` : fallback;
+  }
+  return typeof item === 'string' && item ? `${index + 1}. ${item}` : fallback;
 }
 
 /**
@@ -455,10 +502,11 @@ function SketchPicker({
                   move(index, -1);
                 }
               }}
-              className={`flex flex-col items-stretch gap-1 rounded-xl border p-1.5 text-xs font-semibold transition ${selected
-                ? 'border-[var(--ui-primary)] bg-[color-mix(in_oklch,var(--ui-primary),transparent_90%)] text-[var(--ui-primary)]'
-                : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
-                }`}
+              className={`flex flex-col items-stretch gap-1 rounded-xl border p-1.5 text-xs font-semibold transition ${
+                selected
+                  ? 'border-[var(--ui-primary)] bg-[color-mix(in_oklch,var(--ui-primary),transparent_90%)] text-[var(--ui-primary)]'
+                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
+              }`}
             >
               <span className="block rounded-md bg-slate-50 px-1 py-0.5">
                 <Sketch name={option.sketch!} />

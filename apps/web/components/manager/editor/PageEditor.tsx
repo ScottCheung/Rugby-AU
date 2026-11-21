@@ -1,25 +1,7 @@
 'use client';
 
-import {
-  DndContext,
-  DragOverlay,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-  type DragMoveEvent,
-  type DragStartEvent,
-} from '@dnd-kit/core';
-import {
-  ArrowLeft,
-  ExternalLink,
-  Monitor,
-  Redo2,
-  Smartphone,
-  Tablet,
-  Undo2,
-} from 'lucide-react';
-import Link from 'next/link';
+import { DndContext } from '@dnd-kit/core';
+import { useRouter } from 'next/navigation';
 import {
   useCallback,
   useEffect,
@@ -29,41 +11,37 @@ import {
   useState,
   useTransition,
 } from 'react';
-import { Badge } from '@scottcheung/ui';
-import { Button, SegmentedControl, useToast } from '@scottcheung/ui/client';
+import { Button, Dialog, useToast } from '@scottcheung/ui/client';
 import { savePageAction } from '@/app/manager/actions';
 import { createNode } from '@/lib/components/createNode';
 import { getDefinition, type ComponentType } from '@/lib/components/registry';
-import {
-  cloneWithNewIds,
-  findLocation,
-  findNode,
-  type Location,
-} from '@/lib/components/tree';
+import { findNode } from '@/lib/components/tree';
+import type { Fixture } from '@/lib/fixtures/types';
+import type { LibraryImage } from '@/lib/media';
+import type { ArticleSummary } from '@/lib/news';
 import { defaultTheme } from '@/lib/theme/defaultTheme';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 import { themeToCssVars } from '@/lib/theme/themeToCssVars';
-import type { LibraryImage } from '@/lib/media';
-import type { ArticleSummary } from '@/lib/news';
-import type { ComponentNode, Page, Site } from '@/lib/types';
+import type { Page, Site } from '@/lib/types';
 import { MediaLibraryProvider } from '../ImageField';
 import { Canvas } from './Canvas';
-import type { Device } from './devices';
-import { innermostUnderPointer, resolveDropTarget, type DragData } from './dnd';
-import {
-  EditorContext,
-  type DropTarget,
-  type EditorContextValue,
-} from './editorContext';
+import { ComponentPicker } from './ComponentPicker';
+import { EditorContext, type EditorContextValue } from './editorContext';
 import { editorReducer, initEditor, isDirty } from './editorReducer';
-import { Sidebar } from './Sidebar';
-import { PropertiesPanel } from './PropertiesPanel';
-import type { Fixture } from '@/lib/fixtures/types';
+import { EditorTopBar, StatusBadge, type PreviewWidth } from './EditorTopBar';
+import { Inspector } from './Inspector';
+import { TreePanel, type TreeActions } from './TreePanel';
 
+/**
+ * The page editor: top bar, component tree (left), preview (centre) and
+ * inspector (right, only while something is selected). All edits change
+ * an in-memory draft; nothing is stored until "Save draft".
+ */
 export function PageEditor({
   site,
   page,
-  menu,
+  sites,
+  pages,
   images,
   articles,
   colors,
@@ -72,15 +50,14 @@ export function PageEditor({
 }: {
   site: Site;
   page: Page;
-  menu: { id: string; label: string; current: boolean }[];
+  /** For the site switcher. */
+  sites: { slug: string; name: string }[];
+  /** The site's pages, for the page switcher. */
+  pages: { id: string; title: string; path: string }[];
   images: LibraryImage[];
-  /** The site's articles as saved, for Latest news on the canvas. */
   articles: ArticleSummary[];
-  /** Colours picked from this page's photos (Profile cards). */
   colors: Record<string, string>;
-  /** Every match from the fixtures API, for Fixture lists on the canvas. */
   fixtures: Fixture[];
-  /** When the editor was opened (ISO). */
   now: string;
 }) {
   const [state, dispatch] = useReducer(
@@ -94,77 +71,91 @@ export function PageEditor({
     initEditor,
   );
   const { draft } = state;
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [device, setDevice] = useState<Device>('desktop');
-  const [dragLabel, setDragLabel] = useState<string | null>(null);
-  const [dropTarget, setDropTarget] = useState<DropTarget | null>(null);
-  const [saving, startSaving] = useTransition();
-  const toast = useToast();
   const dirty = isDirty(state);
+  const router = useRouter();
+  const toast = useToast();
+  const [saving, startSaving] = useTransition();
+
+  // ------------------------------------------------------------ layout
+  const [treeCollapsed, setTreeCollapsed] = useState(false);
+  const [pageSelected, setPageSelected] = useState(false);
+  const [wide, setWide] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [width, setWidth] = useState<PreviewWidth>('desktop');
   // The address as last saved: the live link must not follow unsaved edits.
   const [savedPath, setSavedPath] = useState(page.path);
   const liveUrl = `/sites/${site.slug}${savedPath === '/' ? '' : savedPath}`;
-  const themeVars = useMemo(
-    () => themeToCssVars(resolveTheme(defaultTheme, site.theme)),
-    [site.theme],
-  );
 
-  // A page stored under an older schema may have blocks that no longer
-  // validate. initEditor outlines them; say so once when the editor opens.
-  const initialIssues = useRef(state.issues.length);
-  useEffect(() => {
-    const count = new Set(state.issues.map((issue) => issue.nodeId)).size;
-    if (initialIssues.current === 0 || count === 0) return;
-    initialIssues.current = 0;
-    toast({
-      title: `${count} ${count === 1 ? 'block needs' : 'blocks need'} attention`,
-      description:
-        'They no longer match their component and are hidden on the live page. Fix the fields outlined in red, then save.',
-      tone: 'danger',
-      duration: 0,
+  const selectedNode = state.selectedId
+    ? findNode(draft.tree, state.selectedId)
+    : undefined;
+  const inspectorOpen = !fullScreen && (pageSelected || !!selectedNode);
+
+  const select = useCallback((id: string | null) => {
+    setPageSelected(false);
+    dispatch({ type: 'select', id });
+  }, []);
+
+  // --------------------------------------------------- adding components
+  /** Where the picker will insert: inside this Section, or the page when undefined. */
+  const [pickerParent, setPickerParent] = useState<string | null>(null);
+  const PAGE_ROOT = '';
+  const pickerOpen = pickerParent !== null;
+  const pickerWhere =
+    pickerParent === PAGE_ROOT
+      ? 'at the end of the page'
+      : `at the end of this ${
+          getDefinition(findNode(draft.tree, pickerParent ?? '')?.type ?? '')
+            ?.label ?? 'Section'
+        }`;
+
+  const addComponent = (type: ComponentType) => {
+    const parentId = pickerParent || undefined;
+    const parent = parentId ? findNode(draft.tree, parentId) : undefined;
+    const index = parent ? (parent.children?.length ?? 0) : draft.tree.length;
+    dispatch({
+      type: 'insertNode',
+      node: createNode(type),
+      at: { parentId, index },
     });
-  }, [state.issues, toast]);
-
-  // ------------------------------------------------------------ actions
-
-  const insert = useCallback(
-    (node: ComponentNode, at: Location) =>
-      dispatch({ type: 'insertNode', node, at }),
-    [],
-  );
-
-  /** Where click-to-add puts a block: into a selected Section, after a selected block, or at the end. */
-  const addNew = (type: ComponentType) => {
-    const node = createNode(type);
-    const selected = state.selectedId
-      ? findNode(draft.tree, state.selectedId)
-      : undefined;
-    if (selected && getDefinition(selected.type)?.acceptsChildren) {
-      insert(node, {
-        parentId: selected.id,
-        index: selected.children?.length ?? 0,
-      });
-      return;
-    }
-    const location = selected && findLocation(draft.tree, selected.id);
-    insert(
-      node,
-      location
-        ? { ...location, index: location.index + 1 }
-        : { index: draft.tree.length },
-    );
+    setPageSelected(false);
+    setPickerParent(null);
   };
 
-  const remove = (id: string) => {
+  // ------------------------------------------------------------ deleting
+  /** A Section with components inside waits here for confirmation. */
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const removeNow = (id: string) => {
     const label =
-      getDefinition(findNode(draft.tree, id)?.type ?? '')?.label ?? 'Block';
+      getDefinition(findNode(draft.tree, id)?.type ?? '')?.label ?? 'Component';
     dispatch({ type: 'removeNode', id });
     toast({
       title: `${label} deleted`,
       description: 'Press ⌘Z (Ctrl+Z) to undo.',
     });
   };
+  const requestRemove = (id: string) => {
+    const node = findNode(draft.tree, id);
+    if (node?.children && node.children.length > 0) setConfirmDelete(id);
+    else removeNow(id);
+  };
+  const toDelete = confirmDelete
+    ? findNode(draft.tree, confirmDelete)
+    : undefined;
 
+  const treeActions: TreeActions = {
+    selectPage: () => {
+      dispatch({ type: 'select', id: null });
+      setPageSelected(true);
+    },
+    select,
+    add: (parentId) => setPickerParent(parentId ?? PAGE_ROOT),
+    move: (id, step) => dispatch({ type: 'moveBy', id, step }),
+    duplicate: (id) => dispatch({ type: 'duplicate', id }),
+    remove: requestRemove,
+  };
+
+  // -------------------------------------------------------------- saving
   const save = () => {
     startSaving(async () => {
       const result = await savePageAction(page.id, draft);
@@ -172,106 +163,44 @@ export function PageEditor({
         const { title, description = '', path, tree } = result.page;
         dispatch({ type: 'saved', draft: { title, description, path, tree } });
         setSavedPath(path);
-        toast({
-          title: 'Page saved',
-          description: 'The live page now shows these changes.',
-          tone: 'success',
-        });
+        toast({ title: 'Draft saved', tone: 'success' });
       } else {
         dispatch({
           type: 'saveFailed',
           issues: result.issues,
           pageErrors: result.pageErrors,
         });
+        if (Object.keys(result.pageErrors).length > 0) treeActions.selectPage();
         toast({
           title: result.message,
-          description:
-            result.issues.length > 0
-              ? 'Blocks that need attention are outlined in red.'
-              : 'Check the page settings on the right.',
+          description: 'Components that need attention have a red dot.',
           tone: 'danger',
         });
       }
     });
   };
 
-  const context: EditorContextValue = {
-    tree: draft.tree,
-    siteSlug: site.slug,
-    siteData: { articles, pagePath: savedPath, colors, fixtures, now },
-    selectedId: state.selectedId,
-    hoveredId,
-    issues: state.issues,
-    dropTarget,
-    dragging: dragLabel !== null,
-    select: (id) => dispatch({ type: 'select', id }),
-    hover: setHoveredId,
-    moveUp: (id) => {
-      const location = findLocation(draft.tree, id);
-      if (location && location.index > 0)
-        dispatch({
-          type: 'moveNode',
-          id,
-          to: { ...location, index: location.index - 1 },
-        });
-    },
-    moveDown: (id) => {
-      // Drop gaps count the block itself, so "one down" is gap index + 2.
-      const location = findLocation(draft.tree, id);
-      if (location)
-        dispatch({
-          type: 'moveNode',
-          id,
-          to: { ...location, index: location.index + 2 },
-        });
-    },
-    duplicate: (id) => {
-      const node = findNode(draft.tree, id);
-      const location = findLocation(draft.tree, id);
-      if (node && location)
-        insert(
-          cloneWithNewIds(node, () => crypto.randomUUID()),
-          { ...location, index: location.index + 1 },
-        );
-    },
-    remove,
-    addNew,
+  // ---------------------------------------------- leaving with unsaved work
+  const [leaveTo, setLeaveTo] = useState<string | null>(null);
+  const navigate = (href: string) => {
+    if (dirty) setLeaveTo(href);
+    else router.push(href);
   };
-
-  // ------------------------------------------------------- drag and drop
-
-  // A small distance before dragging starts, so clicks still select.
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
-  );
-  const dropTargetRef = useRef<DropTarget | null>(null);
-
-  const onDragStart = (event: DragStartEvent) =>
-    setDragLabel((event.active.data.current as DragData).label);
-  const onDragMove = (event: DragMoveEvent) => {
-    const target = resolveDropTarget(event, draft.tree);
-    dropTargetRef.current = target;
-    setDropTarget((current) =>
-      JSON.stringify(current) === JSON.stringify(target) ? current : target,
-    );
-  };
-  const onDragEnd = (event: DragEndEvent) => {
-    const target = dropTargetRef.current;
-    const drag = event.active.data.current as DragData;
-    if (target && event.over) {
-      if (drag.kind === 'new') insert(createNode(drag.type), target.at);
-      else dispatch({ type: 'moveNode', id: drag.nodeId, to: target.at });
-    }
-    dropTargetRef.current = null;
-    setDropTarget(null);
-    setDragLabel(null);
-  };
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
 
   // ------------------------------------------------------------ keyboard
-
-  const shortcuts = useRef({ save, remove, selectedId: state.selectedId });
+  const shortcuts = useRef({
+    save,
+    requestRemove,
+    selectedId: state.selectedId,
+  });
   useEffect(() => {
-    shortcuts.current = { save, remove, selectedId: state.selectedId };
+    shortcuts.current = { save, requestRemove, selectedId: state.selectedId };
   });
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -286,152 +215,176 @@ export function PageEditor({
       } else if (mod && event.key.toLowerCase() === 'z' && !typing) {
         event.preventDefault();
         dispatch({ type: event.shiftKey ? 'redo' : 'undo' });
-      } else if (!typing && event.key === 'Escape') {
-        dispatch({ type: 'select', id: null });
       } else if (
         !typing &&
         (event.key === 'Delete' || event.key === 'Backspace') &&
         shortcuts.current.selectedId
       ) {
-        shortcuts.current.remove(shortcuts.current.selectedId);
+        shortcuts.current.requestRemove(shortcuts.current.selectedId);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // Warn before leaving with unsaved changes.
-  useEffect(() => {
-    if (!dirty) return;
-    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
-    window.addEventListener('beforeunload', warn);
-    return () => window.removeEventListener('beforeunload', warn);
-  }, [dirty]);
+  // ------------------------------------------- preview (replaced in step 2)
+  const themeVars = useMemo(
+    () => themeToCssVars(resolveTheme(defaultTheme, site.theme)),
+    [site.theme],
+  );
+  const canvasContext: EditorContextValue = {
+    tree: draft.tree,
+    siteSlug: site.slug,
+    siteData: { articles, pagePath: savedPath, colors, fixtures, now },
+    selectedId: state.selectedId,
+    hoveredId: null,
+    issues: state.issues,
+    dropTarget: null,
+    dragging: false,
+    select: (id) => select(id),
+    hover: () => {},
+    moveUp: (id) => dispatch({ type: 'moveBy', id, step: -1 }),
+    moveDown: (id) => dispatch({ type: 'moveBy', id, step: 1 }),
+    duplicate: (id) => dispatch({ type: 'duplicate', id }),
+    remove: requestRemove,
+    addNew: () => {},
+  };
+  const menu = pages
+    .filter((item) => item.path.split('/').length === 2)
+    .map((item) => ({
+      id: item.id,
+      label: item.path === '/' ? 'Home' : item.title,
+      current: item.id === page.id,
+    }));
 
   // ---------------------------------------------------------------- view
-
   return (
-    <EditorContext.Provider value={context}>
-      <DndContext
-        // A fixed id keeps the accessibility ids the same on server and client.
-        id="page-editor"
-        sensors={sensors}
-        collisionDetection={innermostUnderPointer}
-        onDragStart={onDragStart}
-        onDragMove={onDragMove}
-        onDragEnd={onDragEnd}
-        onDragCancel={() => {
-          setDropTarget(null);
-          setDragLabel(null);
-        }}
-      >
-        <div className="flex min-h-[calc(100dvh-4rem)] flex-col gap-3 p-3 lg:h-[calc(100dvh-4rem)]">
-          {/* Top bar */}
-          <div className="flex flex-wrap items-center gap-2 rounded-full bg-[var(--ui-surface)] py-1.5 pr-1.5 pl-2 shadow-[var(--ui-shadow-sm)]">
-            <Link
-              href={`/manager/${site.slug}`}
-              className="sc-ui-icon-button"
-              aria-label={`Back to ${site.name} pages`}
-            >
-              <ArrowLeft />
-            </Link>
-            <div className="min-w-0 flex-1 leading-tight">
-              <p className="m-0 truncate text-sm font-bold">
-                {draft.title || 'Untitled page'}
-              </p>
-              <p className="m-0 truncate text-xs text-[var(--ui-muted)]">
-                {site.name} · {savedPath}
-              </p>
-            </div>
-            <button
-              type="button"
-              className="sc-ui-icon-button"
-              data-variant="ghost"
-              aria-label="Undo"
-              title="Undo (⌘Z)"
-              disabled={state.past.length === 0}
-              onClick={() => dispatch({ type: 'undo' })}
-            >
-              <Undo2 />
-            </button>
-            <button
-              type="button"
-              className="sc-ui-icon-button"
-              data-variant="ghost"
-              aria-label="Redo"
-              title="Redo (⇧⌘Z)"
-              disabled={state.future.length === 0}
-              onClick={() => dispatch({ type: 'redo' })}
-            >
-              <Redo2 />
-            </button>
-            <SegmentedControl
-              ariaLabel="Preview width"
-              value={device}
-              onValueChange={(value) => setDevice(value as Device)}
-              options={[
-                { value: 'desktop', label: <Monitor aria-label="Desktop" /> },
-                { value: 'tablet', label: <Tablet aria-label="Tablet" /> },
-                { value: 'mobile', label: <Smartphone aria-label="Mobile" /> },
-              ]}
-            />
-            {dirty ? (
-              <Badge tone="warning">Unsaved changes</Badge>
-            ) : (
-              <Badge tone="success">All changes saved</Badge>
-            )}
-            <a
-              href={liveUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="sc-ui-button"
-              data-variant="secondary"
-            >
-              View live <ExternalLink />
-            </a>
-            <Button onClick={save} loading={saving}>
-              Save
-            </Button>
-          </div>
+    <div className="flex h-dvh flex-col">
+      <EditorTopBar
+        sites={sites}
+        siteSlug={site.slug}
+        pages={pages}
+        pageId={page.id}
+        onNavigate={navigate}
+        width={width}
+        onWidthChange={setWidth}
+        fullScreen={fullScreen}
+        onFullScreenChange={setFullScreen}
+        canUndo={state.past.length > 0}
+        canRedo={state.future.length > 0}
+        onUndo={() => dispatch({ type: 'undo' })}
+        onRedo={() => dispatch({ type: 'redo' })}
+        liveUrl={liveUrl}
+        status={<StatusBadge unsaved={dirty} unpublished={false} />}
+        actions={
+          <Button onClick={save} loading={saving}>
+            Save draft
+          </Button>
+        }
+      />
 
-          {/* Canvas | one sidebar (Add, Layers, Edit) */}
-          <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1fr)_26rem]">
-            <main className="min-h-0 overflow-y-auto rounded-[1.5rem] bg-[var(--ui-bg-secondary)] p-4 lg:p-6">
-              <Canvas site={site} themeVars={themeVars} device={device} menu={menu} />
-            </main>
-            <aside className="flex min-h-0 flex-col overflow-hidden rounded-[1.5rem] bg-[var(--ui-surface)]">
-              <Sidebar
-                edit={
-                  <MediaLibraryProvider images={images}>
-                    <PropertiesPanel
-                      draft={draft}
-                      pageErrors={state.pageErrors}
-                      pageId={page.id}
-                      savedPath={savedPath}
-                      onTitle={(title) => dispatch({ type: 'setTitle', title })}
-                      onPath={(path) => dispatch({ type: 'setPath', path })}
-                      onDescription={(description) =>
-                        dispatch({ type: 'setDescription', description })
-                      }
-                      onProps={(id, props) =>
-                        dispatch({ type: 'updateProps', id, props })
-                      }
-                    />
-                  </MediaLibraryProvider>
-                }
+      <div className="relative flex min-h-0 flex-1">
+        {!fullScreen && (
+          <TreePanel
+            title={draft.title}
+            tree={draft.tree}
+            selectedId={state.selectedId}
+            pageSelected={pageSelected}
+            issues={state.issues}
+            collapsed={treeCollapsed}
+            onCollapsedChange={setTreeCollapsed}
+            actions={treeActions}
+          />
+        )}
+
+        <main className="min-w-0 flex-1 overflow-y-auto bg-[var(--ui-bg-secondary)] p-4">
+          <EditorContext.Provider value={canvasContext}>
+            <DndContext id="page-editor">
+              <Canvas
+                site={site}
+                themeVars={themeVars}
+                device={width}
+                menu={menu}
               />
-            </aside>
-          </div>
-        </div>
+            </DndContext>
+          </EditorContext.Provider>
+        </main>
 
-        <DragOverlay dropAnimation={null}>
-          {dragLabel && (
-            <div className="inline-flex cursor-grabbing items-center rounded-full bg-[image:var(--ui-primary-gradient)] px-4 py-2 text-sm font-semibold text-[var(--ui-on-primary)] shadow-[var(--ui-shadow-md)]">
-              {dragLabel}
-            </div>
-          )}
-        </DragOverlay>
-      </DndContext>
-    </EditorContext.Provider>
+        {inspectorOpen && (
+          <MediaLibraryProvider images={images}>
+            <Inspector
+              node={selectedNode}
+              draft={draft}
+              pageId={page.id}
+              savedPath={savedPath}
+              pageErrors={state.pageErrors}
+              issues={state.issues}
+              wide={wide}
+              onWideChange={setWide}
+              onClose={() => select(null)}
+              onProps={(id, props) =>
+                dispatch({ type: 'updateProps', id, props })
+              }
+              onTitle={(title) => dispatch({ type: 'setTitle', title })}
+              onDescription={(description) =>
+                dispatch({ type: 'setDescription', description })
+              }
+              onPath={(path) => dispatch({ type: 'setPath', path })}
+            />
+          </MediaLibraryProvider>
+        )}
+      </div>
+
+      <ComponentPicker
+        open={pickerOpen}
+        where={pickerWhere}
+        onPick={addComponent}
+        onClose={() => setPickerParent(null)}
+      />
+
+      <Dialog
+        open={!!toDelete}
+        onOpenChange={(open) => !open && setConfirmDelete(null)}
+        title={`Delete this ${getDefinition(toDelete?.type ?? '')?.label ?? 'Section'}?`}
+        description={`It has ${toDelete?.children?.length ?? 0} component(s) inside. They will be deleted too. You can undo with ⌘Z until you leave the page.`}
+      >
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={() => setConfirmDelete(null)}>
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              if (confirmDelete) removeNow(confirmDelete);
+              setConfirmDelete(null);
+            }}
+          >
+            Delete all
+          </Button>
+        </div>
+      </Dialog>
+
+      <Dialog
+        open={leaveTo !== null}
+        onOpenChange={(open) => !open && setLeaveTo(null)}
+        title="Leave without saving?"
+        description="This page has changes that are not saved. If you leave now they are lost."
+      >
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={() => setLeaveTo(null)}>
+            Stay on this page
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              if (leaveTo) router.push(leaveTo);
+              setLeaveTo(null);
+            }}
+          >
+            Leave and lose changes
+          </Button>
+        </div>
+      </Dialog>
+    </div>
   );
 }

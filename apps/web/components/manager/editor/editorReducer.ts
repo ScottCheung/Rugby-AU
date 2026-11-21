@@ -1,6 +1,8 @@
 import {
+  duplicateNode,
   findNode,
   insertNode,
+  moveBy,
   moveNode,
   removeNode,
   updateNodeProps,
@@ -48,6 +50,8 @@ export type EditorAction =
   | { type: 'setPath'; path: string }
   | { type: 'insertNode'; node: ComponentNode; at: Location }
   | { type: 'moveNode'; id: string; to: Location }
+  | { type: 'moveBy'; id: string; step: -1 | 1 }
+  | { type: 'duplicate'; id: string }
   | { type: 'removeNode'; id: string }
   | { type: 'updateProps'; id: string; props: Record<string, unknown> }
   | { type: 'select'; id: string | null }
@@ -77,9 +81,11 @@ export function initEditor(draft: Draft): EditorState {
 export const isDirty = (state: EditorState) =>
   JSON.stringify(state.draft) !== state.savedSnapshot;
 
-/** After a failed save, re-check on every change so fixed fields lose their error. */
+/**
+ * Validate the draft after every change, so a field shows its error as soon
+ * as it becomes invalid and loses it as soon as it is fixed.
+ */
 function recheck(state: EditorState): EditorState {
-  if (state.issues.length === 0) return state;
   const result = validateTree(state.draft.tree);
   return { ...state, issues: result.ok ? [] : result.issues };
 }
@@ -147,6 +153,20 @@ export function editorReducer(
         ...draft,
         tree: moveNode(draft.tree, action.id, action.to),
       });
+    case 'moveBy':
+      return commit(state, {
+        ...draft,
+        tree: moveBy(draft.tree, action.id, action.step),
+      });
+    case 'duplicate': {
+      const result = duplicateNode(draft.tree, action.id, () =>
+        crypto.randomUUID(),
+      );
+      return {
+        ...commit(state, { ...draft, tree: result.tree }),
+        selectedId: result.copyId ?? state.selectedId,
+      };
+    }
     case 'removeNode':
       return keepSelection(
         commit(state, { ...draft, tree: removeNode(draft.tree, action.id) }),

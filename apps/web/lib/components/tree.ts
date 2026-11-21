@@ -150,3 +150,53 @@ export function cloneWithNewIds(
       : {}),
   };
 }
+
+/**
+ * Move a node one place up (-1) or down (+1) among its siblings. At either
+ * end of its list nothing changes: it never jumps into another Section.
+ */
+export function moveBy(
+  tree: ComponentNode[],
+  id: string,
+  step: -1 | 1,
+): ComponentNode[] {
+  const from = findLocation(tree, id);
+  if (!from) return tree;
+  const siblings =
+    from.parentId === undefined
+      ? tree
+      : (findNode(tree, from.parentId)?.children ?? []);
+  const index = from.index + step;
+  if (index < 0 || index >= siblings.length) return tree;
+  const node = siblings[from.index];
+  return insertNode(removeNode(tree, id), node, {
+    parentId: from.parentId,
+    index,
+  });
+}
+
+/**
+ * Put a copy of a node (and everything inside it, all with fresh ids)
+ * straight after the original. Returns the new tree and the copy's id.
+ */
+export function duplicateNode(
+  tree: ComponentNode[],
+  id: string,
+  makeId: () => string,
+): { tree: ComponentNode[]; copyId?: string } {
+  const node = findNode(tree, id);
+  const at = findLocation(tree, id);
+  if (!node || !at) return { tree };
+  const copy = cloneWithNewIds(node, makeId);
+  return {
+    tree: insertNode(tree, copy, { ...at, index: at.index + 1 }),
+    copyId: copy.id,
+  };
+}
+
+/** Ids of the Sections around a node, outermost first. */
+export function ancestorIds(tree: ComponentNode[], id: string): string[] {
+  const location = findLocation(tree, id);
+  if (!location?.parentId) return [];
+  return [...ancestorIds(tree, location.parentId), location.parentId];
+}

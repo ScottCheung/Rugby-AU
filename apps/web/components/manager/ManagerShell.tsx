@@ -8,7 +8,7 @@ import { ManagerSidebar } from './ManagerSidebar';
 import { ManagerViewProvider, useManagerView } from './ManagerView';
 import type { ManagerView } from './sidebarCookie';
 
-/** The compact top bar: the page editor, and phones (no room for a sidebar). */
+/** The compact top bar for phones (no room for a sidebar). */
 function TopBar({
   className = '',
   viewSwitch = false,
@@ -47,8 +47,8 @@ function TopBar({
 }
 
 /**
- * Dashboard layout: a sidebar beside the list pages. The page editor keeps
- * the full width under a top bar (its height is worked out from that bar).
+ * Dashboard layout: a sidebar beside the list pages. The page editor has
+ * its own top bar and takes the whole window.
  */
 export function ManagerShell({
   sidebarCollapsed,
@@ -76,13 +76,8 @@ function Shell({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  if (pathname.includes('/pages/'))
-    return (
-      <>
-        <TopBar />
-        {children}
-      </>
-    );
+  // The page editor has its own top bar and uses the whole window.
+  if (pathname.includes('/pages/')) return children;
   return (
     <div className="flex min-h-dvh">
       {/* useSearchParams in the sidebar needs a Suspense boundary. */}
