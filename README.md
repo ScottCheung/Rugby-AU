@@ -4,7 +4,8 @@ One Next.js app that runs many rugby websites from a shared component library.
 Editors compose pages in **`/manager`** from reusable components and edit their
 content in forms generated from each component's schema. Public pages are
 server-rendered at **`/sites/<site>/<path>`** from portable page JSON, each with
-its own theme. The seed creates **15 sites modelled on Australian rugby**: Rugby
+its own theme. Editors work on a **draft** with a **live preview** (an iframe of the
+real renderer) and **publish** when ready; every publish is kept as a version. The seed creates **15 sites modelled on Australian rugby**: Rugby
 Australia, the Wallabies, Wallaroos and Australia Sevens, the four Australian Super
 Rugby clubs and seven state and territory unions, each with two pages and its own
 colours (for example the Wallabies dark green and gold, the Reds maroon on white).
@@ -40,9 +41,8 @@ wall. The arrangements are plain CSS with container queries (`cards-*` in
   wall. Its heading stays in the column so it lines up with the page.
 
 The page itself has no container: `RenderTree` puts each page-level block in the
-column unless `rootBlockWidth()` (`lib/components/pageWidth.ts`) says otherwise, and
-the editor canvas uses the same function, so the editor shows exactly what the site
-will. Nested Sections follow their parent; the renderer passes `nested` to every
+column unless `rootBlockWidth()` (`lib/components/pageWidth.ts`) says otherwise; the
+editor's preview is the same renderer, so it shows exactly what the site will. Nested Sections follow their parent; the renderer passes `nested` to every
 component alongside `siteSlug`. `width` has a `.default('contained')`, so pages saved
 before it existed render as before.
 
@@ -58,7 +58,7 @@ changes one thing, and none of them reads another:
   Medium, or None for Edge to edge), never the background.
 - **Space between blocks** belongs to the page, not to any block:
   `PageColumnBlock` gives every page-column block the same spacing, whatever its
-  type, in the public renderer and the editor canvas alike. Full-width blocks sit
+  type, on the public page and in the editor's preview alike. Full-width blocks sit
   flush, so coloured bands and a hero meet without gaps.
 
 Editors choose named steps (`sm`, `md`, `lg`; `light`, `brand`), never pixel
@@ -117,8 +117,8 @@ wrapper, so the site components stay server-rendered. Choices:
 
 - The first block on a page is not animated, so the top of the page is there before
   JavaScript runs; a `<noscript>` rule shows everything if it never does.
-- The editor canvas turns animation off (`NoMotion`): blocks should just be there
-  while editing.
+- The editor's preview keeps the same animations, since it is the public renderer:
+  a newly added block animates in once.
 - `MotionConfig reducedMotion="user"`: visitors who ask for less motion get fades
   only. Card hover uses CSS `translate`, which Motion's inline `transform` does not
   override.
@@ -129,8 +129,9 @@ block, under `/news/...`. Latest news is the data-driven component: the editor s
 only `title`, `category`, `limit` and `display`, and when a page renders the cards are
 filled from the site's article pages, newest first (`lib/news.ts`, pure and tested).
 The renderer reads the site's pages once per request and hands every component a
-`data` object next to `siteSlug`; the editor canvas gets the same data, so the preview
-shows real articles. Under an article, Latest news leaves that article out, so "More
+`data` object next to `siteSlug`; the preview route builds the same data
+(`lib/render/pageData.ts`), so the preview shows real articles. Only published pages
+count as articles. Under an article, Latest news leaves that article out, so "More
 news" never repeats the page you are on.
 
 Trade-off: summaries are worked out from the page trees on each request, which is fine
@@ -154,10 +155,10 @@ editor sets only `title`, `team`, `show` and `limit`; the matches come from
   `fetch` returning the same `Fixture` shape.
 - While a page renders, `fixturesForTree()` (`lib/fixtures/forTree.ts`) finds the
   page's Fixture lists, including ones nested in Sections, and makes one call per
-  team they ask for, or none if the page has no Fixture list. The editor loads
-  every fixture instead, so switching a list to another team updates the canvas
+  team they ask for, or none if the page has no Fixture list. The preview loads
+  every fixture instead, so switching a list to another team updates the preview
   straight away.
-- `selectFixtures()` is pure and shared by the site and the canvas: upcoming
+- `selectFixtures()` is pure and used by the component itself: upcoming
   matches soonest first, results newest first. Kick-off times are shown in Sydney
   time (`Sun, 8 Nov, 2:10 am AEDT`) with a fixed time zone, so server and browser
   render the same text.
@@ -181,16 +182,22 @@ Requirements: Node 22+, npm, Docker.
 cp .env.example .env.local
 docker compose up -d      # MongoDB 7 on localhost:27017
 npm install
-npm run seed              # drops and recreates the 15 sample sites and 130 pages (46 of them articles)
+npm run seed              # drops and recreates the 15 sample sites and 130 pages (46 of them articles), all published as version 1
 npm run dev
 ```
+
+A database seeded before draft/publish existed can be kept instead of re-seeded:
+`npm run migrate` turns each `{ title, tree }` page into `draft` = `published` =
+that content (version 1). It skips pages already migrated, so it is safe to re-run.
 
 - Manager: http://localhost:3000/manager
 - Sites: for example http://localhost:3000/sites/wallabies, http://localhost:3000/sites/reds,
   http://localhost:3000/sites/rugby-australia (all of them are listed in the manager)
 
 Checks, from the repository root: `npm test`, `npm run lint`, `npm run typecheck`,
-`npm run build`.
+`npm run build`. The publish-flow tests (`tests/publish.test.ts`) use MongoDB in a
+throwaway `rugby_site_manager_test` database; without MongoDB running they are
+skipped with a warning.
 
 ## 2. Architecture
 
@@ -214,69 +221,93 @@ separate and written for this task.
 ### The four layers (`apps/web`)
 
 ```
-lib/types.ts, lib/db/      1. Page data: Site and Page documents. All MongoDB calls live in lib/db.
+lib/types.ts, lib/db/      1. Page data: Site, Page (draft + published) and page_versions.
+                              All MongoDB calls live in lib/db; lib/versions holds the
+                              retention rule.
 lib/components/            2. Component definitions: Zod schema, label, defaults, registry,
                               validateTree() and pure tree operations. No React.
 app/manager/, components/manager/, lib/forms/
-                           3. Manager: site list, page list, the visual editor
+                           3. Manager: site list, page list, the page editor
                               (components/manager/editor), schema-driven forms,
                               Server Actions for writes.
-app/sites/, components/site/, components/primitives/
-                           4. Renderer: server components that turn page JSON into HTML.
+app/sites/, app/preview/, components/site/, components/primitives/
+                           4. Renderer: SitePage + RenderTree turn page JSON into HTML.
+                              /sites renders published content on the server; /preview
+                              renders the same SitePage inside the editor's iframe.
 lib/theme/                 Default tokens, resolveTheme(), themeToCssVars().
 ```
 
 They only meet through the registry. The manager imports definitions (schemas) and
-never imports render code. The renderer maps each `type` to a React component.
-Stored pages contain nothing but `type`, `props` and `children`, so they can be
-rendered without the manager running, or by another app with the same library.
+never imports render code; the preview is a separate page in an iframe. The renderer
+maps each `type` to a React component. Stored pages contain nothing but `type`,
+`props` and `children`, so they can be rendered without the manager running, or by
+another app with the same library.
 
-### The visual editor
+### The page editor
 
-Opening a page shows it as visitors will see it: the canvas renders the real site
-components with the site's theme. Around it:
+```
+┌ site ▾ │ page ▾ │ ↶ ↷ │ desktop/mobile │ full screen │ status │ Discard  History  Save draft  Publish ┐
+├───────────────┬──────────────────────────────────────────────┬──────────────────────┤
+│ Components    │                                              │ Inspector            │
+│ ▸ Page        │   live preview: an <iframe> of               │ (only while          │
+│   Section   + │   /preview/<site>/<path>                     │  something is        │
+│     Card Grid │                                              │  selected; ~400 px,  │
+│   Text        │                                              │  or "wide" overlay)  │
+│ + Add         │                                              │                      │
+└───────────────┴──────────────────────────────────────────────┴──────────────────────┘
+```
 
-- **Click to select.** Hovering outlines a block; clicking selects it and shows a
-  toolbar on the block (drag handle, move up, move down, duplicate, delete).
-- **One sidebar** beside the canvas, with three tabs: **Add** (the component
-  palette), **Layers** (the outline) and **Edit**. Selecting a block, on the canvas,
-  in Layers or by adding one, opens Edit; a breadcrumb ("Page settings › Section")
-  leads back to the page's own settings: title, description, address (changeable
-  except for the home page) and Delete page, with a confirmation.
-- **Edit splits a block's fields into Content, Layout and Style tabs.** Each schema
-  field says which (`.meta({ group: 'layout' })`; content is the default), so the
-  form generator builds the tabs; a component with content only gets no tabs. A tab
-  holding a field with an error shows a red dot, and the form opens on it.
-- **Long text** boxes grow with what is typed, and "Expand" opens a large editor
-  (live on the canvas, with a word count) for articles and other long copy.
-- **Image fields** show a preview and a "Choose image" picker of the images already
-  used on the site (`lib/media.ts` finds them by their `{ url, alt }` shape), so
-  editors rarely need to paste an address.
-- **Drag and drop** (dnd-kit). Drag blocks by their handle, or drag new ones from the
-  component palette. A line shows where the block will land: before or after the
-  block under the pointer, or into an empty Section. Clicking a palette item adds it
-  inside the selected Section or after the selected block.
-- **Layers** outline for picking deeply nested blocks, **desktop / tablet / mobile**
-  preview,
-  **undo / redo** (⌘Z / ⇧⌘Z; typing in one field counts as one step), Delete to remove
-  the selected block, ⌘S to save.
+- **Top bar.** Site and page switchers, undo / redo (⌘Z / ⇧⌘Z; typing in one field is
+  one step), desktop / mobile width, full-screen preview (hides both panels), a status
+  badge (**Unsaved changes**, **Unpublished changes** or **Published**), and Discard
+  changes, History, Save draft (⌘S) and Publish.
+- **Left: the component tree**, at any depth, collapsible to a thin rail. Each row
+  selects its component and has move up / down (within its own list), duplicate and
+  delete; deleting a Section that has components inside asks first. The page row and
+  each Section have a **+** that opens a picker of every registered component with its
+  one-line description (read from the registry); the new component goes at the end of
+  that Section, or of the page. An always-visible **Add component** button does the
+  same for the page.
+- **Right: the inspector**, hidden until something is selected. It shows the form
+  generated from the selected component's schema (Content / Style tabs), or the page
+  settings (title, description, address, delete) when the page row is selected. A
+  **wide** toggle turns it into an overlay over most of the preview for heavy editing.
+  In list fields (Card Grid cards, slides...) each item collapses to one summary row and
+  expands on click; items can be added, removed and reordered.
+- **Validation runs on every change** with the same `validateTree()` the server uses,
+  so an error shows next to the exact field and as a red dot on the tree node (and the
+  collapsed list item) that contains it, before anyone presses Save.
+- **Unsaved work is protected**: closing or reloading the tab warns, and switching
+  page or site asks first.
 
-All edits go through one `useReducer` over the page draft and the pure functions in
-`lib/components/tree.ts` (`insertNode`, `moveNode`, `removeNode`, `cloneWithNewIds`...),
-so the drag and drop code only works out a drop location and dispatches.
+All edits go through one `useReducer` over the draft and the pure functions in
+`lib/components/tree.ts` (`insertNode`, `moveBy`, `duplicateNode`, `removeNode`...).
+The shared panels are built from `@scottcheung/ui` (`TreeItem` and `Collapsible` were
+added to it for this editor).
 
-**The preview matches the live site.** The canvas lays the page out at the device's
-real width and scales it down to fit the editor (`devices.ts`): desktop uses the
-browser window the editor is open in, so it matches opening the live site in that
-window; tablet is 768 px and phone 390 px. It shows the zoom
-("Desktop · 1440px · 51%"). Layouts respond to container width, not
-the browser window: Sections and Card Grids are CSS containers, and heading sizes
-follow a `page` container on the site wrapper and the canvas. So a desktop preview has
-desktop columns even in a narrow editor, and the phone preview stacks exactly as a
-phone would. Clicks and drag and drop work on the scaled page (the browser hit-tests
-transformed elements), and the selected block's toolbar is scaled back up so it stays
-readable. The canvas also uses the live page's spacing rules (no hidden drop zones
-taking up space), so a block measures the same in both.
+**Why the preview is an iframe of the real renderer.** An imitation of the public page
+inside the manager drifts: different CSS, different wrappers, manager styles leaking
+in. Here there is nothing to drift: `/preview/<site>/<path>` renders the same
+`SitePage` component as `/sites/<site>/<path>`, with the same `RenderTree`, theme
+variables and site stylesheet. The design system's CSS is only imported under
+`/manager`, so it never reaches either page.
+
+- The iframe loads **once**. The editor posts the in-memory draft to it with
+  `postMessage`, debounced 150 ms, and the preview re-renders from React state. It is
+  never reloaded on an edit, so scroll position and loaded images stay. Both sides
+  check that a message comes from the other window on the same origin
+  (`lib/preview/messages.ts`).
+- **Click to select.** In preview mode only, `RenderTree` wraps each component in a
+  `display: contents` element carrying `data-component-id`, which adds no box, so the
+  layout is unchanged. A click finds the innermost id, the preview posts it, and the
+  editor selects it in the tree and opens the inspector. The selection is drawn as an
+  outline overlay in the preview. Public pages get no wrappers and no attributes.
+- **Desktop / mobile** only changes the iframe's width (390 px for mobile), so the
+  site's own CSS breakpoints and container queries apply exactly as on a phone.
+- Edits show before saving; saving and publishing are about persistence only.
+- Clicks in the preview select instead of following links, so carousels and the photo
+  viewer are not interactive there. Data that the server works out (colours picked from
+  a new Profile card photo) appears after the next save and reload.
 
 ### Why one Next.js app
 
@@ -303,70 +334,72 @@ as the list grows.
 
 ## 3. Page JSON format
 
-A page is one MongoDB document. `tree` is the portable part: plain JSON, with no
-ObjectIds and no Dates. Each node is `{ id, type, props, children? }`; only
-components that accept children (Section) have `children`.
+A page is one MongoDB document with two copies of its content: `draft` (what the
+editor saves) and `published` (what visitors see, or `null` if the page was never
+published). `components` is the portable part: plain JSON, with no ObjectIds and no
+Dates. Each node is `{ id, type, props, children? }`; only components that accept
+children (Section) have `children`. Shortened example:
 
 ```json
 {
-  "_id": {
-    "$oid": "6affae335bf06984678bcf3a"
-  },
+  "_id": { "$oid": "6affae335bf06984678bcf3a" },
   "siteSlug": "wallaroos",
   "path": "/history",
-  "title": "History",
-  "description": "Where the team comes from.",
-  "updatedAt": {
-    "$date": "2026-11-20T02:19:31.695Z"
-  },
-  "tree": [
-    {
-      "id": "dc0c9323-9032-4b4a-a731-25d3e3701275",
-      "type": "section",
-      "props": {
-        "heading": "Our history",
-        "intro": "The Wallaroos played their first Test on 2 September 1994 against the Black Ferns in Sydney.",
-        "layout": "full",
-        "background": "brand"
-      },
-      "children": [
-        {
-          "id": "9d38f378-5d94-4243-b1cb-1c99dca70836",
-          "type": "cardGrid",
-          "props": {
-            "title": "",
-            "variant": "grid",
-            "cards": [
-              {
-                "image": {
-                  "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
-                  "alt": "Black and white photo of women playing rugby"
-                },
-                "heading": "1998: first World Cup"
-              },
-              {
-                "image": {
-                  "url": "https://images.unsplash.com/photo-1767190937750-d6aaf8ea99d0?auto=format&fit=crop&w=1600&q=80",
-                  "alt": "Rugby stadium with goalposts and spectators in the stands"
-                },
-                "heading": "2029: home World Cup",
-                "link": {
-                  "label": "Back to home",
-                  "href": "/"
+  "updatedAt": { "$date": "2026-11-21T04:12:09.120Z" },
+  "draft": {
+    "title": "History",
+    "description": "Where the team comes from.",
+    "components": [
+      {
+        "id": "dc0c9323-9032-4b4a-a731-25d3e3701275",
+        "type": "section",
+        "props": {
+          "heading": "Our history",
+          "layout": "full",
+          "background": "brand"
+        },
+        "children": [
+          {
+            "id": "9d38f378-5d94-4243-b1cb-1c99dca70836",
+            "type": "cardGrid",
+            "props": {
+              "title": "Milestones",
+              "variant": "grid",
+              "cards": [
+                {
+                  "image": {
+                    "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                    "alt": "Black and white photo of women playing rugby"
+                  },
+                  "heading": "1998: first World Cup",
+                  "link": { "label": "Read more", "href": "/news" }
                 }
-              }
-            ]
+              ]
+            }
           }
-        }
-      ]
-    }
-  ]
+        ]
+      }
+    ]
+  },
+  "published": {
+    "title": "History",
+    "description": "Where the team comes from.",
+    "components": ["... the content as it was at the last publish ..."],
+    "version": 3,
+    "publishedAt": { "$date": "2026-11-20T02:19:31.695Z" }
+  }
 }
 ```
 
+Each publish is also stored in `page_versions` as
+`{ pageId, version, title, description?, components, publishedAt }`, with a unique
+index on `{ pageId: 1, version: -1 }`.
+
 Paths are normalised: `/` for home, otherwise a leading slash, lowercase and no
-trailing slash. Links inside page JSON are site-relative (`/about`) and the renderer
-prefixes them with `/sites/<slug>`, so the same JSON would work under a custom domain.
+trailing slash. The path lives outside `draft` / `published`: changing it is saved
+straight away (see trade-offs). Links inside page JSON are site-relative (`/about`)
+and the renderer prefixes them with `/sites/<slug>`, so the same JSON would work under
+a custom domain.
 
 ## 4. Adding a new component
 
@@ -374,9 +407,9 @@ prefixes them with `/sites/<slug>`, so the same JSON would work under a custom d
 schema file (`lib/components/imageSlider.ts`, reusing the shared image and link
 fields from `lib/components/fields.ts`), a render component
 (`components/site/ImageSlider.tsx`) and two registry lines. The manager form, the
-palette entry and the save validation came for free. **Text** was added the same way later
+entry in the "+" picker and the save validation came for free. **Text** was added the same way later
 (`lib/components/textBlock.ts` and `components/site/TextBlock.tsx`), plus an
-optional palette icon and a block in the stored-page fixture. **Stats** followed the same
+optional picker icon and a block in the stored-page fixture. **Stats** followed the same
 steps.
 
 A second, smaller example: a "Call to action" with a heading, some text and an optional button. No
@@ -411,9 +444,9 @@ export const callToAction = defineComponent({
 ```
 
 **2. Register it**: add `callToAction` to `componentDefinitions` in
-`apps/web/lib/components/registry.ts`. It now appears in the editor's component
-palette, with a text input, a textarea and an "Add button" toggle, and saves are
-validated against the schema. Also add a `callToAction` block to
+`apps/web/lib/components/registry.ts`. It now appears in the editor's "+" picker
+(label and description from the definition), with a text input, a textarea and an
+"Add button" toggle, and saves and publishes are validated against the schema. Also add a `callToAction` block to
 `tests/fixtures/stored-page-v1.json`; a test checks that the fixture covers every
 component (see below).
 
@@ -448,16 +481,16 @@ then use it in its render component. The form updates by itself.
 
 **Rule: a new prop must be `.optional()` or have a `.default()`.** Pages already in
 MongoDB were saved without it and nothing migrates them. A new required prop would
-make them invalid: the renderer skips invalid blocks (the page still renders; in
-development a warning box shows where), and the editor outlines them with "This field
-is required" as soon as the page is opened. `tests/storedPages.test.ts` guards the
+make them invalid: the renderer skips invalid blocks (the page still renders; the
+editor's preview and development builds show a note where), and the editor marks
+them with "This field is required" as soon as the page is opened. `tests/storedPages.test.ts` guards the
 rule: it validates `tests/fixtures/stored-page-v1.json`, a page in the oldest stored
 shape, and fails if a schema change breaks it. That is how Card Grid's `variant`
 (`.default('grid')`) and card `text` (`.optional()`) were added. A breaking change
 would need a migration script that rewrites the stored pages.
 
 **Tabs.** `.meta({ group: 'content' | 'layout' | 'style' })` puts a field on a tab of
-the editing form; `groupFields()` in `lib/forms/describe.ts` does the split.
+the editing form (layout fields share the Style tab); `groupFields()` in `lib/forms/describe.ts` does the split.
 
 **Visual choices.** An enum can name a sketch for each option
 (`optionSketches: { grid: 'grid', list: 'list' }` in `.meta()`); the form then shows
@@ -467,11 +500,46 @@ checks every name has one. Card Grid's "Display as", Section's layout and width,
 Text's style use it.
 
 The form generator (`lib/forms/describe.ts`) supports strings (text, textarea, URL),
-numbers, booleans, enums, nested objects, lists (add, remove, reorder) and optional
+numbers, booleans, enums, nested objects, lists (collapsible items; add, remove,
+reorder) and optional
 values (Add / Remove toggle; omitted from props when absent). Labels and hints come
 from `.meta()`, falling back to the humanised prop name.
 
-## 5. Theming
+## 5. Draft, publish and versions
+
+- **Save draft** validates the page (`validateTree()`) and writes `draft` and the
+  address only. Visitors see no change.
+- **The public route reads only `published`** (`getPublishedPage()` returns nothing
+  else), so a page never published is a 404, and the public menu and Latest news
+  list published pages only. The preview reads the draft.
+- **Publish** (`publishPage()` in `lib/db/pages.ts`) saves first if there are unsaved
+  edits, validates the stored draft again (it may predate a schema change), copies it
+  into `published` with `version + 1` and `publishedAt`, inserts the same into
+  `page_versions`, then applies retention. The version record is inserted first: its
+  unique `{ pageId, version }` index makes a second, racing publish of the same number
+  fail before the page changes.
+- **Discard changes** sets the draft back to `published` (after a confirmation).
+- **History** (a drawer) lists the kept versions with their time. **View** loads that
+  version's components into the preview, read-only, with a banner; **Restore to draft**
+  copies it into the draft, and the editor publishes as usual. Restore is disabled
+  while there are unsaved changes, so it can never overwrite them silently. There is
+  no diff view.
+- **Retention**: keep the latest **10** versions of each page, plus **every** version
+  published in the last **30 days** (`KEEP_LATEST_VERSIONS` and `KEEP_RECENT_DAYS` in
+  `lib/versions/retention.ts`, applied after each publish). The count means a page that
+  rarely changes still has history to roll back to, however old; the time window
+  means a busy launch day with twenty publishes cannot push out last week's version.
+  Versions hold only JSON (a few KB each), so the cost is small either way.
+- **Images stay external URLs.** There is no upload, so nothing to clean up yet. With
+  uploads, cleanup would be a scheduled **mark-and-sweep**: mark every asset referenced
+  by any page's draft, published content or a retained version (the `{ url, alt }`
+  shape is already found by `lib/media.ts`), then delete unmarked assets only if they
+  are older than a grace period (for example 7 days), so an image uploaded into an
+  unsaved draft, or referenced by a version about to be restored, is not lost.
+- The seed publishes every page as version 1; `npm run migrate` does the same for a
+  database from before this change.
+
+## 6. Theming
 
 - `lib/theme/defaultTheme.ts` defines the full token set: colours (`brand`,
   `brandContrast`, `background`, `surfaceLight`, `text`, `mutedText`), `radius`,
@@ -503,7 +571,7 @@ components then look clearly different without a line of component code changing
 Components only use the tokens (`rounded-site`, `font-site`, the `site-heading`
 class), so a site can still override any single token on top of its look.
 
-## 6. Key decisions and trade-offs
+## 7. Key decisions and trade-offs
 
 - **Variants before new components.** A carousel and a masonry wall show the same data
   as a grid, so they are a `variant` on Card Grid (one enum in the schema) rather than
@@ -525,20 +593,30 @@ class), so a site can still override any single token on top of its look.
 - **Official MongoDB driver vs Mongoose.** Pages are already validated by Zod, so a
   second schema layer would duplicate it. The driver is thin and explicit, and all
   calls sit in `lib/db`.
-- **Visual canvas, fields in a panel.** Editors see the real page and click what they
-  want to change, but text is edited in generated form fields rather than typed on the
-  page. That keeps "no form code per component" true and avoids per-component inline
-  editing code; inline text editing could be added later with a `.meta({ inline: true })`
-  flag.
-- **dnd-kit for drag and drop.** A small, unopinionated drag library (allowed by the
-  brief, unlike page builders). It only reports what is under the pointer; the drop
-  rules live in `editor/dnd.ts` and the tree changes in `tree.ts`.
-- **Explicit save vs autosave.** Simpler, and it is obvious when data reaches the
-  database. The editor shows an "Unsaved changes" badge and warns before leaving.
+- **Preview as an iframe of the real renderer vs an in-manager canvas.** An earlier
+  version drew the page inside the manager with editing chrome and drag and drop. It
+  looked close, but it was a second rendering path that had to be kept in step with
+  the public one, and the manager's CSS was on the same page. The iframe costs a
+  postMessage protocol and gives up drag and drop on the page; in exchange the preview
+  is the public renderer, at real breakpoints, by construction.
+- **Tree panel with buttons vs drag and drop.** Up / down, duplicate, delete and "+" are
+  plain buttons: easy to discover, keyboard-accessible, and each is one pure tree
+  function with a test. Drag and drop in the tree is in "What's missing".
+- **Fields in a panel, not inline text editing.** Text is edited in generated form
+  fields rather than typed on the page. That keeps "no form code per component" true;
+  inline editing could be added later with a `.meta({ inline: true })` flag.
+- **Explicit save and publish vs autosave.** Two clear steps: Save draft stores work in
+  progress, Publish makes it public. Both are obvious to an editor and easy to reason
+  about in the code. Save draft validates too, so a stored draft can always be rendered.
+- **Path outside draft / published.** Changing a page's address takes effect on save,
+  not on publish. Versioning the path would mean resolving public URLs through
+  `published.path` and handling clashes at publish time; for a small team the simpler
+  rule is acceptable, and the address field warns that old links stop working.
 - **Whole page as one document vs normalised components.** A page is read and written
   as one unit, which matches how it is rendered and keeps it portable. The cost is
   that a component cannot be shared between pages, and two editors saving the same
-  page at once means the last save wins.
+  draft at once means the last save wins (publish itself cannot double-number a
+  version, see above).
 - **Path-prefix routing vs domain routing.** `/sites/<slug>/...` works locally with no
   DNS setup. Domains would be a `domains` field on each site plus a Next.js middleware
   that rewrites `rugby.example.com/about` to `/sites/<slug>/about`; the renderer would
@@ -548,7 +626,7 @@ class), so a site can still override any single token on top of its look.
   package.
 - **No authentication**, as allowed by the brief: there is a single editor.
 
-## 7. Assumptions
+## 8. Assumptions
 
 - Section's two required layouts (full, two-column) are kept; two-column-wide and
   three-column are additions. Column counts react to the width a Section actually has
@@ -563,8 +641,11 @@ class), so a site can still override any single token on top of its look.
   is not rendered.
 - Strings are trimmed on save. Optional values are omitted from props when absent.
 - On render, a node whose type is unknown or whose props no longer match the schema is
-  skipped (with a warning box in development) instead of failing the whole page.
-- `npm run seed` is destructive by design: it drops and recreates both collections.
+  skipped (with a note in the editor's preview and in development) instead of failing
+  the whole page.
+- `npm run seed` is destructive by design: it drops and recreates the `sites`,
+  `pages` and `page_versions` collections. `npm run migrate` is the non-destructive
+  path for an existing database.
 - Sample content, not the real sites. The organisations are real and their names and
   colours are used as sample data, but the copy was written for this demo from a few
   public facts (first Test dates, titles, home grounds, the 2027 and 2029 World Cups),
@@ -588,17 +669,23 @@ class), so a site can still override any single token on top of its look.
   them by subject and gives each site its own starting point, so pages rarely
   repeat a photo.
 
-## 8. What's missing and how I would build it
+## 9. What's missing and how I would build it
 
 - **Authentication:** Auth.js (or the organisation's SSO) on `/manager` and the Server
   Actions, with per-site roles stored on the user.
-- **Keyboard drag and drop:** blocks can be moved with the toolbar buttons today; dnd-kit's
-  keyboard sensor would add arrow-key dragging.
-- **Draft and publish:** store `draftTree` and `publishedTree` (or a `versions`
-  collection); the editor saves drafts, "Publish" copies the draft, and the renderer
-  reads only published content.
-- **Inline text editing on the canvas:** mark string fields with `.meta({ inline: true })`
-  and let the canvas make those elements editable.
+- **Drag and drop in the tree:** the up / down buttons call `moveBy()`; dragging would
+  call the existing `moveNode(tree, id, { parentId, index })`, which already handles
+  moving into and out of Sections and refuses to drop a Section into itself.
+- **Insert between components:** "+" adds at the end of a Section or the page today; a
+  "+" between rows would pass that row's index to the same `insertNode()`.
+- **Version diff:** compare two versions' trees by component id (added, removed,
+  moved, props changed) and highlight those components in two previews side by side.
+- **Scheduled publish and approvals:** a `scheduledFor` on the page and a cron job
+  that calls `publishPage()`; an approval step would be a `review` state between
+  draft and published.
+- **Asset upload and cleanup:** see "Images stay external URLs" in section 5.
+- **Inline text editing in the preview:** mark string fields with `.meta({ inline: true })`;
+  the preview makes those elements editable and posts the text back.
 - **Vercel and MongoDB Atlas:** set `MONGODB_URI` / `MONGODB_DB` in Vercel, run the
   seed once as a manual job, and deploy `apps/web` with the workspace build command.
 - **Per-site radius and type overrides:** already supported by `resolveTheme`; the work
@@ -608,14 +695,16 @@ class), so a site can still override any single token on top of its look.
 - **Menu control:** the public menu lists a site's top-level pages, home first, then by
   path. A `nav { label, order, hidden }` field on the page document would let editors
   rename, reorder or hide entries.
-- **Concurrent editing:** send the page's `updatedAt` with each save and reject the save
-  if it changed in the meantime.
+- **Concurrent editing:** send the page's `updatedAt` with each save and publish, and
+  reject them if it changed in the meantime.
 
-## 9. Time and tools
+## 10. Time and tools
 
-- Hours spent: TODO: fill in
-- AI tools used: Claude (Claude Code) for scaffolding and implementation, reviewed and
-  edited by me.
+- Hours spent: about **TODO** hours in total. The draft / publish, live preview and
+  editor layout work (stretch goals) came after the must-haves were working.
+- AI tools used: **Codex** and **Claude** (Claude Code) for scaffolding,
+  implementation and review. I reviewed and edited every change and can explain and
+  change any line without them.
 
 ## Environment variables
 
