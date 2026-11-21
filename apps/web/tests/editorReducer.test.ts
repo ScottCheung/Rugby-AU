@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  differsFromPublished,
   editorReducer,
   initEditor,
   isDirty,
@@ -183,5 +184,35 @@ describe('page settings and stored pages', () => {
       tree: [{ id: 'old', type: 'cardGrid', props: { cards: 'not a list' } }],
     });
     expect(state.issues.map((issue) => issue.nodeId)).toContain('old');
+  });
+});
+
+describe('draft status', () => {
+  const published = {
+    title: 'Home',
+    components: [],
+    version: 1,
+    publishedAt: '2026-11-21T00:00:00.000Z',
+  };
+
+  it('knows when the draft differs from what visitors see', () => {
+    const draft = start().draft;
+    expect(differsFromPublished(draft, null)).toBe(true);
+    expect(differsFromPublished(draft, published)).toBe(false);
+    expect(differsFromPublished({ ...draft, title: 'New' }, published)).toBe(
+      true,
+    );
+  });
+
+  it('starts afresh when the server replaces the draft (publish, discard, restore)', () => {
+    let state = editorReducer(start(), { type: 'setTitle', title: 'Edited' });
+    expect(state.past).toHaveLength(1);
+    state = editorReducer(state, {
+      type: 'loaded',
+      draft: { ...state.draft, title: 'Restored' },
+    });
+    expect(state.draft.title).toBe('Restored');
+    expect(isDirty(state)).toBe(false);
+    expect(state.past).toEqual([]);
   });
 });

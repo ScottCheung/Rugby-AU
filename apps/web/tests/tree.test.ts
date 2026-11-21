@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
   addNode,
+  ancestorIds,
   cloneWithNewIds,
+  duplicateNode,
   findLocation,
   findNode,
   insertNode,
+  moveBy,
   moveNode,
   removeNode,
   updateNodeProps,
@@ -174,5 +177,89 @@ describe('cloneWithNewIds', () => {
       id: 'copy-2',
       type: 'cardGrid',
     });
+  });
+});
+
+const ids = (nodes: ComponentNode[]) => nodes.map((node) => node.id);
+
+/** Every id in a tree, depth first. */
+const allIds = (nodes: ComponentNode[]): string[] =>
+  nodes.flatMap((node) => [node.id, ...allIds(node.children ?? [])]);
+
+describe('moveBy (the tree panel up / down buttons)', () => {
+  it('swaps a node with its neighbour, at the root and inside a section', () => {
+    const tree = [leaf('a'), leaf('b'), section('s', [leaf('c'), leaf('d')])];
+    expect(ids(moveBy(tree, 'b', -1))).toEqual(['b', 'a', 's']);
+    expect(ids(moveBy(tree, 'a', 1))).toEqual(['b', 'a', 's']);
+    const nested = moveBy(tree, 'd', -1);
+    expect(ids(findNode(nested, 's')!.children!)).toEqual(['d', 'c']);
+  });
+
+  it('stays put at either end and never leaves its section', () => {
+    const tree = [leaf('a'), section('s', [leaf('c'), leaf('d')])];
+    expect(moveBy(tree, 'a', -1)).toBe(tree);
+    expect(moveBy(tree, 'd', 1)).toBe(tree);
+    expect(moveBy(tree, 'c', -1)).toBe(tree);
+    expect(moveBy(tree, 'missing', 1)).toBe(tree);
+  });
+});
+
+describe('duplicateNode', () => {
+  it('puts the copy straight after the original, with fresh ids for the whole subtree', () => {
+    let next = 0;
+    const makeId = () => `copy-${next++}`;
+    const tree = makeTree();
+    const result = duplicateNode(tree, 'outer', makeId);
+    expect(ids(result.tree)).toEqual(['outer', result.copyId, 'sibling']);
+    const copy = findNode(result.tree, result.copyId!)!;
+    // Same shape and props, none of the old ids.
+    expect(allIds([copy])).toEqual(['copy-0', 'copy-1', 'copy-2']);
+    expect(copy.children![0].children![0].props).toEqual(
+      findNode(tree, 'deep')!.props,
+    );
+    // Every id in the page is still unique.
+    const every = allIds(result.tree);
+    expect(new Set(every).size).toBe(every.length);
+  });
+
+  it('copies props deeply, so editing the copy leaves the original alone', () => {
+    const tree = [leaf('a')];
+    const { tree: next, copyId } = duplicateNode(tree, 'a', () => 'b');
+    (findNode(next, copyId!)!.props as { cards: unknown[] }).cards.push('x');
+    expect(findNode(next, 'a')!.props.cards).toEqual([]);
+  });
+
+  it('duplicates a nested node inside its own section', () => {
+    const result = duplicateNode(makeTree(), 'deep', () => 'deep-2');
+    expect(ids(findNode(result.tree, 'inner')!.children!)).toEqual([
+      'deep',
+      'deep-2',
+    ]);
+  });
+});
+
+describe('insertNode at a position (the + picker)', () => {
+  it('inserts at the end of a nested section without touching other lists', () => {
+    const tree = makeTree();
+    const next = insertNode(tree, leaf('new'), {
+      parentId: 'inner',
+      index: 1,
+    });
+    expect(ids(findNode(next, 'inner')!.children!)).toEqual(['deep', 'new']);
+    expect(ids(next)).toEqual(['outer', 'sibling']);
+  });
+});
+
+describe('removeNode (nested)', () => {
+  it('removes a section in a section with everything inside it', () => {
+    const next = removeNode(makeTree(), 'inner');
+    expect(allIds(next)).toEqual(['outer', 'sibling']);
+  });
+});
+
+describe('ancestorIds', () => {
+  it('lists the sections around a node, outermost first', () => {
+    expect(ancestorIds(makeTree(), 'deep')).toEqual(['outer', 'inner']);
+    expect(ancestorIds(makeTree(), 'sibling')).toEqual([]);
   });
 });
