@@ -56,3 +56,6 @@ export type Page = {
   /** ISO date string. */
   updatedAt: string;
 };
+
+/** One link in a site's menu (its top-level pages). */
+export type MenuItem = { id: string; path: string; title: string };

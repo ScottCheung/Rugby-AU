@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import '@scottcheung/ui/styles.css';
 // The fonts site themes can choose from (lib/theme/fonts.ts).
 import '@fontsource-variable/inter';
 import '@fontsource-variable/montserrat';

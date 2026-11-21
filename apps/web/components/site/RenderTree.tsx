@@ -20,6 +20,7 @@ export function RenderTree({
   data,
   nested = false,
   animate = true,
+  editable = false,
 }: {
   nodes: ComponentNode[];
   siteSlug: string;
@@ -28,19 +29,34 @@ export function RenderTree({
   nested?: boolean;
   /** False inside the first block, which is on screen when the page opens. */
   animate?: boolean;
+  /**
+   * Only in the editor's preview: each component is wrapped in an element
+   * carrying its id, so a click can say which component it hit. The
+   * wrapper is display: contents, so it adds no box and the layout is the
+   * same as the public page, which never gets these attributes.
+   */
+  editable?: boolean;
 }) {
   return nodes.map((node, index) => {
     // The first block on the page is visible straight away: hiding it until
     // JavaScript runs would leave the top of the page blank.
     const first = !nested && index === 0;
-    const block = (
+    const rendered = (
       <RenderNode
         node={node}
         siteSlug={siteSlug}
         data={data}
         nested={nested}
         animate={animate && !first}
+        editable={editable}
       />
+    );
+    const block = editable ? (
+      <div data-component-id={node.id} style={{ display: 'contents' }}>
+        {rendered}
+      </div>
+    ) : (
+      rendered
     );
     // Content animates; containers let their contents do it (lib/motion.ts).
     const content =
@@ -71,16 +87,24 @@ function RenderNode({
   data,
   nested,
   animate,
+  editable,
 }: {
   node: ComponentNode;
   siteSlug: string;
   data: SiteData;
   nested: boolean;
   animate: boolean;
+  editable: boolean;
 }) {
   const definition = getDefinition(node.type);
   if (!definition)
-    return <Skipped node={node} reason={`unknown type "${node.type}"`} />;
+    return (
+      <Skipped
+        node={node}
+        reason={`unknown type "${node.type}"`}
+        visible={editable}
+      />
+    );
 
   // Stored JSON may be older than the current schemas: never crash the page.
   const parsed = definition.schema.safeParse(node.props);
@@ -89,6 +113,7 @@ function RenderNode({
       <Skipped
         node={node}
         reason={parsed.error.issues[0]?.message ?? 'invalid props'}
+        visible={editable}
       />
     );
 
@@ -103,18 +128,33 @@ function RenderNode({
         data={data}
         nested
         animate={animate}
+        editable={editable}
       />
     ) : null,
   );
 }
 
-/** Invisible in production; a visible hint while developing. */
-function Skipped({ node, reason }: { node: ComponentNode; reason: string }) {
-  console.warn(`Skipped component ${node.id} (${node.type}): ${reason}`);
-  if (process.env.NODE_ENV !== 'development') return null;
+/**
+ * A component whose props fail its schema. Visitors see nothing; the
+ * editor's preview (and development) shows a note, so a half-filled
+ * component does not just vanish while it is being edited.
+ */
+function Skipped({
+  node,
+  reason,
+  visible,
+}: {
+  node: ComponentNode;
+  reason: string;
+  visible: boolean;
+}) {
+  if (!visible)
+    console.warn(`Skipped component ${node.id} (${node.type}): ${reason}`);
+  if (!visible && process.env.NODE_ENV !== 'development') return null;
+  const label = getDefinition(node.type)?.label ?? node.type;
   return (
-    <div className="rounded border border-amber-500 bg-amber-50 p-3 text-sm text-amber-900">
-      Component <code>{node.type}</code> ({node.id}) was not rendered: {reason}
+    <div className="rounded border border-amber-500 bg-amber-50 p-3 font-sans text-sm text-amber-900">
+      {label} is hidden on the live page until its fields are fixed: {reason}
     </div>
   );
 }

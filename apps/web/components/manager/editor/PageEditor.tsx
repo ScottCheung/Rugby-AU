@@ -1,11 +1,9 @@
 'use client';
 
-import { DndContext } from '@dnd-kit/core';
 import { useRouter } from 'next/navigation';
 import {
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
   useRef,
   useState,
@@ -16,20 +14,14 @@ import { savePageAction } from '@/app/manager/actions';
 import { createNode } from '@/lib/components/createNode';
 import { getDefinition, type ComponentType } from '@/lib/components/registry';
 import { findNode } from '@/lib/components/tree';
-import type { Fixture } from '@/lib/fixtures/types';
 import type { LibraryImage } from '@/lib/media';
-import type { ArticleSummary } from '@/lib/news';
-import { defaultTheme } from '@/lib/theme/defaultTheme';
-import { resolveTheme } from '@/lib/theme/resolveTheme';
-import { themeToCssVars } from '@/lib/theme/themeToCssVars';
 import type { Page, Site } from '@/lib/types';
 import { MediaLibraryProvider } from '../ImageField';
-import { Canvas } from './Canvas';
 import { ComponentPicker } from './ComponentPicker';
-import { EditorContext, type EditorContextValue } from './editorContext';
 import { editorReducer, initEditor, isDirty } from './editorReducer';
 import { EditorTopBar, StatusBadge, type PreviewWidth } from './EditorTopBar';
 import { Inspector } from './Inspector';
+import { PreviewFrame } from './PreviewFrame';
 import { TreePanel, type TreeActions } from './TreePanel';
 
 /**
@@ -43,10 +35,6 @@ export function PageEditor({
   sites,
   pages,
   images,
-  articles,
-  colors,
-  fixtures,
-  now,
 }: {
   site: Site;
   page: Page;
@@ -55,10 +43,6 @@ export function PageEditor({
   /** The site's pages, for the page switcher. */
   pages: { id: string; title: string; path: string }[];
   images: LibraryImage[];
-  articles: ArticleSummary[];
-  colors: Record<string, string>;
-  fixtures: Fixture[];
-  now: string;
 }) {
   const [state, dispatch] = useReducer(
     editorReducer,
@@ -227,36 +211,6 @@ export function PageEditor({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // ------------------------------------------- preview (replaced in step 2)
-  const themeVars = useMemo(
-    () => themeToCssVars(resolveTheme(defaultTheme, site.theme)),
-    [site.theme],
-  );
-  const canvasContext: EditorContextValue = {
-    tree: draft.tree,
-    siteSlug: site.slug,
-    siteData: { articles, pagePath: savedPath, colors, fixtures, now },
-    selectedId: state.selectedId,
-    hoveredId: null,
-    issues: state.issues,
-    dropTarget: null,
-    dragging: false,
-    select: (id) => select(id),
-    hover: () => {},
-    moveUp: (id) => dispatch({ type: 'moveBy', id, step: -1 }),
-    moveDown: (id) => dispatch({ type: 'moveBy', id, step: 1 }),
-    duplicate: (id) => dispatch({ type: 'duplicate', id }),
-    remove: requestRemove,
-    addNew: () => {},
-  };
-  const menu = pages
-    .filter((item) => item.path.split('/').length === 2)
-    .map((item) => ({
-      id: item.id,
-      label: item.path === '/' ? 'Home' : item.title,
-      current: item.id === page.id,
-    }));
-
   // ---------------------------------------------------------------- view
   return (
     <div className="flex h-dvh flex-col">
@@ -298,16 +252,15 @@ export function PageEditor({
         )}
 
         <main className="min-w-0 flex-1 overflow-y-auto bg-[var(--ui-bg-secondary)] p-4">
-          <EditorContext.Provider value={canvasContext}>
-            <DndContext id="page-editor">
-              <Canvas
-                site={site}
-                themeVars={themeVars}
-                device={width}
-                menu={menu}
-              />
-            </DndContext>
-          </EditorContext.Provider>
+          <PreviewFrame
+            src={`/preview/${site.slug}${savedPath === '/' ? '' : savedPath}`}
+            title={draft.title}
+            components={draft.tree}
+            selectedId={state.selectedId}
+            readOnly={false}
+            width={width}
+            onSelect={select}
+          />
         </main>
 
         {inspectorOpen && (

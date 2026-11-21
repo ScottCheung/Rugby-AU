@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
 import { ThemeProvider } from '@scottcheung/ui';
+// The design system's CSS is for the manager only: public pages and the
+// preview iframe load just the site's own CSS (app/globals.css).
+import '@scottcheung/ui/styles.css';
 import { ManagerProviders } from '@/components/manager/ManagerProviders';
 import { ManagerShell } from '@/components/manager/ManagerShell';
 import {

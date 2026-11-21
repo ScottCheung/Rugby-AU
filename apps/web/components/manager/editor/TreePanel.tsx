@@ -10,7 +10,7 @@ import {
   Plus,
   Trash2,
 } from 'lucide-react';
-import { IconButton, TreeItem } from '@scottcheung/ui/client';
+import { Button, IconButton, TreeItem } from '@scottcheung/ui/client';
 import { getDefinition } from '@/lib/components/registry';
 import type { TreeIssue } from '@/lib/components/validateTree';
 import { describeSchema } from '@/lib/forms/describe';
@@ -107,7 +107,7 @@ export function TreePanel({
         />
         {tree.length === 0 ? (
           <p className="m-0 px-3 py-4 text-sm text-[var(--ui-muted)]">
-            This page is empty. Press + above to add the first component.
+            This page is empty. Add its first component below.
           </p>
         ) : (
           <NodeList
@@ -118,6 +118,15 @@ export function TreePanel({
             actions={actions}
           />
         )}
+        {/* Always visible, so nobody has to discover the hover "+". */}
+        <Button
+          variant="secondary"
+          size="sm"
+          className="mt-3 ml-2"
+          onClick={() => actions.add()}
+        >
+          <Plus /> Add component
+        </Button>
       </div>
     </aside>
   );

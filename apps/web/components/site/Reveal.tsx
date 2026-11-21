@@ -2,21 +2,7 @@
 
 import { MotionConfig, motion } from 'motion/react';
 import { ease, entrance, timing } from '@scottcheung/ui/motion';
-import {
-  createContext,
-  createElement,
-  useContext,
-  type ReactNode,
-} from 'react';
-
-/** Off in the editor canvas: blocks should simply be there while editing. */
-const MotionEnabled = createContext(true);
-
-export function NoMotion({ children }: { children: ReactNode }) {
-  return (
-    <MotionEnabled.Provider value={false}>{children}</MotionEnabled.Provider>
-  );
-}
+import { createElement, type ReactNode } from 'react';
 
 /**
  * For the public site. reducedMotion="user": visitors who ask their system
@@ -44,8 +30,6 @@ export function Reveal({
   className?: string;
   children: ReactNode;
 }) {
-  const enabled = useContext(MotionEnabled);
-  if (!enabled) return createElement(as, { className }, children);
   return createElement(
     elements[as],
     {

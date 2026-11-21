@@ -37,8 +37,17 @@ export function ComponentPicker({
             <Button
               type="button"
               variant="ghost"
-              // A two-line row: the ui Button is a pill by default.
-              className="h-auto w-full justify-start rounded-2xl py-2 text-left whitespace-normal"
+              // A two-line row instead of the default one-line pill. Inline
+              // styles, because the ui stylesheet outranks utility classes.
+              style={{
+                width: '100%',
+                height: 'auto',
+                justifyContent: 'flex-start',
+                padding: '0.5rem 0.75rem',
+                borderRadius: '1rem',
+                textAlign: 'left',
+                whiteSpace: 'normal',
+              }}
               onClick={() => onPick(definition.type)}
             >
               <ComponentIcon
