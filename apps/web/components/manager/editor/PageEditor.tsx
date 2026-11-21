@@ -1,5 +1,6 @@
 'use client';
 
+import { History } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   useCallback,
@@ -10,24 +11,38 @@ import {
   useTransition,
 } from 'react';
 import { Button, Dialog, useToast } from '@scottcheung/ui/client';
-import { savePageAction } from '@/app/manager/actions';
+import {
+  discardDraftAction,
+  getVersionAction,
+  publishPageAction,
+  restoreVersionAction,
+  savePageAction,
+} from '@/app/manager/actions';
 import { createNode } from '@/lib/components/createNode';
 import { getDefinition, type ComponentType } from '@/lib/components/registry';
 import { findNode } from '@/lib/components/tree';
 import type { LibraryImage } from '@/lib/media';
-import type { Page, Site } from '@/lib/types';
+import type { ComponentNode, Page, Site } from '@/lib/types';
 import { MediaLibraryProvider } from '../ImageField';
 import { ComponentPicker } from './ComponentPicker';
-import { editorReducer, initEditor, isDirty } from './editorReducer';
+import {
+  differsFromPublished,
+  draftFromPage,
+  editorReducer,
+  initEditor,
+  isDirty,
+} from './editorReducer';
 import { EditorTopBar, StatusBadge, type PreviewWidth } from './EditorTopBar';
 import { Inspector } from './Inspector';
 import { PreviewFrame } from './PreviewFrame';
 import { TreePanel, type TreeActions } from './TreePanel';
+import { VersionsDrawer } from './VersionsDrawer';
 
 /**
  * The page editor: top bar, component tree (left), preview (centre) and
  * inspector (right, only while something is selected). All edits change
- * an in-memory draft; nothing is stored until "Save draft".
+ * an in-memory draft: "Save draft" stores it, "Publish" makes the stored
+ * draft the live page.
  */
 export function PageEditor({
   site,
@@ -46,19 +61,18 @@ export function PageEditor({
 }) {
   const [state, dispatch] = useReducer(
     editorReducer,
-    {
-      title: page.title,
-      description: page.description ?? '',
-      path: page.path,
-      tree: page.tree,
-    },
+    draftFromPage(page),
     initEditor,
   );
   const { draft } = state;
   const dirty = isDirty(state);
   const router = useRouter();
   const toast = useToast();
-  const [saving, startSaving] = useTransition();
+  /** One server call at a time: save, publish, discard or restore. */
+  const [busy, startBusy] = useTransition();
+  /** What visitors see now; null until the first publish. */
+  const [published, setPublished] = useState(page.published);
+  const unpublished = differsFromPublished(draft, published);
 
   // ------------------------------------------------------------ layout
   const [treeCollapsed, setTreeCollapsed] = useState(false);
@@ -68,7 +82,9 @@ export function PageEditor({
   const [width, setWidth] = useState<PreviewWidth>('desktop');
   // The address as last saved: the live link must not follow unsaved edits.
   const [savedPath, setSavedPath] = useState(page.path);
-  const liveUrl = `/sites/${site.slug}${savedPath === '/' ? '' : savedPath}`;
+  const liveUrl = published
+    ? `/sites/${site.slug}${savedPath === '/' ? '' : savedPath}`
+    : undefined;
 
   const selectedNode = state.selectedId
     ? findNode(draft.tree, state.selectedId)
@@ -140,29 +156,94 @@ export function PageEditor({
   };
 
   // -------------------------------------------------------------- saving
-  const save = () => {
-    startSaving(async () => {
-      const result = await savePageAction(page.id, draft);
-      if (result.ok) {
-        const { title, description = '', path, tree } = result.page;
-        dispatch({ type: 'saved', draft: { title, description, path, tree } });
-        setSavedPath(path);
-        toast({ title: 'Draft saved', tone: 'success' });
-      } else {
-        dispatch({
-          type: 'saveFailed',
-          issues: result.issues,
-          pageErrors: result.pageErrors,
-        });
-        if (Object.keys(result.pageErrors).length > 0) treeActions.selectPage();
-        toast({
-          title: result.message,
-          description: 'Components that need attention have a red dot.',
-          tone: 'danger',
-        });
-      }
+  /** Store the draft. Resolves to false (and shows why) if it was refused. */
+  const saveDraft = async (): Promise<boolean> => {
+    const result = await savePageAction(page.id, draft);
+    if (result.ok) {
+      dispatch({ type: 'saved', draft: draftFromPage(result.page) });
+      setSavedPath(result.page.path);
+      return true;
+    }
+    dispatch({
+      type: 'saveFailed',
+      issues: result.issues,
+      pageErrors: result.pageErrors,
     });
+    if (Object.keys(result.pageErrors).length > 0) treeActions.selectPage();
+    toast({
+      title: result.message,
+      description: 'Components that need attention have a red dot.',
+      tone: 'danger',
+    });
+    return false;
   };
+
+  const save = () =>
+    startBusy(async () => {
+      if (await saveDraft()) toast({ title: 'Draft saved', tone: 'success' });
+    });
+
+  /** Publish: save first if needed, then make the saved draft live. */
+  const publish = () =>
+    startBusy(async () => {
+      if (dirty && !(await saveDraft())) return;
+      const result = await publishPageAction(page.id);
+      if (!result.ok) {
+        dispatch({ type: 'saveFailed', issues: result.issues, pageErrors: {} });
+        toast({ title: result.message, tone: 'danger' });
+        return;
+      }
+      dispatch({ type: 'loaded', draft: draftFromPage(result.page) });
+      setPublished(result.page.published);
+      toast({
+        title: `Published version ${result.page.published?.version}`,
+        description: 'Visitors now see this page.',
+        tone: 'success',
+      });
+    });
+
+  // ---------------------------------------------------- discard, history
+  const [confirmDiscard, setConfirmDiscard] = useState(false);
+  const discard = () =>
+    startBusy(async () => {
+      setConfirmDiscard(false);
+      const result = await discardDraftAction(page.id);
+      if (!result) return;
+      dispatch({ type: 'loaded', draft: draftFromPage(result) });
+      toast({
+        title: 'Changes discarded',
+        description: 'Back to the published page.',
+      });
+    });
+
+  const [historyOpen, setHistoryOpen] = useState(false);
+  /** A past version shown in the preview instead of the draft (read-only). */
+  const [viewing, setViewing] = useState<{
+    version: number;
+    title: string;
+    components: ComponentNode[];
+  } | null>(null);
+
+  const viewVersion = (version: number) =>
+    startBusy(async () => {
+      const found = await getVersionAction(page.id, version);
+      if (found) setViewing({ version, ...found });
+      setHistoryOpen(false);
+    });
+
+  const restore = (version: number) =>
+    startBusy(async () => {
+      const result = await restoreVersionAction(page.id, version);
+      if (!result) return;
+      dispatch({ type: 'loaded', draft: draftFromPage(result) });
+      setViewing(null);
+      setHistoryOpen(false);
+      toast({
+        title: `Version ${version} restored to the draft`,
+        description: 'Publish to make it live.',
+        tone: 'success',
+      });
+    });
 
   // ---------------------------------------------- leaving with unsaved work
   const [leaveTo, setLeaveTo] = useState<string | null>(null);
@@ -229,11 +310,37 @@ export function PageEditor({
         onUndo={() => dispatch({ type: 'undo' })}
         onRedo={() => dispatch({ type: 'redo' })}
         liveUrl={liveUrl}
-        status={<StatusBadge unsaved={dirty} unpublished={false} />}
+        status={<StatusBadge unsaved={dirty} unpublished={unpublished} />}
         actions={
-          <Button onClick={save} loading={saving}>
-            Save draft
-          </Button>
+          <>
+            <Button
+              variant="ghost"
+              disabled={busy || !published || (!dirty && !unpublished)}
+              onClick={() => setConfirmDiscard(true)}
+            >
+              Discard changes
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={busy}
+              onClick={() => setHistoryOpen(true)}
+            >
+              <History /> History
+            </Button>
+            <Button
+              variant="secondary"
+              disabled={busy || !dirty}
+              onClick={save}
+            >
+              Save draft
+            </Button>
+            <Button
+              disabled={busy || (!dirty && !unpublished)}
+              onClick={publish}
+            >
+              Publish
+            </Button>
+          </>
         }
       />
 
@@ -251,16 +358,38 @@ export function PageEditor({
           />
         )}
 
-        <main className="min-w-0 flex-1 overflow-y-auto bg-[var(--ui-bg-secondary)] p-4">
-          <PreviewFrame
-            src={`/preview/${site.slug}${savedPath === '/' ? '' : savedPath}`}
-            title={draft.title}
-            components={draft.tree}
-            selectedId={state.selectedId}
-            readOnly={false}
-            width={width}
-            onSelect={select}
-          />
+        <main className="flex min-w-0 flex-1 flex-col gap-3 bg-[var(--ui-bg-secondary)] p-4">
+          {viewing && (
+            <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-[var(--ui-surface)] px-4 py-2 text-sm shadow-[var(--ui-shadow-sm)]">
+              <span className="flex-1">
+                Viewing <strong>version {viewing.version}</strong> (read-only).
+                Your draft is unchanged.
+              </span>
+              <Button
+                size="sm"
+                variant="ghost"
+                disabled={busy || dirty}
+                title={dirty ? 'Save or discard your changes first' : undefined}
+                onClick={() => restore(viewing.version)}
+              >
+                Restore to draft
+              </Button>
+              <Button size="sm" onClick={() => setViewing(null)}>
+                Back to the draft
+              </Button>
+            </div>
+          )}
+          <div className="min-h-0 flex-1">
+            <PreviewFrame
+              src={`/preview/${site.slug}${savedPath === '/' ? '' : savedPath}`}
+              title={viewing?.title ?? draft.title}
+              components={viewing?.components ?? draft.tree}
+              selectedId={state.selectedId}
+              readOnly={viewing !== null}
+              width={width}
+              onSelect={select}
+            />
+          </div>
         </main>
 
         {inspectorOpen && (
@@ -313,6 +442,33 @@ export function PageEditor({
             }}
           >
             Delete all
+          </Button>
+        </div>
+      </Dialog>
+
+      <VersionsDrawer
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        pageId={page.id}
+        currentVersion={published?.version}
+        viewingVersion={viewing?.version}
+        canRestore={!dirty && !busy}
+        onView={viewVersion}
+        onRestore={restore}
+      />
+
+      <Dialog
+        open={confirmDiscard}
+        onOpenChange={setConfirmDiscard}
+        title="Discard changes?"
+        description={`The draft goes back to the published version ${published?.version ?? ''}. Every change since then, saved or not, is lost.`}
+      >
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={() => setConfirmDiscard(false)}>
+            Keep editing
+          </Button>
+          <Button variant="danger" onClick={discard}>
+            Discard changes
           </Button>
         </div>
       </Dialog>

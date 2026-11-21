@@ -6,12 +6,17 @@ import { validateTree, type TreeIssue } from '@/lib/components/validateTree';
 import {
   createPage,
   deletePage,
+  discardDraft,
   getPageById,
-  updatePage,
+  getVersion,
+  listVersions,
+  publishPage,
+  restoreVersion,
+  saveDraft,
 } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { isValidPath, normalizePath } from '@/lib/paths';
-import type { Page } from '@/lib/types';
+import type { ComponentNode, Page } from '@/lib/types';
 
 // ---------------------------------------------------------------- new page
 
@@ -48,7 +53,7 @@ export async function createPageAction(
   redirect(`/manager/${siteSlug}/pages/${result.page.id}`);
 }
 
-// --------------------------------------------------------------- save page
+// -------------------------------------------------------------- save draft
 
 const pageSettings = z.object({
   title: z
@@ -81,8 +86,9 @@ export type SavePageResult =
     };
 
 /**
- * Validate the whole page with the component schemas, then write it. The
- * client validates nothing it relies on: this is the only gate to the DB.
+ * Save draft. Validates the whole page with the component schemas, then
+ * writes the draft only; the public page does not change until publish.
+ * The client validates nothing it relies on: this is the gate to the DB.
  */
 export async function savePageAction(
   pageId: string,
@@ -120,11 +126,13 @@ export async function savePageAction(
     };
   }
 
-  const result = await updatePage(pageId, {
-    title: settings.data.title,
-    description: settings.data.description || undefined,
+  const result = await saveDraft(pageId, {
     path: settings.data.path,
-    tree: tree.tree,
+    draft: {
+      title: settings.data.title,
+      description: settings.data.description || undefined,
+      components: tree.tree,
+    },
   });
   if (!result.ok)
     return result.reason === 'duplicate-path'
@@ -143,6 +151,55 @@ export async function savePageAction(
           issues: [],
         };
   return result;
+}
+
+// ---------------------------------------------------------------- publish
+
+export type PublishActionResult =
+  | { ok: true; page: Page }
+  | { ok: false; message: string; issues: TreeIssue[] };
+
+/** Publish the saved draft (the editor saves first if it has changes). */
+export async function publishPageAction(
+  pageId: string,
+): Promise<PublishActionResult> {
+  const result = await publishPage(pageId);
+  if (result.ok) return result;
+  if (result.reason === 'invalid')
+    return {
+      ok: false,
+      message: 'Not published: some components need attention.',
+      issues: result.issues,
+    };
+  return { ok: false, message: 'This page no longer exists.', issues: [] };
+}
+
+/** Discard changes: the draft goes back to the published version. */
+export async function discardDraftAction(pageId: string): Promise<Page | null> {
+  return discardDraft(pageId);
+}
+
+// --------------------------------------------------------------- versions
+
+export async function listVersionsAction(pageId: string) {
+  return listVersions(pageId);
+}
+
+/** One old version's content, for viewing it in the preview. */
+export async function getVersionAction(
+  pageId: string,
+  version: number,
+): Promise<{ title: string; components: ComponentNode[] } | null> {
+  const found = await getVersion(pageId, version);
+  return found && { title: found.title, components: found.components };
+}
+
+/** Restore to draft: the old version becomes the draft; publish as usual. */
+export async function restoreVersionAction(
+  pageId: string,
+  version: number,
+): Promise<Page | null> {
+  return restoreVersion(pageId, version);
 }
 
 // ------------------------------------------------------------- delete page

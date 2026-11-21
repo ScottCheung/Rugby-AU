@@ -16,7 +16,8 @@ export const metadata: Metadata = { robots: { index: false } };
 /**
  * The editor's preview, loaded once in an iframe. It renders the same
  * SitePage as the public route, with the same theme and site CSS, then
- * re-renders whatever draft the editor posts to it.
+ * re-renders whatever draft the editor posts to it. It starts from the
+ * saved draft, never published-only data, so unpublished pages work too.
  */
 export default async function PreviewPage({
   params,
@@ -38,11 +39,11 @@ export default async function PreviewPage({
       data={await pageData({
         sitePages,
         path: page.path,
-        components: page.tree,
+        components: page.draft.components,
         allFixtures: true,
       })}
-      initialTitle={page.title}
-      initialComponents={page.tree}
+      initialTitle={page.draft.title}
+      initialComponents={page.draft.components}
     />
   );
 }

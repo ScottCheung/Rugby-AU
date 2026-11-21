@@ -5,11 +5,22 @@ import { cardColors } from '../imageColor';
 import { summarizeArticles, type SiteData } from '../news';
 import type { ComponentNode, MenuItem, Page } from '../types';
 
-/** The site menu: its top-level pages ("/" sorts first). */
-export function siteMenu(pages: Page[]): MenuItem[] {
-  return pages
+/**
+ * What the public site shows of its other pages: published ones only, with
+ * their published content. Used by the public route and the preview alike,
+ * so the preview's menu and news match what visitors will see.
+ */
+function publishedOnly(pages: Page[]) {
+  return pages.flatMap((page) =>
+    page.published ? [{ ...page, content: page.published }] : [],
+  );
+}
+
+/** The site menu: its published top-level pages ("/" sorts first). */
+export function siteMenu(sitePages: Page[]): MenuItem[] {
+  return publishedOnly(sitePages)
     .filter((page) => page.path.split('/').length === 2)
-    .map(({ id, path, title }) => ({ id, path, title }));
+    .map(({ id, path, content }) => ({ id, path, title: content.title }));
 }
 
 /**
@@ -34,7 +45,12 @@ export async function pageData({
 }): Promise<SiteData> {
   const now = new Date();
   return {
-    articles: summarizeArticles(sitePages),
+    articles: summarizeArticles(
+      publishedOnly(sitePages).map(({ path, content }) => ({
+        path,
+        tree: content.components,
+      })),
+    ),
     pagePath: path,
     colors: await cardColors(profileBackgrounds(components)),
     fixtures: allFixtures

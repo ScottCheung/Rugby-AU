@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { ComponentType, PropsOf } from '../../lib/components/registry';
-import type { PageDocument } from '../../lib/db/documents';
+import type { SeedPage } from '../../lib/db/reset';
 import type { ComponentNode } from '../../lib/types';
 import { images, type SeedImage } from './images';
 import { formatDate } from '../../lib/news';
@@ -25,7 +25,6 @@ type Background = SectionProps['background'];
 type Width = SectionProps['width'];
 type Link = { label: string; href: string };
 type Pick = ReturnType<typeof photoPicker>;
-export type SeedPage = Omit<PageDocument, '_id'>;
 
 /** Typed helper: the compiler checks seed props against each component's schema. */
 function node<Type extends ComponentType>(
@@ -61,7 +60,6 @@ const slide = (
 const link = (label: string, href: string): Link => ({ label, href });
 const stat = (value: string, label: string): Stat => ({ value, label });
 
-const now = new Date();
 const page = (
   siteSlug: string,
   path: string,
@@ -74,7 +72,6 @@ const page = (
   title,
   description,
   tree,
-  updatedAt: now,
 });
 
 // ------------------------------------------------------------ building blocks

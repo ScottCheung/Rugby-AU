@@ -24,9 +24,15 @@ export default async function EditPage({
       site={site}
       page={page}
       sites={sites.map(({ slug, name }) => ({ slug, name }))}
-      pages={sitePages.map(({ id, title, path }) => ({ id, title, path }))}
+      pages={sitePages.map(({ id, draft, path }) => ({
+        id,
+        title: draft.title,
+        path,
+      }))}
       // The site's image library: every image its pages already use.
-      images={collectImages(sitePages.map((sitePage) => sitePage.tree))}
+      images={collectImages(
+        sitePages.map((sitePage) => sitePage.draft.components),
+      )}
     />
   );
 }

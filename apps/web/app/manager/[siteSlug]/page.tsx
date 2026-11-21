@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Card, H1, Paragraph } from '@scottcheung/ui';
+import { Badge, Card, H1, Paragraph } from '@scottcheung/ui';
 import { NewPageForm } from '@/components/manager/NewPageForm';
 import { PageContainer } from '@/components/manager/PageContainer';
 import { listPages } from '@/lib/db/pages';
@@ -63,7 +63,16 @@ export default async function SitePages({
                       <Icon className="size-4.5" />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="m-0 truncate font-semibold">{page.title}</p>
+                      <p className="m-0 flex items-center gap-2 truncate font-semibold">
+                        {page.draft.title}
+                        {page.published ? (
+                          <Badge tone="success">
+                            Published v{page.published.version}
+                          </Badge>
+                        ) : (
+                          <Badge tone="neutral">Not published</Badge>
+                        )}
+                      </p>
                       <p className="m-0 truncate text-xs text-[var(--ui-muted)]">
                         <span className="font-mono">{page.path}</span> · saved{' '}
                         {new Date(page.updatedAt).toLocaleString('en-AU', {
@@ -79,16 +88,18 @@ export default async function SitePages({
                     >
                       <PencilLine /> Edit
                     </Link>
-                    <a
-                      href={`/sites/${site.slug}${page.path === '/' ? '' : page.path}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="sc-ui-button"
-                      data-variant="secondary"
-                      data-size="sm"
-                    >
-                      View live <ExternalLink />
-                    </a>
+                    {page.published && (
+                      <a
+                        href={`/sites/${site.slug}${page.path === '/' ? '' : page.path}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="sc-ui-button"
+                        data-variant="secondary"
+                        data-size="sm"
+                      >
+                        View live <ExternalLink />
+                      </a>
+                    )}
                   </li>
                 );
               })}

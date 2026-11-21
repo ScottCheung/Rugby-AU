@@ -45,17 +45,39 @@ export type Site = {
   theme: ThemeOverrides;
 };
 
+/** What an editor writes: a title, an optional description and the component tree. */
+export type PageContent = {
+  title: string;
+  description?: string;
+  components: ComponentNode[];
+};
+
+/** The content visitors see, and which publish produced it. */
+export type PublishedContent = PageContent & {
+  /** 1 for the first publish, then +1 each time. */
+  version: number;
+  /** ISO date string. */
+  publishedAt: string;
+};
+
+/**
+ * A page: where it lives (site + path) and two copies of its content.
+ * The manager edits `draft`; the public site renders only `published`,
+ * so a page that was never published is a 404 to visitors.
+ */
 export type Page = {
   id: string;
   siteSlug: string;
   /** "/" for home, otherwise "/about": leading slash, no trailing slash. */
   path: string;
-  title: string;
-  description?: string;
-  tree: ComponentNode[];
-  /** ISO date string. */
+  draft: PageContent;
+  published: PublishedContent | null;
+  /** When the draft was last saved (ISO). */
   updatedAt: string;
 };
+
+/** A past publish, kept in page_versions (see lib/db/versions.ts). */
+export type PageVersion = PublishedContent & { pageId: string };
 
 /** One link in a site's menu (its top-level pages). */
 export type MenuItem = { id: string; path: string; title: string };

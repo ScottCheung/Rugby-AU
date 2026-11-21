@@ -12,6 +12,7 @@
     "build": "npm run build:ui && npm run build -w @rugby/web",
     "start": "npm run start -w @rugby/web",
     "seed": "npm run seed -w @rugby/web",
+    "migrate": "npm run migrate -w @rugby/web",
     "lint": "npm run lint --workspaces",
     "typecheck": "npm run build:ui && npm run typecheck --workspaces",
     "test": "npm run test --workspaces",

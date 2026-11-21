@@ -9,9 +9,12 @@ import {
   type Location,
 } from '@/lib/components/tree';
 import { validateTree, type TreeIssue } from '@/lib/components/validateTree';
-import type { ComponentNode } from '@/lib/types';
+import type { ComponentNode, Page } from '@/lib/types';
 
-/** The part of the page the editor changes. */
+/**
+ * The part of the page the editor changes: the stored draft
+ * (page.draft, where the tree is called `components`) plus the address.
+ */
 export type Draft = {
   title: string;
   description: string;
@@ -58,7 +61,9 @@ export type EditorAction =
   | { type: 'undo' }
   | { type: 'redo' }
   | { type: 'saveFailed'; issues: TreeIssue[]; pageErrors: PageErrors }
-  | { type: 'saved'; draft: Draft };
+  | { type: 'saved'; draft: Draft }
+  /** The server replaced the draft (publish, discard, restore): start afresh. */
+  | { type: 'loaded'; draft: Draft };
 
 const HISTORY_LIMIT = 100;
 
@@ -76,6 +81,32 @@ export function initEditor(draft: Draft): EditorState {
     future: [],
     lastEditKey: null,
   };
+}
+
+/** The editor's draft for a page as stored. */
+export function draftFromPage(page: Page): Draft {
+  return {
+    title: page.draft.title,
+    description: page.draft.description ?? '',
+    path: page.path,
+    tree: page.draft.components,
+  };
+}
+
+/**
+ * True when the draft says something different from the published page,
+ * i.e. publishing would change what visitors see.
+ */
+export function differsFromPublished(
+  draft: Draft,
+  published: Page['published'],
+): boolean {
+  if (!published) return true;
+  return (
+    draft.title !== published.title ||
+    draft.description !== (published.description ?? '') ||
+    JSON.stringify(draft.tree) !== JSON.stringify(published.components)
+  );
 }
 
 export const isDirty = (state: EditorState) =>
@@ -210,6 +241,11 @@ export function editorReducer(
     }
     case 'saveFailed':
       return { ...state, issues: action.issues, pageErrors: action.pageErrors };
+    case 'loaded':
+      return keepSelection({
+        ...initEditor(action.draft),
+        selectedId: state.selectedId,
+      });
     case 'saved':
       return {
         ...state,
