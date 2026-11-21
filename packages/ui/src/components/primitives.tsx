@@ -54,3 +54,37 @@ export function NotchCard({ title, action, size = 'md', className, children, ...
     </div>
   );
 }
+
+export interface ProgressiveBlurProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** How many blur layers; more is smoother. */
+  steps?: number;
+  /** Blur of the strongest layer, in pixels. */
+  strength?: number;
+  /** The side where the blur is strongest. */
+  side?: 'top' | 'bottom';
+  /** A colour laid over the blur, fading the same way (e.g. the page background). */
+  tint?: string;
+}
+/**
+ * A blur that fades out: strongest at one side, gone at the other. Layers
+ * of growing backdrop blur, each masked to a narrower band towards that
+ * side, stack into a smooth ramp. Place it behind a sticky header so the
+ * content scrolling under it softens instead of cutting off.
+ */
+export function ProgressiveBlur({ steps = 5, strength = 16, side = 'top', tint, className, style, ...props }: ProgressiveBlurProps) {
+  const direction = side === 'top' ? 'to bottom' : 'to top';
+  const band = 100 / steps;
+  return (
+    <div aria-hidden="true" className={`sc-ui-progressive-blur${className ? ` ${className}` : ''}`} style={{ position: 'absolute', inset: 0, pointerEvents: 'none', ...style }} {...props}>
+      {Array.from({ length: steps }, (_, index) => {
+        // index 0: the weakest blur, over the whole height; the last: the
+        // strongest, only in the band nearest the side.
+        const end = 100 - index * band;
+        const mask = `linear-gradient(${direction}, black 0%, black ${Math.max(0, end - band)}%, transparent ${end}%)`;
+        const blur = `blur(${strength / 2 ** (steps - 1 - index)}px)`;
+        return <div key={index} style={{ position: 'absolute', inset: 0, backdropFilter: blur, WebkitBackdropFilter: blur, maskImage: mask, WebkitMaskImage: mask }} />;
+      })}
+      {tint && <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(${direction}, ${tint}, transparent)` }} />}
+    </div>
+  );
+}

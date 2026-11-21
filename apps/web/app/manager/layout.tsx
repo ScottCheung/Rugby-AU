@@ -4,7 +4,10 @@ import type { ReactNode } from 'react';
 import { ThemeProvider } from '@scottcheung/ui';
 import { ManagerProviders } from '@/components/manager/ManagerProviders';
 import { ManagerShell } from '@/components/manager/ManagerShell';
-import { SIDEBAR_COOKIE } from '@/components/manager/sidebarCookie';
+import {
+  SIDEBAR_COOKIE,
+  VIEW_COOKIE,
+} from '@/components/manager/sidebarCookie';
 
 export const metadata: Metadata = { title: 'Site Manager' };
 
@@ -13,15 +16,18 @@ export default async function ManagerLayout({
 }: {
   children: ReactNode;
 }) {
-  const collapsed =
-    (await cookies()).get(SIDEBAR_COOKIE)?.value === 'collapsed';
+  const store = await cookies();
+  const collapsed = store.get(SIDEBAR_COOKIE)?.value === 'collapsed';
+  const view = store.get(VIEW_COOKIE)?.value === 'list' ? 'list' : 'grid';
   return (
     <ThemeProvider
       brand="green"
       className="min-h-screen bg-[var(--ui-bg)] text-[var(--ui-fg)]"
     >
       <ManagerProviders>
-        <ManagerShell sidebarCollapsed={collapsed}>{children}</ManagerShell>
+        <ManagerShell sidebarCollapsed={collapsed} view={view}>
+          {children}
+        </ManagerShell>
       </ManagerProviders>
     </ThemeProvider>
   );

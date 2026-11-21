@@ -1,13 +1,23 @@
 'use client';
 
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, LayoutGrid, List } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Suspense, type ReactNode } from 'react';
 import { ManagerSidebar } from './ManagerSidebar';
+import { ManagerViewProvider, useManagerView } from './ManagerView';
+import type { ManagerView } from './sidebarCookie';
 
 /** The compact top bar: the page editor, and phones (no room for a sidebar). */
-function TopBar({ className = '' }: { className?: string }) {
+function TopBar({
+  className = '',
+  viewSwitch = false,
+}: {
+  className?: string;
+  /** Phones: the sidebar's grid / list switch lives here instead. */
+  viewSwitch?: boolean;
+}) {
+  const { view, setView } = useManagerView();
   return (
     <header
       className={`sticky top-0 z-40 flex h-16 items-center bg-[var(--ui-bg)]/80 px-4 backdrop-blur-xl sm:px-6 ${className}`}
@@ -18,6 +28,20 @@ function TopBar({ className = '' }: { className?: string }) {
         </span>
         Site Manager
       </Link>
+      {viewSwitch && (
+        <button
+          type="button"
+          onClick={() => setView(view === 'grid' ? 'list' : 'grid')}
+          aria-label={view === 'grid' ? 'Show as a list' : 'Show as cards'}
+          className="ml-auto grid size-10 place-items-center rounded-full bg-[var(--ui-glass)] text-[var(--ui-muted)]"
+        >
+          {view === 'grid' ? (
+            <List className="size-4" />
+          ) : (
+            <LayoutGrid className="size-4" />
+          )}
+        </button>
+      )}
     </header>
   );
 }
@@ -28,9 +52,26 @@ function TopBar({ className = '' }: { className?: string }) {
  */
 export function ManagerShell({
   sidebarCollapsed,
+  view,
   children,
 }: {
   /** From the sidebar cookie, read on the server. */
+  sidebarCollapsed: boolean;
+  /** From the view cookie: the global grid / list choice. */
+  view: ManagerView;
+  children: ReactNode;
+}) {
+  return (
+    <ManagerViewProvider initialView={view}>
+      <Shell sidebarCollapsed={sidebarCollapsed}>{children}</Shell>
+    </ManagerViewProvider>
+  );
+}
+
+function Shell({
+  sidebarCollapsed,
+  children,
+}: {
   sidebarCollapsed: boolean;
   children: ReactNode;
 }) {
@@ -49,7 +90,7 @@ export function ManagerShell({
         <ManagerSidebar initialCollapsed={sidebarCollapsed} />
       </Suspense>
       <div className="min-w-0 flex-1">
-        <TopBar className="md:hidden" />
+        <TopBar className="md:hidden" viewSwitch />
         {children}
       </div>
     </div>

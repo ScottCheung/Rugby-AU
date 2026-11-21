@@ -48,13 +48,16 @@ export function SiteLogo({
   return (
     <span
       style={{ height, padding: Math.round(height / 8) }}
-      className="flex shrink-0 items-center rounded-xl bg-white"
+      className="flex shrink-0 items-center "
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt=""
         onError={() => setFailed(true)}
+        className="[filter:drop-shadow(1px_0_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(0_-1px_0_white)]"
+
+        // className="drop-shadow-[0_0_5px_rgba(256,256,256,0.8)]"
         style={{
           display: 'block',
           height: '100%',

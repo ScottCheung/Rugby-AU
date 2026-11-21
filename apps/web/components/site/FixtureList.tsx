@@ -13,8 +13,10 @@ const outcomeLabels = { won: 'Won', lost: 'Lost', drawn: 'Draw' } as const;
 
 /**
  * Upcoming matches and results from the fixtures API (SiteData), so editors
- * only choose options. Each match is a card on the page's own background,
- * like a Card Grid card, so it reads on any Section background.
+ * only choose options. Atomic: a single stack of match cards, with no columns
+ * of its own. To show upcoming and results side by side, place two Fixture
+ * lists in a two-column Section; the Section decides the layout. Each card
+ * sits on the page's own background, so it reads on any Section background.
  */
 export function FixtureList({
   title,
@@ -29,62 +31,41 @@ export function FixtureList({
     show,
     limit,
   });
-  const groups = [
-    ...(show === 'results'
-      ? []
-      : [
-          {
-            label: 'Upcoming',
-            items: upcoming,
-            empty: 'No matches coming up.',
-          },
-        ]),
-    ...(show === 'upcoming'
-      ? []
-      : [{ label: 'Results', items: results, empty: 'No results yet.' }]),
-  ];
+  // Both: upcoming first (soonest first), then results (newest first).
+  const fixtures = [...upcoming, ...results];
+  const empty =
+    show === 'upcoming'
+      ? 'No matches coming up.'
+      : show === 'results'
+        ? 'No results yet.'
+        : 'No matches yet.';
 
+  // A sub-heading: the list usually sits under its Section's heading.
   return (
-    <div className="@container flex min-w-0 flex-col gap-site-sm">
-      {title && <Heading level={2}>{title}</Heading>}
-      <div
-        className={`grid gap-site-md ${groups.length > 1 ? '@2xl:grid-cols-2' : ''}`}
-      >
-        {groups.map((group) => (
-          <section
-            key={group.label}
-            aria-label={group.label}
-            className="flex min-w-0 flex-col gap-2"
-          >
-            {groups.length > 1 && (
-              <h3 className="m-0 text-xs font-semibold tracking-wide uppercase opacity-70">
-                {group.label}
-              </h3>
-            )}
-            {group.items.length > 0 ? (
-              <ol className="m-0 flex list-none flex-col gap-2 p-0">
-                {group.items.map((fixture) => (
-                  <FixtureRow
-                    key={fixture.id}
-                    fixture={fixture}
-                    team={team}
-                    now={now}
-                  />
-                ))}
-              </ol>
-            ) : (
-              <p className="m-0 rounded-site border border-dashed border-current/25 p-site-sm text-sm opacity-75">
-                {group.empty}
-              </p>
-            )}
-          </section>
-        ))}
-      </div>
+    <div className="flex min-w-0 flex-col gap-site-sm">
+      {title && <Heading level={3}>{title}</Heading>}
+      {fixtures.length > 0 ? (
+        <ol className="m-0 flex list-none flex-col gap-2 p-0">
+          {fixtures.map((fixture) => (
+            <FixtureCard
+              key={fixture.id}
+              fixture={fixture}
+              team={team}
+              now={now}
+            />
+          ))}
+        </ol>
+      ) : (
+        <p className="m-0 rounded-site border border-dashed border-current/25 p-site-sm text-sm opacity-75">
+          {empty}
+        </p>
+      )}
     </div>
   );
 }
 
-function FixtureRow({
+/** One match. Lays out nothing around itself: its list and Section do. */
+export function FixtureCard({
   fixture,
   team,
   now,

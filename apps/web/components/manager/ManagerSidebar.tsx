@@ -5,6 +5,7 @@ import {
   Landmark,
   LayoutDashboard,
   LayoutGrid,
+  List,
   MapPinned,
   PanelLeftClose,
   PanelLeftOpen,
@@ -20,6 +21,7 @@ import {
   siteCategoryLabels,
   type SiteCategory,
 } from '@/lib/types';
+import { useManagerView } from './ManagerView';
 import { SIDEBAR_COOKIE } from './sidebarCookie';
 
 const categoryIcons: Record<SiteCategory, LucideIcon> = {
@@ -54,6 +56,7 @@ export function ManagerSidebar({
   const pathname = usePathname();
   const params = useSearchParams();
   const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const { view, setView } = useManagerView();
   const toggle = () => {
     const next = !collapsed;
     setCollapsed(next);
@@ -140,6 +143,56 @@ export function ManagerSidebar({
             </Link>
           ))}
         </nav>
+
+        {/* The global view: every list of sites follows it. */}
+        <div
+          className={`flex flex-col gap-2 ${collapsed ? 'items-center' : 'px-2'}`}
+        >
+          {!collapsed && <span className="sc-ui-overline px-2">View</span>}
+          {collapsed ? (
+            <button
+              type="button"
+              onClick={() => setView(view === 'grid' ? 'list' : 'grid')}
+              aria-label={view === 'grid' ? 'Show as a list' : 'Show as cards'}
+              title={view === 'grid' ? 'Show as a list' : 'Show as cards'}
+              className="grid size-10 place-items-center rounded-full bg-[var(--ui-glass)] text-[var(--ui-muted)] transition-colors hover:text-[var(--ui-fg)]"
+            >
+              {view === 'grid' ? (
+                <List className="size-5" />
+              ) : (
+                <LayoutGrid className="size-5" />
+              )}
+            </button>
+          ) : (
+            <div
+              role="group"
+              aria-label="View"
+              className="grid grid-cols-2 gap-1 rounded-full bg-[var(--ui-glass)] p-1"
+            >
+              {(
+                [
+                  ['grid', 'Cards', LayoutGrid],
+                  ['list', 'List', List],
+                ] as const
+              ).map(([value, label, Icon]) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={view === value}
+                  onClick={() => setView(value)}
+                  className={`flex items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-semibold transition-colors ${
+                    view === value
+                      ? 'bg-[image:var(--ui-primary-gradient)] text-[var(--ui-on-primary)] shadow-xs'
+                      : 'text-[var(--ui-muted)] hover:text-[var(--ui-fg)]'
+                  }`}
+                >
+                  <Icon className="size-4" />
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <button

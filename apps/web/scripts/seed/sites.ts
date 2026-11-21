@@ -1,6 +1,6 @@
 import type { SiteDocument } from '../../lib/db/documents';
-import type { Theme, ThemeOverrides } from '../../lib/theme/types';
-import type { SiteCategory } from '../../lib/types';
+import type { Theme } from '../../lib/theme/types';
+import { lookForCategory } from '../../lib/theme/looks';
 
 /**
  * Sample sites modelled on Australian rugby. Each site sets its own colours;
@@ -34,33 +34,6 @@ const logos: Record<string, string> = {
   'nt-rugby': `${wiki}/en/4/43/Northern_Territory_Rugby_Union_logo%2C_June_2013.png`,
 };
 
-/** One look per kind of site. Colours stay per site. */
-const looks: Record<SiteCategory, Omit<ThemeOverrides, 'colors'>> = {
-  // Modern and official.
-  'governing-body': {
-    fonts: { body: 'inter', heading: 'montserrat' },
-    radius: '0.75rem',
-  },
-  // Bold Test-match headlines, near-square corners, more room.
-  'national-team': {
-    fonts: { body: 'inter', heading: 'oswald' },
-    headingCase: 'uppercase',
-    radius: '0.25rem',
-    spacing: { md: '2.5rem', lg: '5rem' },
-  },
-  // Match-day poster: condensed capitals and square corners.
-  'super-rugby': {
-    fonts: { body: 'inter', heading: 'barlowCondensed' },
-    headingCase: 'uppercase',
-    radius: '0',
-  },
-  // Friendly and local: rounded type and soft corners.
-  'state-union': {
-    fonts: { body: 'nunito', heading: 'nunito' },
-    radius: '1.5rem',
-  },
-};
-
 function site(
   slug: string,
   name: string,
@@ -75,7 +48,8 @@ function site(
     tagline,
     logoUrl: logos[slug],
     faviconUrl: logos[slug],
-    theme: { ...looks[category], colors },
+    // The kind of site picks the look (lib/theme/looks.ts); colours are its own.
+    theme: { ...lookForCategory[category].overrides, colors },
   };
 }
 
@@ -199,7 +173,7 @@ export const sites: SeedSite[] = [
   ),
   site(
     'rugby-south-australia',
-    'Rugby South Australia',
+    'Rugby SA',
     'state-union',
     'Community and club rugby in South Australia',
     light('#c8102e', '#ffffff', '#e8eef8', '#14213d', '#5a6275'),

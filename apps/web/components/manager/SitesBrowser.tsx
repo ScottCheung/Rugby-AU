@@ -4,8 +4,6 @@ import {
   ChevronRight,
   ExternalLink,
   FileText,
-  LayoutGrid,
-  List,
   Loader2,
   Search,
   SlidersHorizontal,
@@ -14,7 +12,12 @@ import {
 import { AnimatePresence, motion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, type CSSProperties } from 'react';
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+} from 'react';
 import { NotchCard } from '@scottcheung/ui';
 import {
   Checkbox,
@@ -23,6 +26,13 @@ import {
   SegmentedControl,
 } from '@scottcheung/ui/client';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
+import {
+  colourFamilies,
+  colourFamilyIds,
+  type ColourFamily,
+} from '@/lib/theme/colourFamily';
+import { useManagerView } from './ManagerView';
+import { ScrollHeader } from './ScrollHeader';
 import {
   siteCategories,
   siteCategoryLabels,
@@ -38,16 +48,39 @@ export type SiteSummary = {
   category: SiteCategory;
   logoUrl?: string;
   pageCount: number;
-  colors: { brand: string; brandContrast: string };
+  /** The site's whole palette (lib/theme/types.ts). */
+  colors: {
+    brand: string;
+    brandContrast: string;
+    background: string;
+    surfaceLight: string;
+    text: string;
+    mutedText: string;
+  };
+  /** Which colour family its brand colour is in (lib/theme/colourFamily.ts). */
+  colourFamily: ColourFamily;
+  /** The shared look its theme follows (lib/theme/looks.ts), or Custom. */
+  look: {
+    /** A look id, or 'custom'. */
+    id: string;
+    name: string;
+    description: string;
+    /** CSS font stack of its headings, to show the look in its own type. */
+    headingFont: string;
+    headingFontLabel: string;
+    uppercase: boolean;
+    radius: string;
+  };
 };
 
 type Sort = 'name' | 'pages';
-type View = 'grid' | 'list';
 
 /**
- * The site list with its toolbar: search, a Filter & Sort drawer and a grid
- * or list view. Everything lives in the URL (?q, category, sort, view), so a
- * filtered list can be shared and the sidebar can link to a kind of site.
+ * The site list with its toolbar: search and a Filter & Sort drawer (kind
+ * of site, look, colour, sort). Filters live in the URL (?q, category,
+ * look, colour, sort), so a filtered list can be shared and the sidebar can
+ * link to a kind of site. Grid or list is the manager's global view,
+ * chosen in the sidebar.
  */
 export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
   const router = useRouter();
@@ -59,8 +92,15 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
     .filter((value): value is SiteCategory =>
       (siteCategories as readonly string[]).includes(value),
     );
+  // Several values per filter, comma separated: ?look=official,matchDay
+  const many = (key: string) =>
+    (params.get(key) ?? '').split(',').filter(Boolean);
+  const lookIds = many('look');
+  const colours = many('colour').filter((value): value is ColourFamily =>
+    (colourFamilyIds as string[]).includes(value),
+  );
   const sort: Sort = params.get('sort') === 'pages' ? 'pages' : 'name';
-  const view: View = params.get('view') === 'list' ? 'list' : 'grid';
+  const { view } = useManagerView();
 
   const update = (changes: Record<string, string | undefined>) => {
     const next = new URLSearchParams(params);
@@ -87,12 +127,25 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
   }, [search]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [focused, setFocused] = useState(false);
+  // Phones: half the toolbar is too narrow to type in, so the search
+  // rests wider there (the filter button still fits beside it).
+  const narrow = useSyncExternalStore(
+    (onChange) => {
+      const query = window.matchMedia('(max-width: 639px)');
+      query.addEventListener('change', onChange);
+      return () => query.removeEventListener('change', onChange);
+    },
+    () => window.matchMedia('(max-width: 639px)').matches,
+    () => false,
+  );
 
   const query = q.toLowerCase();
   const shown = sites
     .filter(
       (site) =>
         (categories.length === 0 || categories.includes(site.category)) &&
+        (lookIds.length === 0 || lookIds.includes(site.look.id)) &&
+        (colours.length === 0 || colours.includes(site.colourFamily)) &&
         (!query ||
           `${site.name} ${site.slug} ${site.tagline}`
             .toLowerCase()
@@ -103,114 +156,123 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
         ? b.pageCount - a.pageCount || a.name.localeCompare(b.name)
         : a.name.localeCompare(b.name),
     );
-  const filtered = categories.length > 0 || query !== '';
-  const setCategories = (next: SiteCategory[]) =>
-    update({ category: next.length > 0 ? next.join(',') : undefined });
+  const filterCount = categories.length + lookIds.length + colours.length;
+  const filtered = filterCount > 0 || query !== '';
+  /** Add or remove one value of a multi-select filter. */
+  const toggle = (key: string, current: string[], value: string) => {
+    const next = current.includes(value)
+      ? current.filter((item) => item !== value)
+      : [...current, value];
+    update({ [key]: next.length > 0 ? next.join(',') : undefined });
+  };
+  // What the drawer offers: only the looks and colours the sites use.
+  const lookOptions = [
+    ...new Map(sites.map((site) => [site.look.id, site.look])).values(),
+  ].sort((a, b) => a.name.localeCompare(b.name));
+  const colourOptions = colourFamilyIds.filter((family) =>
+    sites.some((site) => site.colourFamily === family),
+  );
+  const count = (match: (site: SiteSummary) => boolean) =>
+    sites.filter(match).length;
+  const activeLabels = [
+    ...categories.map((category) => siteCategoryLabels[category]),
+    ...lookIds.map(
+      (id) => lookOptions.find((look) => look.id === id)?.name ?? id,
+    ),
+    ...colours.map((family) => colourFamilies[family].label),
+  ];
 
   return (
     <>
-      {/* Dashboard header: title on the left, toolbar on the right. */}
-      <header className="sticky top-16 z-30 bg-[var(--ui-bg)]/85 backdrop-blur-xl md:top-0">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-4 px-4 py-5 sm:px-8">
-          <div>
-            <h1 className="sc-ui-typography sc-ui-h1 text-[var(--ui-primary)]">
-              Your sites
-            </h1>
-            <p className="m-0 mt-1 text-sm text-[var(--ui-muted)]">
-              {sites.length} sites share one component library. Choose one to
-              edit its pages.
-            </p>
-          </div>
-
-          <div className="relative flex w-full items-center gap-3 sm:w-auto">
-            {/* Search widens while it has focus, like the AFL dashboards. */}
-            <motion.div
-              role="search"
-              animate={{ width: focused ? 360 : 260 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              className="relative max-w-full min-w-0 flex-1 sm:flex-none"
-            >
-              <Search className="pointer-events-none absolute top-1/2 left-4 z-10 size-4 -translate-y-1/2 text-[var(--ui-faint)]" />
-              <input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                placeholder="Search sites"
-                aria-label="Search sites"
-                className={`sc-ui-input transition-shadow ${focused ? 'shadow-lg ring-2 ring-[var(--ui-primary)]/20' : ''}`}
-                // Inline: the UI library's input padding outranks utilities.
-                style={{ paddingLeft: '2.75rem', paddingRight: '2.75rem' }}
-              />
-              <AnimatePresence mode="wait">
-                {debouncing ? (
-                  <motion.span
-                    key="spinner"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2"
-                  >
-                    <Loader2 className="size-4 animate-spin text-[var(--ui-primary)]" />
-                  </motion.span>
-                ) : search ? (
-                  <motion.button
-                    key="clear"
-                    type="button"
-                    aria-label="Clear search"
-                    initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    onClick={() => {
-                      setSearch('');
-                      update({ q: undefined });
-                    }}
-                    className="absolute top-1/2 right-1.5 grid size-8 -translate-y-1/2 place-items-center rounded-full text-[var(--ui-muted)] hover:bg-[var(--ui-bg-secondary)] hover:text-[var(--ui-fg)]"
-                  >
-                    <X className="size-4" />
-                  </motion.button>
-                ) : null}
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Actions fade back while searching, so the field has room. */}
-            <motion.div
-              animate={{ opacity: focused ? 0.4 : 1 }}
-              className="flex shrink-0 items-center gap-1 rounded-full bg-[var(--ui-glass)] p-1"
-            >
-              <span className="relative">
-                <IconButton
-                  label="Filter and sort"
-                  variant={filterOpen ? 'primary' : 'ghost'}
-                  onClick={() => setFilterOpen(true)}
+      <ScrollHeader
+        title="Your sites"
+        description={`${sites.length} sites share one component library. Choose one to edit its pages.`}
+      >
+        {/* The toolbar, after the AFL dashboards: the search takes half the
+            row and, while focused, springs to the full width over the
+            actions, which fade away until it is left. */}
+        <div className="relative flex w-full items-center justify-end gap-4">
+          <motion.div
+            role="search"
+            initial={false}
+            animate={{ width: focused ? '100%' : narrow ? '78%' : '50%' }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            className={`absolute left-0 min-w-0 ${focused ? 'z-50' : 'z-10'}`}
+          >
+            <Search className="pointer-events-none absolute top-1/2 left-4 z-10 size-4 -translate-y-1/2 text-[var(--ui-faint)]" />
+            <input
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              placeholder="Search sites"
+              aria-label="Search sites"
+              className={`sc-ui-input transition-shadow ${focused ? 'shadow-lg ring-2 ring-[var(--ui-primary)]/20' : ''}`}
+              // Inline: the UI library's input padding outranks utilities.
+              style={{ paddingLeft: '2.75rem', paddingRight: '2.75rem' }}
+            />
+            <AnimatePresence mode="wait">
+              {debouncing ? (
+                <motion.span
+                  key="spinner"
+                  initial={{ opacity: 0, scale: 0.5, rotate: 0 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.5, rotate: 90 }}
+                  transition={{ duration: 0.15 }}
+                  className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2"
                 >
-                  <SlidersHorizontal className="size-4" />
-                </IconButton>
-                {categories.length > 0 && (
-                  <span className="pointer-events-none absolute -top-1 -right-1 grid size-5 place-items-center rounded-full bg-[var(--ui-primary)] text-[10px] font-bold text-white shadow-sm">
-                    {categories.length}
-                  </span>
-                )}
-              </span>
-              <IconButton
-                label={view === 'grid' ? 'Show as a list' : 'Show as cards'}
-                variant="ghost"
-                onClick={() =>
-                  update({ view: view === 'grid' ? 'list' : undefined })
-                }
-              >
-                {view === 'grid' ? (
-                  <List className="size-4" />
-                ) : (
-                  <LayoutGrid className="size-4" />
-                )}
-              </IconButton>
-            </motion.div>
-          </div>
-        </div>
-      </header>
+                  <Loader2 className="size-4 animate-spin text-[var(--ui-primary)]" />
+                </motion.span>
+              ) : search ? (
+                <motion.button
+                  key="clear"
+                  type="button"
+                  aria-label="Clear search"
+                  initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.5, rotate: 0 }}
+                  transition={{ duration: 0.15 }}
+                  // Keeps focus in the field, so it stays wide while clearing.
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => {
+                    setSearch('');
+                    update({ q: undefined });
+                  }}
+                  className="absolute top-1/2 right-1.5 grid size-8 -translate-y-1/2 place-items-center rounded-full text-[var(--ui-muted)] hover:bg-[var(--ui-bg-secondary)] hover:text-[var(--ui-fg)]"
+                >
+                  <X className="size-4" />
+                </motion.button>
+              ) : null}
+            </AnimatePresence>
+          </motion.div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 pt-2 pb-16 sm:px-8">
+          {/* Actions: hidden while the search has the row. */}
+          <motion.div
+            animate={{ opacity: focused ? 0 : 1 }}
+            transition={{ duration: 0.2 }}
+            style={{ pointerEvents: focused ? 'none' : 'auto' }}
+            className="flex shrink-0 items-center gap-2 rounded-full bg-[var(--ui-glass)] p-1"
+          >
+            <span className="relative">
+              <IconButton
+                label="Filter and sort"
+                variant={filterOpen ? 'primary' : 'ghost'}
+                onClick={() => setFilterOpen(true)}
+              >
+                <SlidersHorizontal className="size-4" />
+              </IconButton>
+              {filterCount > 0 && (
+                <span className="pointer-events-none absolute -top-1 -right-1 grid size-5 place-items-center rounded-full bg-[var(--ui-primary)] text-[10px] font-bold text-white shadow-sm">
+                  {filterCount}
+                </span>
+              )}
+            </span>
+          </motion.div>
+        </div>
+      </ScrollHeader>
+
+      {/* Room for the toolbar, which starts under the title (ScrollHeader). */}
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 pt-16 pb-16 sm:px-8">
         {/* Results line, as on the AFL Teams page. */}
         <div className="flex items-center justify-between gap-4">
           <p className="m-0 text-sm font-medium text-[var(--ui-muted)]">
@@ -219,13 +281,9 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
               {shown.length}
             </span>{' '}
             of {sites.length} sites
-            {categories.length > 0 && (
+            {activeLabels.length > 0 && (
               <span className="ml-2 text-[var(--ui-primary)]">
-                (
-                {categories
-                  .map((category) => siteCategoryLabels[category])
-                  .join(', ')}
-                )
+                ({activeLabels.join(', ')})
               </span>
             )}
           </p>
@@ -234,7 +292,12 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
               type="button"
               onClick={() => {
                 setSearch('');
-                update({ q: undefined, category: undefined });
+                update({
+                  q: undefined,
+                  category: undefined,
+                  look: undefined,
+                  colour: undefined,
+                });
               }}
               className="text-xs font-semibold text-[var(--ui-primary)] hover:underline"
             >
@@ -288,15 +351,95 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
               key={category}
               label={`${siteCategoryLabels[category]} (${sites.filter((site) => site.category === category).length})`}
               checked={categories.includes(category)}
-              onChange={(event) =>
-                setCategories(
-                  event.target.checked
-                    ? [...categories, category]
-                    : categories.filter((value) => value !== category),
-                )
-              }
+              onChange={() => toggle('category', categories, category)}
             />
           ))}
+        </fieldset>
+
+        {/* Looks, each shown in its own heading font and corners. */}
+        <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
+          <legend className="sc-ui-overline mb-3">Look</legend>
+          <div className="flex flex-wrap gap-2">
+            {lookOptions.map((look) => {
+              const on = lookIds.includes(look.id);
+              return (
+                <button
+                  key={look.id}
+                  type="button"
+                  aria-pressed={on}
+                  title={look.description}
+                  onClick={() => toggle('look', lookIds, look.id)}
+                  className={`inline-flex items-center gap-2 border px-3 py-1.5 text-sm font-semibold transition-colors ${
+                    on
+                      ? 'border-[var(--ui-primary)] bg-[var(--ui-primary-soft)] text-[var(--ui-primary)]'
+                      : 'border-[var(--ui-border,rgb(0_0_0/0.1))] text-[var(--ui-muted)] hover:text-[var(--ui-fg)]'
+                  }`}
+                  style={{ borderRadius: `max(${look.radius}, 0.25rem)` }}
+                >
+                  <span
+                    aria-hidden
+                    className="font-bold"
+                    style={{
+                      fontFamily: look.headingFont,
+                      textTransform: look.uppercase ? 'uppercase' : 'none',
+                    }}
+                  >
+                    Aa
+                  </span>
+                  {look.name}
+                  <span className="opacity-60">
+                    {count((site) => site.look.id === look.id)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        {/* Colours: the brand colour's family. */}
+        <fieldset className="m-0 flex flex-col gap-3 border-0 p-0">
+          <legend className="sc-ui-overline mb-3">Brand colour</legend>
+          <div className="flex flex-wrap gap-2">
+            {colourOptions.map((family) => {
+              const on = colours.includes(family);
+              return (
+                <button
+                  key={family}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => toggle('colour', colours, family)}
+                  className={`inline-flex items-center gap-2 rounded-full border py-1.5 pr-3 pl-1.5 text-sm font-semibold transition-colors ${
+                    on
+                      ? 'border-[var(--ui-primary)] bg-[var(--ui-primary-soft)] text-[var(--ui-primary)]'
+                      : 'border-[var(--ui-border,rgb(0_0_0/0.1))] text-[var(--ui-muted)] hover:text-[var(--ui-fg)]'
+                  }`}
+                >
+                  {/* The sites' own brand colours in this family. */}
+                  <span className="flex -space-x-1.5">
+                    {[
+                      ...new Set(
+                        sites
+                          .filter((site) => site.colourFamily === family)
+                          .map((site) => site.colors.brand),
+                      ),
+                    ]
+                      .slice(0, 3)
+                      .map((colour) => (
+                        <span
+                          key={colour}
+                          className="size-5 rounded-full ring-2 ring-[var(--ui-surface)]"
+                          style={{ background: colour }}
+                        />
+                      ))}
+                  </span>
+                  {colourFamilies[family].label}
+                  <span className="opacity-60">
+                    {count((site) => site.colourFamily === family)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </fieldset>
         <div className="flex flex-col gap-3">
           <span className="sc-ui-overline">Sort by</span>
@@ -317,7 +460,14 @@ export function SitesBrowser({ sites }: { sites: SiteSummary[] }) {
             type="button"
             className="sc-ui-button"
             data-variant="secondary"
-            onClick={() => update({ category: undefined, sort: undefined })}
+            onClick={() =>
+              update({
+                category: undefined,
+                look: undefined,
+                colour: undefined,
+                sort: undefined,
+              })
+            }
           >
             Reset
           </button>
@@ -388,7 +538,7 @@ function SiteCard({ site, large }: { site: SiteSummary; large: boolean }) {
       className="group relative h-full transition-transform duration-300 hover:scale-[1.02]"
       style={cardPaint(site.colors)}
     >
-      <div className={`flex h-full ${large ? 'min-h-36' : 'min-h-28'}`}>
+      <div className={`flex h-full ${large ? 'min-h-44' : 'min-h-40'}`}>
         <div className="flex min-w-0 flex-1 flex-col gap-4 self-stretch">
           {/* Clear of the logo, which reaches into the card's top right. */}
           <p
@@ -396,7 +546,11 @@ function SiteCard({ site, large }: { site: SiteSummary; large: boolean }) {
           >
             {site.tagline}
           </p>
-          <div className="mt-auto flex flex-wrap items-center gap-2 text-xs font-semibold">
+          <div className="mt-auto flex flex-wrap items-center gap-3">
+            <Palette colors={site.colors} />
+            <LookChip look={site.look} />
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-current/15 px-2.5 py-1">
               <FileText aria-hidden className="size-3.5" />
               {site.pageCount} {site.pageCount === 1 ? 'page' : 'pages'}
@@ -437,6 +591,70 @@ function SiteCard({ site, large }: { site: SiteSummary; large: boolean }) {
         <ChevronRight className="size-4" />
       </span>
     </NotchCard>
+  );
+}
+
+/** The palette in the order a reader meets it: brand, then the page. */
+const paletteRoles = [
+  ['brand', 'Brand'],
+  ['brandContrast', 'On brand'],
+  ['background', 'Page'],
+  ['surfaceLight', 'Light surface'],
+  ['text', 'Text'],
+  ['mutedText', 'Muted text'],
+] as const;
+
+/**
+ * The site's palette as overlapping swatches. Each is ringed in the
+ * current text colour, so a swatch the same colour as the card (the brand
+ * one) still shows. Hovering one names it and gives its value.
+ */
+function Palette({ colors }: { colors: SiteSummary['colors'] }) {
+  return (
+    <span
+      role="img"
+      aria-label={`Palette: ${paletteRoles.map(([key, label]) => `${label} ${colors[key]}`).join(', ')}`}
+      className="relative z-10 flex -space-x-1.5"
+    >
+      {paletteRoles.map(([key, label]) => (
+        <span
+          key={key}
+          title={`${label} ${colors[key]}`}
+          className="size-5 rounded-full shadow-sm ring-2 ring-current/35 transition-transform hover:z-10 hover:-translate-y-0.5"
+          style={{ background: colors[key] }}
+        />
+      ))}
+    </span>
+  );
+}
+
+/**
+ * The site's look, shown in itself: "Aa" in its heading font (in capitals
+ * when the look uses them) and the chip's corners rounded as the look's.
+ */
+function LookChip({ look }: { look: SiteSummary['look'] }) {
+  return (
+    <span
+      title={`${look.description} Headings: ${look.headingFontLabel}. Corners: ${look.radius === '0' ? 'square' : look.radius}.`}
+      className="relative z-10 inline-flex items-center gap-2 border border-current/25 bg-current/10 py-1 pr-2.5 pl-1.5 text-xs font-semibold"
+      // At least a hint of rounding, so a square look still reads as a chip.
+      style={{ borderRadius: `max(${look.radius}, 0.2rem)` }}
+    >
+      <span
+        aria-hidden
+        className="grid min-w-6 place-items-center text-sm leading-none font-bold"
+        style={{
+          fontFamily: look.headingFont,
+          textTransform: look.uppercase ? 'uppercase' : 'none',
+        }}
+      >
+        Aa
+      </span>
+      <span>
+        {look.name}
+        <span className="opacity-60"> · {look.headingFontLabel}</span>
+      </span>
+    </span>
   );
 }
 
@@ -526,7 +744,7 @@ function SiteRow({ site }: { site: SiteSummary }) {
   return (
     <li className="group relative flex items-center gap-4 rounded-2xl bg-[var(--ui-surface)] p-3 pr-4 transition hover:shadow-[var(--ui-shadow-md)]">
       <span
-        className="grid h-14 w-20 shrink-0 place-items-center rounded-xl"
+        className="grid h-14 w-20 shrink-0 place-items-center overflow-hidden rounded-xl px-1.5 [&_img]:max-w-full! [&>span]:max-w-full!"
         style={{ background: site.colors.brand }}
       >
         <SiteLogo src={site.logoUrl} name={site.name} size="sm" />
@@ -534,9 +752,13 @@ function SiteRow({ site }: { site: SiteSummary }) {
       <div className="min-w-0 flex-1">
         <p className="m-0 truncate font-bold">{site.name}</p>
         <p className="m-0 truncate text-xs text-[var(--ui-muted)]">
-          {siteCategoryLabels[site.category]} · {site.tagline}
+          {siteCategoryLabels[site.category]} · {site.look.name} look ·{' '}
+          {site.tagline}
         </p>
       </div>
+      <span className="hidden shrink-0 md:block">
+        <Palette colors={site.colors} />
+      </span>
       <span className="hidden shrink-0 items-center gap-1.5 text-xs text-[var(--ui-muted)] sm:inline-flex">
         <FileText aria-hidden className="size-3.5" />
         {site.pageCount}

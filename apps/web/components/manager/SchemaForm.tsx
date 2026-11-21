@@ -171,7 +171,7 @@ function Field({
       // A few options read better as a segmented control than a dropdown.
       if (field.options.length <= 3)
         return (
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1 justify-center items-center.5">
             <span className="sc-ui-field-label">{field.label}</span>
             <SegmentedControl
               ariaLabel={field.label}
@@ -188,7 +188,7 @@ function Field({
           </div>
         );
       return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 justify-center items-center">
           <Select
             label={field.label}
             hint={field.hint}
@@ -220,7 +220,7 @@ function Field({
 
     case 'number':
       return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 justify-center items-center">
           <Input
             type="number"
             label={field.label}
@@ -235,7 +235,7 @@ function Field({
 
     case 'textarea':
       return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 justify-center items-center">
           <LongTextField
             field={field}
             value={typeof value === 'string' ? value : ''}
@@ -251,7 +251,7 @@ function Field({
     case 'date': {
       const Control = Input;
       return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 justify-center items-center">
           <Control
             type={
               field.kind === 'url' || field.kind === 'date'
@@ -418,7 +418,7 @@ function SketchPicker({
   };
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1 justify-center items-center.5">
       <span className="sc-ui-field-label" id={`sketch-${field.key}`}>
         {field.label}
       </span>
@@ -455,11 +455,10 @@ function SketchPicker({
                   move(index, -1);
                 }
               }}
-              className={`flex flex-col items-stretch gap-1 rounded-xl border p-1.5 text-xs font-semibold transition ${
-                selected
-                  ? 'border-[var(--ui-primary)] bg-[color-mix(in_oklch,var(--ui-primary),transparent_90%)] text-[var(--ui-primary)]'
-                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
+              className={`flex flex-col items-stretch gap-1 rounded-xl border p-1.5 text-xs font-semibold transition ${selected
+                ? 'border-[var(--ui-primary)] bg-[color-mix(in_oklch,var(--ui-primary),transparent_90%)] text-[var(--ui-primary)]'
+                : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
+                }`}
             >
               <span className="block rounded-md bg-slate-50 px-1 py-0.5">
                 <Sketch name={option.sketch!} />

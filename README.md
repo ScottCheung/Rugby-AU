@@ -161,6 +161,9 @@ editor sets only `title`, `team`, `show` and `limit`; the matches come from
   matches soonest first, results newest first. Kick-off times are shown in Sydney
   time (`Sun, 8 Nov, 2:10 am AEDT`) with a fixed time zone, so server and browser
   render the same text.
+- The block is atomic: one column of match cards and nothing else. It lays out
+  no columns of its own; the Section around it does. The seed's fixtures band is
+  a two-column Section holding two Fixture lists, Upcoming and Results.
 - The block has no background of its own: borders and secondary text use the current
   colour, so it reads on a plain, light or brand Section and on dark sites alike.
 

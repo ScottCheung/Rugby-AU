@@ -296,19 +296,23 @@ const latest = (
 
 /**
  * The data-driven Fixture list in its own band: one team's matches, or every
- * Australian team's when `team` is left out.
+ * Australian team's when `team` is left out. Two lists, upcoming and
+ * results, side by side: the Section lays them out, not the list.
  */
-const fixturesBand = (title: string, team?: string, limit = 3) => {
+const fixturesBand = (heading: string, team?: string, limit = 3) => {
   const followed = australianTeamIds.find((id) => id === team);
   if (team && !followed) throw new Error(`No fixtures for team "${team}"`);
-  return section([
+  const list = (title: string, show: 'upcoming' | 'results') =>
     node('fixtureList', {
       title,
-      show: 'both',
+      show,
       limit,
       ...(followed ? { team: followed } : {}),
-    }),
-  ]);
+    });
+  return section([list('Upcoming', 'upcoming'), list('Results', 'results')], {
+    heading,
+    layout: 'two-column',
+  });
 };
 
 /** An article page: the story, then more news (which leaves this one out). */

@@ -6,6 +6,9 @@ import {
 import { countPagesBySite } from '@/lib/db/pages';
 import { listSites } from '@/lib/db/sites';
 import { defaultTheme } from '@/lib/theme/defaultTheme';
+import { colourFamily } from '@/lib/theme/colourFamily';
+import { fontStack } from '@/lib/theme/fonts';
+import { fontLabels, matchLook } from '@/lib/theme/looks';
 import { resolveTheme } from '@/lib/theme/resolveTheme';
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +24,8 @@ export default async function ManagerHome() {
     countPagesBySite(),
   ]);
   const summaries: SiteSummary[] = sites.map((site) => {
-    const { colors } = resolveTheme(defaultTheme, site.theme);
+    const theme = resolveTheme(defaultTheme, site.theme);
+    const look = matchLook(theme);
     return {
       id: site.id,
       slug: site.slug,
@@ -30,7 +34,18 @@ export default async function ManagerHome() {
       category: site.category,
       logoUrl: site.logoUrl,
       pageCount: pageCounts[site.slug] ?? 0,
-      colors: { brand: colors.brand, brandContrast: colors.brandContrast },
+      colors: theme.colors,
+      colourFamily: colourFamily(theme.colors.brand),
+      look: {
+        id: look?.id ?? 'custom',
+        name: look?.name ?? 'Custom',
+        description:
+          look?.description ?? 'Its own type and corners, not a shared look.',
+        headingFont: fontStack(theme.fonts.heading),
+        headingFontLabel: fontLabels[theme.fonts.heading] ?? 'Inter',
+        uppercase: theme.headingCase === 'uppercase',
+        radius: theme.radius,
+      },
     };
   });
   return (
