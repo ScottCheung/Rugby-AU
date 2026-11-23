@@ -259,30 +259,35 @@ export function SiteHeader({
         </nav>
       </header>
 
-      <button
-        type="button"
-        aria-label="Back to top"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed right-5 bottom-5 z-40 grid size-12 place-items-center rounded-full bg-brand text-brand-contrast shadow-lg transition-all duration-300 md:right-8 md:bottom-8"
-        style={{
-          opacity: showTop ? 1 : 0,
-          transform: showTop ? 'translateY(0)' : 'translateY(16px)',
-          pointerEvents: showTop ? 'auto' : 'none',
-        }}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          className="size-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          <path d="M12 19V5M5 12l7-7 7 7" />
-        </svg>
-      </button>
+      {/* Aligned to the content column's right edge, not the viewport's. */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-6 z-40 md:bottom-10">
+        <Container className="flex justify-end">
+          <button
+            type="button"
+            aria-label="Back to top"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="grid size-12 place-items-center rounded-full bg-brand text-brand-contrast shadow-lg transition-all duration-300"
+            style={{
+              opacity: showTop ? 1 : 0,
+              transform: showTop ? 'translateY(0)' : 'translateY(16px)',
+              pointerEvents: showTop ? 'auto' : 'none',
+            }}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="size-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+          </button>
+        </Container>
+      </div>
     </>
   );
 }
