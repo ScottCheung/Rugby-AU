@@ -56,6 +56,8 @@ export default async function EditPage({
           : undefined,
         everything: true,
       })}
+
+
       initialPanel={
         panel === 'site' || (panel && isCollection(panel)) ? panel : undefined
       }
