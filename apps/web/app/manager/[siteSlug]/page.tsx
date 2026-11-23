@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Badge, Card, H1, Paragraph } from '@scottcheung/ui';
 import { SiteTabs } from '@/components/manager/SiteTabs';
+import { EditorLink } from '@/components/manager/editor/EditorLink';
 import { NewPageForm } from '@/components/manager/NewPageForm';
 import { PageContainer } from '@/components/manager/PageContainer';
 import { listPages } from '@/lib/db/pages';
@@ -95,13 +96,13 @@ export default async function SitePages({
                         })}
                       </p>
                     </div>
-                    <Link
+                    <EditorLink
                       href={`/manager/${site.slug}/pages/${page.id}`}
                       className="sc-ui-button"
                       data-size="sm"
                     >
                       <PencilLine /> Edit
-                    </Link>
+                    </EditorLink>
                     {page.published && !isTemplate && (
                       <a
                         href={`/sites/${site.slug}${page.path === '/' ? '' : page.path}`}

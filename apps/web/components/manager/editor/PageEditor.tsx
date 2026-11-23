@@ -71,6 +71,7 @@ import {
 import { SiteNav } from './SiteNav';
 import { TreePanel, type TreeActions } from './TreePanel';
 import { VersionsDrawer } from './VersionsDrawer';
+import { EditorPendingOverlay } from './EditorLink';
 
 /** True when a container (a Section) has something in it. */
 const holdsContent = (node: ComponentNode | undefined) =>
@@ -504,9 +505,12 @@ export function PageEditor({
   // ---------------------------------------------- leaving with unsaved work
   const [leaveTo, setLeaveTo] = useState<string | null>(null);
   const unsaved = dirty || entriesDirty;
+  // Leaving for another page: its skeleton shows at once, until it loads.
+  const [leaving, startLeaving] = useTransition();
+  const leave = (href: string) => startLeaving(() => router.push(href));
   const navigate = (href: string) => {
     if (unsaved) setLeaveTo(href);
-    else router.push(href);
+    else leave(href);
   };
   useEffect(() => {
     if (!unsaved) return;
@@ -857,6 +861,8 @@ export function PageEditor({
         </div>
       </Dialog>
 
+      <EditorPendingOverlay show={leaving} />
+
       <Dialog
         open={leaveTo !== null}
         onOpenChange={(open) => !open && setLeaveTo(null)}
@@ -870,7 +876,7 @@ export function PageEditor({
           <Button
             variant="danger"
             onClick={() => {
-              if (leaveTo) router.push(leaveTo);
+              if (leaveTo) leave(leaveTo);
               setLeaveTo(null);
             }}
           >

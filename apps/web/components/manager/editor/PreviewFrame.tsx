@@ -10,6 +10,7 @@ import {
 import type { ItemRef } from '@/lib/components/items';
 import type { ComponentNode, Site } from '@/lib/types';
 import { fitScale, layoutWidth, type Device } from './devices';
+import { PreviewLoading } from './EditorSkeleton';
 
 function send(frame: HTMLIFrameElement | null, message: ToPreview) {
   frame?.contentWindow?.postMessage(message, window.location.origin);
@@ -57,6 +58,14 @@ export function PreviewFrame({
   const frame = useRef<HTMLIFrameElement>(null);
   // Goes up each time the preview (re)loads and says it is listening.
   const [readyCount, setReadyCount] = useState(0);
+  // The src whose page has shown: until then a placeholder covers the
+  // frame, so a first load (or a reload) never looks frozen.
+  const [shownSrc, setShownSrc] = useState<string | null>(null);
+  const loading = shownSrc !== src;
+  const srcRef = useRef(src);
+  useEffect(() => {
+    srcRef.current = src;
+  });
   // A selection made by clicking in the preview needs no scrolling.
   const fromPreview = useRef(false);
   const onSelectRef = useRef({ onSelect, onSelectSite, onAddSlot, onScroll });
@@ -71,6 +80,7 @@ export function PreviewFrame({
       const message = event.data as FromPreview;
       if (message.type === 'preview:ready') {
         setReadyCount((count) => count + 1);
+        setShownSrc(srcRef.current);
         onSelectRef.current.onScroll?.(0);
       } else if (message.type === 'preview:scroll')
         onSelectRef.current.onScroll?.(message.y);
@@ -185,6 +195,8 @@ export function PreviewFrame({
               ref={frame}
               src={src}
               title="Page preview"
+              // In case the preview never says it is ready (an error page).
+              onLoad={() => setShownSrc(src)}
               // Desktop is the page itself, edge to edge; a tablet or a phone
               // is a framed screen.
               className={
@@ -202,6 +214,7 @@ export function PreviewFrame({
           </div>
         )}
       </div>
+      {loading && <PreviewLoading className="absolute inset-0" />}
     </div>
   );
 }

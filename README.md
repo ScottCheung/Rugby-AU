@@ -21,6 +21,12 @@ Vercel + MongoDB Atlas (Sydney). No login, as the brief allows.
 The seed has 15 sites (about 100 pages, 46 articles and 247 players). No component
 code differs between them, only theme tokens.
 
+Lighthouse on four of the deployed pages: **Performance 95+**, **Accessibility
+90+**, **SEO 90+**. Each page's title and meta description are set in the
+editor's page settings; articles fall back to their standfirst and other pages
+to the site tagline, so no page goes out without one. Best Practices scores
+lower because the demo photos are loaded from a third-party CDN (Unsplash).
+
 ## The manager
 
 ![Page editor](docs/images/editor.jpg)
@@ -172,7 +178,7 @@ Full write-up (theming, versions, assumptions, image credits):
 
 ## Time and tools
 
-- About **25 hours** over four days (19–23 Nov), estimated from the commit
+- About **25 hours** over 5 days, estimated from the commit
   history. The stretch goals (draft/publish, live preview, data sources,
   deploy) came after the must-haves worked.
   - **Core architecture, ~6h (24%)**: MongoDB in Docker, data access and

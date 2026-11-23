@@ -4,6 +4,7 @@ import { LayoutGrid, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useRouter } from 'next/navigation';
 import { ease } from '@scottcheung/ui/motion';
 import { useScrollFade } from '../useScrollFade';
 import { listSitePagesAction } from '@/app/manager/actions';
@@ -35,6 +36,7 @@ export function PageSwitcher({
   onNavigate: (href: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const {
     attach: fadeRef,
     className: fadeClass,
@@ -187,6 +189,12 @@ export function PageSwitcher({
                               <button
                                 type="button"
                                 className="page-switcher__card"
+                                // Its editor's loading state is ready by the click.
+                                onPointerEnter={() =>
+                                  router.prefetch(
+                                    `/manager/${browsing}/pages/${page.id}`,
+                                  )
+                                }
                                 aria-current={
                                   browsing === siteSlug && page.id === pageId
                                     ? 'true'

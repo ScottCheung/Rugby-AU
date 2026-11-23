@@ -457,3 +457,42 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ------------------------------------------------ loading placeholders */
+/* Over the preview while its page loads (EditorSkeleton.tsx). It fades in
+   after a beat, so a fast load never flashes it. */
+.preview-loading {
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: var(--ui-bg-secondary);
+  color: var(--ui-muted);
+  font-size: 0.8125rem;
+  animation: preview-loading-in 0.2s ease 0.12s both;
+}
+.preview-loading__spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2.5px solid var(--ui-border);
+  border-top-color: var(--ui-primary);
+  animation: preview-loading-spin 0.8s linear infinite;
+}
+@keyframes preview-loading-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes preview-loading-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .preview-loading__spinner {
+    animation-duration: 2.4s;
+  }
+}

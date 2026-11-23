@@ -1,5 +1,6 @@
 import { FileText, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { EditorLink } from './editor/EditorLink';
 import { collectionIds, collections } from '@/lib/collections';
 import { collectionIcons } from './editor/componentIcons';
 
@@ -41,20 +42,24 @@ export function SiteTabs({
       aria-label="Site"
       className="flex flex-wrap gap-1 rounded-full bg-[var(--ui-glass)] p-1"
     >
-      {tabs.map(({ id, label, href, Icon }) => (
-        <Link
-          key={id}
-          href={href}
-          aria-current={id === active ? 'page' : undefined}
-          className={`${item} ${
-            id === active
-              ? 'bg-[var(--ui-surface)] text-[var(--ui-fg)] shadow-[var(--ui-shadow-sm)]'
-              : 'text-[var(--ui-muted)] hover:text-[var(--ui-fg)]'
-          }`}
-        >
-          <Icon className="size-4" /> {label}
-        </Link>
-      ))}
+      {tabs.map(({ id, label, href, Icon }) => {
+        // Every tab but Pages opens the editor.
+        const TabLink = id === 'pages' ? Link : EditorLink;
+        return (
+          <TabLink
+            key={id}
+            href={href}
+            aria-current={id === active ? 'page' : undefined}
+            className={`${item} ${
+              id === active
+                ? 'bg-[var(--ui-surface)] text-[var(--ui-fg)] shadow-[var(--ui-shadow-sm)]'
+                : 'text-[var(--ui-muted)] hover:text-[var(--ui-fg)]'
+            }`}
+          >
+            <Icon className="size-4" /> {label}
+          </TabLink>
+        );
+      })}
     </nav>
   );
 }
