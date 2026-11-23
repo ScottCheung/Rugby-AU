@@ -70,4 +70,24 @@ describe('themeToCssVars', () => {
     const vars = themeToCssVars(theme) as Record<string, string>;
     expect(vars['--font-site']).toContain('Inter Variable');
   });
+
+  it('gives square corners a unit, so calc() on the radius stays a length', () => {
+    const vars = themeToCssVars(
+      resolveTheme(defaultTheme, { radius: '0' }),
+    ) as Record<string, string>;
+    expect(vars['--radius-site']).toBe('0px');
+  });
+});
+
+describe('spacing density', () => {
+  it('scales every step, and leaves standard as written', () => {
+    const standard = themeToCssVars(defaultTheme) as Record<string, string>;
+    expect(standard['--spacing-site-sm']).toBe(defaultTheme.spacing.sm);
+    const roomy = themeToCssVars({
+      ...defaultTheme,
+      density: 'roomy',
+    }) as Record<string, string>;
+    expect(roomy['--spacing-site-xs']).toBe('calc(0.5rem * 1.3)');
+    expect(roomy['--spacing-site-lg']).toBe('calc(4rem * 1.3)');
+  });
 });

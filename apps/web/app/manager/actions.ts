@@ -9,14 +9,23 @@ import {
   discardDraft,
   getPageById,
   getVersion,
+  listPages,
   listVersions,
   publishPage,
   restoreVersion,
   saveDraft,
 } from '@/lib/db/pages';
-import { getSiteBySlug } from '@/lib/db/sites';
+import { getSiteBySlug, updateSite } from '@/lib/db/sites';
+import { collectionIds, type CollectionId } from '@/lib/collections';
+import { pruneEntryRefs } from '@/lib/collections/prune';
+import { listEntries } from '@/lib/db/entries';
+import {
+  applySettings,
+  contrastColour,
+  siteSettingsSchema,
+} from '@/lib/site/settings';
 import { isValidPath, normalizePath } from '@/lib/paths';
-import type { ComponentNode, Page } from '@/lib/types';
+import type { ComponentNode, Page, Site } from '@/lib/types';
 
 // ---------------------------------------------------------------- new page
 
@@ -65,6 +74,16 @@ const pageSettings = z.object({
     .string()
     .trim()
     .max(300, 'Keep the description under 300 characters.'),
+  nav: z
+    .object({
+      label: z
+        .string()
+        .trim()
+        .max(40, 'Keep the menu label under 40 characters.')
+        .optional(),
+      hidden: z.boolean().optional(),
+    })
+    .optional(),
   path: z
     .string()
     .transform(normalizePath)
@@ -74,7 +93,12 @@ const pageSettings = z.object({
     ),
 });
 
-type PageErrors = { title?: string; description?: string; path?: string };
+type PageErrors = {
+  title?: string;
+  description?: string;
+  path?: string;
+  nav?: string;
+};
 
 export type SavePageResult =
   | { ok: true; page: Page }
@@ -92,7 +116,13 @@ export type SavePageResult =
  */
 export async function savePageAction(
   pageId: string,
-  input: { title: string; description: string; path: string; tree: unknown },
+  input: {
+    title: string;
+    description: string;
+    path: string;
+    nav?: { label?: string; hidden?: boolean };
+    tree: unknown;
+  },
 ): Promise<SavePageResult> {
   const existing = await getPageById(pageId);
   if (!existing)
@@ -103,16 +133,26 @@ export async function savePageAction(
       issues: [],
     };
 
-  const settings = pageSettings.safeParse(input);
+  // A template page keeps its address (one no editor could type): it is
+  // checked as "/" and stored with its own.
+  const settings = pageSettings.safeParse(
+    existing.template ? { ...input, path: '/' } : input,
+  );
+  const path = existing.template ? existing.path : settings.data?.path;
   const tree = validateTree(input.tree);
   const pageErrors: PageErrors = {};
   for (const issue of settings.error?.issues ?? []) {
     const key = issue.path[0];
-    if (key === 'title' || key === 'description' || key === 'path')
+    if (
+      key === 'title' ||
+      key === 'description' ||
+      key === 'path' ||
+      key === 'nav'
+    )
       pageErrors[key] = issue.message;
   }
   // Every site keeps its home page at "/".
-  if (settings.success && existing.path === '/' && settings.data.path !== '/')
+  if (settings.success && existing.path === '/' && path !== '/')
     pageErrors.path = 'The home page always lives at /.';
 
   if (!settings.success || !tree.ok || pageErrors.path) {
@@ -126,12 +166,24 @@ export async function savePageAction(
     };
   }
 
+  // Blocks may name entries that have since been deleted.
+  const entries = await listEntries(existing.siteSlug);
+  const slugs = Object.fromEntries(
+    collectionIds.map((id) => [
+      id,
+      new Set(entries.filter((e) => e.collection === id).map((e) => e.slug)),
+    ]),
+  ) as Record<CollectionId, Set<string>>;
   const result = await saveDraft(pageId, {
-    path: settings.data.path,
+    path: path ?? existing.path,
     draft: {
       title: settings.data.title,
       description: settings.data.description || undefined,
-      components: tree.tree,
+      nav: {
+        ...(settings.data.nav?.label ? { label: settings.data.nav.label } : {}),
+        ...(settings.data.nav?.hidden ? { hidden: true } : {}),
+      },
+      components: pruneEntryRefs(tree.tree, slugs),
     },
   });
   if (!result.ok)
@@ -213,4 +265,67 @@ export async function deletePageAction(
   if (page.path === '/') return { error: 'The home page cannot be deleted.' };
   await deletePage(pageId);
   redirect(`/manager/${page.siteSlug}`);
+}
+
+// ----------------------------------------------------------- site settings
+
+export type SaveSiteResult =
+  | { ok: true; site: Site }
+  | { ok: false; message: string; errors: Record<string, string> };
+
+/**
+ * Save the site settings. They have no draft: every page shows them as
+ * soon as they are saved. Validated here, whatever the form allowed.
+ */
+export async function saveSiteAction(
+  slug: string,
+  input: { settings: unknown; menuOrder: string[] },
+): Promise<SaveSiteResult> {
+  const site = await getSiteBySlug(slug);
+  if (!site)
+    return { ok: false, message: 'This site no longer exists.', errors: {} };
+  const parsed = siteSettingsSchema.safeParse(input.settings);
+  const errors: Record<string, string> = {};
+  for (const issue of parsed.error?.issues ?? [])
+    errors[issue.path.join('.')] ??= issue.message;
+  if (
+    parsed.success &&
+    !contrastColour(parsed.data.brand, undefined, [
+      parsed.data.background,
+      parsed.data.text,
+    ])
+  )
+    errors.brand =
+      'No text colour is readable on this colour. Pick a darker or lighter one.';
+  if (!parsed.success || Object.keys(errors).length > 0)
+    return {
+      ok: false,
+      message: 'Not saved: some settings need attention.',
+      errors,
+    };
+
+  // Only ids of this site's own pages, each once.
+  const pageIds = new Set((await listPages(slug)).map((page) => page.id));
+  const menuOrder = [...new Set(input.menuOrder)].filter((id) =>
+    pageIds.has(id),
+  );
+  const next = applySettings(site, parsed.data);
+  const saved = await updateSite(slug, { ...next, menuOrder });
+  return saved
+    ? { ok: true, site: saved }
+    : { ok: false, message: 'This site no longer exists.', errors: {} };
+}
+
+// -------------------------------------------------------- page switcher
+
+/** A site's pages, for the editor's switcher when another site is picked. */
+export async function listSitePagesAction(
+  siteSlug: string,
+): Promise<{ id: string; title: string; path: string }[]> {
+  const found = await listPages(siteSlug);
+  return found.map(({ id, draft, path }) => ({
+    id,
+    title: draft.title,
+    path,
+  }));
 }

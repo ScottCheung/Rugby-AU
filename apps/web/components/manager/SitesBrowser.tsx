@@ -671,7 +671,7 @@ const logoSizes = {
  * same area: its shape (read once it loads) sets the width and height,
  * capped by the box. It stays hidden until measured, so it never jumps.
  * Outlined in white like the site header's logo; it floats on card hover
- * (.logo-float in app/globals.css).
+ * (.logo-float in app/manager/manager.css).
  */
 function CardLogo({
   src,

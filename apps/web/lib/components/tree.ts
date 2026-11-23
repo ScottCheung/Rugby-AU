@@ -5,6 +5,11 @@ import type { ComponentNode } from '../types';
  * each returns a new tree that shares the untouched branches.
  */
 
+/** Every node of the tree, parents before their children. */
+export function allNodes(tree: ComponentNode[]): ComponentNode[] {
+  return tree.flatMap((node) => [node, ...allNodes(node.children ?? [])]);
+}
+
 export function findNode(
   tree: ComponentNode[],
   id: string,
@@ -15,21 +20,6 @@ export function findNode(
     if (found) return found;
   }
   return undefined;
-}
-
-/** Append `node` at the root, or as the last child of `parentId`. */
-export function addNode(
-  tree: ComponentNode[],
-  node: ComponentNode,
-  parentId?: string,
-): ComponentNode[] {
-  if (parentId === undefined) return [...tree, node];
-  return tree.map((current) => {
-    if (current.id === parentId)
-      return { ...current, children: [...(current.children ?? []), node] };
-    if (!current.children) return current;
-    return { ...current, children: addNode(current.children, node, parentId) };
-  });
 }
 
 /** Remove a node (and everything inside it). */
@@ -53,6 +43,23 @@ export function updateNodeProps(
     if (node.id === id) return { ...node, props };
     if (!node.children) return node;
     return { ...node, children: updateNodeProps(node.children, id, props) };
+  });
+}
+
+/** Give a node another type and props, keeping its id and place. */
+export function changeNodeType(
+  tree: ComponentNode[],
+  id: string,
+  type: string,
+  props: Record<string, unknown>,
+): ComponentNode[] {
+  return tree.map((node) => {
+    if (node.id === id) return { ...node, type, props };
+    if (!node.children) return node;
+    return {
+      ...node,
+      children: changeNodeType(node.children, id, type, props),
+    };
   });
 }
 

@@ -54,3 +54,13 @@ export const linkSchema = z
     }),
   })
   .meta({ label: 'Link' });
+
+/**
+ * On a list item (a card, slide, stat or person): hidden items stay in
+ * the page and in the editor, but visitors do not see them. The editor
+ * shows it as an eye toggle on the item rather than as a form field.
+ */
+export const hiddenFlag = z
+  .boolean()
+  .optional()
+  .meta({ label: 'Hidden', visibility: true });

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { fixtureListSchema } from '../lib/components/fixtureList';
-import { fixturesForTree } from '../lib/fixtures/forTree';
+import { matches } from '../lib/components/blocks/matches';
+import { fixturesForTree } from '../lib/render/sourceData';
 import { getFixtures } from '../lib/fixtures/mockApi';
 import {
-  formatKickoff,
+  kickoffParts,
   outcomeFor,
-  selectFixtures,
+  selectFixturesMarked,
 } from '../lib/fixtures/select';
 import type { ComponentNode } from '../lib/types';
 
@@ -55,6 +55,20 @@ describe('mock fixtures API', () => {
   });
 });
 
+/** What visitors get: the visible matches only. */
+const selectFixtures = (
+  fixtures: Parameters<typeof selectFixturesMarked>[0],
+  options: Parameters<typeof selectFixturesMarked>[1],
+) => {
+  const marked = selectFixturesMarked(fixtures, options);
+  const visible = (list: typeof marked.upcoming) =>
+    list.filter((entry) => !entry.hidden).map((entry) => entry.fixture);
+  return {
+    upcoming: visible(marked.upcoming),
+    results: visible(marked.results),
+  };
+};
+
 describe('selectFixtures', () => {
   it('lists upcoming matches soonest first and results newest first', async () => {
     const fixtures = await getFixtures({ now: kickoff });
@@ -85,7 +99,7 @@ describe('selectFixtures', () => {
   });
 });
 
-describe('outcomeFor and formatKickoff', () => {
+describe('outcomeFor and kickoffParts', () => {
   it('reads the result from the followed team’s side', () => {
     const fixture = {
       home: { id: 'england' },
@@ -98,36 +112,37 @@ describe('outcomeFor and formatKickoff', () => {
   });
 
   it('shows kick-off in Sydney time, with the year only when it differs', () => {
-    expect(formatKickoff('2026-11-07T15:10:00Z', kickoff)).toMatch(
+    const when = (iso: string) => {
+      const { day, time } = kickoffParts(iso, kickoff);
+      return `${day}, ${time}`;
+    };
+    expect(when('2026-11-07T15:10:00Z')).toMatch(
       /^Sun, 8 Nov, 2:10\s?am AEDT$/,
     );
-    expect(formatKickoff('2027-02-13T08:35:00Z', kickoff)).toMatch(
+    expect(when('2027-02-13T08:35:00Z')).toMatch(
       /^Sat, 13 Feb 2027, 7:35\s?pm AEDT$/,
     );
   });
 });
 
 describe('fixturesForTree', () => {
-  const block = (props: Record<string, unknown>): ComponentNode => ({
+  const block = (content: Record<string, unknown>): ComponentNode => ({
     id: crypto.randomUUID(),
-    type: 'fixtureList',
-    props,
+    type: 'matches',
+    props: { content: { from: 'fixtures', ...content } },
   });
 
-  it('asks for nothing when the page has no Fixture list', async () => {
+  it('asks for nothing when no block shows matches', async () => {
     expect(await fixturesForTree([], kickoff)).toEqual([]);
   });
 
-  it('fetches the teams of Fixture lists nested in Sections, once each', async () => {
+  it('fetches the teams of match blocks nested in Sections, once each', async () => {
     const tree: ComponentNode[] = [
       {
         id: 'section',
         type: 'section',
         props: {},
-        children: [
-          block({ title: '', team: 'brumbies' }),
-          block({ title: '', team: 'reds' }),
-        ],
+        children: [block({ team: 'brumbies' }), block({ team: 'reds' })],
       },
     ];
     const fixtures = await fixturesForTree(tree, kickoff);
@@ -142,26 +157,58 @@ describe('fixturesForTree', () => {
       ).toBe(true);
   });
 
-  it('gives a Fixture list without a team every match', async () => {
+  it('gives a match block without a team every match', async () => {
     const all = await getFixtures({ now: kickoff });
-    expect(await fixturesForTree([block({ title: '' })], kickoff)).toHaveLength(
+    expect(await fixturesForTree([block({})], kickoff)).toHaveLength(
       all.length,
     );
   });
 });
 
-describe('fixtureListSchema', () => {
-  it('fills in what to show and how many when they are left out', () => {
-    expect(fixtureListSchema.parse({ title: 'Fixtures' })).toEqual({
-      title: 'Fixtures',
+describe('a block of matches', () => {
+  const content = matches.schema.shape.content;
+
+  it('starts with what to show and how many', () => {
+    expect(matches.defaultProps.content).toEqual({
+      from: 'fixtures',
       show: 'both',
       limit: 4,
     });
   });
 
   it('only accepts Australian teams that have a site', () => {
-    expect(
-      fixtureListSchema.safeParse({ title: '', team: 'england' }).success,
-    ).toBe(false);
+    const fixtures = { from: 'fixtures', show: 'both', limit: 4 };
+    expect(content.safeParse({ ...fixtures, team: 'reds' }).success).toBe(true);
+    expect(content.safeParse({ ...fixtures, team: 'england' }).success).toBe(
+      false,
+    );
+  });
+});
+
+describe('hiding matches', () => {
+  it('leaves hidden matches out and lets the next one take their place', async () => {
+    const fixtures = await getFixtures({ now: kickoff });
+    const all = selectFixtures(fixtures, { show: 'results', limit: 2 });
+    const hidden = [all.results[0].id];
+    const after = selectFixtures(fixtures, {
+      show: 'results',
+      limit: 2,
+      hidden,
+    });
+    expect(after.results.map((f) => f.id)).not.toContain(hidden[0]);
+    expect(after.results).toHaveLength(Math.min(2, all.results.length + 1));
+  });
+
+  it('keeps hidden matches, marked, for the editor', async () => {
+    const fixtures = await getFixtures({ now: kickoff });
+    const all = selectFixtures(fixtures, { show: 'results', limit: 5 });
+    const marked = selectFixturesMarked(fixtures, {
+      show: 'results',
+      limit: 5,
+      hidden: [all.results[0].id],
+    });
+    expect(marked.results.find((m) => m.hidden)?.fixture.id).toBe(
+      all.results[0].id,
+    );
   });
 });

@@ -1,0 +1,197 @@
+/*
+ * Block arrangements (components/site/blocks/Arrangement.tsx): the same
+ * rules for every block type. A block only sets how narrow a cell may get
+ * (--cell-min), the widest it should be (--cell-max) and how many a
+ * carousel shows (--per-view). Container queries, so a block in a narrow
+ * column lays out by the room it really has.
+ */
+.arrange-cell {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: var(--cell-max, none);
+}
+.arrange-cell > * {
+  /* Fill the cell (cards in a row line up) without losing an aspect ratio. */
+  flex: 1 1 auto;
+}
+.arrange-grid {
+  display: grid;
+  gap: var(--spacing-site-md);
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(var(--cell-min, 15rem), 100%), 1fr)
+  );
+}
+/* Per row chosen by the editor: narrow containers use the phone count. */
+.arrange-grid[data-per-row] {
+  grid-template-columns: repeat(var(--per-row-narrow, 1), minmax(0, 1fr));
+}
+@container (min-width: 36rem) {
+  .arrange-grid[data-per-row] {
+    grid-template-columns: repeat(var(--per-row), minmax(0, 1fr));
+  }
+}
+/* List: one under another. */
+.arrange-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-site-md);
+}
+/* Featured: the first one large, the rest beside and below it. */
+.arrange-featured {
+  display: grid;
+  gap: var(--spacing-site-md);
+}
+@container (min-width: 42rem) {
+  .arrange-featured {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .arrange-featured > [data-lead] {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+/* Wall: columns where each item keeps its own height, read in rows.
+   As many columns as fit at --cell-min, at most 3; Wall.tsx deals the
+   items into them in turn. */
+.arrange-wall {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      max(
+        min(var(--cell-min, 15rem), 100%),
+        (100% - 2 * var(--spacing-site-md)) / 3
+      ),
+      1fr
+    )
+  );
+  gap: var(--spacing-site-md);
+  align-items: start;
+}
+.arrange-wall-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-site-md);
+  min-width: 0;
+}
+/* Carousel: several at once, --per-view across, never narrower than a
+   cell may be, and always showing a bit of the next one on a phone. */
+.arrange-strip {
+  flex: 0 0
+    clamp(
+      min(var(--cell-min, 15rem), 85%),
+      (100% - (var(--per-view, 3) - 1) * var(--spacing-site-md)) /
+        var(--per-view, 3),
+      85%
+    );
+  scroll-snap-align: start;
+}
+.arrange-pair {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-site-md);
+}
+/*
+ * Slider: one at a time; the items share one grid cell. The new slide
+ * fades in on top while the one it replaces stays fully shown underneath,
+ * so the hero's fades never dip (a cross-fade lets the page show through).
+ * Others hide only after the fade, in case a click lands mid-way.
+ */
+.arrange-slider {
+  display: grid;
+}
+.arrange-slider > .arrange-cell {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0s 0.7s;
+}
+.arrange-slider > .arrange-cell[data-leaving] {
+  z-index: 1;
+  opacity: 1;
+  transition: none;
+}
+.arrange-slider > .arrange-cell[data-active] {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* The outgoing caption leaves quickly, the incoming one staggers in
+   (staggerIn.slider in the ui motion presets). */
+.arrange-slider > .arrange-cell:not([data-active]) [data-stagger] > * {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.arrange-slider > .arrange-cell[data-active] [data-stagger] > * {
+  /* The fade and blur clear slowly in and out; the rise eases into place
+     (as Reveal.tsx: a steep curve makes each line pop in). */
+  animation:
+    caption-fade 0.9s cubic-bezier(0.4, 0, 0.2, 1) both,
+    caption-rise 0.9s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+.arrange-slider > .arrange-cell[data-active] [data-stagger] > :nth-child(2) {
+  animation-delay: 0.15s;
+}
+.arrange-slider > .arrange-cell[data-active] [data-stagger] > :nth-child(3) {
+  animation-delay: 0.3s;
+}
+.arrange-slider
+  > .arrange-cell[data-active]
+  [data-stagger]
+  > :nth-child(n + 4) {
+  animation-delay: 0.45s;
+}
+/* Until the block first scrolls into view (Reveal.tsx), the caption waits. */
+[data-reveal='pending'] .arrange-slider [data-stagger] > * {
+  animation: none;
+  opacity: 0;
+}
+@keyframes caption-fade {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes caption-rise {
+  from {
+    translate: 0 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arrange-slider > .arrange-cell,
+  .arrange-slider > .arrange-cell[data-active] {
+    transition: none;
+  }
+  .arrange-slider > .arrange-cell[data-active] [data-stagger] > * {
+    animation: none;
+  }
+}
+
+/* A strip of cards that scrolls sideways. The scrollbar is hidden; touch
+   devices (tablets, phones) snap to a card, a mouse scrolls freely. The
+   strip may reach the screen edges (padding keeps the first card in line
+   with the text above it, see Carousel). */
+.carousel-track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-site-md);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+@media (pointer: coarse) {
+  .carousel-track {
+    scroll-snap-type: x mandatory;
+  }
+}

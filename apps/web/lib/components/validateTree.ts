@@ -89,5 +89,20 @@ export function validateTree(input: unknown): ValidateTreeResult {
   }
 
   const tree = validateList(input);
+  checkStructure(tree, issues);
   return issues.length > 0 ? { ok: false, issues } : { ok: true, tree };
+}
+
+/**
+ * The page's shape: containers (Sections) at the top, each holding blocks
+ * or other containers. (Blocks cannot hold anything: checked above.)
+ */
+function checkStructure(tree: ComponentNode[], issues: TreeIssue[]) {
+  for (const node of tree)
+    if (!getDefinition(node.type)?.acceptsChildren)
+      issues.push({
+        nodeId: node.id,
+        path: [],
+        message: 'Only Sections can be placed directly on the page.',
+      });
 }

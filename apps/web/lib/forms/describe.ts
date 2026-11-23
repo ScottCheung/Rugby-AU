@@ -13,24 +13,34 @@ type BaseField = {
   hint?: string;
   /** Optional fields get an Add / Remove toggle and are omitted when absent. */
   optional: boolean;
-  /** The form tab: content (default) or style. Layout fields live in Style too. */
+  /** The editor tab it is on: content (the default), layout or style. */
   group: FieldGroup;
+  /** Hides the item it belongs to: an eye toggle, not a form field. */
+  visibility?: true;
+  /** Kept by the editor itself (a block's hidden articles): not drawn. */
+  managed?: true;
+  /** Drawn only while sibling fields have these values. */
+  showIf?: Record<string, string | boolean>;
 };
 
-export const fieldGroups = ['content', 'style'] as const;
+export const fieldGroups = ['content', 'layout', 'style'] as const;
 export type FieldGroup = (typeof fieldGroups)[number];
 
 export type FieldDescriptor =
   | (BaseField & {
-      kind: 'text' | 'textarea' | 'url' | 'date';
+      kind: 'text' | 'textarea' | 'url' | 'date' | 'color' | 'image';
       placeholder?: string;
     })
   | (BaseField & { kind: 'number' })
-  | (BaseField & { kind: 'boolean' })
+  | (BaseField & { kind: 'boolean'; onByDefault?: true })
   | (BaseField & {
       kind: 'enum';
-      /** `sketch` names a skeleton picture shown instead of a dropdown. */
-      options: { value: string; label: string; sketch?: string }[];
+      /** Each option is a card: a picture or a type sample, a label, a line. */
+      options: EnumOption[];
+      /** An optional enum's "nothing chosen" card. */
+      emptyLabel?: string;
+      /** The option an absent value means (no "not set" card then). */
+      emptyIs?: string;
     })
   | (BaseField & {
       kind: 'object';
@@ -38,7 +48,28 @@ export type FieldDescriptor =
       widget?: 'image';
     })
   | (BaseField & { kind: 'array'; itemLabel: string; item: FieldDescriptor })
+  /**
+   * One of several shapes, told apart by one field (`discriminator`): a
+   * block's content is written here or comes from News, each with its own
+   * options. The form picks the shape, then shows that shape's fields.
+   */
+  | (BaseField & {
+      kind: 'union';
+      discriminator: string;
+      options: (EnumOption & { fields: FieldDescriptor[] })[];
+    })
   | (BaseField & { kind: 'unsupported' });
+
+/** One choice of an enum, as its card shows it. */
+export type EnumOption = {
+  value: string;
+  label: string;
+  description?: string;
+  /** A skeleton picture (components/manager/Sketch.tsx). */
+  sketch?: string;
+  /** A type sample: font, case and corner. */
+  sample?: { font: string; uppercase?: boolean; radius?: string };
+};
 
 /** "showDate" -> "Show date", "two-column" -> "Two column". */
 export function humanize(key: string): string {
@@ -79,8 +110,10 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
     label: meta.label ?? humanize(key),
     hint: meta.hint,
     optional,
-    // Layout and style share one tab.
-    group: meta.group === 'layout' || meta.group === 'style' ? 'style' : (meta.group ?? 'content'),
+    group: meta.group ?? 'content',
+    ...(meta.visibility ? { visibility: true as const } : {}),
+    ...(meta.managed ? { managed: true as const } : {}),
+    ...(meta.showIf ? { showIf: meta.showIf } : {}),
   };
 
   if (inner instanceof z.ZodURL)
@@ -89,21 +122,42 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
     return {
       ...base,
       kind:
-        meta.format === 'date' ? 'date' : meta.multiline ? 'textarea' : 'text',
+        meta.format === 'date'
+          ? 'date'
+          : meta.format === 'color'
+            ? 'color'
+            : meta.format === 'image'
+              ? 'image'
+              : meta.multiline
+                ? 'textarea'
+                : 'text',
       placeholder: meta.placeholder,
     };
   if (inner instanceof z.ZodNumber) return { ...base, kind: 'number' };
-  if (inner instanceof z.ZodBoolean) return { ...base, kind: 'boolean' };
+  if (inner instanceof z.ZodBoolean)
+    return {
+      ...base,
+      kind: 'boolean',
+      ...(meta.onByDefault ? { onByDefault: true as const } : {}),
+    };
   if (inner instanceof z.ZodEnum) {
     const values = inner.options as string[];
     return {
       ...base,
       kind: 'enum',
+      ...(meta.emptyLabel ? { emptyLabel: meta.emptyLabel } : {}),
+      ...(meta.emptyIs ? { emptyIs: meta.emptyIs } : {}),
       options: values.map((value) => ({
         value,
         label: meta.optionLabels?.[value] ?? humanize(value),
+        ...(meta.optionDescriptions?.[value]
+          ? { description: meta.optionDescriptions[value] }
+          : {}),
         ...(meta.optionSketches?.[value]
           ? { sketch: meta.optionSketches[value] }
+          : {}),
+        ...(meta.optionSamples?.[value]
+          ? { sample: meta.optionSamples[value] }
           : {}),
       })),
     };
@@ -113,8 +167,33 @@ export function describeField(key: string, schema: z.ZodType): FieldDescriptor {
       ...base,
       kind: 'object',
       fields: describeSchema(inner),
-      ...(meta.widget ? { widget: meta.widget } : {}),
+      ...(meta.widget === 'image' ? { widget: 'image' as const } : {}),
     };
+  if (inner instanceof z.ZodDiscriminatedUnion) {
+    const discriminator = inner.def.discriminator;
+    return {
+      ...base,
+      kind: 'union',
+      discriminator,
+      options: (inner.options as z.ZodObject[]).map((option) => {
+        const tag = option.shape[discriminator] as z.ZodLiteral;
+        const value = String(tag.value);
+        return {
+          value,
+          label: meta.optionLabels?.[value] ?? humanize(value),
+          ...(meta.optionDescriptions?.[value]
+            ? { description: meta.optionDescriptions[value] }
+            : {}),
+          ...(meta.optionSketches?.[value]
+            ? { sketch: meta.optionSketches[value] }
+            : {}),
+          fields: describeSchema(option).filter(
+            (field) => field.key !== discriminator,
+          ),
+        };
+      }),
+    };
+  }
   if (inner instanceof z.ZodArray) {
     const itemLabel = meta.itemLabel ?? 'Item';
     return {
@@ -145,6 +224,19 @@ export function defaultValue(field: FieldDescriptor): unknown {
       return field.options[0]?.value;
     case 'array':
       return [];
+    case 'union': {
+      const first = field.options[0];
+      return first
+        ? {
+            [field.discriminator]: first.value,
+            ...(defaultValue({
+              ...field,
+              kind: 'object',
+              fields: first.fields,
+            }) as object),
+          }
+        : {};
+    }
     case 'object':
       return Object.fromEntries(
         field.fields
@@ -156,18 +248,14 @@ export function defaultValue(field: FieldDescriptor): unknown {
   }
 }
 
-/**
- * Fields split into the form's tabs, in tab order (content, layout, style).
- * Groups with no fields are left out, so a block with only content fields
- * gets no tabs at all.
- */
-export function groupFields(
-  fields: FieldDescriptor[],
-): { group: FieldGroup; fields: FieldDescriptor[] }[] {
-  return fieldGroups
-    .map((group) => ({
-      group,
-      fields: fields.filter((field) => field.group === group),
-    }))
-    .filter((entry) => entry.fields.length > 0);
+/** Whether a field is drawn, given the values of its siblings. */
+export function isShown(
+  field: FieldDescriptor,
+  siblings: Record<string, unknown>,
+): boolean {
+  if (field.visibility || field.managed) return false;
+  if (!field.showIf) return true;
+  return Object.entries(field.showIf).every(
+    ([key, wanted]) => (siblings[key] ?? false) === wanted,
+  );
 }

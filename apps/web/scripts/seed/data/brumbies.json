@@ -1,0 +1,2433 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "ACT Brumbies: Super Rugby from Canberra.",
+      "tree": [
+        {
+          "id": "3d62f318-188b-4ae3-a084-d3f0407b05a4",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "b7b16e0a-0ae7-467f-a539-5c1d4b8991ba",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "ACT Brumbies",
+                      "text": "Super Rugby from Canberra.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1773821023994-bffda5c96617?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra lake with Parliament House in the distance"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    },
+                    {
+                      "title": "Home games at Canberra Stadium",
+                      "text": "Bring the family and wear the colours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "The new season",
+                      "text": "Memberships are on sale now.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1485426337939-af69cf101909?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Five players chasing play during a match"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8e0e0b17-d223-4dcd-8ccb-1b0e9c45c3ed",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1073062b-7ce5-44bf-b853-97d4f111a7ec",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First Super Rugby season",
+                      "value": "1996"
+                    },
+                    {
+                      "title": "Super Rugby titles",
+                      "value": "2"
+                    },
+                    {
+                      "title": "Super Rugby AU champions",
+                      "value": "2020"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cca55ab2-4f31-47f1-beea-3b5d46627496",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "086aceaf-acab-436c-bc66-42f135caf0fc",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "brumbies",
+                  "show": "upcoming",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "8cca4b2c-43e5-4546-868f-1a29787c88ed",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "brumbies",
+                  "show": "results",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "16055761-4264-454b-adba-5982b3f80ae8",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4703d6ed-006d-4018-9f91-d85a37aabf38",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "blake-schoupp",
+                    "billy-pollard",
+                    "nick-frost",
+                    "rob-valetini",
+                    "ryan-lonergan",
+                    "declan-meredith",
+                    "len-ikitau",
+                    "tom-wright",
+                    "lington-ieli",
+                    "lachlan-lonergan",
+                    "toby-macpherson",
+                    "rory-scott",
+                    "klayton-thorn",
+                    "tane-edmed",
+                    "david-feliuai",
+                    "andy-muirhead"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9fc65783-1751-488b-908d-a50cdbcd7f35",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "bea90dae-bcdc-488f-a6e5-3201cf778f43",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Welcome to the ACT Brumbies",
+                      "text": "The Brumbies have been Canberra’s Super Rugby team since the competition began in 1996, drawing players from the ACT and southern New South Wales.\n\nThey won Super Rugby in 2001 and 2004, and the Super Rugby AU title in 2020. Club rugby in the region is played for the John I Dent Cup.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "23c29835-2c82-4683-9903-5c403a2343e7",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our honours",
+                      "text": "Titles and milestones.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "207abb32-bc1b-4f56-b984-533227cd326e-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "207abb32-bc1b-4f56-b984-533227cd326e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e95ac074-be0d-4bf4-9991-bea7e2da030e",
+          "type": "section",
+          "props": {
+            "heading": "This season",
+            "intro": "Everything you need for match day.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "83cf4f3d-80b7-4716-92f2-809c144e5f89",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Memberships",
+                      "text": "Your seat for every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1767190937750-d6aaf8ea99d0?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby stadium with goalposts and spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Tickets",
+                      "text": "Single-game tickets for every home match.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in red and white sprinting with the ball"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8c200bd6-2b50-441e-b093-9c945e74b40a",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2b25a021-f929-4bd2-bd8e-1d8b13188a98",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Canberra",
+                      "text": "The heart of rugby in the ACT and southern New South Wales.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1570587371524-a187051b1b31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra cityscape in daylight"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "3eb1f0bf-5c61-476f-be9a-97612b1ab127",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Canberra Stadium",
+                      "text": "Home games are played at Canberra Stadium, with the city of Canberra turning out in the club’s colours.",
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f9efe9be-d527-4444-ac3f-fa8f10355fc9",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "1c05c0a3-001b-4f32-9b31-0097e7702363",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A player holding a rugby ball",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1558151507-c1aa3d917dbb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player holding a rugby ball"
+                      }
+                    },
+                    {
+                      "title": "Canberra lake with Parliament House in the distance",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1773821023994-bffda5c96617?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra lake with Parliament House in the distance"
+                      }
+                    },
+                    {
+                      "title": "Two packs in striped jerseys bound together in a scrum",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1631021694928-56b70c9be844?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two packs in striped jerseys bound together in a scrum"
+                      }
+                    },
+                    {
+                      "title": "Players in black and in blue chasing the ball on a stadium pitch",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904329-56e2f95fb15e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black and in blue chasing the ball on a stadium pitch"
+                      }
+                    },
+                    {
+                      "title": "A team in navy huddled on a field",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/club",
+      "title": "The club",
+      "description": "The story of the ACT Brumbies.",
+      "tree": [
+        {
+          "id": "48c09a40-d234-440d-b9a6-e7fd125752d8",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "1b2881c8-df65-419d-8390-7e769e1db7c4",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the ACT Brumbies",
+                      "text": "The Brumbies have been Canberra’s Super Rugby team since the competition began in 1996, drawing players from the ACT and southern New South Wales.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1773821023994-bffda5c96617?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra lake with Parliament House in the distance"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "69937fb6-bb62-4dd6-b96f-f51813233a8b",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c2690b51-766d-4c30-a501-83d0b40fa2be",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our story",
+                      "text": "The Brumbies have been Canberra’s Super Rugby team since the competition began in 1996, drawing players from the ACT and southern New South Wales.\n\nThey won Super Rugby in 2001 and 2004, and the Super Rugby AU title in 2020. Club rugby in the region is played for the John I Dent Cup.\n\nHome games are at Canberra Stadium, where the club also runs its junior clinics and community days."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3122b4ae-751b-4882-b3c4-129e2307980a",
+          "type": "section",
+          "props": {
+            "heading": "Honours and milestones",
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "607e3341-4497-4949-96d1-8fbaa37c9e1d",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1996",
+                      "text": "The club plays its first Super Rugby season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2001",
+                      "text": "Super Rugby champions.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2004",
+                      "text": "Super Rugby champions again.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2020",
+                      "text": "Super Rugby AU champions.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2a147cb1-3ffc-45a3-ba4c-2bb8270fa0fc",
+          "type": "section",
+          "props": {
+            "heading": "More than one team",
+            "intro": "The club looks after rugby across its region.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "46b3d622-305a-4718-9ec9-96a37ddcb46c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Super Rugby Pacific",
+                      "text": "The men’s team, against the best clubs in Australia, New Zealand and the Pacific.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1573056019991-590821ff5438?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A ball carrier in red and white held up by tacklers in black"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The women’s team in the national women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1557278444-248705f95d17?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s team in white huddled on a stadium field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Academy",
+                      "text": "Young players from across the ACT and southern New South Wales.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585757318177-0570a997dc3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach holding a tactics board beside a field"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matchday",
+      "title": "Match day",
+      "description": "Home games at Canberra Stadium.",
+      "tree": [
+        {
+          "id": "fab5cac5-8825-49fa-9269-53a427628c2a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "de83d2bb-a788-46cd-ad3c-0a48a18b6922",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Match day",
+                      "text": "Everything you need for a home game at Canberra Stadium.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4dcb7994-31d6-4463-8379-2bd42b5befd1",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "f4838cfd-1d07-4042-8436-3219111261a9",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Plan your day",
+                      "text": "Gates at Canberra Stadium open well before kick-off, with activities for kids on the concourse and the warm-ups to watch.\n\nPublic transport is the easiest way to get there on game day. Members keep the same seat all season, and single tickets go on sale before each game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "91c0c4ea-c427-421c-be18-0b22488ce73f",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Getting there",
+                      "text": "Travel tips for Canberra Stadium.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1570587371524-a187051b1b31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra cityscape in daylight"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3bf4761c-46dc-4f00-a118-fa3ae9621440",
+          "type": "section",
+          "props": {
+            "heading": "Before you go",
+            "intro": "Tickets, seats and family days.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "50a914ec-1d0a-4e95-aaf1-00132b618e45",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets and memberships",
+                      "text": "Members keep the same seat all season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1735583573592-edacba3f36a8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "An empty rugby pitch with goal posts and blue stands at dusk"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "1c746d0f-1c96-4799-a579-78ecd839e10f",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids go cheap",
+                      "text": "Discounted tickets for children, and a family zone at every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1600534745983-36df226d4381?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in orange and in green chasing the ball, with the referee in yellow"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "dd7d73e8-9834-48e2-997b-52ad917bf6e2",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Meet the players",
+                      "text": "Signing sessions after selected games.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e0cceece-baa6-46da-b6d1-eeb89f1995ba",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c53d0c96-6ab1-4b34-9fd1-585e22f18e95",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "See you at the game",
+                      "text": "Memberships for the new season at Canberra Stadium are on sale now.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pathways",
+      "title": "Pathways",
+      "description": "From club rugby to the ACT Brumbies.",
+      "tree": [
+        {
+          "id": "fbb1fd93-145b-4385-ae71-d84e11f51de0",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "13f918d4-e343-4c1b-8e69-462862ac7ae7",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Pathways",
+                      "text": "How young players in the ACT and southern New South Wales reach professional rugby.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children running across a sunny field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "78f283c0-44d4-40f2-b427-cc6bda5f95fb",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ba8ef435-c5d5-4885-bee8-f6c76e0999e0",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The academy",
+                      "text": "Where the next generation trains.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1771308378506-7f394413342c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach talking to players gathered around"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "f5b7401d-1bb5-4785-8dae-a5220acc25a5",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "From the local club to Super Rugby",
+                      "text": "Every player in the ACT Brumbies squad started at a local club. Talented juniors are picked for representative age-group teams, and the best join the club’s academy.\n\nThe academy adds coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "0b8fbc91-a33b-4281-b5be-11bfc185ca97",
+          "type": "section",
+          "props": {
+            "heading": "The route to the top",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "e4cb11ae-731b-47ff-a8e6-98a9149284e3",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club rugby",
+                      "text": "Every player starts at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529932398402-e0b30f66a559?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach giving instructions to a young player at training"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Representative teams",
+                      "text": "Age-group teams that play other states.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1759760300494-7378d88180f9?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in blue and in red and white during an evening match"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Debut",
+                      "text": "Pulling on the ACT Brumbies jersey.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582045-ac3830336aaa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Green rugby field in a sunny stadium"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "90af8460-4bd5-4bfa-9bdc-41d29920f669",
+          "type": "section",
+          "props": {
+            "heading": "Women’s pathway",
+            "intro": "Girls can follow the same route, all the way to Super W.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c3e7615c-78d0-4192-969d-9d01129b8563",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club and school",
+                      "text": "Girls’ teams at every age.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Black and white photo of women playing rugby"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The club’s women’s team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, stories and match-day guides from the ACT Brumbies.",
+      "tree": [
+        {
+          "id": "2f2116c3-9011-4774-ab93-fc940a5f3971",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "70da7b95-0aa6-4efa-88c3-e862ce665e03",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, stories and match-day guides from the ACT Brumbies."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a408a8ac-7b2f-4db6-b7b7-290623a17f01-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a408a8ac-7b2f-4db6-b7b7-290623a17f01",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "2027 Super Rugby Pacific squad",
+      "tree": [
+        {
+          "id": "0e2a4c0a-c63c-4ca2-9447-528403afa77e",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b8f07101-1f19-4c27-a607-60628d14f32f",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "2027 Super Rugby Pacific squad.\n\nNamed 28 October 2026, as listed in “15 Wallabies headline Brumbies squad as club legend closes in on history”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugbypass.com/news/15-wallabies-headline-brumbies-squad-as-club-legend-closes-in-on-history/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "dff3e1de-da90-4b34-a308-0b6a7c4f5107",
+          "type": "section",
+          "props": {
+            "heading": "Props",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a90a6bbd-c781-4a3b-b937-7e632e2318b7",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Props"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "53071159-425c-4d37-8b41-cc7c3bddb141",
+          "type": "section",
+          "props": {
+            "heading": "Hookers",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "0541c376-6853-44a4-8666-53f7ed47a81f",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Hookers"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9f1c5e0a-89c3-49bb-a90e-5afee04c1aa6",
+          "type": "section",
+          "props": {
+            "heading": "Locks",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5398c273-bdb4-48d6-96cb-8d2760460e59",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Locks"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2b25e79f-3305-4b89-8c4c-59b6895cc10b",
+          "type": "section",
+          "props": {
+            "heading": "Loose forwards",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8558b236-dd2b-43bc-89af-16bc84606bec",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Loose forwards"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "7963af6c-9678-4d34-82ac-4e0ee3f646e5",
+          "type": "section",
+          "props": {
+            "heading": "Scrum-halves",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "3f4ca31a-8fac-44c2-8cdc-65a6fb096904",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Scrum-halves"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3e43e949-c635-4071-a507-f2f4cb756c23",
+          "type": "section",
+          "props": {
+            "heading": "Fly-halves",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "57b0f719-5a91-4566-827d-697bc026d962",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Fly-halves"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e11f2791-77e7-4450-8d91-273bbeb70624",
+          "type": "section",
+          "props": {
+            "heading": "Centres",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "28c0e04d-d7b0-4389-a482-27bada59424a",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Centres"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8b041267-da48-4031-8810-d304c341cf2b",
+          "type": "section",
+          "props": {
+            "heading": "Outside backs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "dfca9804-6951-4ec6-9130-dcaa590cb2bf",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Outside backs"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "73238bb5-8ed4-42cd-bce7-75986f62fb97-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "73238bb5-8ed4-42cd-bce7-75986f62fb97-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "73238bb5-8ed4-42cd-bce7-75986f62fb97-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "73238bb5-8ed4-42cd-bce7-75986f62fb97-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "08cf0efe-8a20-4858-8bb6-38259a317b0a",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "86440195-e026-445d-93b9-de68edf60bce",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "our-story",
+      "data": {
+        "category": "History",
+        "date": "2026-11-18",
+        "headline": "The ACT Brumbies story",
+        "standfirst": "The Brumbies have been Canberra’s Super Rugby team since the competition began in 1996, drawing players from the ACT and southern New South Wales.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1773821023994-bffda5c96617?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Canberra lake with Parliament House in the distance"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "They won Super Rugby in 2001 and 2004, and the Super Rugby AU title in 2020. Club rugby in the region is played for the John I Dent Cup."
+          },
+          {
+            "kind": "paragraph",
+            "text": "Home games are at Canberra Stadium, where the club also runs its junior clinics and community days."
+          },
+          {
+            "kind": "heading",
+            "text": "Honours"
+          },
+          {
+            "kind": "paragraph",
+            "text": "1996: The club plays its first Super Rugby season. 2001: Super Rugby champions. 2004: Super Rugby champions again. 2020: Super Rugby AU champions."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "match-day-guide",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-11",
+        "headline": "Match day at Canberra Stadium: what to know",
+        "standfirst": "Tickets, getting there and what to expect at a home game.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1512719994953-eabf50895df7?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A stadium under a purple sunset sky"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Home games at Canberra Stadium are a day out for the whole family. Here is how to plan yours."
+          },
+          {
+            "kind": "heading",
+            "text": "Tickets"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Members keep the same seat all season. Single tickets go on sale before each game, and children’s tickets are discounted."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is the easiest way to Canberra Stadium on game day. Allow extra time: the roads around the ground are busy before kick-off."
+          },
+          {
+            "kind": "heading",
+            "text": "At the ground"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Gates open well before kick-off, with activities for kids on the concourse. Stay after the game for signing sessions on selected dates."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "inside-the-academy",
+      "data": {
+        "category": "Pathways",
+        "date": "2026-11-04",
+        "headline": "Inside the academy: from club rugby to Super Rugby",
+        "standfirst": "How young players in the ACT and southern New South Wales find their way into the ACT Brumbies squad.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A coach with a group of young children on a training pitch"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Every player in the ACT Brumbies squad started at a local club. The academy is the bridge between club rugby and the professional game."
+          },
+          {
+            "kind": "heading",
+            "text": "Who is picked"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Talented juniors are spotted in club and school rugby and in representative age-group teams, then invited to train with the academy."
+          },
+          {
+            "kind": "heading",
+            "text": "What the academy adds"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+          },
+          {
+            "kind": "heading",
+            "text": "Girls and women"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The same pathway leads to the club’s Super W team."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "blake-schoupp",
+      "data": {
+        "name": "Blake Schoupp",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/blake-schoupp.webp",
+          "alt": "Blake Schoupp in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/blake-schoupp-bg.webp",
+          "alt": "The backdrop of Blake Schoupp's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lington-ieli",
+      "data": {
+        "name": "Lington Ieli",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/lington-ieli.webp",
+          "alt": "Lington Ieli in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/lington-ieli-bg.webp",
+          "alt": "The backdrop of Lington Ieli's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-slipper",
+      "data": {
+        "name": "James Slipper",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/james-slipper.webp",
+          "alt": "James Slipper in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/james-slipper-bg.webp",
+          "alt": "The backdrop of James Slipper's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "allan-alaalatoa",
+      "data": {
+        "name": "Allan Alaalatoa",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/allan-alaalatoa.webp",
+          "alt": "Allan Alaalatoa in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/allan-alaalatoa-bg.webp",
+          "alt": "The backdrop of Allan Alaalatoa's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "rhys-van-nek",
+      "data": {
+        "name": "Rhys van Nek",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/rhys-van-nek.webp",
+          "alt": "Rhys van Nek in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/rhys-van-nek-bg.webp",
+          "alt": "The backdrop of Rhys van Nek's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tevita-alatini",
+      "data": {
+        "name": "Tevita Alatini",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/tevita-alatini.webp",
+          "alt": "Tevita Alatini in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/tevita-alatini-bg.webp",
+          "alt": "The backdrop of Tevita Alatini's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "darcy-breen",
+      "data": {
+        "name": "Darcy Breen",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/brumbies/darcy-breen.webp",
+          "alt": "Darcy Breen in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/darcy-breen-bg.webp",
+          "alt": "The backdrop of Darcy Breen's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "billy-pollard",
+      "data": {
+        "name": "Billy Pollard",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/brumbies/billy-pollard.webp",
+          "alt": "Billy Pollard in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/billy-pollard-bg.webp",
+          "alt": "The backdrop of Billy Pollard's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lachlan-lonergan",
+      "data": {
+        "name": "Lachlan Lonergan",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/brumbies/lachlan-lonergan.webp",
+          "alt": "Lachlan Lonergan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/lachlan-lonergan-bg.webp",
+          "alt": "The backdrop of Lachlan Lonergan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "liam-bowron",
+      "data": {
+        "name": "Liam Bowron",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/brumbies/liam-bowron.webp",
+          "alt": "Liam Bowron in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/liam-bowron-bg.webp",
+          "alt": "The backdrop of Liam Bowron's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nick-frost",
+      "data": {
+        "name": "Nick Frost",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/brumbies/nick-frost.webp",
+          "alt": "Nick Frost in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/nick-frost-bg.webp",
+          "alt": "The backdrop of Nick Frost's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "toby-macpherson",
+      "data": {
+        "name": "Toby Macpherson",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/brumbies/toby-macpherson.webp",
+          "alt": "Toby Macpherson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/toby-macpherson-bg.webp",
+          "alt": "The backdrop of Toby Macpherson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "aiden-stait",
+      "data": {
+        "name": "Aiden Stait",
+        "role": "Lock",
+        "group": "Locks"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lachie-shaw",
+      "data": {
+        "name": "Lachie Shaw",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/brumbies/lachie-shaw.webp",
+          "alt": "Lachie Shaw in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/lachie-shaw-bg.webp",
+          "alt": "The backdrop of Lachie Shaw's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harvey-cordukes",
+      "data": {
+        "name": "Harvey Cordukes",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/brumbies/harvey-cordukes.webp",
+          "alt": "Harvey Cordukes in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/harvey-cordukes-bg.webp",
+          "alt": "The backdrop of Harvey Cordukes's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "rob-valetini",
+      "data": {
+        "name": "Rob Valetini",
+        "role": "Loose forward",
+        "group": "Loose forwards",
+        "cutout": {
+          "url": "/players/brumbies/rob-valetini.webp",
+          "alt": "Rob Valetini in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/rob-valetini-bg.webp",
+          "alt": "The backdrop of Rob Valetini's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "leafi-talataina",
+      "data": {
+        "name": "Leafi Talataina",
+        "role": "Loose forward",
+        "group": "Loose forwards"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "rory-scott",
+      "data": {
+        "name": "Rory Scott",
+        "role": "Loose forward",
+        "group": "Loose forwards",
+        "cutout": {
+          "url": "/players/brumbies/rory-scott.webp",
+          "alt": "Rory Scott in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/rory-scott-bg.webp",
+          "alt": "The backdrop of Rory Scott's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tj-talaileva",
+      "data": {
+        "name": "TJ Talaileva",
+        "role": "Loose forward",
+        "group": "Loose forwards"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "charlie-cale",
+      "data": {
+        "name": "Charlie Cale",
+        "role": "Loose forward",
+        "group": "Loose forwards",
+        "cutout": {
+          "url": "/players/brumbies/charlie-cale.webp",
+          "alt": "Charlie Cale in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/charlie-cale-bg.webp",
+          "alt": "The backdrop of Charlie Cale's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "eli-langi",
+      "data": {
+        "name": "Eli Langi",
+        "role": "Loose forward",
+        "group": "Loose forwards",
+        "cutout": {
+          "url": "/players/brumbies/eli-langi.webp",
+          "alt": "Eli Langi in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/eli-langi-bg.webp",
+          "alt": "The backdrop of Eli Langi's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ryan-lonergan",
+      "data": {
+        "name": "Ryan Lonergan",
+        "role": "Scrum-half",
+        "group": "Scrum-halves",
+        "cutout": {
+          "url": "/players/brumbies/ryan-lonergan.webp",
+          "alt": "Ryan Lonergan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/ryan-lonergan-bg.webp",
+          "alt": "The backdrop of Ryan Lonergan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "klayton-thorn",
+      "data": {
+        "name": "Klayton Thorn",
+        "role": "Scrum-half",
+        "group": "Scrum-halves",
+        "cutout": {
+          "url": "/players/brumbies/klayton-thorn.webp",
+          "alt": "Klayton Thorn in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/klayton-thorn-bg.webp",
+          "alt": "The backdrop of Klayton Thorn's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "dan-nelson",
+      "data": {
+        "name": "Dan Nelson",
+        "role": "Scrum-half",
+        "group": "Scrum-halves",
+        "cutout": {
+          "url": "/players/brumbies/dan-nelson.webp",
+          "alt": "Dan Nelson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/dan-nelson-bg.webp",
+          "alt": "The backdrop of Dan Nelson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "declan-meredith",
+      "data": {
+        "name": "Declan Meredith",
+        "role": "Fly-half",
+        "group": "Fly-halves",
+        "cutout": {
+          "url": "/players/brumbies/declan-meredith.webp",
+          "alt": "Declan Meredith in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/declan-meredith-bg.webp",
+          "alt": "The backdrop of Declan Meredith's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tane-edmed",
+      "data": {
+        "name": "Tane Edmed",
+        "role": "Fly-half",
+        "group": "Fly-halves",
+        "cutout": {
+          "url": "/players/brumbies/tane-edmed.webp",
+          "alt": "Tane Edmed in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/tane-edmed-bg.webp",
+          "alt": "The backdrop of Tane Edmed's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "len-ikitau",
+      "data": {
+        "name": "Len Ikitau",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/wallabies/len-ikitau.webp",
+          "alt": "Len Ikitau in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/len-ikitau-bg.webp",
+          "alt": "The backdrop of Len Ikitau's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "david-feliuai",
+      "data": {
+        "name": "David Feliuai",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/brumbies/david-feliuai.webp",
+          "alt": "David Feliuai in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/david-feliuai-bg.webp",
+          "alt": "The backdrop of David Feliuai's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kadin-pritchard",
+      "data": {
+        "name": "Kadin Pritchard",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/brumbies/kadin-pritchard.webp",
+          "alt": "Kadin Pritchard in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/kadin-pritchard-bg.webp",
+          "alt": "The backdrop of Kadin Pritchard's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jarrah-mcleod",
+      "data": {
+        "name": "Jarrah McLeod",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/brumbies/jarrah-mcleod.webp",
+          "alt": "Jarrah McLeod in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/jarrah-mcleod-bg.webp",
+          "alt": "The backdrop of Jarrah McLeod's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-wright",
+      "data": {
+        "name": "Tom Wright",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/brumbies/tom-wright.webp",
+          "alt": "Tom Wright in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/tom-wright-bg.webp",
+          "alt": "The backdrop of Tom Wright's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "andy-muirhead",
+      "data": {
+        "name": "Andy Muirhead",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/brumbies/andy-muirhead.webp",
+          "alt": "Andy Muirhead in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/andy-muirhead-bg.webp",
+          "alt": "The backdrop of Andy Muirhead's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "corey-toole",
+      "data": {
+        "name": "Corey Toole",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/brumbies/corey-toole.webp",
+          "alt": "Corey Toole in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/corey-toole-bg.webp",
+          "alt": "The backdrop of Corey Toole's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "triston-reilly",
+      "data": {
+        "name": "Triston Reilly",
+        "role": "Outside back",
+        "group": "Outside backs"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ollie-sapsford",
+      "data": {
+        "name": "Ollie Sapsford",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/brumbies/ollie-sapsford.webp",
+          "alt": "Ollie Sapsford in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/ollie-sapsford-bg.webp",
+          "alt": "The backdrop of Ollie Sapsford's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kye-oates",
+      "data": {
+        "name": "Kye Oates",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/brumbies/kye-oates.webp",
+          "alt": "Kye Oates in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/brumbies/kye-oates-bg.webp",
+          "alt": "The backdrop of Kye Oates's squad photo"
+        }
+      }
+    }
+  ]
+}

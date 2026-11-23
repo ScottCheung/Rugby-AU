@@ -1,0 +1,370 @@
+{
+  "note": "The Wallabies home page as stored before blocks were components (Section > column).",
+  "tree": [
+    {
+      "id": "930ee0e7-ab7d-497c-bfbc-406064552cee",
+      "type": "section",
+      "props": {
+        "width": "full-width",
+        "columns": "1",
+        "tone": "none",
+        "padding": "none"
+      },
+      "children": [
+        {
+          "id": "2a390640-f8d9-467f-a616-1cd80005ab9b",
+          "type": "column",
+          "props": {
+            "source": "manual",
+            "style": "hero",
+            "arrange": "slides",
+            "autoplay": true,
+            "items": [
+              {
+                "title": "Gold jersey, green and gold hearts",
+                "text": "The men’s national team has worn the gold jersey for generations.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1635356164637-92da6fb2072d?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A lineout jumper reaching for the ball in front of trees"
+                },
+                "link": {
+                  "label": "Our history",
+                  "href": "/history"
+                }
+              },
+              {
+                "title": "Road to Rugby World Cup 2027",
+                "text": "A home World Cup, with the final at Stadium Australia in Sydney.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Spectators on their feet in the stands"
+                },
+                "link": {
+                  "label": "Matches",
+                  "href": "/matches"
+                }
+              },
+              {
+                "title": "The Bledisloe Cup",
+                "text": "The trans-Tasman rivalry with New Zealand.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1573056019991-590821ff5438?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A ball carrier in red and white held up by tacklers in black"
+                },
+                "link": {
+                  "label": "Matches",
+                  "href": "/matches"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "f038bb54-214e-4728-82f7-3d67b1bdd625",
+      "type": "section",
+      "props": {
+        "width": "full-background",
+        "columns": "2-1",
+        "tone": "none"
+      },
+      "children": [
+        {
+          "id": "7fc23383-c29a-4ac3-ae89-7b7d7a6bb0a5",
+          "type": "column",
+          "props": {
+            "source": "manual",
+            "style": "text",
+            "arrange": "single",
+            "variant": "plain",
+            "items": [
+              {
+                "title": "About the Wallabies",
+                "text": "Australia played its first Test in 1899, against a touring British Isles side at the Sydney Cricket Ground. The name Wallabies comes from the 1908 tour of Britain and has stayed with the men’s team ever since.\n\nThe Wallabies won the Rugby World Cup in 1991 and again in 1999, the first team to lift the trophy twice. They have played New Zealand for the Bledisloe Cup since 1932, and meet New Zealand, South Africa and Argentina every year in The Rugby Championship.",
+                "link": {
+                  "label": "Our history",
+                  "href": "/history"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "76ab492f-8e5e-4093-8fc5-b05266cae264",
+          "type": "column",
+          "props": {
+            "source": "manual",
+            "style": "card",
+            "arrange": "grid",
+            "items": [
+              {
+                "title": "Become a member",
+                "text": "Priority tickets for every home Test.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Spectators on their feet in the stands"
+                },
+                "link": {
+                  "label": "Supporters",
+                  "href": "/supporters"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "e599c05f-5dec-4bcf-ad61-25997b60471c",
+      "type": "section",
+      "props": {
+        "width": "full-background",
+        "columns": "1",
+        "tone": "brand"
+      },
+      "children": [
+        {
+          "id": "63515582-6ac7-49be-9c9f-e8236f997de1",
+          "type": "column",
+          "props": {
+            "source": "manual",
+            "style": "stat",
+            "arrange": "row",
+            "items": [
+              {
+                "value": "1899",
+                "title": "First Test"
+              },
+              {
+                "value": "2",
+                "title": "Rugby World Cup titles"
+              },
+              {
+                "value": "1932",
+                "title": "First Bledisloe Cup"
+              },
+              {
+                "value": "2027",
+                "title": "A home World Cup"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "3ba46396-c9ed-41c4-a4b3-7879c40a0c56",
+      "type": "section",
+      "props": {
+        "width": "full-background",
+        "heading": "Meet the players",
+        "intro": "A few of the squad. Everyone is on the Squad page.",
+        "columns": "1",
+        "tone": "none"
+      },
+      "children": [
+        {
+          "id": "76167eee-136e-4faf-8d55-34acdad59fcd",
+          "type": "column",
+          "props": {
+            "source": "players",
+            "style": "profile",
+            "arrange": "carousel",
+            "rows": "two",
+            "mode": "pick",
+            "picked": [
+              "allan-alaalatoa",
+              "kurtley-beale",
+              "miles-amatosero",
+              "filipo-daugunu",
+              "angus-bell",
+              "ben-donaldson",
+              "josh-canham",
+              "carter-gordon",
+              "massimo-de-lutiis",
+              "isaac-henry",
+              "tom-hooper",
+              "len-ikitau",
+              "isaac-kailea",
+              "max-jorgensen",
+              "tom-lambert",
+              "ryan-lonergan"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "6d0abfd4-7e27-4a16-a31f-f8b4f4a19e6e",
+      "type": "section",
+      "props": {
+        "width": "full-background",
+        "heading": "Moments",
+        "intro": "Swipe through some of the milestones.",
+        "columns": "1",
+        "tone": "none"
+      },
+      "children": [
+        {
+          "id": "5ed96043-4b0e-4dc9-a610-00bf0fc0c782",
+          "type": "column",
+          "props": {
+            "source": "manual",
+            "style": "card",
+            "arrange": "carousel",
+            "items": [
+              {
+                "title": "1899: the first Test",
+                "text": "Against the British Isles at the Sydney Cricket Ground.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1698746019802-ec43b1b0db29?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A rugby ball on a green field"
+                },
+                "link": {
+                  "label": "Our history",
+                  "href": "/history"
+                }
+              },
+              {
+                "title": "1991: world champions",
+                "text": "Australia beat England in the final at Twickenham.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A team in light blue and white in a huddle"
+                },
+                "link": {
+                  "label": "Our history",
+                  "href": "/history"
+                }
+              },
+              {
+                "title": "1999: champions again",
+                "text": "Australia beat France in the final in Cardiff.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A team in red and white hoops gathered in front of the goal posts"
+                },
+                "link": {
+                  "label": "Our history",
+                  "href": "/history"
+                }
+              },
+              {
+                "title": "The Bledisloe Cup",
+                "text": "Played against New Zealand since 1932.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1635226091798-ff20bc3b19a5?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A lineout jumper in blue lifted above the players in a park"
+                },
+                "link": {
+                  "label": "Matches",
+                  "href": "/matches"
+                }
+              },
+              {
+                "title": "The Rugby Championship",
+                "text": "Every year against New Zealand, South Africa and Argentina.",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A floodlit stadium packed with spectators"
+                },
+                "link": {
+                  "label": "Matches",
+                  "href": "/matches"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "fd5854a8-89c6-4c96-817e-b2d53409343e-section",
+      "type": "section",
+      "props": {
+        "heading": "Latest news",
+        "columns": "1",
+        "tone": "none",
+        "width": "full-background"
+      },
+      "children": [
+        {
+          "id": "fd5854a8-89c6-4c96-817e-b2d53409343e",
+          "type": "column",
+          "props": {
+            "source": "news",
+            "style": "card",
+            "arrange": "featured",
+            "limit": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "a3412843-7581-4a92-a14f-824c8e6ced6c",
+      "type": "section",
+      "props": {
+        "width": "full-width",
+        "heading": "Gallery",
+        "columns": "1",
+        "tone": "none"
+      },
+      "children": [
+        {
+          "id": "50c4e9b2-1d66-48b8-a9b1-fca68f236f93",
+          "type": "column",
+          "props": {
+            "source": "manual",
+            "style": "photo",
+            "arrange": "masonry",
+            "items": [
+              {
+                "title": "Players in blue and in red and white during an evening match",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1759760300494-7378d88180f9?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Players in blue and in red and white during an evening match"
+                }
+              },
+              {
+                "title": "A lineout in a stadium with spectators in the stands",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A lineout in a stadium with spectators in the stands"
+                }
+              },
+              {
+                "title": "Players in maroon jerseys arm in arm in a team huddle",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                }
+              },
+              {
+                "title": "A player in black carrying the ball past a tackler in green",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1574618519056-4f25ec2711f4?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A player in black carrying the ball past a tackler in green"
+                }
+              },
+              {
+                "title": "A floodlit stadium packed with spectators",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "A floodlit stadium packed with spectators"
+                }
+              },
+              {
+                "title": "Players in green and in black competing for the ball at a ruck",
+                "image": {
+                  "url": "https://images.unsplash.com/photo-1574618500275-a5d3458db385?auto=format&fit=crop&w=1600&q=80",
+                  "alt": "Players in green and in black competing for the ball at a ruck"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

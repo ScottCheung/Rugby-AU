@@ -1,23 +1,25 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { validateEntry, type CollectionId } from '../lib/collections';
+import { allNodes } from '../lib/components/tree';
 import { validateTree } from '../lib/components/validateTree';
-import { summarizeArticles } from '../lib/news';
 import type { ComponentNode } from '../lib/types';
-import { pages } from '../scripts/seed/pages';
+import { readSeed } from '../scripts/seed/read';
 import { sites } from '../scripts/seed/sites';
-import { squads } from '../scripts/seed/squads';
 
-/** Every site-relative href in a tree (card links and slide buttons). */
-function hrefs(nodes: ComponentNode[]): string[] {
-  return nodes.flatMap((node) => {
-    const found = JSON.stringify(node.props).match(/"href":"([^"]+)"/g) ?? [];
-    return [
-      ...found.map((match) => match.slice(8, -1)),
-      ...hrefs(node.children ?? []),
-    ];
-  });
-}
+const { pages, entries } = readSeed();
+
+/** Every href in a tree or an entry (card links, buttons). */
+const hrefs = (value: unknown): string[] =>
+  (JSON.stringify(value).match(/"href":"([^"]+)"/g) ?? []).map((match) =>
+    match.slice(8, -1),
+  );
+
+const articlesOf = (slug: string) =>
+  entries.filter(
+    (entry) => entry.siteSlug === slug && entry.collection === 'news',
+  );
 
 describe('seed data', () => {
   it('has unique site slugs and a home page for every site', () => {
@@ -26,6 +28,7 @@ describe('seed data', () => {
     for (const slug of slugs)
       expect(
         pages.some((page) => page.siteSlug === slug && page.path === '/'),
+        slug,
       ).toBe(true);
   });
 
@@ -37,40 +40,51 @@ describe('seed data', () => {
   });
 
   it('every page passes the same validation as an editor save', () => {
-    for (const page of pages)
-      expect(validateTree(page.tree).ok, `${page.siteSlug}${page.path}`).toBe(
-        true,
-      );
+    for (const page of pages) {
+      const result = validateTree(page.tree);
+      expect(
+        result.ok ? [] : result.issues,
+        `${page.siteSlug}${page.path}`,
+      ).toEqual([]);
+    }
+  });
+
+  it('every entry passes its collection’s schema', () => {
+    for (const entry of entries)
+      expect(
+        validateEntry(entry.collection as CollectionId, entry.data).ok,
+        `${entry.siteSlug}/${entry.collection}/${entry.slug}`,
+      ).toBe(true);
   });
 
   it('has no broken internal links', () => {
-    for (const page of pages) {
+    for (const page of pages)
       for (const href of hrefs(page.tree).filter((value) =>
         value.startsWith('/'),
       )) {
-        const target = pages.find(
-          (candidate) =>
-            candidate.siteSlug === page.siteSlug && candidate.path === href,
+        const article = /^\/news\/([^/]+)$/.exec(href)?.[1];
+        const found = article
+          ? articlesOf(page.siteSlug).some((entry) => entry.slug === article)
+          : pages.some(
+              (candidate) =>
+                candidate.siteSlug === page.siteSlug && candidate.path === href,
+            );
+        expect(found, `${page.siteSlug}${page.path} links to ${href}`).toBe(
+          true,
         );
-        expect(
-          target,
-          `${page.siteSlug}${page.path} links to missing ${href}`,
-        ).toBeDefined();
       }
-    }
   });
 
   it('gives every site several pages, each one reachable', () => {
     for (const site of sites) {
-      const own = pages.filter((page) => page.siteSlug === site.slug);
+      const own = pages.filter(
+        (page) => page.siteSlug === site.slug && !page.template,
+      );
       expect(own.length, site.slug).toBeGreaterThanOrEqual(4);
-      // Top-level pages are in the site menu; articles are reached through
-      // Latest news. Anything else needs a link from another page.
-      const articles = summarizeArticles(own).map((article) => article.path);
+      // Top-level pages are in the menu; anything else needs a link.
       for (const target of own.filter((page) => page.path !== '/')) {
         const linked =
           target.path.split('/').length === 2 ||
-          articles.includes(target.path) ||
           own.some(
             (page) => page !== target && hrefs(page.tree).includes(target.path),
           );
@@ -79,21 +93,29 @@ describe('seed data', () => {
     }
   });
 
-  it('gives every site a news page and valid articles under /news/', () => {
+  it('gives every site a news page, an article template and articles', () => {
     for (const site of sites) {
       const own = pages.filter((page) => page.siteSlug === site.slug);
       expect(
         own.some((page) => page.path === '/news'),
         site.slug,
       ).toBe(true);
-      const underNews = own.filter((page) => page.path.startsWith('/news/'));
-      expect(underNews.length, site.slug).toBeGreaterThanOrEqual(3);
-      expect(summarizeArticles(underNews)).toHaveLength(underNews.length);
+      const template = own.find((page) => page.template === 'news');
+      expect(template, site.slug).toBeDefined();
+      // The template is made of ordinary blocks bound to the article.
+      expect(
+        allNodes(template!.tree).some(
+          (node) =>
+            (node.props.content as { from?: string } | undefined)?.from ===
+            'entry',
+        ),
+      ).toBe(true);
+      expect(articlesOf(site.slug).length, site.slug).toBeGreaterThanOrEqual(3);
     }
   });
 });
 
-describe('squads', () => {
+describe('players', () => {
   const teamSites = [
     'wallabies',
     'wallaroos',
@@ -103,39 +125,42 @@ describe('squads', () => {
     'waratahs',
     'western-force',
   ];
+  const players = entries.filter((entry) => entry.collection === 'players');
 
-  it('gives every team site a Squad page with every player in its source list', () => {
+  it('gives every team site players and a Squad page that shows them', () => {
     for (const slug of teamSites) {
-      const squad = squads[slug];
-      expect(squad, slug).toBeDefined();
-      const squadPage = pages.find(
+      expect(
+        players.filter((entry) => entry.siteSlug === slug).length,
+        slug,
+      ).toBeGreaterThan(10);
+      const squad = pages.find(
         (page) => page.siteSlug === slug && page.path === '/squad',
       );
-      expect(squadPage, slug).toBeDefined();
-      const shown = JSON.stringify(squadPage!.tree).match(/"name":"/g) ?? [];
-      const listed = squad.groups.reduce(
-        (sum, group) => sum + group.players.length,
-        0,
-      );
-      expect(shown.length, slug).toBe(listed);
+      expect(squad, slug).toBeDefined();
+      expect(
+        allNodes(squad!.tree as ComponentNode[]).some(
+          (node) =>
+            (node.props.content as { from?: string } | undefined)?.from ===
+            'players',
+        ),
+        slug,
+      ).toBe(true);
     }
   });
 
-  it('records where each squad comes from', () => {
-    for (const squad of Object.values(squads)) {
-      expect(squad.source.url).toMatch(/^https:\/\//);
-      expect(squad.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  it('lists nobody twice on one site', () => {
+    for (const slug of teamSites) {
+      const names = players
+        .filter((entry) => entry.siteSlug === slug)
+        .map((entry) => String(entry.data.name));
+      expect(new Set(names).size, slug).toBe(names.length);
     }
   });
 
   it('only uses player photos that exist, each with its matching backdrop', () => {
     const used = new Set(
-      pages.flatMap(
-        (page) =>
-          JSON.stringify(page.tree).match(
-            /\/players\/[a-z-]+\/[a-z0-9-]+\.webp/g,
-          ) ?? [],
-      ),
+      JSON.stringify(players).match(/\/players\/[a-z-]+\/[a-z0-9-]+\.webp/g) ??
+        [],
     );
     expect(used.size).toBeGreaterThan(200);
     for (const path of used) {
@@ -144,15 +169,6 @@ describe('squads', () => {
         ? path.replace('-bg.webp', '.webp')
         : path.replace('.webp', '-bg.webp');
       expect(used.has(pair), pair).toBe(true);
-    }
-  });
-
-  it('lists nobody twice within one squad', () => {
-    for (const [slug, squad] of Object.entries(squads)) {
-      const all = squad.groups.flatMap((group) =>
-        group.players.map((player) => player.name),
-      );
-      expect(new Set(all).size, slug).toBe(all.length);
     }
   });
 });

@@ -1,0 +1,1454 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "Club and community rugby in the Northern Territory.",
+      "tree": [
+        {
+          "id": "a7b716cb-7a0e-4b63-82cf-d2b93732ac6c",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2aad9994-12bc-45aa-8df9-3c8a1af0045d",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Rugby in the Northern Territory",
+                      "text": "Juniors, seniors, women and veterans: everyone is welcome.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1589051194321-7201ca7194ae?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Trees along a tropical beach"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    },
+                    {
+                      "title": "Registrations are open",
+                      "text": "Sign up for the new season at your local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children running across a sunny field"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d4ef5138-9c41-476c-95a8-37a0fadc543b",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4848227e-7f26-48b6-9f38-412398eae386",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Your local game",
+                      "text": "Rugby in the Northern Territory is played by juniors, seniors, women and veterans at clubs in the city and the country.\n\nWe run the competitions, train the coaches and referees, and help clubs with everything from insurance to finding volunteers.",
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "a139161e-29df-42d4-aeda-3ee81e105620",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "New this season",
+                      "text": "Registrations are open at every club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "125899bc-5265-4abe-9adf-a57ef8a9c670",
+          "type": "section",
+          "props": {
+            "heading": "Get involved",
+            "intro": "There is a place in rugby for everyone.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "7f5c400f-b5d2-4678-b6df-222a064ddf9e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Play",
+                      "text": "Juniors start with non-contact games and move to tackle rugby as they grow. Senior, women’s and veterans’ teams train once or twice a week.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "0d83de92-e5b3-4e5b-b413-a8244eb93537",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Coach",
+                      "text": "Start with a free introductory course, then build your accreditation as your team moves up the age groups.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529932398402-e0b30f66a559?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach giving instructions to a young player at training"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "6a54a86d-f910-4380-8abe-a630ce78a96b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Referee",
+                      "text": "Referees are needed every weekend. Courses cover the laws, positioning and game management, with a mentor for your first matches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585743432494-88df3550c99a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in green and in orange competing for the ball on a muddy pitch"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "57673698-86a3-4b6b-9497-272250e75a86-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "57673698-86a3-4b6b-9497-272250e75a86",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "35eb39b1-bd10-455a-b4d8-86b0f7f98669",
+          "type": "section",
+          "props": {
+            "heading": "Club rugby",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "7bea8aac-06d5-4d6d-bd4a-65b13f98addb",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Darwin and Central Australian clubs",
+                      "text": "The top level of club rugby in the state.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1532161388762-e4694f382a0e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players racing across a wet, muddy field"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Women’s club rugby",
+                      "text": "Fifteens and sevens competitions.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Black and white photo of women playing rugby"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Junior rugby",
+                      "text": "Teams from under 6s to under 18s.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613425295165-dc4a15a98bbf?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Junior players in black and red chasing a runner in blue"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "29a49eb1-b6c9-42d4-bcfa-801b936778fb",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "98c12413-c470-48d7-bd57-e4a800925d0a",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Registrations are open",
+                      "text": "Find a club near you and sign up for the new season.",
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "841c641a-4d85-476b-9d06-1c9f95cf16fb",
+          "type": "section",
+          "props": {
+            "heading": "Around the clubs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5040dc5b-1cc5-463e-b113-776eedfa8566",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players contesting the ball during a match",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618471715-61c6b64aaf31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players contesting the ball during a match"
+                      }
+                    },
+                    {
+                      "title": "Uluru rising above the desert under a blue sky",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Uluru rising above the desert under a blue sky"
+                      }
+                    },
+                    {
+                      "title": "A young player in a scrum cap placing the ball over the line",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1492303686649-6911c8127d9a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in a scrum cap placing the ball over the line"
+                      }
+                    },
+                    {
+                      "title": "A jumper in green catching the ball at a lineout, opponents in orange",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580720320997-d26327263582?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A jumper in green catching the ball at a lineout, opponents in orange"
+                      }
+                    },
+                    {
+                      "title": "A volunteer handing out drinks at a community sports event",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1766066014260-2c886decef4b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A volunteer handing out drinks at a community sports event"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/clubs",
+      "title": "Find a club",
+      "description": "Rugby clubs across the Northern Territory.",
+      "tree": [
+        {
+          "id": "e6862bcf-a45f-47fc-9d61-ab3453cbcbcb",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b6065a02-c422-47bf-8e87-4cc566f5cdce",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Find a club",
+                      "text": "Clubs across the Northern Territory run teams for every age and level.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Uluru rising above the desert under a blue sky"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "818aee44-62b1-4ffc-af9f-230213a15884",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ac8ef193-146c-438e-a774-aac37968af5e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Your first session",
+                      "text": "Sports clothes, boots and a mouthguard.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach with a group of young children on a training pitch"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "48104539-bbc2-4214-9726-7899542aa1f1",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Choosing a club",
+                      "text": "The best club is usually the closest one. Most have junior, senior and women’s teams, and all of them welcome beginners.\n\nCall in at a training night before you register: you can meet the coaches, try a session and see which team suits you."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d204a3fe-8e32-42b0-b78d-fa40dc44b8d6",
+          "type": "section",
+          "props": {
+            "heading": "Where to play",
+            "intro": "Most clubs have junior, senior and women’s teams.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "223a65f8-4daa-4ea4-8765-1cd01d1b78c7",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Metropolitan clubs",
+                      "text": "Premier competitions with several grades each weekend.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1589051194321-7201ca7194ae?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Trees along a tropical beach"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Country clubs",
+                      "text": "Local competitions and country championships.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1698746019802-ec43b1b0db29?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby ball on a green field"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9bdf3536-ba2f-4baf-b0b0-755975f3f974",
+          "type": "section",
+          "props": {
+            "heading": "What to expect",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "73a0a3e1-b94f-430c-824e-8171bcce9eb4",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Registration",
+                      "text": "Register online once you have chosen a club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    },
+                    {
+                      "title": "Training nights",
+                      "text": "Most teams train once or twice a week, with games on the weekend.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in red and white sprinting with the ball"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/get-involved",
+      "title": "Get involved",
+      "description": "Play, coach, referee or volunteer in the Northern Territory.",
+      "tree": [
+        {
+          "id": "0ae085ee-67f2-4fba-89da-6e71f54aabfc",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8a8e82d0-408e-4a07-b4ea-d4d5b6fc503d",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Get involved",
+                      "text": "Rugby runs on players, coaches, referees and volunteers.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585757318177-0570a997dc3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach holding a tactics board beside a field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e0a910d9-c230-4a20-90d2-209ca33cccfb",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4790bbfb-c407-4ce6-930e-de1e7c142959",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "There is a role for you",
+                      "text": "Clubs need more than players. Coaches, referees, team managers, first aiders and canteen helpers all make game day happen.\n\nCourses for coaches and referees run through the year, and most are free for club members.",
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1d06f568-3381-48d4-a959-00be90a98599",
+          "type": "section",
+          "props": {
+            "heading": "On the field",
+            "intro": "Courses run through the year.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a068c95c-8ed1-484f-9f04-2ae29990e261",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Play",
+                      "text": "Juniors start with non-contact games and move to tackle rugby as they grow. Senior, women’s and veterans’ teams train once or twice a week.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1600534745983-36df226d4381?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in orange and in green chasing the ball, with the referee in yellow"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "fb712510-ddeb-4d78-9bf5-6454e734aaf5",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Coach",
+                      "text": "Start with a free introductory course, then build your accreditation as your team moves up the age groups.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1771308378506-7f394413342c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach talking to players gathered around"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "04152c6f-ad73-4438-b8b5-9b1704ee884c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Referee",
+                      "text": "Referees are needed every weekend. Courses cover the laws, positioning and game management, with a mentor for your first matches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512299286776-c18be8ed6a1a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams playing rugby"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d2088940-84d5-4875-b92a-2add0e5854ed",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "0314bf41-aaf9-4d46-96c7-5cac6528a79a",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Volunteer",
+                      "text": "Every club needs helpers.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1774557937549-8844e48e8b22?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Volunteers in blue helping at an event"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "7bdebb1e-04e7-40c2-9a33-e0c42559d458",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Off the field",
+                      "text": "Team managers, first aiders and canteen helpers keep every club running.\n\nSchools can book coaching visits and programmes for primary and secondary students."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/competitions",
+      "title": "Competitions",
+      "description": "Club competitions in the Northern Territory.",
+      "tree": [
+        {
+          "id": "7883196d-3b1b-463d-8757-1e118b81a3a9",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "29da9b10-2cef-4910-875a-40a27918e032",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Competitions",
+                      "text": "Club rugby in the Northern Territory, from juniors to the top grade.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1485426337939-af69cf101909?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Five players chasing play during a match"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "fb3cbd61-f5a6-4959-b95e-58bde4e576dd",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "bfbd8dd9-05b2-46fd-83cd-c76df13e0c2f",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "How the season works",
+                      "text": "The club season runs through autumn and winter, with finals at the end. Senior clubs field several grades, so players of every standard get a game.\n\nJunior competitions are organised by age, with rules that change as players grow."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "07c5493f-0598-4453-9865-fcc5362b8999",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Finals",
+                      "text": "The end of every season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "416ed19e-f497-40a5-baa3-f01bdcd9eaeb",
+          "type": "section",
+          "props": {
+            "heading": "Senior rugby",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ebdfc0b9-2627-44da-80fe-a471718e5825",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Darwin and Central Australian clubs",
+                      "text": "The top club competition, with several grades on match days.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1558151507-c1aa3d917dbb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player holding a rugby ball"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    },
+                    {
+                      "title": "Women’s rugby",
+                      "text": "Fifteens in winter and sevens in summer.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    },
+                    {
+                      "title": "Veterans",
+                      "text": "Social rugby for players over 35.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Find a club",
+                        "href": "/clubs"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "37c6d938-05c9-4cd2-8ae0-4414d6bb8f1f",
+          "type": "section",
+          "props": {
+            "heading": "Junior rugby by age",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4d72ffdd-9e4f-42b8-95a1-e1d49d3277e9",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Non-contact games that teach the basics",
+                      "value": "U6–U9"
+                    },
+                    {
+                      "title": "Modified tackle rugby on smaller fields",
+                      "value": "U10–U12"
+                    },
+                    {
+                      "title": "Full rugby with age and weight rules",
+                      "value": "U13–U18"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News and guides for players, coaches, referees and volunteers in the Northern Territory.",
+      "tree": [
+        {
+          "id": "6de62317-305a-4a07-ae11-0df24f0106f3",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1f96108d-7200-4b4a-91fa-bf154edcba06",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News and guides for players, coaches, referees and volunteers in the Northern Territory."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b55ffe00-4ab2-4a53-bcbe-8519c1cbc1e9-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b55ffe00-4ab2-4a53-bcbe-8519c1cbc1e9",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "33e49732-2d6c-4807-b2e1-83b29ae8c9c6-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "33e49732-2d6c-4807-b2e1-83b29ae8c9c6-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "33e49732-2d6c-4807-b2e1-83b29ae8c9c6-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "33e49732-2d6c-4807-b2e1-83b29ae8c9c6-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d6811577-d472-4b00-bc66-6ea923104476",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "67d10489-041a-4b96-a0ff-b1d5894cb39d",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "choosing-a-club",
+      "data": {
+        "category": "Community",
+        "date": "2026-11-18",
+        "headline": "How to choose a rugby club",
+        "standfirst": "Close to home, the right teams, a welcoming feel: what to look for.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A team in red and white hoops gathered in front of the goal posts"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "There are clubs across the Northern Territory for every age and level. The right one is usually the closest, but it is worth a look around."
+          },
+          {
+            "kind": "heading",
+            "text": "Check the teams"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Make sure the club has a team for you: juniors by age group, senior grades, women’s fifteens and sevens, or veterans."
+          },
+          {
+            "kind": "heading",
+            "text": "Visit a training night"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Most clubs are happy for you to try a session before you register. You can meet the coaches and see how the club feels."
+          },
+          {
+            "kind": "heading",
+            "text": "Register"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Once you have chosen, registration is done online, and the club will tell you when and where to turn up."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "becoming-a-referee",
+      "data": {
+        "category": "Community",
+        "date": "2026-11-11",
+        "headline": "Thinking about refereeing? Here’s how to start",
+        "standfirst": "Referees are needed every weekend, and you don’t need to have played.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1574602904329-56e2f95fb15e?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Players in black and in blue chasing the ball on a stadium pitch"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Every game needs a referee, and clubs are always looking for more. Many referees start in their teens, others after their playing days."
+          },
+          {
+            "kind": "heading",
+            "text": "Training"
+          },
+          {
+            "kind": "paragraph",
+            "text": "An introductory course covers the laws, positioning and managing a game. New referees usually start with junior matches."
+          },
+          {
+            "kind": "heading",
+            "text": "Support"
+          },
+          {
+            "kind": "paragraph",
+            "text": "A mentor watches your first games and helps you improve. As you gain experience you can move up to senior and representative rugby."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "junior-rugby-explained",
+      "data": {
+        "category": "Pathways",
+        "date": "2026-11-04",
+        "headline": "Junior rugby explained",
+        "standfirst": "Age groups, rules and what changes as players grow.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Children running across a sunny field"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Junior rugby is organised by age, and the rules change as players grow so the game stays safe and fun."
+          },
+          {
+            "kind": "heading",
+            "text": "The youngest players"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The youngest age groups play non-contact games that teach passing, running and teamwork."
+          },
+          {
+            "kind": "heading",
+            "text": "Moving to tackle rugby"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Tackling is introduced gradually, often on smaller fields with fewer players, before juniors move to the full game."
+          },
+          {
+            "kind": "heading",
+            "text": "Teenagers"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Older juniors play full rugby, with age and size rules to keep matches fair. The best are picked for representative teams."
+          }
+        ]
+      }
+    }
+  ]
+}

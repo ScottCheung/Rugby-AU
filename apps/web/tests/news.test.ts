@@ -1,91 +1,90 @@
 import { describe, expect, it } from 'vitest';
-import { articleSchema } from '../lib/components/article';
+import { articleSchema, type Entry } from '../lib/collections';
+import { articlesFromEntries } from '../lib/collections/summaries';
 import { describeSchema } from '../lib/forms/describe';
-import { formatDate, selectArticles, summarizeArticles } from '../lib/news';
-import type { ComponentNode } from '../lib/types';
+import {
+  formatDate,
+  selectArticles,
+  selectArticlesForEditor,
+} from '../lib/collections/select';
 
 const image = { url: 'https://example.com/a.jpg', alt: 'A photo' };
-const articlePage = (
-  path: string,
-  date: string,
-  category = 'News',
-): { path: string; tree: ComponentNode[] } => ({
-  path,
-  tree: [
-    {
-      id: path,
-      type: 'article',
-      props: {
-        category,
-        date,
-        headline: `Story ${path}`,
-        standfirst: 'In short.',
-        image,
-        body: 'Text.',
-      },
-    },
-  ],
+const article = (slug: string, date: string, category = 'News'): Entry => ({
+  id: slug,
+  siteSlug: 'demo',
+  collection: 'news',
+  slug,
+  status: 'published',
+  updatedAt: '2026-11-22T00:00:00.000Z',
+  data: {
+    category,
+    date,
+    headline: `Story ${slug}`,
+    standfirst: 'In short.',
+    image,
+    body: [{ kind: 'paragraph', text: 'Text.' }],
+  },
 });
 
-describe('summarizeArticles', () => {
-  it('turns pages with an Article into cards, newest first', () => {
-    const articles = summarizeArticles([
-      articlePage('/news/older', '2026-10-01'),
-      { path: '/about', tree: [] },
-      articlePage('/news/newer', '2026-11-01', 'History'),
+describe('articlesFromEntries', () => {
+  it('turns news entries into cards, newest first, skipping invalid ones', () => {
+    const articles = articlesFromEntries([
+      article('older', '2026-10-01'),
+      article('broken', 'not a date'),
+      article('newer', '2026-11-01', 'History'),
     ]);
-    expect(articles.map((article) => article.path)).toEqual([
+    expect(articles.map((one) => one.path)).toEqual([
       '/news/newer',
       '/news/older',
     ]);
     expect(articles[0]).toMatchObject({
+      id: 'newer',
       category: 'History',
-      headline: 'Story /news/newer',
+      headline: 'Story newer',
       standfirst: 'In short.',
       image,
     });
   });
-
-  it('finds an Article inside a Section and skips invalid ones', () => {
-    const nested = {
-      path: '/news/nested',
-      tree: [
-        {
-          id: 's',
-          type: 'section',
-          props: { layout: 'full', background: 'none' },
-          children: articlePage('/x', '2026-09-01').tree,
-        },
-      ],
-    };
-    const broken = articlePage('/news/broken', 'not a date');
-    expect(
-      summarizeArticles([nested, broken]).map((article) => article.path),
-    ).toEqual(['/news/nested']);
-  });
 });
 
 describe('selectArticles', () => {
-  const all = summarizeArticles([
-    articlePage('/news/a', '2026-11-03', 'History'),
-    articlePage('/news/b', '2026-11-02'),
-    articlePage('/news/c', '2026-11-01', 'History'),
+  const all = articlesFromEntries([
+    article('a', '2026-11-03', 'History'),
+    article('b', '2026-11-02'),
+    article('c', '2026-11-01', 'History'),
   ]);
+  const ids = (list: { id: string }[]) => list.map((one) => one.id);
 
   it('filters by category and limits the count', () => {
-    expect(
-      selectArticles(all, { category: 'History', limit: 1 }).map(
-        (article) => article.path,
-      ),
-    ).toEqual(['/news/a']);
+    expect(ids(selectArticles(all, { category: 'History', limit: 1 }))).toEqual(
+      ['a'],
+    );
   });
 
   it('leaves out the page it is shown on', () => {
+    expect(ids(selectArticles(all, { limit: 3, exclude: '/news/a' }))).toEqual([
+      'b',
+      'c',
+    ]);
+  });
+
+  it('leaves out hidden articles, and the next one takes their place', () => {
+    expect(ids(selectArticles(all, { limit: 2, hidden: ['a'] }))).toEqual([
+      'b',
+      'c',
+    ]);
+  });
+
+  it('shows hidden articles to the editor, marked, without counting them', () => {
     expect(
-      selectArticles(all, { limit: 3, exclude: '/news/a' }).map(
-        (article) => article.path,
+      selectArticlesForEditor(all, { limit: 2, hidden: ['a'] }).map(
+        ({ article: one, hidden }) => [one.id, hidden],
       ),
-    ).toEqual(['/news/b', '/news/c']);
+    ).toEqual([
+      ['a', true],
+      ['b', false],
+      ['c', false],
+    ]);
   });
 });
 
@@ -95,7 +94,7 @@ describe('formatDate', () => {
   });
 });
 
-describe('the Article form', () => {
+describe('the article form', () => {
   it('shows the publish date as a date picker', () => {
     expect(
       describeSchema(articleSchema).find((field) => field.key === 'date'),

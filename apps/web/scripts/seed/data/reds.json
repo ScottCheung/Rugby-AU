@@ -1,0 +1,2569 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "Queensland Reds: Super Rugby from Brisbane.",
+      "tree": [
+        {
+          "id": "05d407ad-d7a1-495e-9787-4eb90541eb5d",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "1ee5b601-f0fb-4c48-9125-60ba17dc82ec",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Queensland Reds",
+                      "text": "Super Rugby from Brisbane.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1789758489987-bb2375d4b1bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "The Story Bridge in Brisbane lit up at night"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    },
+                    {
+                      "title": "Home games at Suncorp Stadium",
+                      "text": "Bring the family and wear the colours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "The new season",
+                      "text": "Memberships are on sale now.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618519056-4f25ec2711f4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in black carrying the ball past a tackler in green"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2a7d426c-8740-4254-812d-4c50e07d8278",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a1bf466f-1ebf-4776-b82b-8e8803135f1c",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First interstate match",
+                      "value": "1882"
+                    },
+                    {
+                      "title": "Super Rugby champions",
+                      "value": "2011"
+                    },
+                    {
+                      "title": "Super Rugby AU champions",
+                      "value": "2021"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "5cd4dc42-bdfd-4102-ac7f-c0974240aa9a",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "42d5b755-b0dd-409b-bcea-d1576cfb5f59",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "reds",
+                  "show": "upcoming",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "bdfcf025-efc6-47c8-bff3-0ab1f579d4fe",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "reds",
+                  "show": "results",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ed5a3401-da8d-40be-9259-7130d14b4276",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b427323a-303e-4473-9de9-dc86a5c54ca2",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "matt-faessler",
+                    "aidan-ross",
+                    "lukhan-salakaia-loto",
+                    "joe-brial",
+                    "tate-mcdermott",
+                    "carter-gordon",
+                    "isaac-henry",
+                    "lachie-anderson",
+                    "filipo-daugunu",
+                    "josh-nasser",
+                    "george-blake",
+                    "josh-canham",
+                    "vaiuta-latu",
+                    "kalani-thomas",
+                    "tom-lynagh",
+                    "dre-pakeho"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f6a96090-ec9c-440b-a82e-7bfadfa1e134",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "31ce8c01-0aa1-4418-80fd-51ce3f461469",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Welcome to the Queensland Reds",
+                      "text": "Queensland’s rugby story goes back to 1882, when Queensland and New South Wales played their first interstate match. Today the Reds are Queensland’s Super Rugby team.\n\nThe Reds won Super Rugby in 2011 and the Super Rugby AU title in 2021. Club rugby in Brisbane is played for the Hospital Cup.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "f5cc2cef-ea58-4374-858f-e9e0e6637199",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our honours",
+                      "text": "Titles and milestones.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "be75fe88-a12a-4a76-8716-cbe4838fe583-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "be75fe88-a12a-4a76-8716-cbe4838fe583",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "bce0ee75-90ec-4866-86ad-5b7d2c465c04",
+          "type": "section",
+          "props": {
+            "heading": "This season",
+            "intro": "Everything you need for match day.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4c0f28c8-d312-4b83-bcd3-2952bcbf5834",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Memberships",
+                      "text": "Your seat for every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1762644085617-39aa30dd9c52?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sprinklers watering the pitch in a large stadium"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Tickets",
+                      "text": "Single-game tickets for every home match.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1492303686649-6911c8127d9a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in a scrum cap placing the ball over the line"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3dfdec21-69b3-4e6c-81f4-f0592ecc4212",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "33098fc8-ef12-45b9-a48a-7b90c1e36e0b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Brisbane",
+                      "text": "The heart of rugby in Queensland.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1566734904496-9309bb1798ae?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Brisbane city skyline under a clear sky"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "ddc53d72-535c-4de5-99d1-282c383df999",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Suncorp Stadium",
+                      "text": "Home games are played at Suncorp Stadium, with the city of Brisbane turning out in the club’s colours.",
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "811b8164-08a1-46ef-b1ad-0c1acfa98329",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "71637c71-34c7-4302-8e39-89852456246f",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players in green and in black competing for the ball at a ruck",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618500275-a5d3458db385?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in green and in black competing for the ball at a ruck"
+                      }
+                    },
+                    {
+                      "title": "The Story Bridge in Brisbane lit up at night",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1789758489987-bb2375d4b1bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "The Story Bridge in Brisbane lit up at night"
+                      }
+                    },
+                    {
+                      "title": "A jumper in green catching the ball at a lineout, opponents in orange",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580720320997-d26327263582?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A jumper in green catching the ball at a lineout, opponents in orange"
+                      }
+                    },
+                    {
+                      "title": "A player in yellow leaping out of a tackle beside spectators",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1516689807549-04b4c3b4ee35?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in yellow leaping out of a tackle beside spectators"
+                      }
+                    },
+                    {
+                      "title": "Players in maroon jerseys arm in arm in a team huddle",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/club",
+      "title": "The club",
+      "description": "The story of the Queensland Reds.",
+      "tree": [
+        {
+          "id": "b889cc71-d8f0-450e-acad-33f5b4d4c0ab",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "05ca607a-5737-478f-956a-cab9715bb09f",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the Queensland Reds",
+                      "text": "Queensland’s rugby story goes back to 1882, when Queensland and New South Wales played their first interstate match. Today the Reds are Queensland’s Super Rugby team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1789758489987-bb2375d4b1bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "The Story Bridge in Brisbane lit up at night"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cb4ec733-5394-470e-a6db-ee162c5281ea",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "9625e50f-d46d-4445-9165-c617937ed814",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our story",
+                      "text": "Queensland’s rugby story goes back to 1882, when Queensland and New South Wales played their first interstate match. Today the Reds are Queensland’s Super Rugby team.\n\nThe Reds won Super Rugby in 2011 and the Super Rugby AU title in 2021. Club rugby in Brisbane is played for the Hospital Cup.\n\nHome games are at Suncorp Stadium in Brisbane."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "48259534-6e17-405e-bea0-8da3bc8f3e49",
+          "type": "section",
+          "props": {
+            "heading": "Honours and milestones",
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "89c0f74d-fc50-446f-bc51-e42f50988b2c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1882",
+                      "text": "Queensland and New South Wales play their first interstate match.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2011",
+                      "text": "Super Rugby champions.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2021",
+                      "text": "Super Rugby AU champions.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "20a6706f-5474-486d-a4bb-3e53a6d2f695",
+          "type": "section",
+          "props": {
+            "heading": "More than one team",
+            "intro": "The club looks after rugby across its region.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "12e79bd4-f338-42eb-bbbd-72ae1fe6574d",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Super Rugby Pacific",
+                      "text": "The men’s team, against the best clubs in Australia, New Zealand and the Pacific.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618529433-ab11e5f3d962?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black driving forward in a maul"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The women’s team in the national women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580146400020-fc3f176baed8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women in green and in orange competing for the ball in a tackle"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Academy",
+                      "text": "Young players from across Queensland.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1771308378506-7f394413342c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach talking to players gathered around"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matchday",
+      "title": "Match day",
+      "description": "Home games at Suncorp Stadium.",
+      "tree": [
+        {
+          "id": "9113d2fe-e2c0-40c7-a2d6-da9c24b2f350",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "1e7e36b7-8b1f-48ed-ac12-32caf69942f6",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Match day",
+                      "text": "Everything you need for a home game at Suncorp Stadium.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6bbcbafe-e1b1-422d-883e-404817dca006",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "26f541f0-9883-48cf-90c4-fe878e6efada",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Plan your day",
+                      "text": "Gates at Suncorp Stadium open well before kick-off, with activities for kids on the concourse and the warm-ups to watch.\n\nPublic transport is the easiest way to get there on game day. Members keep the same seat all season, and single tickets go on sale before each game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "c34e2c92-6e27-4d89-8ede-0655accc7ed8",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Getting there",
+                      "text": "Travel tips for Suncorp Stadium.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1566734904496-9309bb1798ae?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Brisbane city skyline under a clear sky"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "18deadac-b62e-4ce2-bcc6-a5c273241a27",
+          "type": "section",
+          "props": {
+            "heading": "Before you go",
+            "intro": "Tickets, seats and family days.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "449464f0-12da-4da6-82ea-d8a0cee00124",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets and memberships",
+                      "text": "Members keep the same seat all season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582566-e4b9c1d229fa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium with goalposts and colourful seats"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "f842c245-f567-4bb1-a750-31e100b88aa4",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids go cheap",
+                      "text": "Discounted tickets for children, and a family zone at every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in red and white sprinting with the ball"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "9127cce3-4a21-4cc0-9883-50e2236a72d9",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Meet the players",
+                      "text": "Signing sessions after selected games.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9ffcb7a8-3825-490a-ad25-836a5c3ef9ef",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b80357e3-6a2a-426f-98c3-c169f43d55f4",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "See you at the game",
+                      "text": "Memberships for the new season at Suncorp Stadium are on sale now.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pathways",
+      "title": "Pathways",
+      "description": "From club rugby to the Queensland Reds.",
+      "tree": [
+        {
+          "id": "5d50f921-683e-4393-9a2d-a9942281d4c6",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "ea90d82a-3f01-465b-9fe0-6629393c9ff0",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Pathways",
+                      "text": "How young players in Queensland reach professional rugby.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1600534745983-36df226d4381?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in orange and in green chasing the ball, with the referee in yellow"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8f518858-09cd-4cc9-9dc3-520f53fe8865",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "40c60e76-8369-4828-85a6-c0bc1270469a",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The academy",
+                      "text": "Where the next generation trains.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529932398402-e0b30f66a559?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach giving instructions to a young player at training"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "32743ff7-b894-43e1-9543-fda84f998f60",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "From the local club to Super Rugby",
+                      "text": "Every player in the Queensland Reds squad started at a local club. Talented juniors are picked for representative age-group teams, and the best join the club’s academy.\n\nThe academy adds coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "0d799bb4-ef83-4b77-962f-f607cf816a0c",
+          "type": "section",
+          "props": {
+            "heading": "The route to the top",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "859103d0-7269-4dbf-88d7-f91822174520",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club rugby",
+                      "text": "Every player starts at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children running across a sunny field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach with a group of young children on a training pitch"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Representative teams",
+                      "text": "Age-group teams that play other states.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1573056020034-fc367ec5ff3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in green brought to ground among players in red and white"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Debut",
+                      "text": "Pulling on the Queensland Reds jersey.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby goal posts in a full stadium"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "5eb04088-bd11-4c88-b0b9-7b4f9c35850e",
+          "type": "section",
+          "props": {
+            "heading": "Women’s pathway",
+            "intro": "Girls can follow the same route, all the way to Super W.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5d638ac5-4969-4524-aa5a-5e2f9a7de5cf",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club and school",
+                      "text": "Girls’ teams at every age.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1534583000938-a375b825ea16?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women's rugby jerseys"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The club’s women’s team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1557278444-248705f95d17?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s team in white huddled on a stadium field"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, stories and match-day guides from the Queensland Reds.",
+      "tree": [
+        {
+          "id": "6078bd57-63aa-4662-bc8b-8a6d0f5989ae",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "e1062cc4-9e6b-44c9-beca-d90ae1f5bf2e",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, stories and match-day guides from the Queensland Reds."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9c400508-96d4-484a-85b5-992a67be8151-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "9c400508-96d4-484a-85b5-992a67be8151",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "2027 Super Rugby Pacific squad",
+      "tree": [
+        {
+          "id": "48e91610-e180-4996-bc48-9b17f3bb52fd",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "98401d6a-f310-4c8c-83fb-5491dfd78559",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "2027 Super Rugby Pacific squad.\n\nNamed 27 October 2026, as listed in “Reds Name Squad for 2027 Super Rugby Pacific Campaign”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugby.com.au/news/reds-name-squad-for-2027-super-rugby-pacific-campaign-20261027"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4842fabe-39a2-40c0-a562-19917be23cb1",
+          "type": "section",
+          "props": {
+            "heading": "Hookers",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "cdd756e4-8a54-4f35-95cd-3f94bffe581e",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Hookers"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a1107638-bf79-42c3-8dd1-8952293b6aa3",
+          "type": "section",
+          "props": {
+            "heading": "Props",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b46a3c3d-a5e2-4a79-ab7b-ca44fe2944b9",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Props"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b5f70147-1825-4fb1-8c83-dab656c5eb4c",
+          "type": "section",
+          "props": {
+            "heading": "Locks",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c2d5ff7c-8747-447f-a327-8a96f3e254ad",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Locks"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ac4523f7-088c-44ec-8a5a-9650430ba217",
+          "type": "section",
+          "props": {
+            "heading": "Back row",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "58d82e91-4809-46ba-8af8-9dd2cfd5d73a",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Back row"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "16a1e5f8-8745-4077-ba93-4b162c05d55a",
+          "type": "section",
+          "props": {
+            "heading": "Halfbacks",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ca9d5353-11d2-4faf-afdc-69d139a61f1b",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Halfbacks"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4f838954-c300-46f3-8942-a5823d9981ff",
+          "type": "section",
+          "props": {
+            "heading": "Flyhalves",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "56c6cc3b-5cad-4e30-9738-fde001013d05",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Flyhalves"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d71995eb-38ab-49e1-ad43-14633c1adfb5",
+          "type": "section",
+          "props": {
+            "heading": "Centres",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "51b56e8e-3062-4eb9-9b78-468b17005f34",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Centres"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e0e03cd7-e713-4976-8ecc-7eae4700e881",
+          "type": "section",
+          "props": {
+            "heading": "Outside backs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8352eac7-4060-42eb-9b9b-66249a8913e6",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Outside backs"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "62718afe-f1bd-4601-8ab5-686af6770730",
+          "type": "section",
+          "props": {
+            "heading": "Utility",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b21ea6b3-91cb-40b9-b07a-75cc0f43d9bb",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Utility"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "a8d37727-9d46-45a2-b0ce-87f779ced946-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a8d37727-9d46-45a2-b0ce-87f779ced946-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "a8d37727-9d46-45a2-b0ce-87f779ced946-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "a8d37727-9d46-45a2-b0ce-87f779ced946-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "7ebc5bb3-2142-4111-a141-456e5b4a1015",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c08880b9-1102-48ab-b80c-bc39167e14c0",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "our-story",
+      "data": {
+        "category": "History",
+        "date": "2026-11-18",
+        "headline": "The Queensland Reds story",
+        "standfirst": "Queensland’s rugby story goes back to 1882, when Queensland and New South Wales played their first interstate match. Today the Reds are Queensland’s Super Rugby team.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1789758489987-bb2375d4b1bb?auto=format&fit=crop&w=1600&q=80",
+          "alt": "The Story Bridge in Brisbane lit up at night"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "The Reds won Super Rugby in 2011 and the Super Rugby AU title in 2021. Club rugby in Brisbane is played for the Hospital Cup."
+          },
+          {
+            "kind": "paragraph",
+            "text": "Home games are at Suncorp Stadium in Brisbane."
+          },
+          {
+            "kind": "heading",
+            "text": "Honours"
+          },
+          {
+            "kind": "paragraph",
+            "text": "1882: Queensland and New South Wales play their first interstate match. 2011: Super Rugby champions. 2021: Super Rugby AU champions."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "match-day-guide",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-11",
+        "headline": "Match day at Suncorp Stadium: what to know",
+        "standfirst": "Tickets, getting there and what to expect at a home game.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1693073410934-5e45e31a6b5c?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A large stadium filling up before a rugby match"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Home games at Suncorp Stadium are a day out for the whole family. Here is how to plan yours."
+          },
+          {
+            "kind": "heading",
+            "text": "Tickets"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Members keep the same seat all season. Single tickets go on sale before each game, and children’s tickets are discounted."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is the easiest way to Suncorp Stadium on game day. Allow extra time: the roads around the ground are busy before kick-off."
+          },
+          {
+            "kind": "heading",
+            "text": "At the ground"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Gates open well before kick-off, with activities for kids on the concourse. Stay after the game for signing sessions on selected dates."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "inside-the-academy",
+      "data": {
+        "category": "Pathways",
+        "date": "2026-11-04",
+        "headline": "Inside the academy: from club rugby to Super Rugby",
+        "standfirst": "How young players in Queensland find their way into the Queensland Reds squad.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1585757318177-0570a997dc3a?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A coach holding a tactics board beside a field"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Every player in the Queensland Reds squad started at a local club. The academy is the bridge between club rugby and the professional game."
+          },
+          {
+            "kind": "heading",
+            "text": "Who is picked"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Talented juniors are spotted in club and school rugby and in representative age-group teams, then invited to train with the academy."
+          },
+          {
+            "kind": "heading",
+            "text": "What the academy adds"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+          },
+          {
+            "kind": "heading",
+            "text": "Girls and women"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The same pathway leads to the club’s Super W team."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "matt-faessler",
+      "data": {
+        "name": "Matt Faessler",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/reds/matt-faessler.webp",
+          "alt": "Matt Faessler in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/matt-faessler-bg.webp",
+          "alt": "The backdrop of Matt Faessler's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "josh-nasser",
+      "data": {
+        "name": "Josh Nasser",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/reds/josh-nasser.webp",
+          "alt": "Josh Nasser in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/josh-nasser-bg.webp",
+          "alt": "The backdrop of Josh Nasser's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "zac-hough",
+      "data": {
+        "name": "Zac Hough",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/reds/zac-hough.webp",
+          "alt": "Zac Hough in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/zac-hough-bg.webp",
+          "alt": "The backdrop of Zac Hough's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "aidan-ross",
+      "data": {
+        "name": "Aidan Ross",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/aidan-ross.webp",
+          "alt": "Aidan Ross in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/aidan-ross-bg.webp",
+          "alt": "The backdrop of Aidan Ross's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "george-blake",
+      "data": {
+        "name": "George Blake",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/george-blake.webp",
+          "alt": "George Blake in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/george-blake-bg.webp",
+          "alt": "The backdrop of George Blake's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-lambert",
+      "data": {
+        "name": "Tom Lambert",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/tom-lambert.webp",
+          "alt": "Tom Lambert in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/tom-lambert-bg.webp",
+          "alt": "The backdrop of Tom Lambert's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kingsley-uys",
+      "data": {
+        "name": "Kingsley Uys",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/kingsley-uys.webp",
+          "alt": "Kingsley Uys in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/kingsley-uys-bg.webp",
+          "alt": "The backdrop of Kingsley Uys's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "zane-nonggorr",
+      "data": {
+        "name": "Zane Nonggorr",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/zane-nonggorr.webp",
+          "alt": "Zane Nonggorr in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/zane-nonggorr-bg.webp",
+          "alt": "The backdrop of Zane Nonggorr's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "massimo-de-lutiis",
+      "data": {
+        "name": "Massimo De Lutiis",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/massimo-de-lutiis.webp",
+          "alt": "Massimo De Lutiis in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/massimo-de-lutiis-bg.webp",
+          "alt": "The backdrop of Massimo De Lutiis's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "trevor-king",
+      "data": {
+        "name": "Trevor King",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/trevor-king.webp",
+          "alt": "Trevor King in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/trevor-king-bg.webp",
+          "alt": "The backdrop of Trevor King's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nick-bloomfield",
+      "data": {
+        "name": "Nick Bloomfield",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/reds/nick-bloomfield.webp",
+          "alt": "Nick Bloomfield in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/nick-bloomfield-bg.webp",
+          "alt": "The backdrop of Nick Bloomfield's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lukhan-salakaia-loto",
+      "data": {
+        "name": "Lukhan Salakaia-Loto",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/reds/lukhan-salakaia-loto.webp",
+          "alt": "Lukhan Salakaia-Loto in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/lukhan-salakaia-loto-bg.webp",
+          "alt": "The backdrop of Lukhan Salakaia-Loto's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "josh-canham",
+      "data": {
+        "name": "Josh Canham",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/reds/josh-canham.webp",
+          "alt": "Josh Canham in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/josh-canham-bg.webp",
+          "alt": "The backdrop of Josh Canham's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "will-ross",
+      "data": {
+        "name": "Will Ross",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/reds/will-ross.webp",
+          "alt": "Will Ross in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/will-ross-bg.webp",
+          "alt": "The backdrop of Will Ross's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "cadeyrn-neville",
+      "data": {
+        "name": "Cadeyrn Neville",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/reds/cadeyrn-neville.webp",
+          "alt": "Cadeyrn Neville in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/cadeyrn-neville-bg.webp",
+          "alt": "The backdrop of Cadeyrn Neville's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "charlie-brosnan",
+      "data": {
+        "name": "Charlie Brosnan",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/reds/charlie-brosnan.webp",
+          "alt": "Charlie Brosnan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/charlie-brosnan-bg.webp",
+          "alt": "The backdrop of Charlie Brosnan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "joe-brial",
+      "data": {
+        "name": "Joe Brial",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/joe-brial.webp",
+          "alt": "Joe Brial in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/joe-brial-bg.webp",
+          "alt": "The backdrop of Joe Brial's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "vaiuta-latu",
+      "data": {
+        "name": "Vaiuta Latu",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/vaiuta-latu.webp",
+          "alt": "Vaiuta Latu in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/vaiuta-latu-bg.webp",
+          "alt": "The backdrop of Vaiuta Latu's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-robinson",
+      "data": {
+        "name": "Tom Robinson",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/tom-robinson.webp",
+          "alt": "Tom Robinson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/tom-robinson-bg.webp",
+          "alt": "The backdrop of Tom Robinson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "john-bryant",
+      "data": {
+        "name": "John Bryant",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/john-bryant.webp",
+          "alt": "John Bryant in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/john-bryant-bg.webp",
+          "alt": "The backdrop of John Bryant's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "fraser-mcreight",
+      "data": {
+        "name": "Fraser McReight",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/fraser-mcreight.webp",
+          "alt": "Fraser McReight in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/fraser-mcreight-bg.webp",
+          "alt": "The backdrop of Fraser McReight's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "toby-brial",
+      "data": {
+        "name": "Toby Brial",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/toby-brial.webp",
+          "alt": "Toby Brial in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/toby-brial-bg.webp",
+          "alt": "The backdrop of Toby Brial's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lachie-hooper",
+      "data": {
+        "name": "Lachie Hooper",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/lachie-hooper.webp",
+          "alt": "Lachie Hooper in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/lachie-hooper-bg.webp",
+          "alt": "The backdrop of Lachie Hooper's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harry-wilson",
+      "data": {
+        "name": "Harry Wilson",
+        "role": "Back row",
+        "group": "Back row",
+        "cutout": {
+          "url": "/players/reds/harry-wilson.webp",
+          "alt": "Harry Wilson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/harry-wilson-bg.webp",
+          "alt": "The backdrop of Harry Wilson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tate-mcdermott",
+      "data": {
+        "name": "Tate McDermott",
+        "role": "Halfback",
+        "group": "Halfbacks",
+        "cutout": {
+          "url": "/players/reds/tate-mcdermott.webp",
+          "alt": "Tate McDermott in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/tate-mcdermott-bg.webp",
+          "alt": "The backdrop of Tate McDermott's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kalani-thomas",
+      "data": {
+        "name": "Kalani Thomas",
+        "role": "Halfback",
+        "group": "Halfbacks",
+        "cutout": {
+          "url": "/players/reds/kalani-thomas.webp",
+          "alt": "Kalani Thomas in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/kalani-thomas-bg.webp",
+          "alt": "The backdrop of Kalani Thomas's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-martens",
+      "data": {
+        "name": "James Martens",
+        "role": "Halfback",
+        "group": "Halfbacks",
+        "cutout": {
+          "url": "/players/reds/james-martens.webp",
+          "alt": "James Martens in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/james-martens-bg.webp",
+          "alt": "The backdrop of James Martens's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "carter-gordon",
+      "data": {
+        "name": "Carter Gordon",
+        "role": "Flyhalf",
+        "group": "Flyhalves",
+        "cutout": {
+          "url": "/players/reds/carter-gordon.webp",
+          "alt": "Carter Gordon in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/carter-gordon-bg.webp",
+          "alt": "The backdrop of Carter Gordon's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-lynagh",
+      "data": {
+        "name": "Tom Lynagh",
+        "role": "Flyhalf",
+        "group": "Flyhalves",
+        "cutout": {
+          "url": "/players/reds/tom-lynagh.webp",
+          "alt": "Tom Lynagh in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/tom-lynagh-bg.webp",
+          "alt": "The backdrop of Tom Lynagh's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "finn-mackay",
+      "data": {
+        "name": "Finn Mackay",
+        "role": "Flyhalf",
+        "group": "Flyhalves",
+        "cutout": {
+          "url": "/players/reds/finn-mackay.webp",
+          "alt": "Finn Mackay in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/finn-mackay-bg.webp",
+          "alt": "The backdrop of Finn Mackay's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "isaac-henry",
+      "data": {
+        "name": "Isaac Henry",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/reds/isaac-henry.webp",
+          "alt": "Isaac Henry in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/isaac-henry-bg.webp",
+          "alt": "The backdrop of Isaac Henry's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "dre-pakeho",
+      "data": {
+        "name": "Dre Pakeho",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/reds/dre-pakeho.webp",
+          "alt": "Dre Pakeho in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/dre-pakeho-bg.webp",
+          "alt": "The backdrop of Dre Pakeho's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "izaia-perese",
+      "data": {
+        "name": "Izaia Perese",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/reds/izaia-perese.webp",
+          "alt": "Izaia Perese in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/izaia-perese-bg.webp",
+          "alt": "The backdrop of Izaia Perese's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "xavier-rubens",
+      "data": {
+        "name": "Xavier Rubens",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/reds/xavier-rubens.webp",
+          "alt": "Xavier Rubens in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/xavier-rubens-bg.webp",
+          "alt": "The backdrop of Xavier Rubens's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "taione-taka",
+      "data": {
+        "name": "Taione Taka",
+        "role": "Centre",
+        "group": "Centres",
+        "cutout": {
+          "url": "/players/reds/taione-taka.webp",
+          "alt": "Taione Taka in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/taione-taka-bg.webp",
+          "alt": "The backdrop of Taione Taka's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lachie-anderson",
+      "data": {
+        "name": "Lachie Anderson",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/reds/lachie-anderson.webp",
+          "alt": "Lachie Anderson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/lachie-anderson-bg.webp",
+          "alt": "The backdrop of Lachie Anderson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tim-ryan",
+      "data": {
+        "name": "Tim Ryan",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/reds/tim-ryan.webp",
+          "alt": "Tim Ryan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/tim-ryan-bg.webp",
+          "alt": "The backdrop of Tim Ryan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nicholas-conway",
+      "data": {
+        "name": "Nicholas Conway",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/reds/nicholas-conway.webp",
+          "alt": "Nicholas Conway in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/nicholas-conway-bg.webp",
+          "alt": "The backdrop of Nicholas Conway's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "treyvon-pritchard",
+      "data": {
+        "name": "Treyvon Pritchard",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/reds/treyvon-pritchard.webp",
+          "alt": "Treyvon Pritchard in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/treyvon-pritchard-bg.webp",
+          "alt": "The backdrop of Treyvon Pritchard's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "filipo-daugunu",
+      "data": {
+        "name": "Filipo Daugunu",
+        "role": "Utility",
+        "group": "Utility",
+        "cutout": {
+          "url": "/players/reds/filipo-daugunu.webp",
+          "alt": "Filipo Daugunu in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/filipo-daugunu-bg.webp",
+          "alt": "The backdrop of Filipo Daugunu's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "coby-miln",
+      "data": {
+        "name": "Coby Miln",
+        "role": "Utility",
+        "group": "Utility",
+        "cutout": {
+          "url": "/players/reds/coby-miln.webp",
+          "alt": "Coby Miln in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/coby-miln-bg.webp",
+          "alt": "The backdrop of Coby Miln's squad photo"
+        }
+      }
+    }
+  ]
+}

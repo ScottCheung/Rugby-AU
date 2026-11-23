@@ -1,9 +1,8 @@
 import type { CSSProperties } from 'react';
 import { Container } from '@/components/primitives/Container';
 import { SiteLogo } from '@/components/primitives/SiteLogo';
-import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { resolveHref } from '@/lib/links';
-import type { SiteData } from '@/lib/news';
+import type { SiteData } from '@/lib/components/blocks/siteData';
 import type { ComponentNode, MenuItem, Site } from '@/lib/types';
 import { RenderTree } from './RenderTree';
 import { SiteMotion } from './Reveal';
@@ -41,16 +40,13 @@ export function SitePage({
   editHref?: string;
   managerHref?: string;
 }) {
-  // An article shows its own headline as the page's h1.
-  const hasOwnHeading = components[0]?.type === 'article';
-  // A full-width first block is a hero: the header floats over it.
-  const heroFirst =
-    !!components[0] && rootBlockWidth(components[0]) === 'full-width';
+  // An edge-to-edge first Section is a hero: the header floats over it.
+  const heroFirst = components[0]?.props.width === 'full-width';
 
   return (
     <div
       style={themeVars}
-      className="@container/page flex min-h-screen flex-col bg-background font-site text-text"
+      className="@container/page flex min-h-screen flex-col bg-background font-site text-[1.0625rem] leading-[1.65] text-text"
     >
       <SiteHeader
         siteName={site.name}
@@ -59,10 +55,17 @@ export function SitePage({
         editHref={editHref}
         managerHref={managerHref}
         overlay={heroFirst}
+        button={
+          site.headerButton && {
+            label: site.headerButton.label,
+            href: resolveHref(site.headerButton.href, site.slug) ?? '#',
+          }
+        }
+        chrome={editable}
         links={menu.map((item) => ({
           id: item.id,
           href: resolveHref(item.path, site.slug) ?? '#',
-          label: item.path === '/' ? 'Home' : item.title,
+          label: item.title,
           current: item.path === path,
         }))}
       />
@@ -74,7 +77,7 @@ export function SitePage({
           heroFirst ? '' : 'pt-site-lg'
         }`}
       >
-        {!hasOwnHeading && <h1 className="sr-only">{title}</h1>}
+        <h1 className="sr-only">{title}</h1>
         {components.length > 0 ? (
           <>
             {/* Without JavaScript, entrance animations never run: show it all. */}
@@ -97,7 +100,10 @@ export function SitePage({
         )}
       </main>
 
-      <footer className="surface-strong bg-brand py-site-md text-sm text-brand-contrast">
+      <footer
+        data-site-chrome={editable || undefined}
+        className="surface-strong bg-brand py-site-md text-sm text-brand-contrast"
+      >
         <Container className="flex flex-col gap-6">
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="flex max-w-sm flex-col gap-3">
@@ -115,12 +121,28 @@ export function SitePage({
                       href={resolveHref(item.path, site.slug)}
                       className="opacity-80 hover:underline hover:opacity-100"
                     >
-                      {item.path === '/' ? 'Home' : item.title}
+                      {item.title}
                     </a>
                   </li>
                 ))}
               </ul>
             </nav>
+            {site.footerLinks && site.footerLinks.length > 0 && (
+              <nav aria-label="More links">
+                <ul className="m-0 flex list-none flex-col gap-2 p-0">
+                  {site.footerLinks.map((link) => (
+                    <li key={`${link.label}${link.href}`}>
+                      <a
+                        href={resolveHref(link.href, site.slug) ?? '#'}
+                        className="opacity-80 hover:underline hover:opacity-100"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
           </div>
           <span className="border-t border-current/20 pt-4 opacity-70">
             © {site.name}. A demo site with sample content.

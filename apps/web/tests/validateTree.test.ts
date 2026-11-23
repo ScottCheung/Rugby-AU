@@ -2,10 +2,27 @@ import { describe, expect, it } from 'vitest';
 import { componentDefinitions } from '../lib/components/registry';
 import { validateTree } from '../lib/components/validateTree';
 
-const card = {
-  image: { url: 'https://picsum.photos/seed/a/800/500', alt: 'A photo' },
-  heading: '  Our squad  ',
-};
+const image = { url: 'https://picsum.photos/seed/a/800/500', alt: 'A photo' };
+
+const section = (
+  children: unknown[],
+  props: Record<string, unknown> = {},
+  id = 's1',
+) => ({
+  id,
+  type: 'section',
+  props: { columns: '1', background: 'none', ...props },
+  children,
+});
+const cards = (items: unknown[], id = 'b1') => ({
+  id,
+  type: 'cards',
+  props: {
+    content: { from: 'items', items },
+    layout: { arrange: 'grid' },
+    style: { look: 'card', ratio: 'wide', showText: true },
+  },
+});
 
 describe('component definitions', () => {
   it.each(componentDefinitions)(
@@ -19,20 +36,13 @@ describe('component definitions', () => {
 });
 
 describe('validateTree', () => {
-  it('accepts a nested tree and returns cleaned props', () => {
+  it('accepts a Section of blocks and returns cleaned props', () => {
     const result = validateTree([
-      {
-        id: 's1',
-        type: 'section',
-        props: { layout: 'two-column', background: 'brand', extra: 'dropped' },
-        children: [
-          {
-            id: 'g1',
-            type: 'cardGrid',
-            props: { title: 'Team', cards: [card] },
-          },
-        ],
-      },
+      section([cards([{ image, title: '  Our squad  ' }])], {
+        columns: '1-1',
+        background: 'primary',
+        extra: 'dropped',
+      }),
     ]);
     expect(result).toEqual({
       ok: true,
@@ -40,98 +50,116 @@ describe('validateTree', () => {
         {
           id: 's1',
           type: 'section',
-          // width was not stored: the schema default fills it in.
+          // align, padding and width were not stored: defaults fill them in.
           props: {
-            layout: 'two-column',
-            background: 'brand',
-            width: 'contained',
+            columns: '1-1',
+            align: 'stretch',
+            background: 'primary',
+            padding: 'md',
+            width: 'full-background',
           },
-          children: [
-            {
-              id: 'g1',
-              type: 'cardGrid',
-              props: {
-                title: 'Team',
-                variant: 'grid',
-                cards: [{ ...card, heading: 'Our squad' }],
-              },
-            },
-          ],
+          children: [cards([{ image, title: 'Our squad' }])],
         },
       ],
     });
   });
 
-  it('reports field errors with the node id and the path inside its props', () => {
-    const result = validateTree([
-      {
-        id: 's1',
-        type: 'section',
-        props: { layout: 'full', background: 'none' },
-        children: [
-          {
-            id: 'g1',
-            type: 'cardGrid',
-            props: {
-              title: 'Team',
-              cards: [
-                {
-                  image: { url: 'javascript:alert(1)', alt: 'x' },
-                  heading: '',
-                  link: { label: 'Go', href: '' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    ]);
+  it('reports item errors with the block id and the path inside its props', () => {
+    const result = validateTree([section([cards([{ title: '' }])])]);
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(
       result.issues.map((issue) => [issue.nodeId, issue.path.join('.')]),
     ).toEqual([
-      ['g1', 'cards.0.image.url'],
-      ['g1', 'cards.0.heading'],
-      ['g1', 'cards.0.link.href'],
+      ['b1', 'content.items.0.title'],
+      ['b1', 'content.items.0.image'],
     ]);
   });
 
-  it('fills in the Card Grid variant for pages saved before it existed', () => {
+  it('checks a block against its type: written items need what it reads', () => {
     const result = validateTree([
-      { id: 'g1', type: 'cardGrid', props: { title: 'Old', cards: [] } },
+      section([
+        {
+          id: 'n1',
+          type: 'stats',
+          props: {
+            content: { from: 'items', items: [{ title: 'Titles' }] },
+            layout: { arrange: 'carousel' },
+            style: { size: 'l' },
+          },
+        },
+      ]),
     ]);
-    expect(result.ok && result.tree[0].props.variant).toBe('grid');
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.issues.map((issue) => issue.path.join('.'))).toEqual([
+      'content.items.0.value',
+    ]);
   });
 
-  it('allows the optional link to be left out', () => {
-    const result = validateTree([
-      { id: 'g1', type: 'cardGrid', props: { title: '', cards: [card] } },
-    ]);
-    expect(result.ok).toBe(true);
+  it('only lets a block take items from a source that fills what it needs', () => {
+    const block = (type: string, content: unknown, style = {}) => [
+      section([
+        {
+          id: type,
+          type,
+          props: { content, layout: { arrange: 'grid' }, style },
+        },
+      ]),
+    ];
+    // News fills in a heading, text, an image and a link: cards can show it.
+    expect(
+      validateTree(
+        block(
+          'cards',
+          { from: 'news', mode: 'latest', limit: 3 },
+          { look: 'card', ratio: 'wide', showText: true },
+        ),
+      ).ok,
+    ).toBe(true);
+    // Numbers need a value, which news has not got.
+    expect(
+      validateTree(
+        block(
+          'stats',
+          { from: 'news', mode: 'latest', limit: 3 },
+          { size: 'l' },
+        ),
+      ).ok,
+    ).toBe(false);
+    // Matches only come from the fixtures service, never written by hand.
+    expect(
+      validateTree(
+        block('matches', { from: 'items', items: [] }, { showVenue: true }),
+      ).ok,
+    ).toBe(false);
   });
 
-  it('rejects unknown types, duplicate ids and children on leaf components', () => {
+  it('keeps the page shape: only Sections on the page, Sections can nest', () => {
+    const nested = section([section([cards([])], {}, 's2')]);
+    expect(validateTree([nested]).ok).toBe(true);
+    const result = validateTree([cards([], 'loose')]);
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.issues.map((issue) => issue.message)).toEqual([
+      'Only Sections can be placed directly on the page.',
+    ]);
+  });
+
+  it('rejects unknown types, duplicate ids and children on blocks', () => {
     const result = validateTree([
-      { id: 'a', type: 'carousel', props: {} },
-      {
-        id: 'b',
-        type: 'cardGrid',
-        props: { title: '', cards: [] },
-        children: [],
-      },
-      {
-        id: 'b',
-        type: 'section',
-        props: { layout: 'full', background: 'none' },
-      },
+      section([
+        { id: 'x', type: 'mystery', props: {} },
+        cards([], 'dup'),
+        { ...cards([], 'dup'), children: [] },
+      ]),
     ]);
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.issues.map((issue) => issue.message)).toEqual([
-      'Unknown component type "carousel".',
-      'Card Grid cannot contain other components.',
+      'Unknown component type "mystery".',
       'Duplicate component id.',
+      'Cards cannot contain other components.',
     ]);
   });
 });

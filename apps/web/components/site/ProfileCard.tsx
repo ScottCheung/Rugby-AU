@@ -1,35 +1,40 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import { Button } from '@/components/primitives/Button';
 import { Heading } from '@/components/primitives/Heading';
-import { averageBottom, cardShade, toHex } from '@/lib/color';
-import type { PropsOf } from '@/lib/components/registry';
+import { usePickedColor } from '@/lib/usePickedColor';
 import { resolveHref } from '@/lib/links';
-import { Reveal } from './Reveal';
 
-type Profile = PropsOf<'profileGrid'>['profiles'][number];
+type Image = { url: string; alt: string };
+type Profile = {
+  name: string;
+  role?: string;
+  text?: string;
+  cutout?: Image;
+  background?: Image;
+  link?: { label: string; href: string };
+};
 
 /**
  * One person. The background photo and the cut-out share one frame, so the
  * person stands exactly where they were in the photo; the photo is only
  * shown below the card's top edge, so the head rises out of it. The card's
  * colour (picked from the bottom of the photo) fades up over both and
- * carries the text. Styles in app/globals.css (.profile-card).
+ * carries the text. Styles in app/styles/site/cards.css (.profile-card).
  */
 export function ProfileCard({
   profile,
   color,
-  index,
+  backgroundHeight = 70,
   siteSlug,
-  className = '',
 }: {
   profile: Profile;
   /** From the server (lib/imageColor.ts); worked out here if missing. */
   color?: string;
-  index: number;
+  /** Percent of the card's height the background takes, from the bottom. */
+  backgroundHeight?: number;
   siteSlug: string;
-  className?: string;
 }) {
   const picked = usePickedColor(
     color || !profile.background ? undefined : profile.background.url,
@@ -48,7 +53,7 @@ export function ProfileCard({
       >
         {profile.role}
       </p>
-      <Heading level={3}>{profile.name}</Heading>
+      <Heading level={4}>{profile.name}</Heading>
       {profile.text && (
         <p className="m-0 max-w-[90%] text-left text-sm leading-relaxed text-pretty opacity-85">
           {profile.text}
@@ -65,10 +70,9 @@ export function ProfileCard({
   );
 
   return (
-    <Reveal
-      as="article"
-      delay={Math.min(index * 0.05, 0.6)}
-      className={`profile-card ${photo ? '' : 'profile-card--plain'} ${href ? 'card-link' : ''} ${className}`}
+    <article
+      className={`profile-card ${photo ? '' : 'profile-card--plain'} ${href ? 'card-link' : ''}`}
+      style={{ '--headroom': `${100 - backgroundHeight}%` } as CSSProperties}
     >
       {cutout && background ? (
         <>
@@ -103,7 +107,7 @@ export function ProfileCard({
         </div>
       )}
       {details}
-    </Reveal>
+    </article>
   );
 }
 
@@ -121,35 +125,3 @@ const fade = (color: string, solid: number, clear: number): CSSProperties => ({
   inset: 0,
   background: `linear-gradient(to top, ${color} 0%, ${color} ${solid}%, transparent ${clear}%)`,
 });
-
-/**
- * In the editor, a background just picked has no server colour yet: read
- * it in the browser with the same rule (lib/color.ts).
- */
-function usePickedColor(url: string | undefined) {
-  const [picked, setPicked] = useState<{ url: string; color: string }>();
-  useEffect(() => {
-    if (!url) return;
-    const image = new Image();
-    image.crossOrigin = 'anonymous';
-    image.onload = () => {
-      const size = 32;
-      const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
-      const context = canvas.getContext('2d');
-      if (!context) return;
-      context.drawImage(image, 0, 0, size, size);
-      const rgba = context.getImageData(0, 0, size, size).data;
-      const rgb = new Uint8Array(size * size * 3);
-      for (let i = 0; i < size * size; i++)
-        rgb.set([rgba[i * 4], rgba[i * 4 + 1], rgba[i * 4 + 2]], i * 3);
-      setPicked({
-        url,
-        color: toHex(cardShade(averageBottom(rgb, size, size))),
-      });
-    };
-    image.src = url;
-  }, [url]);
-  return picked && picked.url === url ? picked.color : undefined;
-}

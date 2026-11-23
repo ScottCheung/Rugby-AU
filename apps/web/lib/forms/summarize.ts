@@ -11,6 +11,7 @@ export function summarizeProps(
 ): string {
   const parts: string[] = [];
   for (const field of fields) {
+    if (field.visibility) continue;
     const value = props[field.key];
     if (field.kind === 'enum') {
       const option = field.options.find(

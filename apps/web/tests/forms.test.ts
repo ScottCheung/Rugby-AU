@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
-import { cardGridSchema } from '../lib/components/cardGrid';
-import { imageSliderSchema } from '../lib/components/imageSlider';
+import { cards } from '../lib/components/blocks/cards';
+import { layoutSchema } from '../lib/components/blocks/layout';
+import { matches } from '../lib/components/blocks/matches';
 import { sectionSchema } from '../lib/components/section';
-import { statsSchema } from '../lib/components/stats';
 import {
   defaultValue,
   describeField,
   describeSchema,
-  groupFields,
   humanize,
+  isShown,
 } from '../lib/forms/describe';
 import '../lib/components/editorMeta';
 
@@ -71,33 +71,38 @@ describe('describeSchema', () => {
     ).toBe('Outer');
   });
 
-  it('describes the Section layout and background as choices with readable options', () => {
+  it('describes the Section columns and background as choices with readable options', () => {
     expect(
       describeSchema(sectionSchema).filter((field) => field.kind === 'enum'),
     ).toEqual([
       expect.objectContaining({
-        key: 'layout',
+        key: 'columns',
         kind: 'enum',
-        label: 'Layout',
+        label: 'Columns',
         options: [
-          { value: 'full', label: 'One column', sketch: 'one-column' },
-          { value: 'two-column', label: 'Two columns', sketch: 'two-column' },
+          { value: '1', label: 'One', sketch: 'one-column' },
+          { value: '1-1', label: 'Two', sketch: 'two-column' },
           {
-            value: 'two-column-wide',
-            label: 'Two columns, wide left',
+            value: '2-1',
+            label: 'Wide left',
             sketch: 'two-column-wide',
           },
           {
-            value: 'two-column-wide-right',
-            label: 'Two columns, wide right',
+            value: '1-2',
+            label: 'Wide right',
             sketch: 'two-column-wide-right',
           },
           {
-            value: 'three-column',
-            label: 'Three columns',
+            value: '1-1-1',
+            label: 'Three',
             sketch: 'three-column',
           },
         ],
+      }),
+      expect.objectContaining({
+        key: 'align',
+        kind: 'enum',
+        label: 'Align columns',
       }),
       expect.objectContaining({
         key: 'background',
@@ -105,15 +110,22 @@ describe('describeSchema', () => {
         label: 'Background',
       }),
       expect.objectContaining({
+        key: 'overlay',
+        kind: 'enum',
+        label: 'Image overlay',
+        emptyIs: 'primary',
+        showIf: { background: 'image' },
+      }),
+      expect.objectContaining({
         key: 'padding',
         kind: 'enum',
         label: 'Padding',
-        optional: true,
+        optional: false,
         options: [
-          { value: 'none', label: 'None' },
-          { value: 'sm', label: 'Small' },
-          { value: 'md', label: 'Medium' },
-          { value: 'lg', label: 'Large' },
+          { value: 'none', label: 'None', sketch: 'pad-none' },
+          { value: 'sm', label: 'Small', sketch: 'pad-sm' },
+          { value: 'md', label: 'Medium', sketch: 'pad-md' },
+          { value: 'lg', label: 'Large', sketch: 'pad-lg' },
         ],
       }),
       expect.objectContaining({
@@ -121,54 +133,35 @@ describe('describeSchema', () => {
         kind: 'enum',
         label: 'Width',
         options: [
-          { value: 'contained', label: 'Page column', sketch: 'contained' },
-          {
-            value: 'full-background',
-            label: 'Full-width background',
-            sketch: 'full-background',
-          },
-          { value: 'full-width', label: 'Edge to edge', sketch: 'full-width' },
+          { value: 'full-background', label: 'Column', sketch: 'width-column' },
+          { value: 'full-padded', label: 'Wide', sketch: 'width-wide' },
+          { value: 'full-width', label: 'Full', sketch: 'width-full' },
         ],
       }),
     ]);
   });
 
-  it('describes the Card Grid: a list of cards with a nested image, optional text and an optional link', () => {
-    const [title, , cards] = describeSchema(cardGridSchema);
-    expect(title).toMatchObject({
-      key: 'title',
-      kind: 'text',
-      optional: false,
-    });
-    expect(cards.kind).toBe('array');
-    if (cards.kind !== 'array' || cards.item.kind !== 'object')
-      throw new Error('unexpected shape');
-    expect(cards.itemLabel).toBe('Card');
+  it('describes a card: a nested image, a heading, optional text and an optional link', () => {
+    const fields = describeSchema(cards.itemSchema);
     expect(
-      cards.item.fields.map((field) => [field.key, field.kind, field.optional]),
+      fields.map((field) => [field.key, field.kind, field.optional]),
     ).toEqual([
-      ['image', 'object', false],
-      ['heading', 'text', false],
+      ['title', 'text', false],
       ['text', 'textarea', true],
+      ['image', 'object', false],
       ['link', 'object', true],
+      ['hidden', 'boolean', true],
     ]);
-    const image = cards.item.fields[0];
-    if (image.kind !== 'object') throw new Error('unexpected shape');
-    expect(image.fields.map((field) => [field.key, field.kind])).toEqual([
-      // Text, not a URL input: a path on this site ("/players/x.webp") is valid too.
-      ['url', 'text'],
-      ['alt', 'text'],
-    ]);
+    const image = fields.find((field) => field.key === 'image');
+    if (image?.kind !== 'object') throw new Error('unexpected shape');
+    expect(image.widget).toBe('image');
+    expect(image.fields.map((field) => field.key)).toEqual(['url', 'alt']);
   });
-});
 
-describe('defaultValue', () => {
-  it('builds a new card from the schema, leaving the optional link out', () => {
-    const [, , cards] = describeSchema(cardGridSchema);
-    if (cards.kind !== 'array') throw new Error('unexpected shape');
-    expect(defaultValue(cards.item)).toEqual({
+  it('builds a new card from the schema, leaving the optional fields out', () => {
+    expect(defaultValue(describeField('card', cards.itemSchema))).toEqual({
+      title: '',
       image: { url: '', alt: '' },
-      heading: '',
     });
   });
 
@@ -198,91 +191,116 @@ describe('humanize', () => {
   ])('%s -> %s', (key, expected) => expect(humanize(key)).toBe(expected));
 });
 
-describe('new component props', () => {
-  it('shows the Card Grid variant as a choice of layouts and unwraps its default', () => {
-    const variant = describeSchema(cardGridSchema).find(
-      (field) => field.key === 'variant',
-    );
-    expect(variant).toMatchObject({
-      kind: 'enum',
-      label: 'Display as',
-      optional: false,
-      options: [
-        { value: 'grid', label: 'Grid', sketch: 'grid' },
-        { value: 'list', label: 'List', sketch: 'list' },
-        { value: 'featured', label: 'Featured', sketch: 'featured' },
-        { value: 'overlay', label: 'Overlay', sketch: 'overlay' },
-        { value: 'carousel', label: 'Carousel', sketch: 'carousel' },
-        { value: 'masonry', label: 'Masonry', sketch: 'masonry' },
-      ],
-    });
-  });
-
-  it('describes the Image Slider: a list of slides with optional text and button, and a switch', () => {
-    const [slides, autoplay] = describeSchema(imageSliderSchema);
-    expect(autoplay).toMatchObject({ key: 'autoplay', kind: 'boolean' });
-    if (slides.kind !== 'array' || slides.item.kind !== 'object')
-      throw new Error('unexpected shape');
+describe('unions and conditional fields', () => {
+  it('describes a union (a block layout) as its shapes, each with its own fields', () => {
+    const layout = describeField('layout', layoutSchema);
+    if (layout.kind !== 'union') throw new Error('unexpected shape');
+    expect(layout.discriminator).toBe('arrange');
     expect(
-      slides.item.fields.map((field) => [
-        field.key,
-        field.kind,
-        field.optional,
+      layout.options.map((option) => [
+        option.value,
+        option.label,
+        option.fields.map((field) => field.key),
       ]),
     ).toEqual([
-      ['image', 'object', false],
-      ['heading', 'text', false],
-      ['text', 'textarea', true],
-      ['button', 'object', true],
+      ['grid', 'Grid', ['perRow', 'perRowNarrow']],
+      ['list', 'List', []],
+      ['featured', 'Featured', []],
+      ['wall', 'Wall', []],
+      ['carousel', 'Carousel', ['rows']],
+      ['slider', 'Slider', ['autoplay', 'indicator', 'indicatorTheme', 'indicatorPosition']],
     ]);
-    expect(slides.item.fields[3].label).toBe('Button');
+    // Each is picked by its picture.
+    expect(layout.options.every((option) => option.sketch)).toBe(true);
+    // A new layout starts on the first shape, with its required options.
+    expect(defaultValue(layout)).toEqual({ arrange: 'grid' });
   });
 
-  it('gives Section an optional heading, five layouts, an optional padding and a width', () => {
+  it('shows a field only while its siblings have the values it names', () => {
+    const [shape, size] = describeSchema(
+      z.object({
+        shape: z.enum(['round', 'square']),
+        size: z.number().meta({ showIf: { shape: 'square' } }),
+      }),
+    );
+    expect(isShown(shape, {})).toBe(true);
+    expect(isShown(size, { shape: 'square' })).toBe(true);
+    expect(isShown(size, { shape: 'round' })).toBe(false);
+  });
+
+  it('keeps fields the editor manages itself out of the form', () => {
+    const content = describeField('content', matches.schema.shape.content);
+    if (content.kind !== 'union') throw new Error('unexpected shape');
+    // Matches only come from the fixtures service: one shape, no items.
+    expect(content.options.map((option) => option.value)).toEqual(['fixtures']);
+    const hidden = content.options[0].fields.find(
+      (field) => field.key === 'hidden',
+    );
+    expect(hidden && isShown(hidden, {})).toBe(false);
+  });
+});
+
+describe('Section props', () => {
+  it('gives Section an optional heading, five column layouts, a padding that always has a value and a width', () => {
     const fields = describeSchema(sectionSchema);
     expect(fields.map((field) => [field.key, field.optional])).toEqual([
       ['heading', true],
       ['intro', true],
-      ['layout', false],
+      ['columns', false],
+      ['align', false],
       ['background', false],
-      ['padding', true],
+      ['backgroundImage', true],
+      ['overlay', true],
+      ['padding', false],
       ['width', false],
     ]);
     const layout = fields[2];
     if (layout.kind !== 'enum') throw new Error('unexpected shape');
     expect(layout.options.map((option) => option.value)).toEqual([
-      'full',
-      'two-column',
-      'two-column-wide',
-      'two-column-wide-right',
-      'three-column',
+      '1',
+      '1-1',
+      '2-1',
+      '1-2',
+      '1-1-1',
     ]);
   });
 
-  it('leaves options without sketches as a plain choice', () => {
+  it('draws the Section background as pictures too', () => {
     const background = describeSchema(sectionSchema).find(
       (field) => field.key === 'background',
     );
     if (background?.kind !== 'enum') throw new Error('unexpected shape');
-    expect(background.options.every((option) => !('sketch' in option))).toBe(
-      true,
-    );
+    expect(background.options.every((option) => 'sketch' in option)).toBe(true);
+    expect(background.options.map((option) => option.label)).toEqual([
+      'Primary',
+      'Secondary',
+      'Glass',
+      'Image',
+      'None',
+    ]);
   });
 });
 
-describe('groupFields', () => {
-  it('splits a Section form into content and style tabs', () => {
-    const groups = groupFields(describeSchema(sectionSchema)).map((entry) => [
-      entry.group,
-      entry.fields.map((field) => field.key),
+describe('editor tabs', () => {
+  const tabs = (fields: ReturnType<typeof describeSchema>) =>
+    (['content', 'layout', 'style'] as const).map((group) => [
+      group,
+      fields.filter((field) => field.group === group).map((field) => field.key),
     ]);
-    expect(groups).toEqual([
+
+  it('puts each Section field on the tab its schema names', () => {
+    expect(tabs(describeSchema(sectionSchema))).toEqual([
       ['content', ['heading', 'intro']],
-      ['style', ['layout', 'background', 'padding', 'width']],
+      ['layout', ['columns', 'align', 'padding', 'width']],
+      ['style', ['background', 'backgroundImage', 'overlay']],
     ]);
   });
 
-  it('gives a content-only component a single group, so no tabs', () => {
-    expect(groupFields(describeSchema(statsSchema))).toHaveLength(1);
+  it('gives a block one prop per tab', () => {
+    expect(tabs(describeSchema(cards.schema))).toEqual([
+      ['content', ['content']],
+      ['layout', ['layout']],
+      ['style', ['style']],
+    ]);
   });
 });

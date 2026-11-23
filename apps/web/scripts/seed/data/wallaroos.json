@@ -1,0 +1,2056 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "News, history and the road ahead.",
+      "tree": [
+        {
+          "id": "13903ba2-cb66-4a23-8216-08820612955e",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "0e7c55ee-c783-48e5-83c5-b220cee86e20",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The Wallaroos",
+                      "text": "Australia’s women’s fifteens team, playing Test rugby since 1994.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1551095318-8583a8da870b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women’s teams in white and in blue contesting a lineout"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Women’s Rugby World Cup 2029",
+                      "text": "A home World Cup is on the way.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580146400020-fc3f176baed8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women in green and in orange competing for the ball in a tackle"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "05d60f48-b328-4e36-a6a3-bc73218f7728",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a197d375-64ff-498c-8603-5c5f87ffa037",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the Wallaroos",
+                      "text": "The Wallaroos played their first Test on 2 September 1994, against New Zealand in Sydney. Four years later they made their first Rugby World Cup appearance.\n\nTheir best World Cup finish is third place, in 2010. Since 2018 Super W has given the country’s best players a national club competition and a clearer path into the Wallaroos.",
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "c72ac1f8-54b5-4536-a330-3bbb088d1ab1",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Become a member",
+                      "text": "Priority tickets for every home Test.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "07f53e05-9172-4fed-a23c-55ce6ff378ca",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "3536049d-b90d-4a28-bc31-7a5edd0067a3",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First Test",
+                      "value": "1994"
+                    },
+                    {
+                      "title": "First Rugby World Cup",
+                      "value": "1998"
+                    },
+                    {
+                      "title": "At the 2010 World Cup",
+                      "value": "3rd"
+                    },
+                    {
+                      "title": "A home World Cup",
+                      "value": "2029"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "934f0d8c-db6f-4b13-9c9d-c4da59d232cc",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b7595000-a810-481f-ae4f-dca9bb253177",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "jemma-bemrose",
+                    "lily-bone",
+                    "emily-chancellor",
+                    "piper-duck",
+                    "waiaria-ellis",
+                    "piper-flynn",
+                    "georgina-friedrichs",
+                    "martha-fua",
+                    "caitlyn-halse",
+                    "tia-hinds",
+                    "brianna-hoy",
+                    "eva-karpani",
+                    "kaitlan-leaney",
+                    "michaela-leonard",
+                    "hera-barb-malcolm-heke",
+                    "brittany-merlo"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4a0edf30-8388-4ab2-8488-5a218e056d3d",
+          "type": "section",
+          "props": {
+            "heading": "Moments",
+            "intro": "Swipe through some of the milestones.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "bed79bd1-0b9d-4c31-87ee-a3625fb88e84",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1994: first Test",
+                      "text": "Against New Zealand at North Sydney Oval.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1534583000938-a375b825ea16?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women's rugby jerseys"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "1998: first Rugby World Cup",
+                      "text": "The start of Australia’s World Cup story.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1557278444-248705f95d17?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s team in white huddled on a stadium field"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "2010: third in the world",
+                      "text": "The Wallaroos’ best Rugby World Cup finish.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Black and white photo of women playing rugby"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "2029: a home World Cup",
+                      "text": "The first women’s Rugby World Cup in Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1c2e6486-fd8e-4f2d-8d48-e90178cacd90-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1c2e6486-fd8e-4f2d-8d48-e90178cacd90",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a71d49a1-160f-458b-b7e9-3f3258f39eda",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "3660e161-3157-4c15-8f69-5224fb8a5df8",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players in black driving forward in a maul",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618529433-ab11e5f3d962?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black driving forward in a maul"
+                      }
+                    },
+                    {
+                      "title": "A lineout jumper lifted high in front of red stadium seats",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329356033-eb76e0af9fd9?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout jumper lifted high in front of red stadium seats"
+                      }
+                    },
+                    {
+                      "title": "Two teams gathered together on the field",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      }
+                    },
+                    {
+                      "title": "A player in green brought to ground among players in red and white",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1573056020034-fc367ec5ff3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in green brought to ground among players in red and white"
+                      }
+                    },
+                    {
+                      "title": "Spectators on their feet in the stands",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      }
+                    },
+                    {
+                      "title": "Players in black and in red and white bound in a maul",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1573056020071-9697f575f8d6?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black and in red and white bound in a maul"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/history",
+      "title": "History",
+      "description": "Where the team comes from.",
+      "tree": [
+        {
+          "id": "73c4c606-a334-49ad-bc13-26f9cc9ee52a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "0c6dfbff-b125-4a12-8952-7edd29ae052d",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our history",
+                      "text": "The Wallaroos played their first Test on 2 September 1994, against New Zealand in Sydney. Four years later they made their first Rugby World Cup appearance.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "7424bf7b-1a90-40e9-a312-7ef51d2eb6bc",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "fcb7713f-1f53-465a-8ff3-c50c33216b50",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The story so far",
+                      "text": "The Wallaroos played their first Test on 2 September 1994, against New Zealand in Sydney. Four years later they made their first Rugby World Cup appearance.\n\nTheir best World Cup finish is third place, in 2010. Since 2018 Super W has given the country’s best players a national club competition and a clearer path into the Wallaroos.\n\nIn 2029 Australia hosts the Women’s Rugby World Cup for the first time."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "79aa5e37-8132-4049-9af7-42472acd68d2",
+          "type": "section",
+          "props": {
+            "heading": "Timeline",
+            "intro": "Swipe through the milestones.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "0c7e6641-8021-4b8f-b808-7bf0b88d94de",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1994",
+                      "text": "First Test, against New Zealand in Sydney.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106770965-f8d5b3bcd271?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A woman in red carrying the ball into a tackle"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "1998",
+                      "text": "First Rugby World Cup appearance.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1551095318-8583a8da870b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women’s teams in white and in blue contesting a lineout"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "2010",
+                      "text": "Third place at the Rugby World Cup.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "2018",
+                      "text": "Super W begins, giving players a national club competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580146400020-fc3f176baed8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women in green and in orange competing for the ball in a tackle"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "2029",
+                      "text": "A home Rugby World Cup.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1693073410934-5e45e31a6b5c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A large stadium filling up before a rugby match"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "88fe09b2-a854-4e1e-853a-698ee4899056",
+          "type": "section",
+          "props": {
+            "heading": "What the jersey means",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "af48d058-1f8e-482a-8893-1680f1da0d82",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A numbered cap",
+                      "text": "Each player gets a cap number on debut, counting every international since the first.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "Green and gold",
+                      "text": "Australia’s sporting colours, worn with pride at home and away.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1662052282121-ca29557ad2d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in red and in green chasing the ball in front of a grandstand"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    },
+                    {
+                      "title": "From the clubs",
+                      "text": "Every international started at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children running across a sunny field"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matches",
+      "title": "Matches",
+      "description": "Competitions and match days.",
+      "tree": [
+        {
+          "id": "e3c3f444-e9b2-4746-b2b3-728575044310",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "95ef1ad3-9035-4de9-b673-9942b74ab8ee",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Matches",
+                      "text": "Test rugby at home and around the world.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "7c44a06f-2a42-47b2-a3af-bd8d829afa88",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "59949fe0-c0ff-47f0-99cf-51533fe42285",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "wallaroos",
+                  "show": "upcoming",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "86295da2-e0a1-481f-bab9-3c6fc615bd89",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "wallaroos",
+                  "show": "results",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "5afbce34-1060-4e63-8399-d138da66f66c",
+          "type": "section",
+          "props": {
+            "heading": "Competitions",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "cb3544d1-8250-412d-ad14-f692110dd6eb",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Pacific Four Series",
+                      "text": "Against Canada, New Zealand and the United States.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1534583000938-a375b825ea16?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women's rugby jerseys"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "WXV",
+                      "text": "World Rugby’s global women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Rugby World Cup",
+                      "text": "Every four years, with 2029 at home.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d0f31892-dae5-4344-96f3-4eca771118ab",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "351da8ab-6dab-4a63-b7cb-798378421401",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets",
+                      "text": "Members get first access.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1767190937750-d6aaf8ea99d0?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby stadium with goalposts and spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "5db3c8cd-27d5-4065-a433-5c928451f003",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A Test match day",
+                      "text": "Gates usually open two hours before kick-off. Arrive early to watch the warm-ups, find your seat and be there for the anthems.\n\nMost stadiums are easiest to reach by public transport. Check your ticket before you set out.",
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/supporters",
+      "title": "Supporters",
+      "description": "Follow the Wallaroos.",
+      "tree": [
+        {
+          "id": "a2ff142c-6774-4d39-bb4f-b09f11620348",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "0b7b6588-d474-4f50-97ed-25f0a244eca5",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Support the Wallaroos",
+                      "text": "Wear the colours, join as a member and bring the family.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "064ab609-0b4f-4f07-8f30-e06cadb49d52",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "eaf596d4-9442-4e77-b0cf-09aff1b87c82",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Be part of it",
+                      "text": "Supporters are the sixth forward at a home Test. Members get priority tickets, member-only events and a say in the season’s awards.\n\nJunior members get a welcome pack and the chance to run out with the team at a home game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "39c566b2-37c8-4adf-a7d3-aec097f35b91",
+          "type": "section",
+          "props": {
+            "heading": "Ways to support",
+            "intro": "Pick what suits you.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "bd1f28e8-94ba-44cd-bffa-b09ba6c7fd23",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Membership",
+                      "text": "Priority tickets for home Tests and member events through the year.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1735583573592-edacba3f36a8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "An empty rugby pitch with goal posts and blue stands at dusk"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "31b80a8a-ebc1-4717-9a37-5b9e7ad18993",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids",
+                      "text": "A welcome pack and a chance to run out with the team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "bb8e3dce-4175-47cd-a48a-b734b1b8ce6a",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Travel",
+                      "text": "Follow the team to away Tests with supporter tours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "126057d1-8a31-4940-a88f-ba8cc2fda3a2",
+          "type": "section",
+          "props": {
+            "heading": "From the stands",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2d4c49ee-b72f-4219-b3a4-645ad458d3d8",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Spectators on their feet in the stands",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      }
+                    },
+                    {
+                      "title": "A player in yellow diving to tackle a runner in white",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1475505035646-a4680971b0fb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in yellow diving to tackle a runner in white"
+                      }
+                    },
+                    {
+                      "title": "A team in red and white hoops gathered in front of the goal posts",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      }
+                    },
+                    {
+                      "title": "Two packs in striped jerseys bound together in a scrum",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1631021694928-56b70c9be844?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two packs in striped jerseys bound together in a scrum"
+                      }
+                    },
+                    {
+                      "title": "Green rugby field in a sunny stadium",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582045-ac3830336aaa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Green rugby field in a sunny stadium"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, history and match-day guides from the Wallaroos.",
+      "tree": [
+        {
+          "id": "59c4b7e8-8a26-4084-9418-ce31b6ddd0e4",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4863a060-7a5d-4b13-ac00-15e575149317",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, history and match-day guides from the Wallaroos."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "be53c5df-dab1-41ad-ac43-caa1913965a2-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "be53c5df-dab1-41ad-ac43-caa1913965a2",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "32-player squad for the 2026 WXV Global Series",
+      "tree": [
+        {
+          "id": "e7a31bba-63b1-44c6-bc00-5db9c7cb5b20",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b4790f70-7bf7-48e2-ab27-231f3ad9327e",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "32-player squad for the 2026 WXV Global Series.\n\nNamed 27 August 2026, as listed in “Wallaroos recall stars for WXV Global series”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugby.com.au/news/wallaroos-recall-stars-for-wxv-global-series-2026827"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "bafdfd6c-f9d4-4af6-ba08-184a71dbf2cc",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "119167be-8dec-4c7a-acaf-4f2ccb8a56e7",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Squad"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "ec0d9c95-30fa-4df9-9d58-90ffd62e7c22-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ec0d9c95-30fa-4df9-9d58-90ffd62e7c22-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "ec0d9c95-30fa-4df9-9d58-90ffd62e7c22-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "ec0d9c95-30fa-4df9-9d58-90ffd62e7c22-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b01a1400-dc57-4616-a3ff-49ae167f184d",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5dde89da-7ec5-42ad-8f2e-67e948d90b20",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "super-w-and-the-wallaroos",
+      "data": {
+        "category": "Pathways",
+        "date": "2026-11-18",
+        "headline": "Super W and the road to the Wallaroos",
+        "standfirst": "Since 2018, Super W has given Australia’s best women players a national club competition.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Super W began in 2018. It brings together teams from around the country and gives the best women players regular, high-level games outside the international season."
+          },
+          {
+            "kind": "heading",
+            "text": "Why it matters"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Before Super W, the step from club rugby to the Wallaroos was a big one. A national competition lets selectors see players against strong opposition week after week."
+          },
+          {
+            "kind": "heading",
+            "text": "Looking ahead"
+          },
+          {
+            "kind": "paragraph",
+            "text": "With the Women’s Rugby World Cup coming to Australia in 2029, the pathway from club and school rugby through Super W to the Wallaroos has never mattered more."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "the-story-so-far",
+      "data": {
+        "category": "History",
+        "date": "2026-11-11",
+        "headline": "The Wallaroos: the story so far",
+        "standfirst": "The Wallaroos played their first Test on 2 September 1994, against New Zealand in Sydney. Four years later they made their first Rugby World Cup appearance.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Players in maroon jerseys arm in arm in a team huddle"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Their best World Cup finish is third place, in 2010. Since 2018 Super W has given the country’s best players a national club competition and a clearer path into the Wallaroos."
+          },
+          {
+            "kind": "paragraph",
+            "text": "In 2029 Australia hosts the Women’s Rugby World Cup for the first time."
+          },
+          {
+            "kind": "heading",
+            "text": "Who plays"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Players reach the Wallaroos through club rugby, state teams and the national pathway. Every player who pulls on the jersey gets a cap number, counting every international since the first."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "first-test-match",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-04",
+        "headline": "A first-timer’s guide to a Test match",
+        "standfirst": "Going to your first international? Here is how to make the most of the day.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A floodlit stadium packed with spectators"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "A Test match is the biggest day on the rugby calendar. Crowds are bigger than at club or Super Rugby games, so a little planning goes a long way."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is usually the easiest way to reach the stadium. Gates open about two hours before kick-off, and arriving early means you see the warm-ups and are in your seat for the anthems."
+          },
+          {
+            "kind": "heading",
+            "text": "In the stands"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Wear the colours and bring a jacket for night games. Kids are welcome, and many stadiums have family areas."
+          },
+          {
+            "kind": "heading",
+            "text": "After the game"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Expect queues for transport after the final whistle. Staying for a drink or a bite while the crowd clears often makes for an easier trip home."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jemma-bemrose",
+      "data": {
+        "name": "Jemma Bemrose",
+        "role": "Lock · Uncapped",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/jemma-bemrose.webp",
+          "alt": "Jemma Bemrose in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/jemma-bemrose-bg.webp",
+          "alt": "The backdrop of Jemma Bemrose's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lily-bone",
+      "data": {
+        "name": "Lily Bone",
+        "role": "Lock",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/lily-bone.webp",
+          "alt": "Lily Bone in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/lily-bone-bg.webp",
+          "alt": "The backdrop of Lily Bone's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "emily-chancellor",
+      "data": {
+        "name": "Emily Chancellor",
+        "role": "Backrow",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/emily-chancellor.webp",
+          "alt": "Emily Chancellor in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/emily-chancellor-bg.webp",
+          "alt": "The backdrop of Emily Chancellor's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "piper-duck",
+      "data": {
+        "name": "Piper Duck",
+        "role": "Backrow",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/piper-duck.webp",
+          "alt": "Piper Duck in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/piper-duck-bg.webp",
+          "alt": "The backdrop of Piper Duck's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "waiaria-ellis",
+      "data": {
+        "name": "Waiaria Ellis",
+        "role": "Fullback",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/waiaria-ellis.webp",
+          "alt": "Waiaria Ellis in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/waiaria-ellis-bg.webp",
+          "alt": "The backdrop of Waiaria Ellis's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "piper-flynn",
+      "data": {
+        "name": "Piper Flynn",
+        "role": "Wing · Uncapped",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/piper-flynn.webp",
+          "alt": "Piper Flynn in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/piper-flynn-bg.webp",
+          "alt": "The backdrop of Piper Flynn's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "georgina-friedrichs",
+      "data": {
+        "name": "Georgina Friedrichs",
+        "role": "Centre",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/georgina-friedrichs.webp",
+          "alt": "Georgina Friedrichs in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/georgina-friedrichs-bg.webp",
+          "alt": "The backdrop of Georgina Friedrichs's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "martha-fua",
+      "data": {
+        "name": "Martha Fua",
+        "role": "Prop",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/martha-fua.webp",
+          "alt": "Martha Fua in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/martha-fua-bg.webp",
+          "alt": "The backdrop of Martha Fua's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "caitlyn-halse",
+      "data": {
+        "name": "Caitlyn Halse",
+        "role": "Fullback",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/caitlyn-halse.webp",
+          "alt": "Caitlyn Halse in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/caitlyn-halse-bg.webp",
+          "alt": "The backdrop of Caitlyn Halse's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tia-hinds",
+      "data": {
+        "name": "Tia Hinds",
+        "role": "Scrumhalf",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/tia-hinds.webp",
+          "alt": "Tia Hinds in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/tia-hinds-bg.webp",
+          "alt": "The backdrop of Tia Hinds's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "brianna-hoy",
+      "data": {
+        "name": "Brianna Hoy",
+        "role": "Prop",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/brianna-hoy.webp",
+          "alt": "Brianna Hoy in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/brianna-hoy-bg.webp",
+          "alt": "The backdrop of Brianna Hoy's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "eva-karpani",
+      "data": {
+        "name": "Eva Karpani",
+        "role": "Prop",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/eva-karpani.webp",
+          "alt": "Eva Karpani in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/eva-karpani-bg.webp",
+          "alt": "The backdrop of Eva Karpani's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kaitlan-leaney",
+      "data": {
+        "name": "Kaitlan Leaney",
+        "role": "Lock",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/kaitlan-leaney.webp",
+          "alt": "Kaitlan Leaney in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/kaitlan-leaney-bg.webp",
+          "alt": "The backdrop of Kaitlan Leaney's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "michaela-leonard",
+      "data": {
+        "name": "Michaela Leonard",
+        "role": "Lock",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/michaela-leonard.webp",
+          "alt": "Michaela Leonard in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/michaela-leonard-bg.webp",
+          "alt": "The backdrop of Michaela Leonard's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "hera-barb-malcolm-heke",
+      "data": {
+        "name": "Hera-Barb Malcolm Heke",
+        "role": "Hooker",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/hera-barb-malcolm-heke.webp",
+          "alt": "Hera-Barb Malcolm Heke in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/hera-barb-malcolm-heke-bg.webp",
+          "alt": "The backdrop of Hera-Barb Malcolm Heke's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "brittany-merlo",
+      "data": {
+        "name": "Brittany Merlo",
+        "role": "Hooker",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/brittany-merlo.webp",
+          "alt": "Brittany Merlo in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/brittany-merlo-bg.webp",
+          "alt": "The backdrop of Brittany Merlo's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "desiree-miller",
+      "data": {
+        "name": "Desiree Miller",
+        "role": "Wing",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/desiree-miller.webp",
+          "alt": "Desiree Miller in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/desiree-miller-bg.webp",
+          "alt": "The backdrop of Desiree Miller's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tiarah-minns",
+      "data": {
+        "name": "Tiarah Minns",
+        "role": "Lock",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/tiarah-minns.webp",
+          "alt": "Tiarah Minns in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/tiarah-minns-bg.webp",
+          "alt": "The backdrop of Tiarah Minns's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "faitala-moleka",
+      "data": {
+        "name": "Faitala Moleka",
+        "role": "Flyhalf",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/faitala-moleka.webp",
+          "alt": "Faitala Moleka in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/faitala-moleka-bg.webp",
+          "alt": "The backdrop of Faitala Moleka's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tania-naden",
+      "data": {
+        "name": "Tania Naden",
+        "role": "Hooker",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/tania-naden.webp",
+          "alt": "Tania Naden in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/tania-naden-bg.webp",
+          "alt": "The backdrop of Tania Naden's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "bridie-ogorman",
+      "data": {
+        "name": "Bridie O’Gorman",
+        "role": "Prop",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/bridie-o-gorman.webp",
+          "alt": "Bridie O’Gorman in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/bridie-o-gorman-bg.webp",
+          "alt": "The backdrop of Bridie O’Gorman's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "siokapesi-palu-sekona",
+      "data": {
+        "name": "Siokapesi Palu Sekona",
+        "role": "Backrow",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/siokapesi-palu-sekona.webp",
+          "alt": "Siokapesi Palu Sekona in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/siokapesi-palu-sekona-bg.webp",
+          "alt": "The backdrop of Siokapesi Palu Sekona's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "faliki-pohiva",
+      "data": {
+        "name": "Faliki Pohiva",
+        "role": "Prop",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/faliki-pohiva.webp",
+          "alt": "Faliki Pohiva in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/faliki-pohiva-bg.webp",
+          "alt": "The backdrop of Faliki Pohiva's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ella-ryan",
+      "data": {
+        "name": "Ella Ryan",
+        "role": "Scrumhalf",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/ella-ryan.webp",
+          "alt": "Ella Ryan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/ella-ryan-bg.webp",
+          "alt": "The backdrop of Ella Ryan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "allana-sikimeti",
+      "data": {
+        "name": "Allana Sikimeti",
+        "role": "Prop",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/allana-sikimeti.webp",
+          "alt": "Allana Sikimeti in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/allana-sikimeti-bg.webp",
+          "alt": "The backdrop of Allana Sikimeti's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "piper-simons",
+      "data": {
+        "name": "Piper Simons",
+        "role": "Scrumhalf",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/piper-simons.webp",
+          "alt": "Piper Simons in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/piper-simons-bg.webp",
+          "alt": "The backdrop of Piper Simons's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "cecilia-smith",
+      "data": {
+        "name": "Cecilia Smith",
+        "role": "Centre",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/cecilia-smith.webp",
+          "alt": "Cecilia Smith in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/cecilia-smith-bg.webp",
+          "alt": "The backdrop of Cecilia Smith's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "pia-tapsell",
+      "data": {
+        "name": "Pia Tapsell",
+        "role": "Lock",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/pia-tapsell.webp",
+          "alt": "Pia Tapsell in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/pia-tapsell-bg.webp",
+          "alt": "The backdrop of Pia Tapsell's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tabua-tuinakauvadra",
+      "data": {
+        "name": "Tabua Tuinakauvadra",
+        "role": "Backrow",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/tabua-tuinakauvadra.webp",
+          "alt": "Tabua Tuinakauvadra in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/tabua-tuinakauvadra-bg.webp",
+          "alt": "The backdrop of Tabua Tuinakauvadra's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ava-wereta",
+      "data": {
+        "name": "Ava Wereta",
+        "role": "Centre",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/ava-wereta.webp",
+          "alt": "Ava Wereta in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/ava-wereta-bg.webp",
+          "alt": "The backdrop of Ava Wereta's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "amelia-whitaker",
+      "data": {
+        "name": "Amelia Whitaker",
+        "role": "Wing · Uncapped",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/amelia-whitaker.webp",
+          "alt": "Amelia Whitaker in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/amelia-whitaker-bg.webp",
+          "alt": "The backdrop of Amelia Whitaker's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "samantha-wood",
+      "data": {
+        "name": "Samantha Wood",
+        "role": "Scrumhalf",
+        "group": "Squad",
+        "cutout": {
+          "url": "/players/wallaroos/samantha-wood.webp",
+          "alt": "Samantha Wood in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallaroos/samantha-wood-bg.webp",
+          "alt": "The backdrop of Samantha Wood's squad photo"
+        }
+      }
+    }
+  ]
+}

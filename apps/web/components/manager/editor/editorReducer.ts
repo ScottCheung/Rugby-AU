@@ -6,10 +6,12 @@ import {
   moveNode,
   removeNode,
   updateNodeProps,
+  changeNodeType,
   type Location,
 } from '@/lib/components/tree';
 import { validateTree, type TreeIssue } from '@/lib/components/validateTree';
-import type { ComponentNode, Page } from '@/lib/types';
+import type { ItemRef } from '@/lib/components/items';
+import type { ComponentNode, Page, PageNav } from '@/lib/types';
 
 /**
  * The part of the page the editor changes: the stored draft
@@ -20,6 +22,8 @@ export type Draft = {
   description: string;
   /** The page's address on its site, e.g. "/about". */
   path: string;
+  /** How the page appears in the site menu. */
+  nav: PageNav;
   tree: ComponentNode[];
 };
 
@@ -27,6 +31,7 @@ export type PageErrors = {
   title?: string;
   description?: string;
   path?: string;
+  nav?: string;
 };
 
 export type EditorState = {
@@ -34,6 +39,8 @@ export type EditorState = {
   /** The draft as last saved, serialised, to detect unsaved changes. */
   savedSnapshot: string;
   selectedId: string | null;
+  /** An item inside the selected component, or null for the whole component. */
+  selectedItem: ItemRef | null;
   /**
    * Blocks that fail their schema: found on load (a page stored under an
    * older schema) or by the last save; cleared as they get fixed.
@@ -51,13 +58,33 @@ export type EditorAction =
   | { type: 'setTitle'; title: string }
   | { type: 'setDescription'; description: string }
   | { type: 'setPath'; path: string }
-  | { type: 'insertNode'; node: ComponentNode; at: Location }
+  | { type: 'setNav'; nav: PageNav }
+  | {
+      type: 'insertNode';
+      node: ComponentNode;
+      at: Location;
+      /** What to select afterwards; the inserted node by default. */
+      select?: string;
+    }
   | { type: 'moveNode'; id: string; to: Location }
   | { type: 'moveBy'; id: string; step: -1 | 1 }
   | { type: 'duplicate'; id: string }
   | { type: 'removeNode'; id: string }
-  | { type: 'updateProps'; id: string; props: Record<string, unknown> }
-  | { type: 'select'; id: string | null }
+  | {
+      type: 'updateProps';
+      id: string;
+      props: Record<string, unknown>;
+      /** Its own undo step even right after typing (moving an item, hiding it). */
+      separate?: boolean;
+    }
+  /** Draw a block as another block type (cards as people): its own step. */
+  | {
+      type: 'changeType';
+      id: string;
+      nodeType: string;
+      props: Record<string, unknown>;
+    }
+  | { type: 'select'; id: string | null; item?: ItemRef | null }
   | { type: 'undo' }
   | { type: 'redo' }
   | { type: 'saveFailed'; issues: TreeIssue[]; pageErrors: PageErrors }
@@ -75,6 +102,7 @@ export function initEditor(draft: Draft): EditorState {
     draft,
     savedSnapshot: JSON.stringify(draft),
     selectedId: null,
+    selectedItem: null,
     issues: checked.ok ? [] : checked.issues,
     pageErrors: {},
     past: [],
@@ -88,6 +116,7 @@ export function draftFromPage(page: Page): Draft {
   return {
     title: page.draft.title,
     description: page.draft.description ?? '',
+    nav: page.draft.nav ?? {},
     path: page.path,
     tree: page.draft.components,
   };
@@ -105,6 +134,7 @@ export function differsFromPublished(
   return (
     draft.title !== published.title ||
     draft.description !== (published.description ?? '') ||
+    JSON.stringify(draft.nav) !== JSON.stringify(published.nav ?? {}) ||
     JSON.stringify(draft.tree) !== JSON.stringify(published.components)
   );
 }
@@ -139,11 +169,20 @@ function commit(
   });
 }
 
-/** Keep the selection only if that node still exists. */
+/** Keep the selection only if that node (and item) still exists. */
 function keepSelection(state: EditorState): EditorState {
-  const exists =
-    state.selectedId !== null && findNode(state.draft.tree, state.selectedId);
-  return exists ? state : { ...state, selectedId: null };
+  const node =
+    state.selectedId !== null
+      ? findNode(state.draft.tree, state.selectedId)
+      : undefined;
+  if (!node) return { ...state, selectedId: null, selectedItem: null };
+  const item = state.selectedItem;
+  if (item && 'index' in item) {
+    const list = node.props[item.field];
+    if (!Array.isArray(list) || item.index >= list.length)
+      return { ...state, selectedItem: null };
+  }
+  return state;
 }
 
 export function editorReducer(
@@ -166,6 +205,8 @@ export function editorReducer(
         ),
         pageErrors: { ...state.pageErrors, description: undefined },
       };
+    case 'setNav':
+      return commit(state, { ...draft, nav: action.nav }, 'nav');
     case 'setPath':
       return {
         ...commit(state, { ...draft, path: action.path }, 'path'),
@@ -177,7 +218,8 @@ export function editorReducer(
           ...draft,
           tree: insertNode(draft.tree, action.node, action.at),
         }),
-        selectedId: action.node.id,
+        selectedId: action.select ?? action.node.id,
+        selectedItem: null,
       };
     case 'moveNode':
       return commit(state, {
@@ -196,6 +238,7 @@ export function editorReducer(
       return {
         ...commit(state, { ...draft, tree: result.tree }),
         selectedId: result.copyId ?? state.selectedId,
+        selectedItem: null,
       };
     }
     case 'removeNode':
@@ -203,16 +246,35 @@ export function editorReducer(
         commit(state, { ...draft, tree: removeNode(draft.tree, action.id) }),
       );
     case 'updateProps':
-      return commit(
-        state,
-        {
+      return keepSelection(
+        commit(
+          state,
+          {
+            ...draft,
+            tree: updateNodeProps(draft.tree, action.id, action.props),
+          },
+          action.separate ? null : `props:${action.id}`,
+        ),
+      );
+    case 'changeType':
+      return keepSelection(
+        commit(state, {
           ...draft,
-          tree: updateNodeProps(draft.tree, action.id, action.props),
-        },
-        `props:${action.id}`,
+          tree: changeNodeType(
+            draft.tree,
+            action.id,
+            action.nodeType,
+            action.props,
+          ),
+        }),
       );
     case 'select':
-      return { ...state, selectedId: action.id, lastEditKey: null };
+      return {
+        ...state,
+        selectedId: action.id,
+        selectedItem: action.id ? (action.item ?? null) : null,
+        lastEditKey: null,
+      };
     case 'undo': {
       const previous = state.past.at(-1);
       if (!previous) return state;
@@ -245,6 +307,7 @@ export function editorReducer(
       return keepSelection({
         ...initEditor(action.draft),
         selectedId: state.selectedId,
+        selectedItem: state.selectedItem,
       });
     case 'saved':
       return {

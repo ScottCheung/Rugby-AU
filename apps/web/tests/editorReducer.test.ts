@@ -5,14 +5,13 @@ import {
   initEditor,
   isDirty,
 } from '../components/manager/editor/editorReducer';
-import { cardGridSchema } from '../lib/components/cardGrid';
 import { createNode } from '../lib/components/createNode';
 import { sectionSchema } from '../lib/components/section';
 import { describeSchema } from '../lib/forms/describe';
 import { summarizeProps } from '../lib/forms/summarize';
 
 const start = () =>
-  initEditor({ title: 'Home', description: '', path: '/', tree: [] });
+  initEditor({ title: 'Home', description: '', path: '/', nav: {}, tree: [] });
 
 describe('editorReducer', () => {
   it('tracks unsaved changes until the page is saved', () => {
@@ -24,9 +23,9 @@ describe('editorReducer', () => {
     expect(isDirty(state)).toBe(false);
   });
 
-  it('inserts nested nodes, selects them, and deselects when their parent is removed', () => {
+  it('inserts a block into a Section, selects it, and deselects when the Section is removed', () => {
     const section = createNode('section');
-    const grid = createNode('cardGrid');
+    const cards = createNode('cards');
     let state = editorReducer(start(), {
       type: 'insertNode',
       node: section,
@@ -34,54 +33,61 @@ describe('editorReducer', () => {
     });
     state = editorReducer(state, {
       type: 'insertNode',
-      node: grid,
+      node: cards,
       at: { parentId: section.id, index: 0 },
     });
-    expect(state.draft.tree[0].children?.[0].id).toBe(grid.id);
-    expect(state.selectedId).toBe(grid.id);
+    expect(state.selectedId).toBe(cards.id);
+    expect(state.draft.tree[0].children!.map((child) => child.id)).toEqual([
+      cards.id,
+    ]);
     state = editorReducer(state, { type: 'removeNode', id: section.id });
     expect(state.draft.tree).toEqual([]);
     expect(state.selectedId).toBeNull();
   });
 
-  it('moves a node into a section', () => {
+  it('draws a block as another type in one undoable step, keeping its id and items', () => {
     const section = createNode('section');
-    const grid = createNode('cardGrid');
+    const cards = createNode('cards');
     let state = editorReducer(start(), {
       type: 'insertNode',
-      node: section,
+      node: { ...section, children: [cards] },
       at: { index: 0 },
     });
+    const items = [{ title: 'Wallabies' }];
     state = editorReducer(state, {
-      type: 'insertNode',
-      node: grid,
-      at: { index: 1 },
+      type: 'changeType',
+      id: cards.id,
+      nodeType: 'people',
+      props: {
+        content: { from: 'items', items },
+        layout: cards.props.layout,
+        style: {},
+      },
     });
-    state = editorReducer(state, {
-      type: 'moveNode',
-      id: grid.id,
-      to: { parentId: section.id, index: 0 },
-    });
-    expect(state.draft.tree).toHaveLength(1);
-    expect(state.draft.tree[0].children?.[0].id).toBe(grid.id);
+    const block = state.draft.tree[0].children![0];
+    expect(block).toMatchObject({ id: cards.id, type: 'people' });
+    expect(block.props.content).toEqual({ from: 'items', items });
+    state = editorReducer(state, { type: 'undo' });
+    expect(state.draft.tree[0].children![0].type).toBe('cards');
   });
 
   it('clears save errors once the tree is valid again', () => {
-    const grid = createNode('cardGrid');
+    const section = createNode('section');
+    const text = createNode('text');
     let state = editorReducer(start(), {
       type: 'insertNode',
-      node: grid,
+      node: { ...section, children: [text] },
       at: { index: 0 },
     });
     state = editorReducer(state, {
       type: 'saveFailed',
-      issues: [{ nodeId: grid.id, path: ['title'], message: 'x' }],
+      issues: [{ nodeId: text.id, path: ['content'], message: 'x' }],
       pageErrors: {},
     });
     state = editorReducer(state, {
       type: 'updateProps',
-      id: grid.id,
-      props: { title: 'Ok', cards: [] },
+      id: text.id,
+      props: { ...text.props },
     });
     expect(state.issues).toEqual([]);
   });
@@ -90,7 +96,7 @@ describe('editorReducer', () => {
 describe('undo and redo', () => {
   it('steps back and forward through structural changes', () => {
     const a = createNode('section');
-    const b = createNode('cardGrid');
+    const b = createNode('section');
     let state = editorReducer(start(), {
       type: 'insertNode',
       node: a,
@@ -127,13 +133,20 @@ describe('undo and redo', () => {
 });
 
 describe('createNode', () => {
-  it('copies the default props and gives containers a children list', () => {
+  it('copies the default props; a Section starts empty', () => {
     const a = createNode('section');
-    const b = createNode('cardGrid');
+    const b = createNode('cards');
     expect(a).toMatchObject({
       type: 'section',
-      props: { layout: 'full', background: 'none' },
+      props: { columns: '1', background: 'none' },
       children: [],
+    });
+    expect(b).toMatchObject({
+      type: 'cards',
+      props: {
+        content: { from: 'items', items: [] },
+        layout: { arrange: 'grid' },
+      },
     });
     expect(b).not.toHaveProperty('children');
     expect(a.id).not.toBe(b.id);
@@ -144,24 +157,10 @@ describe('summarizeProps', () => {
   it('describes nodes for the outline', () => {
     expect(
       summarizeProps(describeSchema(sectionSchema), {
-        layout: 'two-column',
-        background: 'brand',
+        columns: '1-1',
+        background: 'primary',
       }),
-    ).toBe('Two columns · Brand colour');
-    expect(
-      summarizeProps(describeSchema(cardGridSchema), {
-        title: 'Squad',
-        variant: 'carousel',
-        cards: [{}],
-      }),
-    ).toBe('Squad · Carousel');
-    // Older data without the variant: nothing is made up.
-    expect(
-      summarizeProps(describeSchema(cardGridSchema), {
-        title: 'Squad',
-        cards: [{}],
-      }),
-    ).toBe('Squad · 1 card');
+    ).toBe('Two · Primary');
   });
 });
 
@@ -181,7 +180,21 @@ describe('page settings and stored pages', () => {
       title: 'Home',
       description: '',
       path: '/',
-      tree: [{ id: 'old', type: 'cardGrid', props: { cards: 'not a list' } }],
+      nav: {},
+      tree: [
+        {
+          id: 's',
+          type: 'section',
+          props: { columns: '1', background: 'none' },
+          children: [
+            {
+              id: 'old',
+              type: 'cards',
+              props: { content: { from: 'items', items: 'x' } },
+            },
+          ],
+        },
+      ],
     });
     expect(state.issues.map((issue) => issue.nodeId)).toContain('old');
   });

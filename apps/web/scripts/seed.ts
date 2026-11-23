@@ -1,22 +1,31 @@
+import { validateEntry, type CollectionId } from '../lib/collections';
 import { validateTree } from '../lib/components/validateTree';
 import { closeDb } from '../lib/db/client';
 import { resetDatabase } from '../lib/db/reset';
-import { pages } from './seed/pages';
+import { readSeed } from './seed/read';
 import { sites } from './seed/sites';
 
-/** Idempotent: drops and recreates both collections every time it runs. */
+/** Idempotent: drops and recreates the collections every time it runs. */
 async function seed() {
-  // Seed pages go through the same validation as editor saves.
+  const { pages, entries } = readSeed();
   for (const page of pages) {
     const result = validateTree(page.tree);
-    if (!result.ok) {
+    if (!result.ok)
       throw new Error(
         `Seed page ${page.siteSlug}${page.path} is invalid:\n${JSON.stringify(result.issues, null, 2)}`,
       );
-    }
   }
-  await resetDatabase({ sites, pages });
-  console.log(`Seeded ${sites.length} sites and ${pages.length} pages.`);
+  for (const entry of entries) {
+    const result = validateEntry(entry.collection as CollectionId, entry.data);
+    if (!result.ok)
+      throw new Error(
+        `Seed entry ${entry.siteSlug}/${entry.collection}/${entry.slug} is invalid: ${JSON.stringify(result.errors)}`,
+      );
+  }
+  await resetDatabase({ sites, pages, entries });
+  console.log(
+    `Seeded ${sites.length} sites, ${pages.length} pages and ${entries.length} entries.`,
+  );
 }
 
 seed()

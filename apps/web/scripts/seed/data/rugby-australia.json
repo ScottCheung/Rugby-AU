@@ -1,0 +1,2661 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "Teams, competitions and community rugby across Australia.",
+      "tree": [
+        {
+          "id": "30f658bb-3bcf-442d-bc43-4d3b3db6c9fc",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "efdcf59a-96f5-4dfb-a2a2-6d9dd3890c7b",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Rugby World Cup 2027 is coming home",
+                      "text": "Australia hosts the men’s tournament from 1 October to 13 November 2027, with the final in Sydney.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Major events",
+                        "href": "/events"
+                      }
+                    },
+                    {
+                      "title": "Women’s Rugby World Cup 2029",
+                      "text": "Two years later, Australia welcomes the world’s best women’s teams.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Black and white photo of women playing rugby"
+                      },
+                      "link": {
+                        "label": "Major events",
+                        "href": "/events"
+                      }
+                    },
+                    {
+                      "title": "Rugby for everyone",
+                      "text": "From under 6s to veterans, there is a club near you.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613425295165-dc4a15a98bbf?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Junior players in black and red chasing a runner in blue"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "55089a30-232d-40cf-a627-bbe51c3fbd71",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4db79ac2-9603-4ca6-a266-cc8d0405325c",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "One game, played everywhere",
+                      "text": "Rugby union is played in every state and territory, from Test matches in front of full stadiums to Saturday mornings at the local club.\n\nRugby Australia looks after all of it: the national teams, professional rugby, and the clubs, schools and volunteers who keep the community game going.",
+                      "link": {
+                        "label": "About us",
+                        "href": "/about"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "df3631d9-157d-4e23-b4fc-0ddc12ee9440",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A decade of big events",
+                      "text": "Two home World Cups are on the way.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Major events",
+                        "href": "/events"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "fad2d66b-af1b-4c59-add5-3280e7adf003",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "9e1a3e0c-9f40-4e05-b683-3b2440c12923",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "show": "upcoming",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "df23934a-154a-4e5e-8765-a562c9618464",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "show": "results",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "22254b97-e8c1-4aad-8a7a-5d3954747861",
+          "type": "section",
+          "props": {
+            "heading": "Australian rugby in numbers",
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5d50e7e1-4348-46b3-b896-980a83eea17a",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First Test match",
+                      "value": "1899"
+                    },
+                    {
+                      "title": "Men’s Rugby World Cup titles",
+                      "value": "2"
+                    },
+                    {
+                      "title": "Olympic sevens gold for the women",
+                      "value": "2016"
+                    },
+                    {
+                      "title": "A home Rugby World Cup",
+                      "value": "2027"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "fac615d0-cdd1-4fce-85ff-94d10dae7078",
+          "type": "section",
+          "props": {
+            "heading": "Our teams",
+            "intro": "Four levels of rugby, one game.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "7528419d-13a6-48bf-92e3-1015a0e36ed9",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Wallabies",
+                      "text": "The men’s national team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby goal posts in a full stadium"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Wallaroos",
+                      "text": "The women’s national team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Australia Sevens",
+                      "text": "Men’s and women’s sevens.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1794239143174-74cb66fede3d?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in gold and in white contesting a lineout in a stadium"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Super Rugby clubs",
+                      "text": "Brumbies, Reds, Waratahs and Force.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1480099225005-2513c8947aec?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two packs of forwards in a scrum"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f454fe70-4d75-4ecb-bc34-0ede6fe09c27",
+          "type": "section",
+          "props": {
+            "heading": "Get involved",
+            "intro": "Play, coach, referee or help out at your local club.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "dd174bf1-f83a-437d-9c65-469f099cce8c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Play",
+                      "text": "Juniors start with non-contact games and move to tackle rugby as they grow. Senior, women’s and veterans’ teams train once or twice a week.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1492303686649-6911c8127d9a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in a scrum cap placing the ball over the line"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "18fa9878-c72c-4cea-9c00-78acbd1b9f10",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Coach",
+                      "text": "Start with a free introductory course, then build your accreditation as your team moves up the age groups.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585757318177-0570a997dc3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach holding a tactics board beside a field"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "ab72e0c8-00d6-4e6b-9675-c34eb4420221",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Referee",
+                      "text": "Referees are needed every weekend. Courses cover the laws, positioning and game management, with a mentor for your first matches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618471715-61c6b64aaf31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players contesting the ball during a match"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e8f52959-652e-4842-bd59-2bfbe0f7746e-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "e8f52959-652e-4842-bd59-2bfbe0f7746e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d9d4571f-f841-49ad-9a65-1308901aa190",
+          "type": "section",
+          "props": {
+            "heading": "Competitions",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "6b2d3df7-c17c-4df3-a35a-6d7c9f14e4a3",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "From Test rugby to Saturday club games",
+                      "text": "The Rugby Championship, Super Rugby Pacific, Super W and the club competitions in every state.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1693073410934-5e45e31a6b5c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A large stadium filling up before a rugby match"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "The Bledisloe Cup",
+                      "text": "Australia against New Zealand since 1932.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1578269174936-2709b6aeb913?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A gold trophy on a white background"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The national women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106770965-f8d5b3bcd271?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A woman in red carrying the ball into a tackle"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8464a9c2-3fbe-4d1a-b53d-373d53cf0d2a",
+          "type": "section",
+          "props": {
+            "heading": "Around the country",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "8abbabc0-f5d9-43a0-8bc1-c0821875b68a",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Aerial view of Sydney Harbour Bridge and the Opera House",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1546268060-2592ff93ee24?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Sydney Harbour Bridge and the Opera House"
+                      }
+                    },
+                    {
+                      "title": "The Story Bridge in Brisbane lit up at night",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1789758489987-bb2375d4b1bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "The Story Bridge in Brisbane lit up at night"
+                      }
+                    },
+                    {
+                      "title": "Hot air balloons over Canberra",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1528415187930-56a01a88be1a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Hot air balloons over Canberra"
+                      }
+                    },
+                    {
+                      "title": "Perth city beside the Swan River",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1524586410818-196d249560e4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Perth city beside the Swan River"
+                      }
+                    },
+                    {
+                      "title": "Melbourne city skyline",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1595434971780-79d5c20c5090?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Melbourne city skyline"
+                      }
+                    },
+                    {
+                      "title": "Adelaide stadium beside the river on a sunny day",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1757477856875-43d0d7728ce4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Adelaide stadium beside the river on a sunny day"
+                      }
+                    },
+                    {
+                      "title": "Boats in Hobart harbour under a cloudy sky",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1728555429641-391c49d9754a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Boats in Hobart harbour under a cloudy sky"
+                      }
+                    },
+                    {
+                      "title": "Uluru rising above the desert under a blue sky",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Uluru rising above the desert under a blue sky"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/about",
+      "title": "About us",
+      "description": "Who we are and how rugby is organised in Australia.",
+      "tree": [
+        {
+          "id": "4105a8e3-326e-4662-957b-22cfdd085449",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "bd134ddd-6e6c-4cae-b8a7-e16878e93b4a",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About Rugby Australia",
+                      "text": "The national governing body for rugby union in Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1767190937750-d6aaf8ea99d0?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby stadium with goalposts and spectators in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6e712b78-f22c-4623-b96d-f1819b87138a",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "da4462b6-6738-4895-8b47-abdc91c467f1",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Who we are",
+                      "text": "Rugby Australia is the national governing body for rugby union. It selects and runs the national teams, organises Australia’s part in professional competitions, and supports the community game in every state and territory.\n\nMost of its work happens out of sight: training coaches and referees, setting safety rules for junior rugby, funding development programmes, and helping clubs find and keep volunteers."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "17211f04-d6fb-4c30-9941-04d501b6e31e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Major events",
+                      "text": "Two home World Cups this decade.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Major events",
+                        "href": "/events"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "0e6094b0-ddf4-4ee9-a05c-1e3be8a9b174",
+          "type": "section",
+          "props": {
+            "heading": "What we do",
+            "intro": "From the national teams down to the first training session at a local club.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8cec1e75-75c5-42ef-8d7a-d10c699569aa",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "National teams",
+                      "text": "The Wallabies, Wallaroos, Australia Sevens and the youth teams that feed them.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329356033-eb76e0af9fd9?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout jumper lifted high in front of red stadium seats"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "e29b019d-fafe-47a2-beea-80f13bc2322c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Professional rugby",
+                      "text": "Australia’s four Super Rugby Pacific clubs and the Super W women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "e977dec3-702b-4bbf-a19b-be1e61ad1b59",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Community rugby",
+                      "text": "Courses, insurance and support for the clubs and schools where most rugby is played.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in red and white sprinting with the ball"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cb3acd4b-5076-4cc7-8127-b9611c00b1a2",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "04ea77da-1288-4791-a1e1-16367c391b76",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Clubs and volunteers",
+                      "text": "Teams for juniors, seniors, women and veterans.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1766066014260-2c886decef4b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A volunteer handing out drinks at a community sports event"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "7cd28c54-8398-49e1-9f83-fabe96ef87f5",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "How rugby is organised",
+                      "text": "Rugby in Australia is a partnership. Rugby Australia runs the national game; each state and territory has its own union, running club competitions, representative teams and development programmes.\n\nClubs, most of them run by volunteers, are where nearly everyone plays."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b913fea2-4482-44a9-9e79-b4dbcc486032",
+          "type": "section",
+          "props": {
+            "heading": "A decade of major events",
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "0c8a4620-00c5-49ca-8e85-a152e00537d4",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Men’s Rugby World Cup 2027",
+                      "text": "Hosted across Australia, with the final in Sydney.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      },
+                      "link": {
+                        "label": "Major events",
+                        "href": "/events"
+                      }
+                    },
+                    {
+                      "title": "Women’s Rugby World Cup 2029",
+                      "text": "The first women’s Rugby World Cup in Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1551095318-8583a8da870b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women’s teams in white and in blue contesting a lineout"
+                      },
+                      "link": {
+                        "label": "Major events",
+                        "href": "/events"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/teams",
+      "title": "Teams",
+      "description": "Australia’s national teams and professional clubs.",
+      "tree": [
+        {
+          "id": "785bcbf9-5ed7-43c4-887c-bf87c624d3d3",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "6b0005c1-918b-45b7-b50e-1011b181676f",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our teams",
+                      "text": "From the Wallabies and Wallaroos to the next generation coming through.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9e6b9461-6968-44bc-847e-3e7e3bca9610",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "52d7d0bb-bc9d-4f0f-9a26-90c43f63984c",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Many teams, one pathway",
+                      "text": "Australia’s teams range from the Wallabies and Wallaroos to under 20s, sevens squads and four professional clubs.\n\nThey are connected by one pathway: players are spotted at school and club level, move through state age-group teams and club academies, and the best go on to wear the gold jersey."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "12cfce3b-4a3d-4b88-9112-581bdba00f46",
+          "type": "section",
+          "props": {
+            "heading": "National teams",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2922126f-7d4f-4530-90de-30c993c43769",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Wallabies",
+                      "text": "The men’s national team, first capped in 1899 and Rugby World Cup winners in 1991 and 1999.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1735583573592-edacba3f36a8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "An empty rugby pitch with goal posts and blue stands at dusk"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Wallaroos",
+                      "text": "The women’s national team, playing Test rugby since 1994.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580146400020-fc3f176baed8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women in green and in orange competing for the ball in a tackle"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Australia Sevens",
+                      "text": "The women won the first Olympic rugby sevens gold at Rio 2016.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1794239143174-74cb66fede3d?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in gold and in white contesting a lineout in a stadium"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f8dfa2e6-6e5b-49e1-b06c-8f043cd1856f",
+          "type": "section",
+          "props": {
+            "heading": "Professional clubs",
+            "intro": "Four Australian teams play in Super Rugby Pacific, and each also fields a side in Super W.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "72eb9af1-4eed-4d17-b929-9f7f3a6cc4f7",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "ACT Brumbies",
+                      "text": "Canberra. Super Rugby champions in 2001 and 2004.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1773821023994-bffda5c96617?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra lake with Parliament House in the distance"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Queensland Reds",
+                      "text": "Brisbane. Super Rugby champions in 2011.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1789758489987-bb2375d4b1bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "The Story Bridge in Brisbane lit up at night"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "NSW Waratahs",
+                      "text": "Sydney. Super Rugby champions in 2014.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sydney Opera House beside the harbour"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    },
+                    {
+                      "title": "Western Force",
+                      "text": "Perth. In Super Rugby since 2006.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1524586410818-196d249560e4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Perth city beside the Swan River"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "c1ae6e24-dbf7-417c-a248-3c3f7fbc647e",
+          "type": "section",
+          "props": {
+            "heading": "Pathways",
+            "intro": "The route from club rugby to the national teams.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "9f526136-5bd5-4c12-b53f-b3b6380f2d22",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Schools and juniors",
+                      "text": "State age-group championships are where many future internationals are first spotted.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1600534745983-36df226d4381?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in orange and in green chasing the ball, with the referee in yellow"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    },
+                    {
+                      "title": "Academies",
+                      "text": "Each Super Rugby club runs an academy for young players in its region.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1771308378506-7f394413342c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach talking to players gathered around"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    },
+                    {
+                      "title": "Under 20s",
+                      "text": "Australia’s under 20 team plays against the best young players in the world.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512299286776-c18be8ed6a1a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams playing rugby"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/competitions",
+      "title": "Competitions",
+      "description": "International, professional and club competitions.",
+      "tree": [
+        {
+          "id": "ddca1873-c855-498f-9176-4ad1e56e96fd",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "5e7f42dc-14c8-4198-b74c-b1f9beea70cd",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Competitions",
+                      "text": "Test rugby, Super Rugby and the club games played every weekend.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ed82d1c3-0f05-4eae-b38d-d50fd1c24a83",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c2fd206c-434c-4272-b0db-f14a8909f8c7",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Silverware",
+                      "text": "What Australian teams play for.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "7262fe9a-57fe-45b9-9e2d-b2758de9ef2c",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Rugby all year round",
+                      "text": "Australian rugby runs on three levels. Test matches bring the national teams together against the best in the world. Super Rugby Pacific and Super W are the professional and elite club competitions.\n\nUnderneath them are the state club competitions, played every weekend through autumn and winter."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "74e1a086-a7e1-4de8-9aa5-bb19a364552c",
+          "type": "section",
+          "props": {
+            "heading": "International",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "617b2f27-6058-4aa8-88b6-87d32d209085",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The Rugby Championship",
+                      "text": "Australia, New Zealand, South Africa and Argentina, every year.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1631021694928-56b70c9be844?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two packs in striped jerseys bound together in a scrum"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "The Bledisloe Cup",
+                      "text": "Contested between Australia and New Zealand since 1932.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Pacific Four Series",
+                      "text": "The Wallaroos against Canada, New Zealand and the United States.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1534583000938-a375b825ea16?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women's rugby jerseys"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8518f012-2891-4024-9111-f1a80caccd0a",
+          "type": "section",
+          "props": {
+            "heading": "Professional",
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "31209225-2632-4270-948a-8daaac3e90e1",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Super Rugby Pacific",
+                      "text": "Clubs from Australia, New Zealand and the Pacific Islands play a home-and-away season and finals.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582045-ac3830336aaa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Green rugby field in a sunny stadium"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "dc0cd6d3-6f4d-4d7a-86b2-1c8f7392abaf",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Super W",
+                      "text": "The national women’s competition, played since 2018.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1557278444-248705f95d17?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s team in white huddled on a stadium field"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2df48c38-a2f6-4bf6-a1da-04c4b19b791c",
+          "type": "section",
+          "props": {
+            "heading": "Club rugby",
+            "intro": "Every state runs its own club competition.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2279f28c-d8b0-41a6-b09a-0d20c6c4be48",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Shute Shield",
+                      "text": "Sydney’s premier club competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1546268060-2592ff93ee24?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Sydney Harbour Bridge and the Opera House"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    },
+                    {
+                      "title": "Hospital Cup",
+                      "text": "Brisbane’s premier club competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1548661625-a30d197ce439?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Brisbane high-rise buildings beside the river"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    },
+                    {
+                      "title": "John I Dent Cup",
+                      "text": "Canberra’s premier club competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1570587371524-a187051b1b31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Canberra cityscape in daylight"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    },
+                    {
+                      "title": "Dewar Shield",
+                      "text": "Melbourne’s premier club competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1545044846-351ba102b6d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A bridge across the river in Melbourne"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/get-involved",
+      "title": "Get involved",
+      "description": "Play, coach, referee or volunteer.",
+      "tree": [
+        {
+          "id": "f7ac6d1e-8cd8-40c8-a27c-b05a17c7e367",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "2b1dc98c-87f4-4696-ad85-3e6dcda30cde",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Get involved",
+                      "text": "There is a role in rugby for everyone, on and off the field.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children running across a sunny field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "64e4e0d2-ea82-45c5-b5d5-9f6afc342a05",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "35d30b1a-6ff2-4f91-8135-6d6354395d49",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Start this season",
+                      "text": "You don’t need experience to join a rugby club. Most clubs welcome new players at any time of the season and will find a team that suits your age and level.\n\nIf playing isn’t for you, clubs always need coaches, referees, managers and helpers. Every role comes with free training."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "60ae0ba9-1f13-40cf-8583-985a2910bc76",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Find your team",
+                      "text": "Juniors, seniors, women and veterans.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b4c3c925-f5e2-48df-90f6-296730471907",
+          "type": "section",
+          "props": {
+            "heading": "On the field",
+            "intro": "Courses run through the year.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "47e4e8fb-4ce8-4ac3-b1af-eb4a1ea33150",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Play",
+                      "text": "Juniors start with non-contact games and move to tackle rugby as they grow. Senior, women’s and veterans’ teams train once or twice a week.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "a839c26d-5939-4c76-95da-3269c233d35b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Coach",
+                      "text": "Start with a free introductory course, then build your accreditation as your team moves up the age groups.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529932398402-e0b30f66a559?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach giving instructions to a young player at training"
+                      },
+                      "link": {
+                        "label": "About us",
+                        "href": "/about"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "ca082785-d0b6-4f5f-8c9a-def6aaa27864",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Referee",
+                      "text": "Referees are needed every weekend. Courses cover the laws, positioning and game management, with a mentor for your first matches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1485426337939-af69cf101909?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Five players chasing play during a match"
+                      },
+                      "link": {
+                        "label": "Competitions",
+                        "href": "/competitions"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "96087b2b-03e6-4952-8b7f-8ec7089a140b",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "368ecf5d-5a55-4409-855a-0f53ff9576d4",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Volunteer",
+                      "text": "Every club needs helpers.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1774557937549-8844e48e8b22?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Volunteers in blue helping at an event"
+                      },
+                      "link": {
+                        "label": "About us",
+                        "href": "/about"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "f717bcc9-abc1-4b54-a909-944b80d4ec40",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Off the field",
+                      "text": "Team managers, first aiders, canteen helpers and committee members keep every club running. Most clubs need a few more hands each season.\n\nSchools can book coaching visits and programmes that help teachers introduce rugby safely."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "07c6d986-46b2-46a1-b4d0-12741af44a77",
+          "type": "section",
+          "props": {
+            "heading": "Rugby for every age",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "dde98760-d23b-4993-be6d-a07fcad78c60",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Under 6 to under 12",
+                      "text": "Non-contact and modified games that build skills and confidence.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613425295165-dc4a15a98bbf?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Junior players in black and red chasing a runner in blue"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Teenagers",
+                      "text": "Full rugby with age and size rules to keep it safe.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1492303686649-6911c8127d9a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in a scrum cap placing the ball over the line"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Women and girls",
+                      "text": "Teams at every level, from first-timers to Super W.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Black and white photo of women playing rugby"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "Veterans",
+                      "text": "Social rugby for players over 35.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b3ead371-d54c-4261-b855-fd73572705a8",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "067cb180-43ee-406b-a8a6-136e29e32ca8",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Ready to start?",
+                      "text": "Clubs in every state and territory are taking new players now.",
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/events",
+      "title": "Major events",
+      "description": "Rugby World Cups and tours coming to Australia.",
+      "tree": [
+        {
+          "id": "201262e5-158a-4f54-a2c3-4e97cb8d038a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "9fa45eb6-01c7-4582-a6bf-b6052d8440fa",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Major events",
+                      "text": "A decade of world-class rugby in Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "405191e5-f47d-4c70-8ab9-65a73f0a9a15",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4b78ba57-d66a-4f78-8b1c-4824aec2f55e",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "World Cups at home",
+                      "text": "Australia hosts the men’s Rugby World Cup from 1 October to 13 November 2027, the first time since 2003. The tournament opens in Perth and finishes with the final in Sydney.\n\nIn 2029 the Women’s Rugby World Cup comes to Australia for the first time."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "fac33b59-dc2f-4520-830f-e90a7eac8c2e",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2c70ace3-ed11-41f9-8881-3aeb7f5531b9",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Rugby World Cup 2027 starts, in Perth",
+                      "value": "1 Oct"
+                    },
+                    {
+                      "title": "The final, in Sydney",
+                      "value": "13 Nov"
+                    },
+                    {
+                      "title": "Women’s Rugby World Cup",
+                      "value": "2029"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "abf7faa5-b060-486d-b072-b09cd8564029",
+          "type": "section",
+          "props": {
+            "heading": "Rugby World Cup 2027",
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "3cda0cb8-7c49-4972-b3ad-f98c799c7e1c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Six weeks of rugby",
+                      "text": "Matches in cities across the country.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512719994953-eabf50895df7?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A stadium under a purple sunset sky"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "4f62311d-3685-489a-917d-9bca3de57a91",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Opening match in Perth",
+                      "text": "The tournament starts in Western Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1606453338613-bcf41ddb9d50?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Perth city buildings by the water"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6e2677ef-c458-4e49-80c3-9092538c0935",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b22d3c79-f5a0-4ca6-8374-06a6fe9ca56c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A home World Cup for the Wallaroos",
+                      "text": "Building towards 2029.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+                      },
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "2f1771e1-3444-4c33-b463-79df2c63b5fa",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Women’s Rugby World Cup 2029",
+                      "text": "The first women’s Rugby World Cup in Australia is a chance to grow the game in every state: more teams, more coaches and more girls playing.",
+                      "link": {
+                        "label": "Get involved",
+                        "href": "/get-involved"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "bf68b87f-97c6-4a34-bf65-a962b70d857f",
+          "type": "section",
+          "props": {
+            "heading": "Recent events",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "aa810c14-0716-44d2-a23a-1901b93e502a",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "2025: the British & Irish Lions tour",
+                      "text": "The Lions toured Australia for the first time since 2013.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613332331877-8a47030be80b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A jumper in red and black lifted by teammates against a blue sky"
+                      },
+                      "link": {
+                        "label": "Our teams",
+                        "href": "/teams"
+                      }
+                    },
+                    {
+                      "title": "2003: Rugby World Cup",
+                      "text": "The last time Australia hosted the men’s tournament.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "Stories, explainers and guides from across Australian rugby.",
+      "tree": [
+        {
+          "id": "3105a958-a5c2-48d0-bc61-48048093548d",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2ab3894e-160c-4b0e-80f5-6dc0d6e73f56",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "Stories, explainers and guides from across Australian rugby."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3420f52c-276c-47ba-baec-4b14c7a96e1c-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "3420f52c-276c-47ba-baec-4b14c7a96e1c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "54ca1d46-f179-45bf-9efb-cc1df3408c31-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "54ca1d46-f179-45bf-9efb-cc1df3408c31-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "54ca1d46-f179-45bf-9efb-cc1df3408c31-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "54ca1d46-f179-45bf-9efb-cc1df3408c31-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "59edccc0-8e14-40f4-83f2-d1c6011d977c",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5d3bbe95-758e-4ed3-b8c3-3a57c6ff4dde",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "two-home-world-cups",
+      "data": {
+        "category": "Events",
+        "date": "2026-11-18",
+        "headline": "Two home World Cups: what’s coming in 2027 and 2029",
+        "standfirst": "Australia hosts the men’s Rugby World Cup in 2027 and the women’s in 2029. Here is what that means for fans and clubs.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A lineout in a stadium with spectators in the stands"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "For the rest of the decade, the biggest events in world rugby are coming to Australia. The men’s Rugby World Cup runs from 1 October to 13 November 2027, the first time the tournament has been played here since 2003."
+          },
+          {
+            "kind": "heading",
+            "text": "Where the matches are"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The tournament opens in Perth and finishes with the final in Sydney, with pool matches in cities across the country. For many fans it will be the first chance to see the world’s best teams without leaving home."
+          },
+          {
+            "kind": "heading",
+            "text": "2029: a first for the women’s game"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Two years later, Australia hosts the Women’s Rugby World Cup for the first time. It is a chance to grow the women’s game in every state, from more girls’ teams at clubs to more women coaching and refereeing."
+          },
+          {
+            "kind": "heading",
+            "text": "What it means for clubs"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Home tournaments tend to bring new players to local clubs. If your club is planning for the next few seasons, now is a good time to think about coaches, volunteers and room for new teams."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "bledisloe-cup-explained",
+      "data": {
+        "category": "Explainer",
+        "date": "2026-11-11",
+        "headline": "The Bledisloe Cup, explained",
+        "standfirst": "Australia and New Zealand have played for the Bledisloe Cup since 1932. Here is how the trophy works.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A team in red and white hoops gathered in front of the goal posts"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "The Bledisloe Cup is the trophy at stake when the Wallabies play New Zealand. It has been contested since 1932 and is one of the best-known rivalries in the sport."
+          },
+          {
+            "kind": "heading",
+            "text": "How it is won"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The cup is decided over the Tests the two countries play in a year. The holder keeps it unless the challenger wins the series, so a drawn series leaves the cup where it is."
+          },
+          {
+            "kind": "heading",
+            "text": "Where it fits in the season"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Bledisloe Tests are usually played during The Rugby Championship, the annual tournament between Australia, New Zealand, South Africa and Argentina, so one match can count towards both."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "how-rugby-is-organised",
+      "data": {
+        "category": "Explainer",
+        "date": "2026-11-04",
+        "headline": "How rugby is organised in Australia",
+        "standfirst": "From the national teams to the local club, here is who looks after what.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A team in light blue and white in a huddle"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Rugby in Australia is a partnership. Rugby Australia runs the national teams and the professional game, the state and territory unions run competitions in their regions, and clubs are where nearly everyone plays."
+          },
+          {
+            "kind": "heading",
+            "text": "The national body"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Rugby Australia selects and manages the Wallabies, Wallaroos, Australia Sevens and youth teams, and organises Australia’s part in Super Rugby Pacific and Super W."
+          },
+          {
+            "kind": "heading",
+            "text": "The states and territories"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Each state and territory has its own union. They run the club competitions, pick representative teams and look after coach and referee development."
+          },
+          {
+            "kind": "heading",
+            "text": "The clubs"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Clubs, most of them run by volunteers, field teams for juniors, seniors, women and veterans. They are the first stop for anyone who wants to play."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "your-first-season",
+      "data": {
+        "category": "Community",
+        "date": "2026-10-28",
+        "headline": "Your first season at a rugby club",
+        "standfirst": "Never played before? Here is what to expect from your first few weeks.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A young player in red and white sprinting with the ball"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Most clubs welcome new players at any time of the season, and you don’t need any experience. Coaches will find a team that suits your age, size and level."
+          },
+          {
+            "kind": "heading",
+            "text": "What to bring"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Sports clothes, boots and a water bottle are enough for the first session. A mouthguard is a must once you start contact training."
+          },
+          {
+            "kind": "heading",
+            "text": "How training works"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Teams usually train once or twice a week, with games on the weekend. Younger juniors play non-contact and modified games that build skills before tackling is introduced."
+          }
+        ]
+      }
+    }
+  ]
+}

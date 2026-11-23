@@ -1,0 +1,2259 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "NSW Waratahs: Super Rugby from Sydney.",
+      "tree": [
+        {
+          "id": "f85feade-b69f-4d6c-a70a-86086a4d6530",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "507fb2ea-c8a7-4a53-b63f-2694d02a8cca",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "NSW Waratahs",
+                      "text": "Super Rugby from Sydney.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sydney Opera House beside the harbour"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    },
+                    {
+                      "title": "Home games at Allianz Stadium",
+                      "text": "Bring the family and wear the colours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "The new season",
+                      "text": "Memberships are on sale now.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1573056020071-9697f575f8d6?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black and in red and white bound in a maul"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "fdb23638-e0ea-49f1-9fcf-683377ffb52b",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1992cc9d-9649-4568-8ae0-c41a0236a0d2",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First interstate match",
+                      "value": "1882"
+                    },
+                    {
+                      "title": "Super Rugby champions",
+                      "value": "2014"
+                    },
+                    {
+                      "title": "The state’s colour",
+                      "value": "Sky blue"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "dae7c433-3038-4c8f-86c9-05fec712145a",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ff419b3f-34d0-4ea1-b3ca-3ec642e575fc",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "waratahs",
+                  "show": "upcoming",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "9a0cdbb4-04ef-4b72-bd79-23c448b230ea",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "waratahs",
+                  "show": "results",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e286225c-bbe6-4830-a6bb-f5c6cac390f4",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ef4bdc8f-bb33-478e-8ef8-e1fdc67940ae",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "miles-amatosero",
+                    "max-burey",
+                    "jack-barrett",
+                    "angus-crichton",
+                    "angus-bell",
+                    "bernard-foley",
+                    "ethan-dobbins",
+                    "joey-fowler",
+                    "eamon-doyle",
+                    "jake-gordon",
+                    "folau-faingaa",
+                    "angus-grover",
+                    "isaac-fonua",
+                    "sid-harvey",
+                    "george-francis",
+                    "james-hendren"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "5576d5ae-65a8-4d59-ba93-c917de91cf9f",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c977c145-8ee3-4044-b927-4ac48b4b9b67",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Welcome to the NSW Waratahs",
+                      "text": "New South Wales has played representative rugby since 1882, when it first met Queensland. The Waratahs, in sky blue, are the state’s Super Rugby team.\n\nThey won Super Rugby in 2014. Sydney’s club competition, the Shute Shield, is where many Waratahs come from.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "deb649d8-96e2-4303-bc77-21dd81304a00",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our honours",
+                      "text": "Titles and milestones.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d6f45ad9-ff16-4ab2-b6bc-d26d5b7e8fd3-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "d6f45ad9-ff16-4ab2-b6bc-d26d5b7e8fd3",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9079b75d-691c-49d5-9af5-fef1a9a33fd8",
+          "type": "section",
+          "props": {
+            "heading": "This season",
+            "intro": "Everything you need for match day.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "6a6c9bbd-0d67-4fd5-9966-fe31ffbc1b95",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Memberships",
+                      "text": "Your seat for every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1735583573592-edacba3f36a8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "An empty rugby pitch with goal posts and blue stands at dusk"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Tickets",
+                      "text": "Single-game tickets for every home match.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613425295165-dc4a15a98bbf?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Junior players in black and red chasing a runner in blue"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b164f018-7428-4d15-9f28-d60b97894679",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "9fc9a35f-076d-44ee-a35d-58d017c31293",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Sydney",
+                      "text": "The heart of rugby in New South Wales.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1546268060-2592ff93ee24?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Sydney Harbour Bridge and the Opera House"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "a9eb4162-086f-4582-b2b8-0df9031e0ca8",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Allianz Stadium",
+                      "text": "Home games are played at Allianz Stadium, with the city of Sydney turning out in the club’s colours.",
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "aa3d47d6-4ca0-4ca5-913f-c9598a991894",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "dc2a0638-cae0-4e7a-823d-6526fff070b4",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players in red and in green chasing the ball in front of a grandstand",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1662052282121-ca29557ad2d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in red and in green chasing the ball in front of a grandstand"
+                      }
+                    },
+                    {
+                      "title": "Sydney Opera House beside the harbour",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sydney Opera House beside the harbour"
+                      }
+                    },
+                    {
+                      "title": "A jumper in red and black lifted by teammates against a blue sky",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613332331877-8a47030be80b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A jumper in red and black lifted by teammates against a blue sky"
+                      }
+                    },
+                    {
+                      "title": "A player in yellow diving to tackle a runner in white",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1475505035646-a4680971b0fb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in yellow diving to tackle a runner in white"
+                      }
+                    },
+                    {
+                      "title": "A team in red and white hoops gathered in front of the goal posts",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/club",
+      "title": "The club",
+      "description": "The story of the NSW Waratahs.",
+      "tree": [
+        {
+          "id": "1c55f30c-74a7-411a-bc3b-77bbf1062346",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "648aed03-9ee6-4a7d-8e83-79087cfd2ea0",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the NSW Waratahs",
+                      "text": "New South Wales has played representative rugby since 1882, when it first met Queensland. The Waratahs, in sky blue, are the state’s Super Rugby team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sydney Opera House beside the harbour"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "404356e5-0693-485b-90e8-df89b86cc1e7",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5297fbd6-0b6c-4152-a5d7-ef8a63be0f41",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our story",
+                      "text": "New South Wales has played representative rugby since 1882, when it first met Queensland. The Waratahs, in sky blue, are the state’s Super Rugby team.\n\nThey won Super Rugby in 2014. Sydney’s club competition, the Shute Shield, is where many Waratahs come from.\n\nHome games are at Allianz Stadium in Sydney."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "20198e80-742d-490b-aedf-3045106a3ac0",
+          "type": "section",
+          "props": {
+            "heading": "Honours and milestones",
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "3a49fa61-3e71-4be0-ba78-3eeaab4cb465",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1882",
+                      "text": "New South Wales and Queensland play their first interstate match.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2014",
+                      "text": "Super Rugby champions.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Shute Shield",
+                      "text": "Sydney’s club competition feeds the Waratahs.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4729760e-0de6-47c2-8bc3-8ba5be8f669a",
+          "type": "section",
+          "props": {
+            "heading": "More than one team",
+            "intro": "The club looks after rugby across its region.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "7b189b05-193a-4973-855a-ef162a4ccb68",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Super Rugby Pacific",
+                      "text": "The men’s team, against the best clubs in Australia, New Zealand and the Pacific.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1709372349201-3c0cdd6a4eed?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in navy and orange running with the ball"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The women’s team in the national women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106770965-f8d5b3bcd271?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A woman in red carrying the ball into a tackle"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Academy",
+                      "text": "Young players from across New South Wales.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529932398402-e0b30f66a559?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach giving instructions to a young player at training"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matchday",
+      "title": "Match day",
+      "description": "Home games at Allianz Stadium.",
+      "tree": [
+        {
+          "id": "b41d5718-6065-4dd9-b691-cff58c5f9f1a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "d319aa26-f743-4e6d-a5fd-726de7d38815",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Match day",
+                      "text": "Everything you need for a home game at Allianz Stadium.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6a785b1e-a173-446b-a181-716045c6beeb",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2bcf2b58-86c4-49c9-9428-debf2dea61b3",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Plan your day",
+                      "text": "Gates at Allianz Stadium open well before kick-off, with activities for kids on the concourse and the warm-ups to watch.\n\nPublic transport is the easiest way to get there on game day. Members keep the same seat all season, and single tickets go on sale before each game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "5e943471-0cb2-4c23-8650-0e09e005568e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Getting there",
+                      "text": "Travel tips for Allianz Stadium.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1546268060-2592ff93ee24?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Sydney Harbour Bridge and the Opera House"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "0490e9a4-3398-4b35-ab3c-8332b37b93a5",
+          "type": "section",
+          "props": {
+            "heading": "Before you go",
+            "intro": "Tickets, seats and family days.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2e52250b-76ff-4f66-81f7-7bc196f6d952",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets and memberships",
+                      "text": "Members keep the same seat all season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582045-ac3830336aaa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Green rugby field in a sunny stadium"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "028edf2b-cb37-4d91-b708-37b8da02415e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids go cheap",
+                      "text": "Discounted tickets for children, and a family zone at every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1492303686649-6911c8127d9a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in a scrum cap placing the ball over the line"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "9ad9690c-c5d9-49af-a488-266c8f2d669d",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Meet the players",
+                      "text": "Signing sessions after selected games.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b6b2dee4-cbbf-4aa0-9fdf-a14b0209b12f",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "05fffff6-1868-468d-812c-a50175dde9f5",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "See you at the game",
+                      "text": "Memberships for the new season at Allianz Stadium are on sale now.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pathways",
+      "title": "Pathways",
+      "description": "From club rugby to the NSW Waratahs.",
+      "tree": [
+        {
+          "id": "15edc469-f2f3-4363-8158-3a3651ef0e41",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "9c7c8f28-db20-49d4-beb4-971b515e5f08",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Pathways",
+                      "text": "How young players in New South Wales reach professional rugby.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in red and white sprinting with the ball"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ae92d72e-98e0-47ed-be52-12a9feb2341b",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b9b49731-ab76-4c89-be27-dbd9235f4125",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The academy",
+                      "text": "Where the next generation trains.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach with a group of young children on a training pitch"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "1ad79365-5e04-41c6-bc31-d37f315cec2c",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "From the local club to Super Rugby",
+                      "text": "Every player in the NSW Waratahs squad started at a local club. Talented juniors are picked for representative age-group teams, and the best join the club’s academy.\n\nThe academy adds coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "03cc8d86-abd2-481f-9a76-794148b7c8b9",
+          "type": "section",
+          "props": {
+            "heading": "The route to the top",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "058cfc09-af71-45ad-bf02-1f5ff53d4f11",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club rugby",
+                      "text": "Every player starts at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1600534745983-36df226d4381?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in orange and in green chasing the ball, with the referee in yellow"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585757318177-0570a997dc3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach holding a tactics board beside a field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Representative teams",
+                      "text": "Age-group teams that play other states.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585743432494-88df3550c99a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in green and in orange competing for the ball on a muddy pitch"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Debut",
+                      "text": "Pulling on the NSW Waratahs jersey.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512719994953-eabf50895df7?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A stadium under a purple sunset sky"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f5abd48e-ac83-4181-bebf-28b82e0cc9f2",
+          "type": "section",
+          "props": {
+            "heading": "Women’s pathway",
+            "intro": "Girls can follow the same route, all the way to Super W.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "951bcf29-6d7c-4876-92f6-4cc3daec7a99",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club and school",
+                      "text": "Girls’ teams at every age.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1551095318-8583a8da870b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women’s teams in white and in blue contesting a lineout"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The club’s women’s team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580146400020-fc3f176baed8?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Women in green and in orange competing for the ball in a tackle"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, stories and match-day guides from the NSW Waratahs.",
+      "tree": [
+        {
+          "id": "c6922f02-7927-49c3-ad9d-677fa1b20465",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "815034ef-41da-4776-9c0d-dae71094aeeb",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, stories and match-day guides from the NSW Waratahs."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "51618fa9-58db-4502-bfc0-e750738bae07-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "51618fa9-58db-4502-bfc0-e750738bae07",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "2027 Super Rugby Pacific squad",
+      "tree": [
+        {
+          "id": "dc89ddf1-989c-499b-8c37-25e454d11d2a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "dc6b4cef-df75-4e60-abeb-caa9787477da",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "2027 Super Rugby Pacific squad.\n\nNamed 28 October 2026, as listed in “Waratahs announce squad for 2027 Swyftx Super Rugby Pacific”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugby.com.au/news/waratahs-announce-squad-for-2027-swyftx-super-rugby-pacific-20261028"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b1f31784-f71b-40cc-9e2c-453c28626bd0",
+          "type": "section",
+          "props": {
+            "heading": "Forwards",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "df4cea01-7f63-424b-aaf8-6cebada50c6c",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Forwards"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "7fc010a3-5c14-45d5-b7c8-a753df361dab",
+          "type": "section",
+          "props": {
+            "heading": "Backs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1fa09b91-c378-4d44-bd80-4cb387253342",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Backs"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "4610b8eb-cc09-4795-b87e-808d39813b28-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4610b8eb-cc09-4795-b87e-808d39813b28-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "4610b8eb-cc09-4795-b87e-808d39813b28-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "4610b8eb-cc09-4795-b87e-808d39813b28-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cc567d84-0d58-4b4c-acde-661087e2d829",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "af49033b-e86a-4c05-a2f5-bd3b6f6991f4",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "our-story",
+      "data": {
+        "category": "History",
+        "date": "2026-11-18",
+        "headline": "The NSW Waratahs story",
+        "standfirst": "New South Wales has played representative rugby since 1882, when it first met Queensland. The Waratahs, in sky blue, are the state’s Super Rugby team.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1624138784614-87fd1b6528f8?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Sydney Opera House beside the harbour"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "They won Super Rugby in 2014. Sydney’s club competition, the Shute Shield, is where many Waratahs come from."
+          },
+          {
+            "kind": "paragraph",
+            "text": "Home games are at Allianz Stadium in Sydney."
+          },
+          {
+            "kind": "heading",
+            "text": "Honours"
+          },
+          {
+            "kind": "paragraph",
+            "text": "1882: New South Wales and Queensland play their first interstate match. 2014: Super Rugby champions. Shute Shield: Sydney’s club competition feeds the Waratahs."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "match-day-guide",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-11",
+        "headline": "Match day at Allianz Stadium: what to know",
+        "standfirst": "Tickets, getting there and what to expect at a home game.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1706675780107-7c43cc487928?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A pitch under bright floodlights at night"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Home games at Allianz Stadium are a day out for the whole family. Here is how to plan yours."
+          },
+          {
+            "kind": "heading",
+            "text": "Tickets"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Members keep the same seat all season. Single tickets go on sale before each game, and children’s tickets are discounted."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is the easiest way to Allianz Stadium on game day. Allow extra time: the roads around the ground are busy before kick-off."
+          },
+          {
+            "kind": "heading",
+            "text": "At the ground"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Gates open well before kick-off, with activities for kids on the concourse. Stay after the game for signing sessions on selected dates."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "inside-the-academy",
+      "data": {
+        "category": "Pathways",
+        "date": "2026-11-04",
+        "headline": "Inside the academy: from club rugby to Super Rugby",
+        "standfirst": "How young players in New South Wales find their way into the NSW Waratahs squad.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1771308378506-7f394413342c?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A coach talking to players gathered around"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Every player in the NSW Waratahs squad started at a local club. The academy is the bridge between club rugby and the professional game."
+          },
+          {
+            "kind": "heading",
+            "text": "Who is picked"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Talented juniors are spotted in club and school rugby and in representative age-group teams, then invited to train with the academy."
+          },
+          {
+            "kind": "heading",
+            "text": "What the academy adds"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+          },
+          {
+            "kind": "heading",
+            "text": "Girls and women"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The same pathway leads to the club’s Super W team."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "miles-amatosero",
+      "data": {
+        "name": "Miles Amatosero",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/miles-amatosero.webp",
+          "alt": "Miles Amatosero in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/miles-amatosero-bg.webp",
+          "alt": "The backdrop of Miles Amatosero's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jack-barrett",
+      "data": {
+        "name": "Jack Barrett",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/jack-barrett.webp",
+          "alt": "Jack Barrett in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/jack-barrett-bg.webp",
+          "alt": "The backdrop of Jack Barrett's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "angus-bell",
+      "data": {
+        "name": "Angus Bell",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/angus-bell.webp",
+          "alt": "Angus Bell in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/angus-bell-bg.webp",
+          "alt": "The backdrop of Angus Bell's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "dan-botha",
+      "data": {
+        "name": "Dan Botha",
+        "role": "Forward",
+        "group": "Forwards"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ethan-dobbins",
+      "data": {
+        "name": "Ethan Dobbins",
+        "role": "Hooker",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/ethan-dobbins.webp",
+          "alt": "Ethan Dobbins in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/ethan-dobbins-bg.webp",
+          "alt": "The backdrop of Ethan Dobbins's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "eamon-doyle",
+      "data": {
+        "name": "Eamon Doyle",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/eamon-doyle.webp",
+          "alt": "Eamon Doyle in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/eamon-doyle-bg.webp",
+          "alt": "The backdrop of Eamon Doyle's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "folau-faingaa",
+      "data": {
+        "name": "Folau Faingaa",
+        "role": "Hooker",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/folau-fainga-a.webp",
+          "alt": "Folau Faingaa in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/folau-fainga-a-bg.webp",
+          "alt": "The backdrop of Folau Faingaa's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "isaac-fonua",
+      "data": {
+        "name": "Isaac Fonua",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/isaac-fonua.webp",
+          "alt": "Isaac Fonua in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/isaac-fonua-bg.webp",
+          "alt": "The backdrop of Isaac Fonua's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "george-francis",
+      "data": {
+        "name": "George Francis",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/george-francis.webp",
+          "alt": "George Francis in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/george-francis-bg.webp",
+          "alt": "The backdrop of George Francis's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "clem-halaholo",
+      "data": {
+        "name": "Clem Halaholo",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/clem-halaholo.webp",
+          "alt": "Clem Halaholo in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/clem-halaholo-bg.webp",
+          "alt": "The backdrop of Clem Halaholo's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "isaac-kailea",
+      "data": {
+        "name": "Isaac Kailea",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/isaac-kailea.webp",
+          "alt": "Isaac Kailea in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/isaac-kailea-bg.webp",
+          "alt": "The backdrop of Isaac Kailea's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "sefo-kautai",
+      "data": {
+        "name": "Sefo Kautai",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/sefo-kautai.webp",
+          "alt": "Sefo Kautai in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/sefo-kautai-bg.webp",
+          "alt": "The backdrop of Sefo Kautai's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "edwin-langi",
+      "data": {
+        "name": "Edwin Langi",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/edwin-langi.webp",
+          "alt": "Edwin Langi in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/edwin-langi-bg.webp",
+          "alt": "The backdrop of Edwin Langi's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "marshall-le-maitre",
+      "data": {
+        "name": "Marshall Le Maitre",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/marshall-le-maitre.webp",
+          "alt": "Marshall Le Maitre in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/marshall-le-maitre-bg.webp",
+          "alt": "The backdrop of Marshall Le Maitre's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "matt-philip",
+      "data": {
+        "name": "Matt Philip",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/matt-philip.webp",
+          "alt": "Matt Philip in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/matt-philip-bg.webp",
+          "alt": "The backdrop of Matt Philip's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "veikoso-poloniati",
+      "data": {
+        "name": "Veikoso Poloniati",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/veikoso-poloniati.webp",
+          "alt": "Veikoso Poloniati in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/veikoso-poloniati-bg.webp",
+          "alt": "The backdrop of Veikoso Poloniati's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "apolosi-ranawai",
+      "data": {
+        "name": "Apolosi Ranawai",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/apolosi-ranawai.webp",
+          "alt": "Apolosi Ranawai in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/apolosi-ranawai-bg.webp",
+          "alt": "The backdrop of Apolosi Ranawai's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "luke-reimer",
+      "data": {
+        "name": "Luke Reimer",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/luke-reimer.webp",
+          "alt": "Luke Reimer in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/luke-reimer-bg.webp",
+          "alt": "The backdrop of Luke Reimer's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "pete-samu",
+      "data": {
+        "name": "Pete Samu",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/pete-samu.webp",
+          "alt": "Pete Samu in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/pete-samu-bg.webp",
+          "alt": "The backdrop of Pete Samu's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "angus-scott-young",
+      "data": {
+        "name": "Angus Scott-Young",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/waratahs/angus-scott-young.webp",
+          "alt": "Angus Scott-Young in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/angus-scott-young-bg.webp",
+          "alt": "The backdrop of Angus Scott-Young's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "max-burey",
+      "data": {
+        "name": "Max Burey",
+        "role": "Fly-Half/Full-Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/max-burey.webp",
+          "alt": "Max Burey in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/max-burey-bg.webp",
+          "alt": "The backdrop of Max Burey's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "angus-crichton",
+      "data": {
+        "name": "Angus Crichton",
+        "role": "Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/angus-crichton.webp",
+          "alt": "Angus Crichton in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/angus-crichton-bg.webp",
+          "alt": "The backdrop of Angus Crichton's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "bernard-foley",
+      "data": {
+        "name": "Bernard Foley",
+        "role": "Fly Half",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/bernard-foley.webp",
+          "alt": "Bernard Foley in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/bernard-foley-bg.webp",
+          "alt": "The backdrop of Bernard Foley's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "joey-fowler",
+      "data": {
+        "name": "Joey Fowler",
+        "role": "Fly Half",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/joey-fowler.webp",
+          "alt": "Joey Fowler in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/joey-fowler-bg.webp",
+          "alt": "The backdrop of Joey Fowler's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jake-gordon",
+      "data": {
+        "name": "Jake Gordon",
+        "role": "Halfback",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/jake-gordon.webp",
+          "alt": "Jake Gordon in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/jake-gordon-bg.webp",
+          "alt": "The backdrop of Jake Gordon's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "angus-grover",
+      "data": {
+        "name": "Angus Grover",
+        "role": "Scrum-half",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/angus-grover.webp",
+          "alt": "Angus Grover in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/angus-grover-bg.webp",
+          "alt": "The backdrop of Angus Grover's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "sid-harvey",
+      "data": {
+        "name": "Sid Harvey",
+        "role": "Fullback",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/sid-harvey.webp",
+          "alt": "Sid Harvey in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/sid-harvey-bg.webp",
+          "alt": "The backdrop of Sid Harvey's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-hendren",
+      "data": {
+        "name": "James Hendren",
+        "role": "Fullback",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/james-hendren.webp",
+          "alt": "James Hendren in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/james-hendren-bg.webp",
+          "alt": "The backdrop of James Hendren's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "max-jorgensen",
+      "data": {
+        "name": "Max Jorgensen",
+        "role": "Winger/Utility Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/max-jorgensen.webp",
+          "alt": "Max Jorgensen in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/max-jorgensen-bg.webp",
+          "alt": "The backdrop of Max Jorgensen's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "henry-odonnell",
+      "data": {
+        "name": "Henry O’Donnell",
+        "role": "Centre",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/henry-o-donnell.webp",
+          "alt": "Henry O’Donnell in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/henry-o-donnell-bg.webp",
+          "alt": "The backdrop of Henry O’Donnell's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nick-phipps",
+      "data": {
+        "name": "Nick Phipps",
+        "role": "Half-Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/nick-phipps.webp",
+          "alt": "Nick Phipps in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/nick-phipps-bg.webp",
+          "alt": "The backdrop of Nick Phipps's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "george-poolman",
+      "data": {
+        "name": "George Poolman",
+        "role": "Centre",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/george-poolman.webp",
+          "alt": "George Poolman in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/george-poolman-bg.webp",
+          "alt": "The backdrop of George Poolman's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harry-potter",
+      "data": {
+        "name": "Harry Potter",
+        "role": "Utility Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/harry-potter.webp",
+          "alt": "Harry Potter in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/harry-potter-bg.webp",
+          "alt": "The backdrop of Harry Potter's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "otto-serfontein",
+      "data": {
+        "name": "Otto Serfontein",
+        "role": "Centre/Wing",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/otto-serfontein.webp",
+          "alt": "Otto Serfontein in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/otto-serfontein-bg.webp",
+          "alt": "The backdrop of Otto Serfontein's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "joseph-aukuso-suaalii",
+      "data": {
+        "name": "Joseph-Aukuso Suaalii",
+        "role": "Centre/Utility Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/joseph-aukuso-suaalii.webp",
+          "alt": "Joseph-Aukuso Suaalii in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/joseph-aukuso-suaalii-bg.webp",
+          "alt": "The backdrop of Joseph-Aukuso Suaalii's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "teddy-wilson",
+      "data": {
+        "name": "Teddy Wilson",
+        "role": "Scrum-Half",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/teddy-wilson.webp",
+          "alt": "Teddy Wilson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/teddy-wilson-bg.webp",
+          "alt": "The backdrop of Teddy Wilson's squad photo"
+        }
+      }
+    }
+  ]
+}

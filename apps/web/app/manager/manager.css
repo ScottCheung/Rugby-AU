@@ -1,0 +1,459 @@
+/*
+ * Manager site cards. The logo has the same white outline as the site
+ * header's, and floats on card hover: it rises and falls a little, its
+ * shadow spreading as it rises, so it reads as lifted off the card.
+ */
+.logo-outline {
+  filter: drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white)
+    drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);
+}
+.logo-float {
+  filter: drop-shadow(0 6px 5px rgb(0 0 0 / 0.22));
+  transition: translate 0.3s ease;
+}
+@keyframes logo-float {
+  0%,
+  100% {
+    translate: 0 -2px;
+    filter: drop-shadow(0 8px 6px rgb(0 0 0 / 0.24));
+  }
+  50% {
+    translate: 0 -9px;
+    filter: drop-shadow(0 16px 12px rgb(0 0 0 / 0.18));
+  }
+}
+.group:hover .logo-float {
+  animation: logo-float 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .logo-float {
+    animation: none;
+    translate: 0 -4px;
+  }
+}
+
+/*
+ * An option card's picture plays its layout's entrance once when the card
+ * is picked (data-picked, components/manager/SchemaForm.tsx): its shapes
+ * arrive one after another, with the site's stagger-in look in miniature
+ * (staggerIn in the ui motion presets). Only `from`: each shape settles at
+ * its own opacity.
+ */
+[data-sketch] {
+  --sketch-x: 0px;
+  --sketch-y: 4px;
+  --sketch-blur: 0px;
+}
+[data-sketch='arrange-list'] {
+  --sketch-x: -6px;
+  --sketch-y: 0px;
+}
+[data-sketch='arrange-featured'] {
+  --sketch-y: 0px;
+  --sketch-blur: 2px;
+}
+[data-sketch='arrange-wall'] {
+  --sketch-y: 8px;
+  --sketch-blur: 0.75px;
+}
+[data-sketch='arrange-carousel'] {
+  --sketch-x: 8px;
+  --sketch-y: 0px;
+}
+[data-sketch='arrange-slider'] {
+  --sketch-y: 3px;
+  --sketch-blur: 1px;
+}
+[data-picked] [data-sketch] > * {
+  animation:
+    sketch-fade 0.9s cubic-bezier(0.4, 0, 0.2, 1) both,
+    sketch-rise 0.9s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+[data-picked] [data-sketch] > :nth-child(2) {
+  animation-delay: 0.15s;
+}
+[data-picked] [data-sketch] > :nth-child(3) {
+  animation-delay: 0.3s;
+}
+[data-picked] [data-sketch] > :nth-child(4) {
+  animation-delay: 0.45s;
+}
+[data-picked] [data-sketch] > :nth-child(5) {
+  animation-delay: 0.6s;
+}
+[data-picked] [data-sketch] > :nth-child(6) {
+  animation-delay: 0.75s;
+}
+[data-picked] [data-sketch] > :nth-child(n + 7) {
+  animation-delay: 0.9s;
+}
+@keyframes sketch-fade {
+  from {
+    opacity: 0;
+    filter: blur(var(--sketch-blur));
+  }
+}
+@keyframes sketch-rise {
+  from {
+    translate: var(--sketch-x) var(--sketch-y);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-picked] [data-sketch] > * {
+    animation: none;
+  }
+}
+
+/*
+ * The page editor's toolbar (components/manager/editor/EditorToolbar.tsx):
+ * a pill floating over the bottom of the canvas, like a design tool's. It
+ * slides away while the preview scrolls down and comes back as it scrolls
+ * up; it also stays put while a keyboard user is in it.
+ */
+.editor-dock {
+  /* Centred on the canvas, but free to reach past its edges over the
+     panels when the canvas is narrower than the toolbar. */
+  position: absolute;
+  /* The toolbar sits a twentieth up the canvas; the caption is under it. */
+  bottom: max(0.5rem, calc(5% - 1.5rem));
+  left: 50%;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  transform: translateX(-50%);
+  transition:
+    translate 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s ease;
+}
+.editor-dock[data-hidden]:not(:has(:focus-visible)) {
+  translate: 0 calc(100% + 12vh);
+  opacity: 0;
+  pointer-events: none;
+}
+.editor-toolbar {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  padding: 0.375rem;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-pill);
+  background: color-mix(in oklch, var(--ui-surface), transparent 8%);
+  box-shadow: var(--ui-shadow-md);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* Where you are and the preview's size, small, under the toolbar. */
+.editor-dock__caption {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--ui-surface), transparent 15%);
+  font-size: 0.6875rem;
+  color: var(--ui-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.editor-dock__caption strong {
+  color: var(--ui-fg);
+}
+.editor-dock__caption > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.editor-dock__caption > span + span::before {
+  content: '·';
+  margin-right: 0.5rem;
+}
+
+/* The controls scroll sideways inside the pill when it is too narrow; only
+   they fade at the edges, not the pill's own background. */
+.editor-toolbar__scroll {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.375rem;
+  overflow-x: auto;
+}
+
+/* Groups of related controls, divided by a hairline. */
+.editor-toolbar__group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+.editor-toolbar__group + .editor-toolbar__group {
+  padding-left: 0.375rem;
+  border-left: 1px solid var(--ui-border);
+}
+
+/* Controls one height, a little shorter than the forms' own. */
+.editor-toolbar :is(.sc-ui-button, .sc-ui-icon-button) {
+  height: 2.25rem;
+}
+.editor-toolbar .sc-ui-icon-button {
+  width: 2.25rem;
+  padding: 0;
+}
+.editor-toolbar .sc-ui-button {
+  padding-inline: 0.9rem;
+}
+.editor-toolbar .sc-ui-segmented button {
+  padding-inline: 0.55rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-dock {
+    transition: opacity 0.2s ease;
+  }
+}
+
+/*
+ * The site / page switcher (components/manager/editor/PageSwitcher.tsx):
+ * a round button in the toolbar that grows into a dialog of cards.
+ */
+.page-switcher__slot {
+  display: inline-block;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.page-switcher__trigger {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  /* Like the toolbar's other ghost buttons: no fill until pointed at. */
+  background: transparent;
+  color: var(--ui-muted);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+.page-switcher__trigger:hover,
+.page-switcher__trigger:focus-visible {
+  background: var(--ui-primary-soft);
+  color: var(--ui-primary);
+}
+.page-switcher__trigger svg {
+  width: 1rem;
+  height: 1rem;
+}
+.page-switcher__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgb(10 10 12 / 0.4);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.page-switcher__panel {
+  width: min(52rem, 100%);
+  max-height: min(42rem, 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ui-surface);
+  color: var(--ui-fg);
+  box-shadow: var(--ui-shadow-md);
+}
+.page-switcher__empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ui-muted);
+}
+/* The scroller: only this fades at its edges, never the panel's own
+   background. */
+.page-switcher__content {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+.page-switcher__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.page-switcher__header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.page-switcher__close {
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ui-muted);
+  cursor: pointer;
+}
+.page-switcher__close:hover {
+  background: var(--ui-primary-soft);
+  color: var(--ui-primary);
+}
+.page-switcher__close svg {
+  width: 1rem;
+  height: 1rem;
+}
+.page-switcher__heading {
+  margin: 0 0 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ui-muted);
+}
+.page-switcher__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.page-switcher__card {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-bg);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    translate 0.2s;
+}
+.page-switcher__card:hover {
+  translate: 0 -2px;
+  border-color: color-mix(in oklch, var(--ui-primary), transparent 50%);
+}
+.page-switcher__card:focus-visible {
+  outline: 2px solid var(--ui-primary);
+  outline-offset: 2px;
+}
+.page-switcher__card[aria-current] {
+  border-color: var(--ui-primary);
+  background: var(--ui-primary-soft);
+}
+.page-switcher__logo {
+  display: inline-flex;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  box-shadow: inset 0 0 0 1px var(--ui-border);
+  font-weight: 700;
+  color: var(--ui-primary);
+}
+.page-switcher__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.page-switcher__text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.page-switcher__text strong {
+  overflow: hidden;
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.page-switcher__text small {
+  overflow: hidden;
+  color: var(--ui-muted);
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+ * A scroller without a scrollbar (components/manager/useScrollFade.ts):
+ * the fade at its edges says there is more, and the scroll stays inside
+ * it instead of chaining on to the page behind.
+ */
+.scroll-fade {
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+.scroll-fade::-webkit-scrollbar {
+  display: none;
+}
+
+/* Site cards: just the logo and the name under it, no outline. */
+.page-switcher__grid--sites {
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+}
+.page-switcher__card--site {
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 0.5rem;
+  border-color: transparent;
+  background: transparent;
+  text-align: center;
+}
+.page-switcher__card--site:hover {
+  translate: none;
+  border-color: transparent;
+  background: var(--ui-bg-secondary);
+}
+.page-switcher__card--site[aria-current] {
+  border-color: transparent;
+  background: var(--ui-primary-soft);
+}
+.page-switcher__card--site .page-switcher__logo {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--ui-radius-lg);
+  background: transparent;
+  box-shadow: none;
+}
+.page-switcher__site-name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

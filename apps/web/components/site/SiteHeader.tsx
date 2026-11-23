@@ -34,6 +34,8 @@ export function SiteHeader({
   overlay,
   editHref,
   managerHref,
+  button,
+  chrome = false,
 }: {
   siteName: string;
   logoUrl?: string;
@@ -44,6 +46,10 @@ export function SiteHeader({
   editHref?: string;
   /** Development only: back to the Sites Manager Center. */
   managerHref?: string;
+  /** The site's call to action at the end of the bar, e.g. "Buy tickets". */
+  button?: { label: string; href: string };
+  /** In the editor's preview: a click on the header selects the site. */
+  chrome?: boolean;
 }) {
   const [progress, setProgress] = useState(overlay ? 0 : 1);
   const [hidden, setHidden] = useState(false);
@@ -67,11 +73,15 @@ export function SiteHeader({
       let next = 1;
       if (overlay) {
         const main = document.querySelector('main');
-        const hero = main
+        let hero = main
           ? (Array.from(main.children).find(
               (el) => el.tagName !== 'H1' && el.tagName !== 'NOSCRIPT',
             ) as HTMLElement | undefined)
           : undefined;
+        // The editor's preview marks each block with a display: contents
+        // wrapper, which has no box: measure what it wraps.
+        while (hero && getComputedStyle(hero).display === 'contents')
+          hero = (hero.firstElementChild as HTMLElement | null) ?? undefined;
         const heroBottom = hero
           ? hero.getBoundingClientRect().bottom + y
           : window.innerHeight * 0.6;
@@ -128,33 +138,35 @@ export function SiteHeader({
   return (
     <>
       <header
+        data-site-chrome={chrome || undefined}
         className="group fixed inset-x-0 top-0 z-50 transition-transform duration-300 ease-out"
         style={barStyle}
       >
         <Container className="relative flex h-16 items-center justify-between gap-4 md:h-[72px] md:gap-6">
           <a
             href={homeHref}
-            className="site-heading flex min-w-0 items-center gap-3 text-lg font-bold text-[inherit] md:text-xl"
-            style={{ textShadow, color: 'inherit' }}
+            aria-label={siteName}
+            className="site-heading flex shrink-0 items-center text-[inherit]"
+            style={{ color: 'inherit' }}
           >
             <SiteLogo src={logoUrl} name={siteName} />
-            <span className="truncate">{siteName}</span>
           </a>
 
           <nav
             aria-label="Main"
-            className="-mx-2 hidden max-w-full overflow-x-auto md:block"
+            className="no-scrollbar -mx-2 hidden max-w-full overflow-x-auto md:block"
             style={{ textShadow }}
           >
-            <ul className="m-0 flex list-none gap-1 p-0 whitespace-nowrap">
+            <ul className="m-0 flex list-none gap-2 p-0 whitespace-nowrap">
               {links.map((item) => (
                 <li key={item.id}>
                   <a
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
+                    style={item.current ? { textShadow: 'none' } : undefined}
                     className={`block rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
                       item.current
-                        ? 'bg-brand-contrast text-brand'
+                        ? 'bg-brand-contrast text-brand [text-shadow:none]'
                         : 'hover:bg-brand-contrast/15'
                     }`}
                   >
@@ -165,13 +177,19 @@ export function SiteHeader({
             </ul>
           </nav>
 
+          {button && (
+            <a
+              href={button.href}
+              className="ml-auto shrink-0 rounded-full bg-brand-contrast px-4 py-2 text-sm font-semibold whitespace-nowrap text-brand transition-opacity hover:opacity-90 md:ml-0"
+            >
+              {button.label}
+            </a>
+          )}
+
           {/* Development only (see the site page). Absolutely placed under the
               bar and shown when the navbar is hovered, so they never change the layout. */}
           {managerHref && (
-            <a
-              href={managerHref}
-              className={devButton + ' left-4'}
-            >
+            <a href={managerHref} className={devButton + ' left-4'}>
               Sites Manager Center
             </a>
           )}
@@ -225,8 +243,11 @@ export function SiteHeader({
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     onClick={() => setMenuOpen(false)}
+                    style={item.current ? { textShadow: 'none' } : undefined}
                     className={`block rounded-xl px-3 py-3 text-base font-semibold ${
-                      item.current ? 'bg-brand-contrast text-brand' : ''
+                      item.current
+                        ? 'bg-brand-contrast text-brand [text-shadow:none]'
+                        : ''
                     }`}
                   >
                     {item.label}

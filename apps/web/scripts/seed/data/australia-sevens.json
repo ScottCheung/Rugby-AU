@@ -1,0 +1,1996 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "News, history and the road ahead.",
+      "tree": [
+        {
+          "id": "02a5294b-79cd-4691-8cfd-e7db51e53a6e",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "8a8f1f62-3f16-40ea-9457-650b1ab3169b",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Fast, open, seven a side",
+                      "text": "Australia’s men’s and women’s sevens teams.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1794239143174-74cb66fede3d?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in gold and in white contesting a lineout in a stadium"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Olympic champions",
+                      "text": "Australia’s women won the first Olympic rugby sevens gold, at Rio 2016.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f7da6f09-ab6e-4878-bf7d-76c621b3afec",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "35a9106a-2e0f-4d29-9a64-aa63069f1d9a",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the Australia Sevens",
+                      "text": "Sevens is rugby at full speed: seven players a side and seven-minute halves, with tournaments played over a weekend.\n\nRugby sevens joined the Olympic Games at Rio 2016, where Australia’s women won the first gold medal, beating New Zealand in the final.",
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "3ae50969-dd9d-41b6-b6b4-6c638d22c479",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Become a member",
+                      "text": "Priority tickets for every home Test.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3597e553-2e1b-4d78-80b3-dcf08a1c2a5b",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "6e95da22-a1c6-42a7-acee-5e57cf9fc1c8",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players a side",
+                      "value": "7"
+                    },
+                    {
+                      "title": "Each half",
+                      "value": "7 min"
+                    },
+                    {
+                      "title": "Olympic gold for the women",
+                      "value": "2016"
+                    },
+                    {
+                      "title": "Teams: men and women",
+                      "value": "2"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "498c5581-b8d7-4c2e-8411-f0f6baba6260",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ffd1996e-5357-4cb1-b766-f03865a00569",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "jayden-blake",
+                    "bridget-clark",
+                    "ben-dalton",
+                    "mackenzie-davis",
+                    "ben-dowling",
+                    "heidi-dennis",
+                    "henry-hutchison",
+                    "kiiahla-duff",
+                    "maurice-longbottom",
+                    "rhani-hagan",
+                    "ethan-mcfarland",
+                    "amahli-hala",
+                    "james-mcgregor",
+                    "kahli-henwood",
+                    "beau-morrison",
+                    "alysia-lefau-fakaosilea"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "5982a47f-9342-47c8-a9fc-b0e7098cf160",
+          "type": "section",
+          "props": {
+            "heading": "Moments",
+            "intro": "Swipe through some of the milestones.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a38af031-d8d8-480b-8760-4112e698df6c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Rio 2016: Olympic gold",
+                      "text": "The women won the first Olympic rugby sevens final.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106770965-f8d5b3bcd271?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A woman in red carrying the ball into a tackle"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "A world series every year",
+                      "text": "Tournaments on several continents through the season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1709372349201-3c0cdd6a4eed?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in navy and orange running with the ball"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "Pathways for young players",
+                      "text": "Sevens is a fast route into international rugby.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1600534745983-36df226d4381?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in orange and in green chasing the ball, with the referee in yellow"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8081b22a-e075-4a69-8556-88804f831f07-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8081b22a-e075-4a69-8556-88804f831f07",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8adaf506-cb2d-4c47-9c2c-5a07cfc5d066",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "80cb2906-0e8c-47b8-8c2b-0c7acab4ff74",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players contesting the ball during a match",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618471715-61c6b64aaf31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players contesting the ball during a match"
+                      }
+                    },
+                    {
+                      "title": "A lineout jumper in blue lifted above the players in a park",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1635226091798-ff20bc3b19a5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout jumper in blue lifted above the players in a park"
+                      }
+                    },
+                    {
+                      "title": "A team in navy huddled on a field",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      }
+                    },
+                    {
+                      "title": "Two teams playing rugby",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512299286776-c18be8ed6a1a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams playing rugby"
+                      }
+                    },
+                    {
+                      "title": "Spectators on their feet in the stands",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      }
+                    },
+                    {
+                      "title": "Five players chasing play during a match",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1485426337939-af69cf101909?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Five players chasing play during a match"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/history",
+      "title": "History",
+      "description": "Where the team comes from.",
+      "tree": [
+        {
+          "id": "6f66f4a0-2640-4867-ae72-ad9a8e6779e5",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "0e8ee7cd-d6f1-49d3-b8d1-85ebe959e4bf",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our history",
+                      "text": "Sevens is rugby at full speed: seven players a side and seven-minute halves, with tournaments played over a weekend.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b5b36ad2-d5ff-4c13-82a9-f40be1dafe30",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "f1b3c84a-47a6-48e5-a9c3-44d8b6d3b3f0",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The story so far",
+                      "text": "Sevens is rugby at full speed: seven players a side and seven-minute halves, with tournaments played over a weekend.\n\nRugby sevens joined the Olympic Games at Rio 2016, where Australia’s women won the first gold medal, beating New Zealand in the final.\n\nBoth teams play a world series of tournaments every season, and the pathway runs from schools and clubs to state and national squads."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1a069cb0-e29b-4110-92bb-bcc9c49a946a",
+          "type": "section",
+          "props": {
+            "heading": "Timeline",
+            "intro": "Swipe through the milestones.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "76cfb7a6-a545-43d7-8fd4-fd42505ae978",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The game",
+                      "text": "Seven players a side, seven-minute halves.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585743432494-88df3550c99a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in green and in orange competing for the ball on a muddy pitch"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "2016",
+                      "text": "Women’s Olympic gold at Rio.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1578269174936-2709b6aeb913?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A gold trophy on a white background"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "Every season",
+                      "text": "A world series of tournaments around the globe.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "7e46f425-c77e-4f18-8fc8-73d891b56f3a",
+          "type": "section",
+          "props": {
+            "heading": "What the jersey means",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "d086897f-edc1-48d5-b5cf-752c762aa800",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A numbered cap",
+                      "text": "Each player gets a cap number on debut, counting every international since the first.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "Green and gold",
+                      "text": "Australia’s sporting colours, worn with pride at home and away.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1558151507-c1aa3d917dbb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player holding a rugby ball"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    },
+                    {
+                      "title": "From the clubs",
+                      "text": "Every international started at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1777489689168-497290f235d5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children running across a sunny field"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matches",
+      "title": "Matches",
+      "description": "Competitions and match days.",
+      "tree": [
+        {
+          "id": "80f0724f-f6f8-4b3f-8a4a-a8248bbc23d2",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "16e84821-6d88-4c07-8612-0aefc2b1019a",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Matches",
+                      "text": "Test rugby at home and around the world.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d773ada3-ccb6-4fd0-971a-742b1e1011c2",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "60f19f42-8765-4254-93cb-972d2488a43b",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "australia-sevens",
+                  "show": "upcoming",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "8ddc963f-a0bc-4e1f-bb56-cf1d8597a40a",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "australia-sevens",
+                  "show": "results",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2ed8aa1b-a79b-4522-8ea6-3dd4517b8551",
+          "type": "section",
+          "props": {
+            "heading": "Competitions",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2a9ae242-b0ce-45ff-bba9-f76a4be62dd5",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "World series",
+                      "text": "A season of weekend tournaments on several continents.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1532161388762-e4694f382a0e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players racing across a wet, muddy field"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Olympic Games",
+                      "text": "Rugby sevens has been an Olympic sport since 2016.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Commonwealth Games",
+                      "text": "Sevens is part of the Commonwealth Games programme.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1706675780107-7c43cc487928?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A pitch under bright floodlights at night"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d2009874-8c19-4c84-ba86-c859b9f11ef8",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2f1348d8-5144-49c3-8c61-7993211e0bf8",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets",
+                      "text": "Members get first access.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1762644085617-39aa30dd9c52?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sprinklers watering the pitch in a large stadium"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "cbd9d3ff-9899-47c7-b91e-832ee7591a0f",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A Test match day",
+                      "text": "Gates usually open two hours before kick-off. Arrive early to watch the warm-ups, find your seat and be there for the anthems.\n\nMost stadiums are easiest to reach by public transport. Check your ticket before you set out.",
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/supporters",
+      "title": "Supporters",
+      "description": "Follow the Australia Sevens.",
+      "tree": [
+        {
+          "id": "259c0a42-f862-4405-a482-075e537f6ecc",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "a73dec3b-048f-473b-8ed5-613949c08d21",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Support the Australia Sevens",
+                      "text": "Wear the colours, join as a member and bring the family.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "c5b59094-94e6-430c-b054-1ba06443e7cd",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "5369111a-437e-43f1-9fcf-f9f0f16fddd9",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Be part of it",
+                      "text": "Supporters are the sixth forward at a home Test. Members get priority tickets, member-only events and a say in the season’s awards.\n\nJunior members get a welcome pack and the chance to run out with the team at a home game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2662b6f3-19cd-4a02-9e94-89ba879322e8",
+          "type": "section",
+          "props": {
+            "heading": "Ways to support",
+            "intro": "Pick what suits you.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "f1090832-8dc9-4811-92db-d8704c46696b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Membership",
+                      "text": "Priority tickets for home Tests and member events through the year.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582566-e4b9c1d229fa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium with goalposts and colourful seats"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "e74fa439-c6e5-4679-827b-0bc9bf5721d8",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids",
+                      "text": "A welcome pack and a chance to run out with the team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "1f8ba6f7-404e-4cfc-8268-ef3c5b4b1975",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Travel",
+                      "text": "Follow the team to away Tests with supporter tours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b5aadbde-502b-49da-8b38-cec39f60da24",
+          "type": "section",
+          "props": {
+            "heading": "From the stands",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "fcf30ef9-8dc7-4d43-a304-5b8e80a4a79f",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Spectators on their feet in the stands",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      }
+                    },
+                    {
+                      "title": "Players in black and in blue chasing the ball on a stadium pitch",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904329-56e2f95fb15e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black and in blue chasing the ball on a stadium pitch"
+                      }
+                    },
+                    {
+                      "title": "A rugby team celebrating together on the field",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      }
+                    },
+                    {
+                      "title": "A jumper in green catching the ball at a lineout, opponents in orange",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580720320997-d26327263582?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A jumper in green catching the ball at a lineout, opponents in orange"
+                      }
+                    },
+                    {
+                      "title": "Rugby goal posts in a full stadium",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby goal posts in a full stadium"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, history and match-day guides from the Australia Sevens.",
+      "tree": [
+        {
+          "id": "0943f679-04f3-470f-ad29-77fb3b3fa314",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "456cdb84-1130-490a-ae11-93e1c3187e42",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, history and match-day guides from the Australia Sevens."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "794a240e-e620-44fb-af1a-72bcb3ff41c5-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "794a240e-e620-44fb-af1a-72bcb3ff41c5",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "Squads for the Kick On 7s and Sydney quadruple header, October 2026",
+      "tree": [
+        {
+          "id": "9a239095-b467-432a-b5d5-cb5a8014a829",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "d9141c88-2332-441c-a256-30ac6b3d08c3",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "Squads for the Kick On 7s and Sydney quadruple header, October 2026.\n\nNamed 14 October 2026, as listed in “Stars named in Australia Sevens squads for Kick On Sevens and Sydney quad header”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugby.com.au/news/stars-named-in-australia-sevens-squads-for-new-zealand-fiji-clashes-20261013"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "088f8e59-60fe-4018-8cd2-39c015114419",
+          "type": "section",
+          "props": {
+            "heading": "Men",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "0c02c267-29c1-4bde-810d-60be18cb1db5",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Men"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "91806e72-ce5f-46d8-a946-cb103b5f460f",
+          "type": "section",
+          "props": {
+            "heading": "Women",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "141b4ac6-4c11-44e4-8a09-a074d2cb9a66",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Women"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "19324141-b331-468a-897f-2d35c509c651-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "19324141-b331-468a-897f-2d35c509c651-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "19324141-b331-468a-897f-2d35c509c651-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "19324141-b331-468a-897f-2d35c509c651-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "70cee0b3-90eb-4dbc-a9f1-15f75a8b11f3",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "640c7edb-3d24-443d-a0a9-e8cc24b0ea9b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "rio-2016",
+      "data": {
+        "category": "History",
+        "date": "2026-11-18",
+        "headline": "Rio 2016: the first Olympic gold",
+        "standfirst": "When rugby sevens joined the Olympics, Australia’s women won the first gold medal.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1551095318-8583a8da870b?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Women’s teams in white and in blue contesting a lineout"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Rugby returned to the Olympic Games at Rio 2016 in its sevens form, with men’s and women’s tournaments."
+          },
+          {
+            "kind": "heading",
+            "text": "The final"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Australia’s women reached the final and beat New Zealand to become the first Olympic champions in rugby sevens."
+          },
+          {
+            "kind": "heading",
+            "text": "Why sevens is different"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Seven players a side and seven-minute halves make for a fast, open game, with tournaments played over a weekend. Speed and fitness count for as much as size."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "the-story-so-far",
+      "data": {
+        "category": "History",
+        "date": "2026-11-11",
+        "headline": "The Australia Sevens: the story so far",
+        "standfirst": "Sevens is rugby at full speed: seven players a side and seven-minute halves, with tournaments played over a weekend.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A team in red and white hoops gathered in front of the goal posts"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Rugby sevens joined the Olympic Games at Rio 2016, where Australia’s women won the first gold medal, beating New Zealand in the final."
+          },
+          {
+            "kind": "paragraph",
+            "text": "Both teams play a world series of tournaments every season, and the pathway runs from schools and clubs to state and national squads."
+          },
+          {
+            "kind": "heading",
+            "text": "Who plays"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Players reach the Australia Sevens through club rugby, state teams and the national pathway. Every player who pulls on the jersey gets a cap number, counting every international since the first."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "first-test-match",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-04",
+        "headline": "A first-timer’s guide to a Test match",
+        "standfirst": "Going to your first international? Here is how to make the most of the day.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A floodlit stadium packed with spectators"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "A Test match is the biggest day on the rugby calendar. Crowds are bigger than at club or Super Rugby games, so a little planning goes a long way."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is usually the easiest way to reach the stadium. Gates open about two hours before kick-off, and arriving early means you see the warm-ups and are in your seat for the anthems."
+          },
+          {
+            "kind": "heading",
+            "text": "In the stands"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Wear the colours and bring a jacket for night games. Kids are welcome, and many stadiums have family areas."
+          },
+          {
+            "kind": "heading",
+            "text": "After the game"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Expect queues for transport after the final whistle. Staying for a drink or a bite while the crowd clears often makes for an easier trip home."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tylan-berryman",
+      "data": {
+        "name": "Tylan Berryman",
+        "group": "Men"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jayden-blake",
+      "data": {
+        "name": "Jayden Blake",
+        "role": "No. 13",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/jayden-blake.webp",
+          "alt": "Jayden Blake in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/jayden-blake-bg.webp",
+          "alt": "The backdrop of Jayden Blake's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "josh-coward",
+      "data": {
+        "name": "Josh Coward",
+        "group": "Men"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ben-dalton",
+      "data": {
+        "name": "Ben Dalton",
+        "role": "No. 10",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/ben-dalton.webp",
+          "alt": "Ben Dalton in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/ben-dalton-bg.webp",
+          "alt": "The backdrop of Ben Dalton's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ben-dowling",
+      "data": {
+        "name": "Ben Dowling",
+        "role": "No. 2",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/ben-dowling.webp",
+          "alt": "Ben Dowling in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/ben-dowling-bg.webp",
+          "alt": "The backdrop of Ben Dowling's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "deon-evans-ao-leifi",
+      "data": {
+        "name": "Deon Evans-Ao Leifi",
+        "group": "Men"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "henry-hutchison",
+      "data": {
+        "name": "Henry Hutchison",
+        "role": "No. 1 · Captain",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/henry-hutchison.webp",
+          "alt": "Henry Hutchison in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/henry-hutchison-bg.webp",
+          "alt": "The backdrop of Henry Hutchison's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "maurice-longbottom",
+      "data": {
+        "name": "Maurice Longbottom",
+        "role": "No. 11",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/maurice-longbottom.webp",
+          "alt": "Maurice Longbottom in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/maurice-longbottom-bg.webp",
+          "alt": "The backdrop of Maurice Longbottom's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ethan-mcfarland",
+      "data": {
+        "name": "Ethan McFarland",
+        "role": "No. 24",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/ethan-mcfarland.webp",
+          "alt": "Ethan McFarland in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/ethan-mcfarland-bg.webp",
+          "alt": "The backdrop of Ethan McFarland's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-mcgregor",
+      "data": {
+        "name": "James McGregor",
+        "role": "No. 3",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/james-mcgregor.webp",
+          "alt": "James McGregor in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/james-mcgregor-bg.webp",
+          "alt": "The backdrop of James McGregor's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "dane-mitchell",
+      "data": {
+        "name": "Dane Mitchell",
+        "group": "Men"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "beau-morrison",
+      "data": {
+        "name": "Beau Morrison",
+        "role": "No. 22",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/beau-morrison.webp",
+          "alt": "Beau Morrison in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/beau-morrison-bg.webp",
+          "alt": "The backdrop of Beau Morrison's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jarvis-orr",
+      "data": {
+        "name": "Jarvis Orr",
+        "group": "Men"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "bailey-roberts-lintmeijer",
+      "data": {
+        "name": "Bailey Roberts-Lintmeijer",
+        "group": "Men"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-turner",
+      "data": {
+        "name": "James Turner",
+        "role": "No. 14",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/james-turner.webp",
+          "alt": "James Turner in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/james-turner-bg.webp",
+          "alt": "The backdrop of James Turner's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "josh-turner",
+      "data": {
+        "name": "Josh Turner",
+        "role": "No. 29",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/josh-turner.webp",
+          "alt": "Josh Turner in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/josh-turner-bg.webp",
+          "alt": "The backdrop of Josh Turner's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harry-wilson",
+      "data": {
+        "name": "Harry Wilson",
+        "role": "No. 33",
+        "group": "Men",
+        "cutout": {
+          "url": "/players/sevens-men/harry-wilson.webp",
+          "alt": "Harry Wilson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-men/harry-wilson-bg.webp",
+          "alt": "The backdrop of Harry Wilson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "bridget-clark",
+      "data": {
+        "name": "Bridget Clark",
+        "role": "No. 14",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/bridget-clark.webp",
+          "alt": "Bridget Clark in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/bridget-clark-bg.webp",
+          "alt": "The backdrop of Bridget Clark's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "mackenzie-davis",
+      "data": {
+        "name": "Mackenzie Davis",
+        "role": "No. 4",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/mackenzie-davis.webp",
+          "alt": "Mackenzie Davis in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/mackenzie-davis-bg.webp",
+          "alt": "The backdrop of Mackenzie Davis's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "heidi-dennis",
+      "data": {
+        "name": "Heidi Dennis",
+        "role": "No. 13",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/heidi-dennis.webp",
+          "alt": "Heidi Dennis in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/heidi-dennis-bg.webp",
+          "alt": "The backdrop of Heidi Dennis's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kiiahla-duff",
+      "data": {
+        "name": "Kiiahla Duff",
+        "role": "No. 28",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/kiiahla-duff.webp",
+          "alt": "Kiiahla Duff in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/kiiahla-duff-bg.webp",
+          "alt": "The backdrop of Kiiahla Duff's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "rhani-hagan",
+      "data": {
+        "name": "Rhani Hagan",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/rhani-hagan.webp",
+          "alt": "Rhani Hagan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/rhani-hagan-bg.webp",
+          "alt": "The backdrop of Rhani Hagan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "amahli-hala",
+      "data": {
+        "name": "Amahli Hala",
+        "role": "No. 2",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/amahli-hala.webp",
+          "alt": "Amahli Hala in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/amahli-hala-bg.webp",
+          "alt": "The backdrop of Amahli Hala's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kahli-henwood",
+      "data": {
+        "name": "Kahli Henwood",
+        "role": "No. 15",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/kahli-henwood.webp",
+          "alt": "Kahli Henwood in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/kahli-henwood-bg.webp",
+          "alt": "The backdrop of Kahli Henwood's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "alysia-lefau-fakaosilea",
+      "data": {
+        "name": "Alysia Lefau-Fakaosilea",
+        "role": "No. 55",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/alysia-lefau-fakaosilea.webp",
+          "alt": "Alysia Lefau-Fakaosilea in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/alysia-lefau-fakaosilea-bg.webp",
+          "alt": "The backdrop of Alysia Lefau-Fakaosilea's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "maddison-levi",
+      "data": {
+        "name": "Maddison Levi",
+        "role": "No. 12",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/maddison-levi.webp",
+          "alt": "Maddison Levi in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/maddison-levi-bg.webp",
+          "alt": "The backdrop of Maddison Levi's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "isabella-nasser",
+      "data": {
+        "name": "Isabella Nasser",
+        "role": "No. 10 · Captain",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/isabella-nasser.webp",
+          "alt": "Isabella Nasser in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/isabella-nasser-bg.webp",
+          "alt": "The backdrop of Isabella Nasser's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "faith-nathan",
+      "data": {
+        "name": "Faith Nathan",
+        "role": "No. 3",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/faith-nathan.webp",
+          "alt": "Faith Nathan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/faith-nathan-bg.webp",
+          "alt": "The backdrop of Faith Nathan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ruby-nicholas",
+      "data": {
+        "name": "Ruby Nicholas",
+        "role": "No. 23",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/ruby-nicholas.webp",
+          "alt": "Ruby Nicholas in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/ruby-nicholas-bg.webp",
+          "alt": "The backdrop of Ruby Nicholas's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "cobi-ryan-last",
+      "data": {
+        "name": "Cobi Ryan-Last",
+        "group": "Women"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kaitlin-shave",
+      "data": {
+        "name": "Kaitlin Shave",
+        "role": "No. 8",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/kaitlin-shave.webp",
+          "alt": "Kaitlin Shave in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/kaitlin-shave-bg.webp",
+          "alt": "The backdrop of Kaitlin Shave's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "bienne-terita",
+      "data": {
+        "name": "Bienne Terita",
+        "role": "No. 22",
+        "group": "Women",
+        "cutout": {
+          "url": "/players/sevens-women/bienne-terita.webp",
+          "alt": "Bienne Terita in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/sevens-women/bienne-terita-bg.webp",
+          "alt": "The backdrop of Bienne Terita's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "emmisyn-wynyard",
+      "data": {
+        "name": "Emmisyn Wynyard",
+        "group": "Women"
+      }
+    }
+  ]
+}

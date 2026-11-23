@@ -1,0 +1,2209 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "News, history and the road ahead.",
+      "tree": [
+        {
+          "id": "9f51e9aa-3a4f-4504-87df-1fc33a4cdfcb",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "5ff71a4b-f231-4d2f-a219-069f9637c995",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Gold jersey, green and gold hearts",
+                      "text": "The men’s national team has worn the gold jersey for generations.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1635356164637-92da6fb2072d?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout jumper reaching for the ball in front of trees"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Road to Rugby World Cup 2027",
+                      "text": "A home World Cup, with the final at Stadium Australia in Sydney.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "The Bledisloe Cup",
+                      "text": "The trans-Tasman rivalry with New Zealand.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1573056019991-590821ff5438?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A ball carrier in red and white held up by tacklers in black"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "22683fdd-0bfc-495c-bcfd-d2256c0f1f1f",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a4136424-c619-4385-9896-d17d3c360e1e",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the Wallabies",
+                      "text": "Australia played its first Test in 1899, against a touring British Isles side at the Sydney Cricket Ground. The name Wallabies comes from the 1908 tour of Britain and has stayed with the men’s team ever since.\n\nThe Wallabies won the Rugby World Cup in 1991 and again in 1999, the first team to lift the trophy twice. They have played New Zealand for the Bledisloe Cup since 1932, and meet New Zealand, South Africa and Argentina every year in The Rugby Championship.",
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "11be9c24-9a65-411c-a000-197f954662ac",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Become a member",
+                      "text": "Priority tickets for every home Test.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "995a8365-85a4-4987-9820-6a7a383f078a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "636abcb1-3a4f-4b06-a639-313cdd44b8f8",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First Test",
+                      "value": "1899"
+                    },
+                    {
+                      "title": "Rugby World Cup titles",
+                      "value": "2"
+                    },
+                    {
+                      "title": "First Bledisloe Cup",
+                      "value": "1932"
+                    },
+                    {
+                      "title": "A home World Cup",
+                      "value": "2027"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6aee17b6-1129-42ac-8f01-420b9cd69e37",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ea15fe06-cd19-45e2-aa1b-1bc36d65e8be",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "allan-alaalatoa",
+                    "kurtley-beale",
+                    "miles-amatosero",
+                    "filipo-daugunu",
+                    "angus-bell",
+                    "ben-donaldson",
+                    "josh-canham",
+                    "carter-gordon",
+                    "massimo-de-lutiis",
+                    "isaac-henry",
+                    "tom-hooper",
+                    "len-ikitau",
+                    "isaac-kailea",
+                    "max-jorgensen",
+                    "tom-lambert",
+                    "ryan-lonergan"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1da04f86-cd09-4f84-9b29-3ffe7b18c4af",
+          "type": "section",
+          "props": {
+            "heading": "Moments",
+            "intro": "Swipe through some of the milestones.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "6ec0a9cb-10aa-4c50-8201-848d2bd7f69b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1899: the first Test",
+                      "text": "Against the British Isles at the Sydney Cricket Ground.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1698746019802-ec43b1b0db29?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby ball on a green field"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "1991: world champions",
+                      "text": "Australia beat England in the final at Twickenham.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "1999: champions again",
+                      "text": "Australia beat France in the final in Cardiff.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "The Bledisloe Cup",
+                      "text": "Played against New Zealand since 1932.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1635226091798-ff20bc3b19a5?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout jumper in blue lifted above the players in a park"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "The Rugby Championship",
+                      "text": "Every year against New Zealand, South Africa and Argentina.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e2182d84-66b0-4cb3-bda0-92631b6bea57-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "e2182d84-66b0-4cb3-bda0-92631b6bea57",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "397b5615-6628-4bc6-a52e-0229bf463342",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "1600dca6-5e1c-4b60-9349-675b182a2402",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players in blue and in red and white during an evening match",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1759760300494-7378d88180f9?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in blue and in red and white during an evening match"
+                      }
+                    },
+                    {
+                      "title": "A lineout in a stadium with spectators in the stands",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    },
+                    {
+                      "title": "Players in maroon jerseys arm in arm in a team huddle",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      }
+                    },
+                    {
+                      "title": "A player in black carrying the ball past a tackler in green",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618519056-4f25ec2711f4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in black carrying the ball past a tackler in green"
+                      }
+                    },
+                    {
+                      "title": "A floodlit stadium packed with spectators",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      }
+                    },
+                    {
+                      "title": "Players in green and in black competing for the ball at a ruck",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618500275-a5d3458db385?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in green and in black competing for the ball at a ruck"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/history",
+      "title": "History",
+      "description": "Where the team comes from.",
+      "tree": [
+        {
+          "id": "31546ad6-cff7-4e84-b6e5-6f73a4874425",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "23a71f0c-f72e-435e-9a58-2f11f54d882e",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our history",
+                      "text": "Australia played its first Test in 1899, against a touring British Isles side at the Sydney Cricket Ground. The name Wallabies comes from the 1908 tour of Britain and has stayed with the men’s team ever since.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f423dab2-3a82-4a04-9c5c-ea675f011c08",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2c1bd66c-868a-49df-abe5-bf634965bcd2",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The story so far",
+                      "text": "Australia played its first Test in 1899, against a touring British Isles side at the Sydney Cricket Ground. The name Wallabies comes from the 1908 tour of Britain and has stayed with the men’s team ever since.\n\nThe Wallabies won the Rugby World Cup in 1991 and again in 1999, the first team to lift the trophy twice. They have played New Zealand for the Bledisloe Cup since 1932, and meet New Zealand, South Africa and Argentina every year in The Rugby Championship.\n\nIn 2027 the Rugby World Cup returns to Australia for the first time since 2003."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "962b47b7-eb3c-4ee7-aaae-98b0fddf97fb",
+          "type": "section",
+          "props": {
+            "heading": "Timeline",
+            "intro": "Swipe through the milestones.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "adcc12a0-4f74-4181-9f40-df1ffa40c672",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "1899",
+                      "text": "First Test, against the British Isles in Sydney.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1676972523246-2ff4125551fb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Close-up of a rugby ball on the grass"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "1908",
+                      "text": "The touring team to Britain becomes known as the Wallabies.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "1932",
+                      "text": "The Bledisloe Cup is first contested with New Zealand.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1580720320997-d26327263582?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A jumper in green catching the ball at a lineout, opponents in orange"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "1991",
+                      "text": "Rugby World Cup winners at Twickenham.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "1999",
+                      "text": "Rugby World Cup winners again, in Cardiff.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "2003",
+                      "text": "Hosts of the Rugby World Cup, finishing runners-up.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "2027",
+                      "text": "A home Rugby World Cup.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512719994953-eabf50895df7?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A stadium under a purple sunset sky"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "88994fc7-6c97-468c-afe7-1d41d9bafc14",
+          "type": "section",
+          "props": {
+            "heading": "What the jersey means",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1d78d23c-8813-4564-82ac-9543c601d9f4",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A numbered cap",
+                      "text": "Each player gets a cap number on debut, counting every international since the first.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    },
+                    {
+                      "title": "Green and gold",
+                      "text": "Australia’s sporting colours, worn with pride at home and away.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1516689807549-04b4c3b4ee35?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player in yellow leaping out of a tackle beside spectators"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    },
+                    {
+                      "title": "From the clubs",
+                      "text": "Every international started at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matches",
+      "title": "Matches",
+      "description": "Competitions and match days.",
+      "tree": [
+        {
+          "id": "83b872b4-9101-49df-b4aa-dcb35aa98ae2",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "dbe9287d-c027-419f-af69-10b8882e7014",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Matches",
+                      "text": "Test rugby at home and around the world.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b64efbd4-b5af-4755-abd5-d3fc6585992e",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "cde897a4-bb90-4def-8b6d-8cf2e028999b",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "wallabies",
+                  "show": "upcoming",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "f4d8e1e7-bcd5-4cf0-ad18-3a2a0db4cc28",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "wallabies",
+                  "show": "results",
+                  "limit": 4
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3f3d1237-3fa3-458c-89b8-0e65cf7229f2",
+          "type": "section",
+          "props": {
+            "heading": "Competitions",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "de16cae7-dffc-4b6f-89ff-354391fc758b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The Rugby Championship",
+                      "text": "Home and away against New Zealand, South Africa and Argentina.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "The Bledisloe Cup",
+                      "text": "The trophy at stake whenever Australia play New Zealand.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    },
+                    {
+                      "title": "Spring tour",
+                      "text": "Tests in Europe at the end of the year.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1706675780107-7c43cc487928?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A pitch under bright floodlights at night"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ce5cfdac-bd65-4d67-8cb8-d2628a3a5b89",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4874c638-0b34-467d-96ec-6d9b80c73be7",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets",
+                      "text": "Members get first access.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1762644085617-39aa30dd9c52?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Sprinklers watering the pitch in a large stadium"
+                      },
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "c4b56492-5bdc-4828-86a1-1a15879ce15d",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A Test match day",
+                      "text": "Gates usually open two hours before kick-off. Arrive early to watch the warm-ups, find your seat and be there for the anthems.\n\nMost stadiums are easiest to reach by public transport. Check your ticket before you set out.",
+                      "link": {
+                        "label": "Supporters",
+                        "href": "/supporters"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/supporters",
+      "title": "Supporters",
+      "description": "Follow the Wallabies.",
+      "tree": [
+        {
+          "id": "0588a829-8e65-409b-8ed9-67fd203984c5",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "71771c47-1728-4b21-8914-479bf38b3efe",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Support the Wallabies",
+                      "text": "Wear the colours, join as a member and bring the family.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4e9cd496-43ae-4f61-b34e-e444421ce05f",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1199be8f-b85c-456a-85f7-d4af7c1bb034",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Be part of it",
+                      "text": "Supporters are the sixth forward at a home Test. Members get priority tickets, member-only events and a say in the season’s awards.\n\nJunior members get a welcome pack and the chance to run out with the team at a home game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a80604b5-e3e6-43cf-8dee-21365bb65720",
+          "type": "section",
+          "props": {
+            "heading": "Ways to support",
+            "intro": "Pick what suits you.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "548a237c-4dcc-451c-bd78-1746edcb6d9d",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Membership",
+                      "text": "Priority tickets for home Tests and member events through the year.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582566-e4b9c1d229fa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium with goalposts and colourful seats"
+                      },
+                      "link": {
+                        "label": "Matches",
+                        "href": "/matches"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "e7afbbfa-6912-4fd9-af71-d83d4be8f940",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids",
+                      "text": "A welcome pack and a chance to run out with the team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613425295165-dc4a15a98bbf?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Junior players in black and red chasing a runner in blue"
+                      },
+                      "link": {
+                        "label": "Our history",
+                        "href": "/history"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "06275182-4d3f-47c1-89ae-0502e3478bb6",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Travel",
+                      "text": "Follow the team to away Tests with supporter tours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "652ad875-dbec-4fbc-8b29-1e7264833734",
+          "type": "section",
+          "props": {
+            "heading": "From the stands",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "e14eade1-f73d-46c0-8e6a-78c0676b7c96",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "A floodlit stadium packed with spectators",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1629217855633-79a6925d6c47?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A floodlit stadium packed with spectators"
+                      }
+                    },
+                    {
+                      "title": "Players in black driving forward in a maul",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618529433-ab11e5f3d962?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in black driving forward in a maul"
+                      }
+                    },
+                    {
+                      "title": "A team in light blue and white in a huddle",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      }
+                    },
+                    {
+                      "title": "Two packs of forwards in a scrum",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1480099225005-2513c8947aec?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two packs of forwards in a scrum"
+                      }
+                    },
+                    {
+                      "title": "Rugby goal posts in a full stadium",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby goal posts in a full stadium"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, history and match-day guides from the Wallabies.",
+      "tree": [
+        {
+          "id": "971cd325-9e48-45d1-85be-291edad97739",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "88110a9d-cb97-4bba-bde8-43fee264b7d9",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, history and match-day guides from the Wallabies."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "3de422fc-b706-40d2-bc4a-c9f01459d61b-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "3de422fc-b706-40d2-bc4a-c9f01459d61b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "Squad for the November 2026 Nations Championship Tests",
+      "tree": [
+        {
+          "id": "a502470f-1ca8-4981-bcda-1c6310765af1",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "704af649-cbb3-4513-b068-492163687dab",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "Squad for the November 2026 Nations Championship Tests.\n\nNamed 28 October 2026, as listed in “Beale, Ramm & Thomas finalise Wallabies Spring Tour squad”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugby.com.au/news/beale-ramm-thomas-finalise-wallabies-spring-tour-squad-20261028"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "c04ad642-be6b-48ce-9403-c1508a085ee4",
+          "type": "section",
+          "props": {
+            "heading": "Forwards",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "164c2209-b9cf-4a04-8d30-1cc0d6b415f7",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Forwards"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "c0858aac-b74a-4e13-9a37-e2dfc0a562b2",
+          "type": "section",
+          "props": {
+            "heading": "Backs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "89cf2829-72f3-43fc-a172-3d3b9ad7080e",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Backs"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "384d59d5-92e5-4bd0-9842-85d625bbd8e7-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "384d59d5-92e5-4bd0-9842-85d625bbd8e7-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "384d59d5-92e5-4bd0-9842-85d625bbd8e7-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "384d59d5-92e5-4bd0-9842-85d625bbd8e7-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "46994d4f-e8a8-482e-a2bd-a3d6d1c0c414",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "85c52d2f-e8ca-42b7-a465-e309c18c77c3",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "two-world-cups",
+      "data": {
+        "category": "History",
+        "date": "2026-11-18",
+        "headline": "1991 and 1999: the two World Cup wins",
+        "standfirst": "The Wallabies were the first team to win the Rugby World Cup twice. A look back at both titles.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1578269174936-2709b6aeb913?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A gold trophy on a white background"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Australia has won the men’s Rugby World Cup twice, in 1991 and 1999. At the time of the second win, no other country had lifted the trophy more than once."
+          },
+          {
+            "kind": "heading",
+            "text": "1991"
+          },
+          {
+            "kind": "image",
+            "image": {
+              "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57?auto=format&fit=crop&w=1600&q=80",
+              "alt": "Rugby goal posts in a full stadium"
+            },
+            "caption": "Twickenham, where Australia won its first title.",
+            "width": "wide"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The 1991 tournament was played in Britain, Ireland and France. Australia met England in the final at Twickenham and won to become world champions for the first time."
+          },
+          {
+            "kind": "quote",
+            "text": "Winning it once was a dream. Winning it twice made it a tradition.",
+            "by": "A Wallabies supporter"
+          },
+          {
+            "kind": "heading",
+            "text": "1999"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Eight years later the final was in Cardiff, where Australia beat France to take the title again."
+          },
+          {
+            "kind": "heading",
+            "text": "Next: a home World Cup"
+          },
+          {
+            "kind": "paragraph",
+            "text": "In 2027 the tournament comes to Australia, with the final in Sydney."
+          },
+          {
+            "kind": "list",
+            "items": [
+              "1991: Twickenham, against England",
+              "1999: Cardiff, against France",
+              "2027: the final comes to Sydney"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "the-story-so-far",
+      "data": {
+        "category": "History",
+        "date": "2026-11-11",
+        "headline": "The Wallabies: the story so far",
+        "standfirst": "Australia played its first Test in 1899, against a touring British Isles side at the Sydney Cricket Ground. The name Wallabies comes from the 1908 tour of Britain and has stayed with the men’s team ever since.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A rugby team celebrating together on the field"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "The Wallabies won the Rugby World Cup in 1991 and again in 1999, the first team to lift the trophy twice. They have played New Zealand for the Bledisloe Cup since 1932, and meet New Zealand, South Africa and Argentina every year in The Rugby Championship."
+          },
+          {
+            "kind": "paragraph",
+            "text": "In 2027 the Rugby World Cup returns to Australia for the first time since 2003."
+          },
+          {
+            "kind": "heading",
+            "text": "Who plays"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Players reach the Wallabies through club rugby, state teams and the national pathway. Every player who pulls on the jersey gets a cap number, counting every international since the first."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "first-test-match",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-04",
+        "headline": "A first-timer’s guide to a Test match",
+        "standfirst": "Going to your first international? Here is how to make the most of the day.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A lineout in a stadium with spectators in the stands"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "A Test match is the biggest day on the rugby calendar. Crowds are bigger than at club or Super Rugby games, so a little planning goes a long way."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is usually the easiest way to reach the stadium. Gates open about two hours before kick-off, and arriving early means you see the warm-ups and are in your seat for the anthems."
+          },
+          {
+            "kind": "heading",
+            "text": "In the stands"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Wear the colours and bring a jacket for night games. Kids are welcome, and many stadiums have family areas."
+          },
+          {
+            "kind": "heading",
+            "text": "After the game"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Expect queues for transport after the final whistle. Staying for a drink or a bite while the crowd clears often makes for an easier trip home."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "allan-alaalatoa",
+      "data": {
+        "name": "Allan Alaalatoa",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/allan-alaalatoa.webp",
+          "alt": "Allan Alaalatoa in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/allan-alaalatoa-bg.webp",
+          "alt": "The backdrop of Allan Alaalatoa's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "miles-amatosero",
+      "data": {
+        "name": "Miles Amatosero",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/miles-amatosero.webp",
+          "alt": "Miles Amatosero in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/miles-amatosero-bg.webp",
+          "alt": "The backdrop of Miles Amatosero's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "angus-bell",
+      "data": {
+        "name": "Angus Bell",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/angus-bell.webp",
+          "alt": "Angus Bell in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/angus-bell-bg.webp",
+          "alt": "The backdrop of Angus Bell's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "josh-canham",
+      "data": {
+        "name": "Josh Canham",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/josh-canham.webp",
+          "alt": "Josh Canham in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/josh-canham-bg.webp",
+          "alt": "The backdrop of Josh Canham's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "massimo-de-lutiis",
+      "data": {
+        "name": "Massimo De Lutiis",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/reds/massimo-de-lutiis.webp",
+          "alt": "Massimo De Lutiis in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/massimo-de-lutiis-bg.webp",
+          "alt": "The backdrop of Massimo De Lutiis's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-hooper",
+      "data": {
+        "name": "Tom Hooper",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/tom-hooper.webp",
+          "alt": "Tom Hooper in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/tom-hooper-bg.webp",
+          "alt": "The backdrop of Tom Hooper's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "isaac-kailea",
+      "data": {
+        "name": "Isaac Kailea",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/isaac-kailea.webp",
+          "alt": "Isaac Kailea in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/isaac-kailea-bg.webp",
+          "alt": "The backdrop of Isaac Kailea's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-lambert",
+      "data": {
+        "name": "Tom Lambert",
+        "role": "Prop · Uncapped",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/reds/tom-lambert.webp",
+          "alt": "Tom Lambert in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/reds/tom-lambert-bg.webp",
+          "alt": "The backdrop of Tom Lambert's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "fraser-mcreight",
+      "data": {
+        "name": "Fraser McReight",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/fraser-mcreight.webp",
+          "alt": "Fraser McReight in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/fraser-mcreight-bg.webp",
+          "alt": "The backdrop of Fraser McReight's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "josh-nasser",
+      "data": {
+        "name": "Josh Nasser",
+        "role": "Hooker",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/josh-nasser.webp",
+          "alt": "Josh Nasser in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/josh-nasser-bg.webp",
+          "alt": "The backdrop of Josh Nasser's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "brandon-paenga-amosa",
+      "data": {
+        "name": "Brandon Paenga-Amosa",
+        "role": "Hooker",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/brandon-paenga-amosa.webp",
+          "alt": "Brandon Paenga-Amosa in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/brandon-paenga-amosa-bg.webp",
+          "alt": "The backdrop of Brandon Paenga-Amosa's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "billy-pollard",
+      "data": {
+        "name": "Billy Pollard",
+        "role": "Hooker",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/billy-pollard.webp",
+          "alt": "Billy Pollard in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/billy-pollard-bg.webp",
+          "alt": "The backdrop of Billy Pollard's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lukhan-salakaia-loto",
+      "data": {
+        "name": "Lukhan Salakaia-Loto",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/lukhan-salakaia-loto.webp",
+          "alt": "Lukhan Salakaia-Loto in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/lukhan-salakaia-loto-bg.webp",
+          "alt": "The backdrop of Lukhan Salakaia-Loto's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lachlan-shaw",
+      "data": {
+        "name": "Lachlan Shaw",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/lachlan-shaw.webp",
+          "alt": "Lachlan Shaw in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/lachlan-shaw-bg.webp",
+          "alt": "The backdrop of Lachlan Shaw's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "carlo-tizzano",
+      "data": {
+        "name": "Carlo Tizzano",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/carlo-tizzano.webp",
+          "alt": "Carlo Tizzano in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/carlo-tizzano-bg.webp",
+          "alt": "The backdrop of Carlo Tizzano's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "taniela-tupou",
+      "data": {
+        "name": "Taniela Tupou",
+        "role": "Prop",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/taniela-tupou.webp",
+          "alt": "Taniela Tupou in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/taniela-tupou-bg.webp",
+          "alt": "The backdrop of Taniela Tupou's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "rob-valetini",
+      "data": {
+        "name": "Rob Valetini",
+        "role": "Backrow",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/rob-valetini.webp",
+          "alt": "Rob Valetini in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/rob-valetini-bg.webp",
+          "alt": "The backdrop of Rob Valetini's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jeremy-williams",
+      "data": {
+        "name": "Jeremy Williams",
+        "role": "Lock",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/jeremy-williams.webp",
+          "alt": "Jeremy Williams in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/jeremy-williams-bg.webp",
+          "alt": "The backdrop of Jeremy Williams's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harry-wilson",
+      "data": {
+        "name": "Harry Wilson",
+        "role": "Backrow · Captain",
+        "group": "Forwards",
+        "cutout": {
+          "url": "/players/wallabies/harry-wilson.webp",
+          "alt": "Harry Wilson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/harry-wilson-bg.webp",
+          "alt": "The backdrop of Harry Wilson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kurtley-beale",
+      "data": {
+        "name": "Kurtley Beale",
+        "role": "Utility back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/western-force/kurtley-beale.webp",
+          "alt": "Kurtley Beale in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/kurtley-beale-bg.webp",
+          "alt": "The backdrop of Kurtley Beale's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "filipo-daugunu",
+      "data": {
+        "name": "Filipo Daugunu",
+        "role": "Wing",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/filipo-daugunu.webp",
+          "alt": "Filipo Daugunu in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/filipo-daugunu-bg.webp",
+          "alt": "The backdrop of Filipo Daugunu's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ben-donaldson",
+      "data": {
+        "name": "Ben Donaldson",
+        "role": "Flyhalf",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/ben-donaldson.webp",
+          "alt": "Ben Donaldson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/ben-donaldson-bg.webp",
+          "alt": "The backdrop of Ben Donaldson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "carter-gordon",
+      "data": {
+        "name": "Carter Gordon",
+        "role": "Flyhalf",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/carter-gordon.webp",
+          "alt": "Carter Gordon in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/carter-gordon-bg.webp",
+          "alt": "The backdrop of Carter Gordon's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "isaac-henry",
+      "data": {
+        "name": "Isaac Henry",
+        "role": "Centre",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/isaac-henry.webp",
+          "alt": "Isaac Henry in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/isaac-henry-bg.webp",
+          "alt": "The backdrop of Isaac Henry's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "len-ikitau",
+      "data": {
+        "name": "Len Ikitau",
+        "role": "Centre",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/len-ikitau.webp",
+          "alt": "Len Ikitau in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/len-ikitau-bg.webp",
+          "alt": "The backdrop of Len Ikitau's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "max-jorgensen",
+      "data": {
+        "name": "Max Jorgensen",
+        "role": "Outside Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/max-jorgensen.webp",
+          "alt": "Max Jorgensen in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/max-jorgensen-bg.webp",
+          "alt": "The backdrop of Max Jorgensen's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ryan-lonergan",
+      "data": {
+        "name": "Ryan Lonergan",
+        "role": "Scrumhalf",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/ryan-lonergan.webp",
+          "alt": "Ryan Lonergan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/ryan-lonergan-bg.webp",
+          "alt": "The backdrop of Ryan Lonergan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tate-mcdermott",
+      "data": {
+        "name": "Tate McDermott",
+        "role": "Scrumhalf",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/tate-mcdermott.webp",
+          "alt": "Tate McDermott in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/tate-mcdermott-bg.webp",
+          "alt": "The backdrop of Tate McDermott's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "declan-meredith",
+      "data": {
+        "name": "Declan Meredith",
+        "role": "Flyhalf",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/declan-meredith.webp",
+          "alt": "Declan Meredith in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/declan-meredith-bg.webp",
+          "alt": "The backdrop of Declan Meredith's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harry-potter",
+      "data": {
+        "name": "Harry Potter",
+        "role": "Outside Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/harry-potter.webp",
+          "alt": "Harry Potter in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/harry-potter-bg.webp",
+          "alt": "The backdrop of Harry Potter's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-ramm",
+      "data": {
+        "name": "James Ramm",
+        "role": "Back",
+        "group": "Backs"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "joseph-aukuso-suaalii",
+      "data": {
+        "name": "Joseph-Aukuso Suaalii",
+        "role": "Centre",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/joseph-aukuso-suaalii.webp",
+          "alt": "Joseph-Aukuso Suaalii in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/joseph-aukuso-suaalii-bg.webp",
+          "alt": "The backdrop of Joseph-Aukuso Suaalii's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "kalani-thomas",
+      "data": {
+        "name": "Kalani Thomas",
+        "role": "Scrumhalf",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/kalani-thomas.webp",
+          "alt": "Kalani Thomas in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/kalani-thomas-bg.webp",
+          "alt": "The backdrop of Kalani Thomas's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "teddy-wilson",
+      "data": {
+        "name": "Teddy Wilson",
+        "role": "Scrum-Half · Uncapped",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/waratahs/teddy-wilson.webp",
+          "alt": "Teddy Wilson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/waratahs/teddy-wilson-bg.webp",
+          "alt": "The backdrop of Teddy Wilson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-wright",
+      "data": {
+        "name": "Tom Wright",
+        "role": "Outside Back",
+        "group": "Backs",
+        "cutout": {
+          "url": "/players/wallabies/tom-wright.webp",
+          "alt": "Tom Wright in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/wallabies/tom-wright-bg.webp",
+          "alt": "The backdrop of Tom Wright's squad photo"
+        }
+      }
+    }
+  ]
+}

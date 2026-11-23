@@ -1,18 +1,14 @@
 import { createElement, Fragment } from 'react';
-import { PageColumnBlock } from '@/components/primitives/Container';
-import { rootBlockWidth } from '@/lib/components/pageWidth';
 import { getDefinition } from '@/lib/components/registry';
-import type { SiteData } from '@/lib/news';
+import type { SiteData } from '@/lib/components/blocks/siteData';
 import type { ComponentNode } from '@/lib/types';
-import { stagger } from '@scottcheung/ui/motion';
-import { animatesAsWhole } from '@/lib/motion';
-import { Reveal } from './Reveal';
 import { getSiteComponent } from './siteComponents';
 
 /**
- * A page's blocks. Blocks placed directly on the page sit in the page
- * column unless a Section asks to be full width; nested blocks are drawn
- * inside their parent.
+ * A page's component tree, drawn with the component library. Only
+ * Sections sit on the page (validateTree); anything inside is drawn by its
+ * parent.
+ * Shared by the public site and the editor's preview (`editable`).
  */
 export function RenderTree({
   nodes,
@@ -24,10 +20,10 @@ export function RenderTree({
 }: {
   nodes: ComponentNode[];
   siteSlug: string;
-  /** Read by data-driven components such as Latest news. */
+  /** Read by blocks whose items come from the site's data. */
   data: SiteData;
   nested?: boolean;
-  /** False inside the first block, which is on screen when the page opens. */
+  /** False inside the first Section, which is on screen when the page opens. */
   animate?: boolean;
   /**
    * Only in the editor's preview: each component is wrapped in an element
@@ -38,46 +34,32 @@ export function RenderTree({
   editable?: boolean;
 }) {
   return nodes.map((node, index) => {
-    // The first block on the page is visible straight away: hiding it until
-    // JavaScript runs would leave the top of the page blank.
-    const first = !nested && index === 0;
     const rendered = (
       <RenderNode
         node={node}
         siteSlug={siteSlug}
         data={data}
         nested={nested}
-        animate={animate && !first}
+        animate={animate && (nested || index > 0)}
         editable={editable}
       />
     );
-    const block = editable ? (
+    const content = editable ? (
       <div data-component-id={node.id} style={{ display: 'contents' }}>
         {rendered}
       </div>
     ) : (
       rendered
     );
-    // Content animates; containers let their contents do it (lib/motion.ts).
-    const content =
-      animate && !first && animatesAsWhole(node.type) ? (
-        <Reveal
-          className={nested ? 'min-w-0' : undefined}
-          // Blocks side by side in a Section arrive one after another.
-          delay={nested ? stagger(index) : 0}
-        >
-          {block}
-        </Reveal>
-      ) : nested ? (
-        <div className="min-w-0">{block}</div>
-      ) : (
-        block
-      );
-    if (nested || rootBlockWidth(node) !== 'contained')
-      return <Fragment key={node.id}>{content}</Fragment>;
-    // Every page-column block gets the same flow spacing, whatever its type;
-    // full-width blocks (above) add none, so bands sit flush.
-    return <PageColumnBlock key={node.id}>{content}</PageColumnBlock>;
+    // Inside a Section, each child is one of its grid cells. On the page,
+    // a Section is a band across it and places its own content.
+    return nested ? (
+      <div key={node.id} className="min-w-0">
+        {content}
+      </div>
+    ) : (
+      <Fragment key={node.id}>{content}</Fragment>
+    );
   });
 }
 
@@ -107,7 +89,12 @@ function RenderNode({
     );
 
   // Stored JSON may be older than the current schemas: never crash the page.
-  const parsed = definition.schema.safeParse(node.props);
+  // A block being edited is drawn as it is, even incomplete: missing fields
+  // show as placeholders (lib/components/placeholders.ts).
+  const parsed =
+    editable && 'kind' in definition
+      ? { success: true as const, data: node.props }
+      : definition.schema.safeParse(node.props);
   if (!parsed.success)
     return (
       <Skipped
@@ -120,7 +107,19 @@ function RenderNode({
   // Safe: the props were just validated against this type's own schema.
   return createElement(
     getSiteComponent(definition.type),
-    { ...parsed.data, siteSlug, nested, data },
+    {
+      ...parsed.data,
+      nodeId: node.id,
+      siteSlug,
+      nested,
+      animate,
+      data,
+      editing: editable,
+      // A container's children are drawn by one RenderTree: say how many.
+      ...(definition.acceptsChildren
+        ? { childCount: node.children?.length ?? 0 }
+        : {}),
+    },
     definition.acceptsChildren && node.children ? (
       <RenderTree
         nodes={node.children}

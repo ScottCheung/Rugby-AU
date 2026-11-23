@@ -1,0 +1,34 @@
+/*
+ * Site theme tokens as Tailwind theme variables, so utilities such as
+ * bg-brand, text-muted-text, rounded-site, font-site or p-site-md exist.
+ * These values are only fallbacks: each public site sets its own on its
+ * wrapper element (lib/theme/themeToCssVars.ts) and the utilities follow.
+ */
+@theme {
+  --color-brand: #1f5f46;
+  --color-brand-contrast: #ffffff;
+  --color-background: #ffffff;
+  --color-surface-light: #f1f4f2;
+  --color-text: #14201b;
+  --color-muted-text: #5b6863;
+  --radius-site: 0.75rem;
+  /* Every card: the same roomy corners and padding (set per site in themeToCssVars). */
+  --radius-card: calc(var(--radius-site) * 1.75);
+  --pad-card: calc(var(--spacing-site-sm) * 1.5);
+  --font-site: ui-sans-serif, system-ui, sans-serif;
+  --font-site-heading: ui-sans-serif, system-ui, sans-serif;
+  --spacing-site-xs: 0.5rem;
+  --spacing-site-sm: 1rem;
+  --spacing-site-md: 2rem;
+  --spacing-site-lg: 4rem;
+}
+
+/*
+ * Always reserve the scrollbar's width, even while it is hidden (e.g. when
+ * the Lightbox sets overflow: hidden on the page). Without this the page
+ * jumps sideways when a dialog opens or closes. On overlay scrollbars
+ * (macOS default) the reserved width is 0, so nothing changes there.
+ */
+html {
+  scrollbar-gutter: stable;
+}

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import {
-  addNode,
   ancestorIds,
   cloneWithNewIds,
   duplicateNode,
@@ -44,30 +43,6 @@ describe('findNode', () => {
   });
 });
 
-describe('addNode', () => {
-  it('appends to the root when no parent is given', () => {
-    const tree = addNode(makeTree(), leaf('new'));
-    expect(tree.map((node) => node.id)).toEqual(['outer', 'sibling', 'new']);
-  });
-
-  it('appends inside a nested section', () => {
-    const tree = addNode(makeTree(), leaf('new'), 'inner');
-    expect(findNode(tree, 'inner')?.children?.map((node) => node.id)).toEqual([
-      'deep',
-      'new',
-    ]);
-  });
-
-  it('creates the children list when the parent has none yet', () => {
-    const tree = addNode([section('empty')], leaf('new'), 'empty');
-    expect(findNode(tree, 'empty')?.children).toEqual([leaf('new')]);
-  });
-
-  it('leaves the tree unchanged when the parent does not exist', () => {
-    expect(addNode(makeTree(), leaf('new'), 'missing')).toEqual(makeTree());
-  });
-});
-
 describe('removeNode', () => {
   it('removes a deep node', () => {
     const tree = removeNode(makeTree(), 'deep');
@@ -100,7 +75,10 @@ describe('immutability', () => {
   it('never mutates the input and shares untouched branches', () => {
     const tree = makeTree();
     const snapshot = structuredClone(tree);
-    const added = addNode(tree, leaf('new'), 'inner');
+    const added = insertNode(tree, leaf('new'), {
+      parentId: 'inner',
+      index: 0,
+    });
     removeNode(tree, 'deep');
     updateNodeProps(tree, 'deep', {});
     expect(tree).toEqual(snapshot);

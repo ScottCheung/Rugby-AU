@@ -1,3 +1,4 @@
+import type { CollectionId } from '../collections';
 import { MongoServerError, ObjectId } from 'mongodb';
 import { validateTree, type TreeIssue } from '../components/validateTree';
 import type { Page, PageContent, PageVersion } from '../types';
@@ -33,10 +34,11 @@ function toVersion(document: PageVersionDocument): PageVersion {
 }
 
 /** Only the content fields: never copy ids or dates by accident. */
-function contentOf({ title, description, components }: PageContent) {
+function contentOf({ title, description, nav, components }: PageContent) {
   return {
     title,
     ...(description ? { description } : {}),
+    ...(nav && (nav.label || nav.hidden) ? { nav } : {}),
     components,
   };
 }
@@ -65,7 +67,7 @@ export async function listPages(siteSlug: string): Promise<Page[]> {
   return found.map(toPage);
 }
 
-/** The pages visitors can see: for the public menu and Latest news. */
+/** The pages visitors can see: for the public menu. */
 export async function listPublishedPages(siteSlug: string): Promise<Page[]> {
   const found = await (
     await pages()
@@ -109,7 +111,8 @@ export async function getPublishedPage(
   const page = await (
     await pages()
   ).findOne(
-    { siteSlug, path, published: { $ne: null } },
+    // A template page has no public address of its own.
+    { siteSlug, path, published: { $ne: null }, template: { $exists: false } },
     { projection: { path: 1, published: 1 } },
   );
   if (!page?.published) return null;
@@ -118,6 +121,15 @@ export async function getPublishedPage(
     path: page.path,
     content: contentOf(page.published),
   };
+}
+
+/** The page that draws each entry of a collection, if the site has one. */
+export async function getTemplatePage(
+  siteSlug: string,
+  template: CollectionId,
+): Promise<Page | null> {
+  const page = await (await pages()).findOne({ siteSlug, template });
+  return page ? toPage(page) : null;
 }
 
 export async function getPageById(id: string): Promise<Page | null> {

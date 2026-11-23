@@ -40,10 +40,10 @@ async function mongoIsUp() {
 const available = await mongoIsUp();
 
 const content = (title: string, heading = title): PageContent => {
-  const grid = createNode('cardGrid');
+  const section = createNode('section');
   return {
     title,
-    components: [{ ...grid, props: { ...grid.props, title: heading } }],
+    components: [{ ...section, props: { ...section.props, heading } }],
   };
 };
 
@@ -113,7 +113,7 @@ describe.skipIf(!available)('draft and publish', () => {
 
   it('refuses to publish a draft that fails the schemas', async () => {
     const broken = content('Broken');
-    broken.components[0].props = { cards: 'not a list' };
+    broken.components[0].props = { columns: 'not a layout' };
     // Write it directly: Save draft in the app validates too.
     await (
       await getDb()

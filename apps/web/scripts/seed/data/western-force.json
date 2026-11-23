@@ -1,0 +1,2410 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "Western Force: Super Rugby from Perth.",
+      "tree": [
+        {
+          "id": "7cd8bd00-1533-4d58-b261-6f6c79ee7ec6",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "5acd0851-e88a-44ad-970e-15db293c0b4c",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Western Force",
+                      "text": "Super Rugby from Perth.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1524586410818-196d249560e4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Perth city beside the Swan River"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    },
+                    {
+                      "title": "Home games at HBF Park",
+                      "text": "Bring the family and wear the colours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "The new season",
+                      "text": "Memberships are on sale now.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1532161388762-e4694f382a0e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players racing across a wet, muddy field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider",
+                  "autoplay": true
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a6cb7703-71da-439f-bce7-13c10b49c208",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "20403fae-6a1b-487c-8dc5-e8ccfd97eb2d",
+              "type": "stats",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "First Super Rugby season",
+                      "value": "2006"
+                    },
+                    {
+                      "title": "Back in Super Rugby",
+                      "value": "2020"
+                    },
+                    {
+                      "title": "World Cup opener in Perth",
+                      "value": "2027"
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "size": "l"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "772b4883-f7f9-464c-9c03-be53353d7ccf",
+          "type": "section",
+          "props": {
+            "heading": "Fixtures and results",
+            "columns": "1-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8fa24d95-a371-47f9-b899-f3a7f21b64c1",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "western-force",
+                  "show": "upcoming",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            },
+            {
+              "id": "87d98599-cd43-4fa8-a7ad-8d5ca628384f",
+              "type": "matches",
+              "props": {
+                "content": {
+                  "from": "fixtures",
+                  "team": "western-force",
+                  "show": "results",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "showVenue": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "a3cd4ea0-b725-4283-80b1-3efb0bc44994",
+          "type": "section",
+          "props": {
+            "heading": "Meet the players",
+            "intro": "A few of the squad. Everyone is on the Squad page.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "4dcf883a-e8b7-4b08-834d-64cc9ee426de",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "pick",
+                  "picked": [
+                    "misinale-epenisa",
+                    "nic-dolly",
+                    "lopeti-faifua",
+                    "nick-champion-de-crespigny",
+                    "luke-aiken",
+                    "ben-donaldson",
+                    "boston-fakafanua",
+                    "mac-grealy",
+                    "taj-annan",
+                    "sef-faagase",
+                    "leonel-oviedo",
+                    "jeremy-williams",
+                    "jack-daly",
+                    "nathan-hastie",
+                    "alex-harford",
+                    "divad-palu"
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel",
+                  "rows": "2"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6c0c4f72-0984-4652-8f94-03e6f584c76a",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "05cac02e-2b2a-4290-ad69-3e42fea9defe",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Welcome to the Western Force",
+                      "text": "The Western Force have been Western Australia’s Super Rugby team since 2006. The black and gold come from the state’s traditional colours.\n\nAfter time outside the competition, the Force returned to Super Rugby in 2020. Home games are at HBF Park in Perth.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "8ec56ff4-3f79-4408-8b0d-c9c5ce9d96c3",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our honours",
+                      "text": "Titles and milestones.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1752681304960-bd4e018a04bb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in light blue and white in a huddle"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "18d55a55-86c6-4032-bd6d-a8bbeefe231c-section",
+          "type": "section",
+          "props": {
+            "heading": "Latest news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "18d55a55-86c6-4032-bd6d-a8bbeefe231c",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "434bf54e-8a06-438e-b368-063108de2c16",
+          "type": "section",
+          "props": {
+            "heading": "This season",
+            "intro": "Everything you need for match day.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "828b148a-2f83-43a5-adea-6923100384b3",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Memberships",
+                      "text": "Your seat for every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1747200582566-e4b9c1d229fa?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium with goalposts and colourful seats"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Tickets",
+                      "text": "Single-game tickets for every home match.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1763854413165-1713bc5a7f4a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Stadium full of spectators during a night game"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Children playing in a misty park"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "eb756d0e-433b-46c2-bcde-229c1f949178",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "f9acfc48-9ba2-4ca4-8c26-ddad356c4390",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Perth",
+                      "text": "The heart of rugby in Western Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1606453338613-bcf41ddb9d50?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Perth city buildings by the water"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "881283ba-09dd-4b56-a87f-815df508f4cd",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "HBF Park",
+                      "text": "Home games are played at HBF Park, with the city of Perth turning out in the club’s colours.",
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "06550df1-83e8-4890-9a6d-29f7fbac3d65",
+          "type": "section",
+          "props": {
+            "heading": "Gallery",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-padded"
+          },
+          "children": [
+            {
+              "id": "bd17b12e-fef4-4e3c-abb2-77597373e75d",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Players contesting the ball during a match",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574618471715-61c6b64aaf31?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players contesting the ball during a match"
+                      }
+                    },
+                    {
+                      "title": "Perth city beside the Swan River",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1524586410818-196d249560e4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Perth city beside the Swan River"
+                      }
+                    },
+                    {
+                      "title": "A lineout in a stadium with spectators in the stands",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1495329144860-da404d597791?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A lineout in a stadium with spectators in the stands"
+                      }
+                    },
+                    {
+                      "title": "Two teams playing rugby",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1512299286776-c18be8ed6a1a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams playing rugby"
+                      }
+                    },
+                    {
+                      "title": "A rugby team celebrating together on the field",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1574602904316-f84f62477265?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A rugby team celebrating together on the field"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "wall"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/club",
+      "title": "The club",
+      "description": "The story of the Western Force.",
+      "tree": [
+        {
+          "id": "efd17bea-5e51-4e7b-bb9e-469912e0494f",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "4b42bf8c-3999-4591-b647-fa4e0855bcdb",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "About the Western Force",
+                      "text": "The Western Force have been Western Australia’s Super Rugby team since 2006. The black and gold come from the state’s traditional colours.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1524586410818-196d249560e4?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Perth city beside the Swan River"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "942074e6-7726-47f5-b172-803e9fa5153a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "2d6e3312-1c77-4fbd-8572-58fdf507caf1",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Our story",
+                      "text": "The Western Force have been Western Australia’s Super Rugby team since 2006. The black and gold come from the state’s traditional colours.\n\nAfter time outside the competition, the Force returned to Super Rugby in 2020. Home games are at HBF Park in Perth.\n\nIn 2027 Perth hosts the opening match of the Rugby World Cup."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b8910e29-5d97-4c87-a931-f417de52c38b",
+          "type": "section",
+          "props": {
+            "heading": "Honours and milestones",
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "ea31d30c-b5e2-40aa-a3d7-8996c6acd545",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "2006",
+                      "text": "The club plays its first Super Rugby season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1643130083953-a34f369b612a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in red and white hoops gathered in front of the goal posts"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2020",
+                      "text": "Back in Super Rugby, in Super Rugby AU.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1624295059100-0ca889087b54?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Players in maroon jerseys arm in arm in a team huddle"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "2027",
+                      "text": "Perth hosts the opening match of the Rugby World Cup.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1785216130375-48966f2d7912?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A team in navy huddled on a field"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "49ba0606-5644-4366-a221-cc6b3eeb7266",
+          "type": "section",
+          "props": {
+            "heading": "More than one team",
+            "intro": "The club looks after rugby across its region.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "665dac78-4076-45ac-b13a-9246250fc4fa",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Super Rugby Pacific",
+                      "text": "The men’s team, against the best clubs in Australia, New Zealand and the Pacific.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1485426337939-af69cf101909?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Five players chasing play during a match"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The women’s team in the national women’s competition.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1496224027003-38fc92be458c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Black and white photo of women playing rugby"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Academy",
+                      "text": "Young players from across Western Australia.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach with a group of young children on a training pitch"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/matchday",
+      "title": "Match day",
+      "description": "Home games at HBF Park.",
+      "tree": [
+        {
+          "id": "0c1a1b94-a39c-4582-a245-5d4b0a5f0c72",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "74293121-e6fa-4cd9-9dea-0c74fc2fda75",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Match day",
+                      "text": "Everything you need for a home game at HBF Park.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1665413811870-5b29a250f64a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Spectators on their feet in the stands"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "649a620f-bbba-4dc2-9cdc-bfd1a0800d27",
+          "type": "section",
+          "props": {
+            "columns": "2-1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "fc683992-5614-429f-a6b8-4ac426ab6bc9",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Plan your day",
+                      "text": "Gates at HBF Park open well before kick-off, with activities for kids on the concourse and the warm-ups to watch.\n\nPublic transport is the easiest way to get there on game day. Members keep the same seat all season, and single tickets go on sale before each game."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            },
+            {
+              "id": "5482ca0d-3317-45b9-9ae4-0368cdf17b9d",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Getting there",
+                      "text": "Travel tips for HBF Park.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1606453338613-bcf41ddb9d50?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Aerial view of Perth city buildings by the water"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "888134f2-0d59-4a41-9d03-162db89429bc",
+          "type": "section",
+          "props": {
+            "heading": "Before you go",
+            "intro": "Tickets, seats and family days.",
+            "columns": "1-1-1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "29b09fd1-0c08-4cf6-a872-c82e4740b814",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Tickets and memberships",
+                      "text": "Members keep the same seat all season.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529663297269-6d349ec39b57?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Rugby goal posts in a full stadium"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "ecce0004-3d22-4ccd-8839-55c211e102ab",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Kids go cheap",
+                      "text": "Discounted tickets for children, and a family zone at every home game.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1613425295165-dc4a15a98bbf?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Junior players in black and red chasing a runner in blue"
+                      },
+                      "link": {
+                        "label": "Pathways",
+                        "href": "/pathways"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "4fdf61b6-e997-4bfe-a612-837e92dbd6fc",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Meet the players",
+                      "text": "Signing sessions after selected games.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1529325708907-1c972159dbfb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "Two teams gathered together on the field"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "d0f913f7-5281-4d9e-b129-12c867d7685a",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "primary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "bf833ea6-2b01-44ec-ab4c-73e2d691bed9",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "See you at the game",
+                      "text": "Memberships for the new season at HBF Park are on sale now.",
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pathways",
+      "title": "Pathways",
+      "description": "From club rugby to the Western Force.",
+      "tree": [
+        {
+          "id": "6601d62f-aafb-4563-b692-6bde3c1c95e8",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "none",
+            "width": "full-width"
+          },
+          "children": [
+            {
+              "id": "3d60e2e2-3bfc-40a6-9508-f2ba536738a6",
+              "type": "hero",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Pathways",
+                      "text": "How young players in Western Australia reach professional rugby.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1492303686649-6911c8127d9a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in a scrum cap placing the ball over the line"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "slider"
+                },
+                "style": {
+                  "height": "tall"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "9e8f5d2c-3919-4d08-be9d-3063ad62a80b",
+          "type": "section",
+          "props": {
+            "columns": "1-2",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "75fbc398-1cc5-4f93-a415-29c97bc1382b",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The academy",
+                      "text": "Where the next generation trains.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1585757318177-0570a997dc3a?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach holding a tactics board beside a field"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            },
+            {
+              "id": "29221efb-b765-401c-8861-cbc19de58762",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "From the local club to Super Rugby",
+                      "text": "Every player in the Western Force squad started at a local club. Talented juniors are picked for representative age-group teams, and the best join the club’s academy.\n\nThe academy adds coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "plain"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ac9f8e70-cef2-470c-80d6-c17ec1ceb73e",
+          "type": "section",
+          "props": {
+            "heading": "The route to the top",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "dbe4ecd8-b945-400c-9407-24717b6bc771",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club rugby",
+                      "text": "Every player starts at a local club.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1729871337531-249297613423?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A young player in red and white sprinting with the ball"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Junior clinics",
+                      "text": "Holiday clinics run by the club’s coaches.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1771308378506-7f394413342c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A coach talking to players gathered around"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Representative teams",
+                      "text": "Age-group teams that play other states.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1558151507-c1aa3d917dbb?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A player holding a rugby ball"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Debut",
+                      "text": "Pulling on the Western Force jersey.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1693073410934-5e45e31a6b5c?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A large stadium filling up before a rugby match"
+                      },
+                      "link": {
+                        "label": "Back to home",
+                        "href": "/"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "carousel"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "90289c69-c123-4278-9e4c-6392ecf22f92",
+          "type": "section",
+          "props": {
+            "heading": "Women’s pathway",
+            "intro": "Girls can follow the same route, all the way to Super W.",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "76081708-f6a3-4cb2-a71b-a080c1b07db6",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "Club and school",
+                      "text": "Girls’ teams at every age.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106780946-fb62d2db706b?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A women’s match: a ball carrier in white tackled by players in navy and red"
+                      },
+                      "link": {
+                        "label": "Match day",
+                        "href": "/matchday"
+                      }
+                    },
+                    {
+                      "title": "Super W",
+                      "text": "The club’s women’s team.",
+                      "image": {
+                        "url": "https://images.unsplash.com/photo-1601106770965-f8d5b3bcd271?auto=format&fit=crop&w=1600&q=80",
+                        "alt": "A woman in red carrying the ball into a tackle"
+                      },
+                      "link": {
+                        "label": "About the club",
+                        "href": "/club"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "overlay",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news",
+      "title": "News",
+      "description": "News, stories and match-day guides from the Western Force.",
+      "tree": [
+        {
+          "id": "63a9782e-7d7b-44a7-9cfe-221719edfbeb",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "d51d9f49-a165-414a-8412-9b63952ab702",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "News",
+                      "text": "News, stories and match-day guides from the Western Force."
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "cdff87d5-2804-42e6-bb2f-372526e6d2c7-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "cdff87d5-2804-42e6-bb2f-372526e6d2c7",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 12
+                },
+                "layout": {
+                  "arrange": "featured"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/squad",
+      "title": "Squad",
+      "description": "2027 Super Rugby Pacific squad",
+      "tree": [
+        {
+          "id": "27455058-1a01-44bb-830a-d77088621804",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "8785dba5-0da2-4505-94ae-087bd613e997",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "items",
+                  "items": [
+                    {
+                      "title": "The squad",
+                      "text": "2027 Super Rugby Pacific squad.\n\nNamed 28 October 2026, as listed in “Force squad confirmed for 2027 Super Rugby Pacific season”. Photos are the official squad photos.",
+                      "link": {
+                        "label": "Read the announcement",
+                        "href": "https://www.rugby.com.au/news/force-squad-2027-super-rugby-season-20261028"
+                      }
+                    }
+                  ]
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "centered"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "8d730798-a317-4d3b-be6a-abf5fa726a0d",
+          "type": "section",
+          "props": {
+            "heading": "Props",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "cce83f71-fc75-4297-b399-c906dfdb9020",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Props"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "55dff5be-a362-48f3-b486-43b939ce6045",
+          "type": "section",
+          "props": {
+            "heading": "Hookers",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b21391f4-223d-4044-8e84-e25e755ab37d",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Hookers"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "56c7b6e7-f4bd-412a-8ef5-aa1bd05a256a",
+          "type": "section",
+          "props": {
+            "heading": "Locks",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "535e84b6-c813-4f06-ad15-c2306ba252bc",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Locks"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "db1ecf7b-dc94-4b46-a50d-89cb59b89995",
+          "type": "section",
+          "props": {
+            "heading": "Back rowers",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "48e2c054-397d-4835-971c-40eef7c31ad2",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Back rowers"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b6f74d3b-0e4f-4d41-928a-88aa700b8dad",
+          "type": "section",
+          "props": {
+            "heading": "Half-backs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "d21c2598-e5e8-4cd5-8150-b9235b7d3005",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Half-backs"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4d13a502-055d-4344-9ffe-77415bf304b5",
+          "type": "section",
+          "props": {
+            "heading": "Fly-halves",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "a02d69e4-03ec-4c6b-9ca9-2b31360cb36b",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Fly-halves"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "66c08581-4652-4b04-9f8f-da77566cceba",
+          "type": "section",
+          "props": {
+            "heading": "Midfield",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "c88cf5cb-3536-4b53-9de9-36116697c4c3",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Midfield"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "201ecb1a-bbbe-4eb2-bbae-7a645390b728",
+          "type": "section",
+          "props": {
+            "heading": "Outside backs",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "1bf806b6-1051-47a1-bad0-b09d65f9254e",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Outside backs"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "bdab1833-0a21-48a0-9317-b106642677b4",
+          "type": "section",
+          "props": {
+            "heading": "Utility",
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "b1fcebc6-a45b-4e38-b9dd-a6e00e7b49f8",
+              "type": "people",
+              "props": {
+                "content": {
+                  "from": "players",
+                  "mode": "latest",
+                  "group": "Utility"
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "backgroundHeight": "60"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/news/-template",
+      "title": "Article template",
+      "template": "news",
+      "tree": [
+        {
+          "id": "560224ee-87b0-4184-ad2d-c9c59813d727-section",
+          "type": "section",
+          "props": {
+            "columns": "1",
+            "align": "stretch",
+            "background": "none",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "560224ee-87b0-4184-ad2d-c9c59813d727-headline",
+              "type": "text",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "text": "standfirst"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "variant": "headline"
+                }
+              }
+            },
+            {
+              "id": "560224ee-87b0-4184-ad2d-c9c59813d727-photo",
+              "type": "photos",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "title": "headline",
+                  "image": "image"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "caption": false
+                }
+              }
+            },
+            {
+              "id": "560224ee-87b0-4184-ad2d-c9c59813d727-story",
+              "type": "story",
+              "props": {
+                "content": {
+                  "from": "entry",
+                  "story": "body"
+                },
+                "layout": {
+                  "arrange": "list"
+                },
+                "style": {
+                  "size": "standard"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "1bde29b8-10d0-4244-b7de-a29c0347dd9e",
+          "type": "section",
+          "props": {
+            "heading": "More news",
+            "columns": "1",
+            "align": "stretch",
+            "background": "secondary",
+            "padding": "md",
+            "width": "full-background"
+          },
+          "children": [
+            {
+              "id": "292ae745-6f4c-48ee-952d-2a4f279f6b2e",
+              "type": "cards",
+              "props": {
+                "content": {
+                  "from": "news",
+                  "mode": "latest",
+                  "limit": 3
+                },
+                "layout": {
+                  "arrange": "grid"
+                },
+                "style": {
+                  "look": "card",
+                  "ratio": "wide",
+                  "showText": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "collection": "news",
+      "slug": "our-story",
+      "data": {
+        "category": "History",
+        "date": "2026-11-18",
+        "headline": "The Western Force story",
+        "standfirst": "The Western Force have been Western Australia’s Super Rugby team since 2006. The black and gold come from the state’s traditional colours.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1524586410818-196d249560e4?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Perth city beside the Swan River"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "After time outside the competition, the Force returned to Super Rugby in 2020. Home games are at HBF Park in Perth."
+          },
+          {
+            "kind": "paragraph",
+            "text": "In 2027 Perth hosts the opening match of the Rugby World Cup."
+          },
+          {
+            "kind": "heading",
+            "text": "Honours"
+          },
+          {
+            "kind": "paragraph",
+            "text": "2006: The club plays its first Super Rugby season. 2020: Back in Super Rugby, in Super Rugby AU. 2027: Perth hosts the opening match of the Rugby World Cup."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "match-day-guide",
+      "data": {
+        "category": "Match day",
+        "date": "2026-11-11",
+        "headline": "Match day at HBF Park: what to know",
+        "standfirst": "Tickets, getting there and what to expect at a home game.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1767190937750-d6aaf8ea99d0?auto=format&fit=crop&w=1600&q=80",
+          "alt": "Rugby stadium with goalposts and spectators in the stands"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Home games at HBF Park are a day out for the whole family. Here is how to plan yours."
+          },
+          {
+            "kind": "heading",
+            "text": "Tickets"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Members keep the same seat all season. Single tickets go on sale before each game, and children’s tickets are discounted."
+          },
+          {
+            "kind": "heading",
+            "text": "Getting there"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Public transport is the easiest way to HBF Park on game day. Allow extra time: the roads around the ground are busy before kick-off."
+          },
+          {
+            "kind": "heading",
+            "text": "At the ground"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Gates open well before kick-off, with activities for kids on the concourse. Stay after the game for signing sessions on selected dates."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "news",
+      "slug": "inside-the-academy",
+      "data": {
+        "category": "Pathways",
+        "date": "2026-11-04",
+        "headline": "Inside the academy: from club rugby to Super Rugby",
+        "standfirst": "How young players in Western Australia find their way into the Western Force squad.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1529932398402-e0b30f66a559?auto=format&fit=crop&w=1600&q=80",
+          "alt": "A coach giving instructions to a young player at training"
+        },
+        "body": [
+          {
+            "kind": "paragraph",
+            "text": "Every player in the Western Force squad started at a local club. The academy is the bridge between club rugby and the professional game."
+          },
+          {
+            "kind": "heading",
+            "text": "Who is picked"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Talented juniors are spotted in club and school rugby and in representative age-group teams, then invited to train with the academy."
+          },
+          {
+            "kind": "heading",
+            "text": "What the academy adds"
+          },
+          {
+            "kind": "paragraph",
+            "text": "Coaching, strength and conditioning, and support with school or work, so players are ready when their chance comes."
+          },
+          {
+            "kind": "heading",
+            "text": "Girls and women"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The same pathway leads to the club’s Super W team."
+          }
+        ]
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "misinale-epenisa",
+      "data": {
+        "name": "Misinale Epenisa",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/western-force/misinale-epenisa.webp",
+          "alt": "Misinale Epenisa in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/misinale-epenisa-bg.webp",
+          "alt": "The backdrop of Misinale Epenisa's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "sef-faagase",
+      "data": {
+        "name": "Sef Fa’agase",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/western-force/sef-fa-agase.webp",
+          "alt": "Sef Fa’agase in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/sef-fa-agase-bg.webp",
+          "alt": "The backdrop of Sef Fa’agase's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "reuben-oneill",
+      "data": {
+        "name": "Reuben O’Neill",
+        "role": "Prop",
+        "group": "Props"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "marley-pearce",
+      "data": {
+        "name": "Marley Pearce",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/western-force/marley-pearce.webp",
+          "alt": "Marley Pearce in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/marley-pearce-bg.webp",
+          "alt": "The backdrop of Marley Pearce's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "tom-robertson",
+      "data": {
+        "name": "Tom Robertson",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/western-force/tom-robertson.webp",
+          "alt": "Tom Robertson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/tom-robertson-bg.webp",
+          "alt": "The backdrop of Tom Robertson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "joshua-smith",
+      "data": {
+        "name": "Joshua Smith",
+        "role": "Prop",
+        "group": "Props",
+        "cutout": {
+          "url": "/players/western-force/joshua-smith.webp",
+          "alt": "Joshua Smith in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/joshua-smith-bg.webp",
+          "alt": "The backdrop of Joshua Smith's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nic-dolly",
+      "data": {
+        "name": "Nic Dolly",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/western-force/nic-dolly.webp",
+          "alt": "Nic Dolly in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/nic-dolly-bg.webp",
+          "alt": "The backdrop of Nic Dolly's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "leonel-oviedo",
+      "data": {
+        "name": "Leonel Oviedo",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/western-force/leonel-oviedo.webp",
+          "alt": "Leonel Oviedo in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/leonel-oviedo-bg.webp",
+          "alt": "The backdrop of Leonel Oviedo's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "brandon-paenga-amosa",
+      "data": {
+        "name": "Brandon Paenga-Amosa",
+        "role": "Hooker",
+        "group": "Hookers",
+        "cutout": {
+          "url": "/players/western-force/brandon-paenga-amosa.webp",
+          "alt": "Brandon Paenga-Amosa in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/brandon-paenga-amosa-bg.webp",
+          "alt": "The backdrop of Brandon Paenga-Amosa's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "lopeti-faifua",
+      "data": {
+        "name": "Lopeti Faifua",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/western-force/lopeti-faifua.webp",
+          "alt": "Lopeti Faifua in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/lopeti-faifua-bg.webp",
+          "alt": "The backdrop of Lopeti Faifua's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jeremy-williams",
+      "data": {
+        "name": "Jeremy Williams",
+        "role": "Lock",
+        "group": "Locks",
+        "cutout": {
+          "url": "/players/western-force/jeremy-williams.webp",
+          "alt": "Jeremy Williams in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/jeremy-williams-bg.webp",
+          "alt": "The backdrop of Jeremy Williams's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "netani-baleisomosomo",
+      "data": {
+        "name": "Netani Baleisomosomo",
+        "role": "Back rower",
+        "group": "Back rowers"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nick-champion-de-crespigny",
+      "data": {
+        "name": "Nick Champion de Crespigny",
+        "role": "Back rower",
+        "group": "Back rowers",
+        "cutout": {
+          "url": "/players/western-force/nick-champion-de-crespigny.webp",
+          "alt": "Nick Champion de Crespigny in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/nick-champion-de-crespigny-bg.webp",
+          "alt": "The backdrop of Nick Champion de Crespigny's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "jack-daly",
+      "data": {
+        "name": "Jack Daly",
+        "role": "Back rower",
+        "group": "Back rowers",
+        "cutout": {
+          "url": "/players/western-force/jack-daly.webp",
+          "alt": "Jack Daly in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/jack-daly-bg.webp",
+          "alt": "The backdrop of Jack Daly's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "aden-ekanayake",
+      "data": {
+        "name": "Aden Ekanayake",
+        "role": "Back rower",
+        "group": "Back rowers"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "will-harris",
+      "data": {
+        "name": "Will Harris",
+        "role": "Back rower",
+        "group": "Back rowers",
+        "cutout": {
+          "url": "/players/western-force/will-harris.webp",
+          "alt": "Will Harris in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/will-harris-bg.webp",
+          "alt": "The backdrop of Will Harris's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "carlo-tizzano",
+      "data": {
+        "name": "Carlo Tizzano",
+        "role": "Back rower",
+        "group": "Back rowers",
+        "cutout": {
+          "url": "/players/western-force/carlo-tizzano.webp",
+          "alt": "Carlo Tizzano in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/carlo-tizzano-bg.webp",
+          "alt": "The backdrop of Carlo Tizzano's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "luke-aiken",
+      "data": {
+        "name": "Luke Aiken",
+        "role": "Half-back",
+        "group": "Half-backs",
+        "cutout": {
+          "url": "/players/western-force/luke-aiken.webp",
+          "alt": "Luke Aiken in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/luke-aiken-bg.webp",
+          "alt": "The backdrop of Luke Aiken's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "nathan-hastie",
+      "data": {
+        "name": "Nathan Hastie",
+        "role": "Half-back",
+        "group": "Half-backs",
+        "cutout": {
+          "url": "/players/western-force/nathan-hastie.webp",
+          "alt": "Nathan Hastie in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/nathan-hastie-bg.webp",
+          "alt": "The backdrop of Nathan Hastie's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "agustin-moyano",
+      "data": {
+        "name": "Agustin Moyano",
+        "role": "Half-back",
+        "group": "Half-backs",
+        "cutout": {
+          "url": "/players/western-force/agustin-moyano.webp",
+          "alt": "Agustin Moyano in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/agustin-moyano-bg.webp",
+          "alt": "The backdrop of Agustin Moyano's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "henry-robertson",
+      "data": {
+        "name": "Henry Robertson",
+        "role": "Half-back",
+        "group": "Half-backs",
+        "cutout": {
+          "url": "/players/western-force/henry-robertson.webp",
+          "alt": "Henry Robertson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/henry-robertson-bg.webp",
+          "alt": "The backdrop of Henry Robertson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "ben-donaldson",
+      "data": {
+        "name": "Ben Donaldson",
+        "role": "Fly-half",
+        "group": "Fly-halves",
+        "cutout": {
+          "url": "/players/western-force/ben-donaldson.webp",
+          "alt": "Ben Donaldson in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/ben-donaldson-bg.webp",
+          "alt": "The backdrop of Ben Donaldson's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "alex-harford",
+      "data": {
+        "name": "Alex Harford",
+        "role": "Fly-half",
+        "group": "Fly-halves",
+        "cutout": {
+          "url": "/players/western-force/alex-harford.webp",
+          "alt": "Alex Harford in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/alex-harford-bg.webp",
+          "alt": "The backdrop of Alex Harford's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "harry-mclaughlin-phillips",
+      "data": {
+        "name": "Harry McLaughlin-Phillips",
+        "role": "Fly-half",
+        "group": "Fly-halves",
+        "cutout": {
+          "url": "/players/western-force/harry-mclaughlin-phillips.webp",
+          "alt": "Harry McLaughlin-Phillips in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/harry-mclaughlin-phillips-bg.webp",
+          "alt": "The backdrop of Harry McLaughlin-Phillips's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "boston-fakafanua",
+      "data": {
+        "name": "Boston Fakafanua",
+        "role": "Midfield",
+        "group": "Midfield",
+        "cutout": {
+          "url": "/players/western-force/boston-fakafanua.webp",
+          "alt": "Boston Fakafanua in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/boston-fakafanua-bg.webp",
+          "alt": "The backdrop of Boston Fakafanua's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "divad-palu",
+      "data": {
+        "name": "Divad Palu",
+        "role": "Midfield",
+        "group": "Midfield",
+        "cutout": {
+          "url": "/players/western-force/divad-palu.webp",
+          "alt": "Divad Palu in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/divad-palu-bg.webp",
+          "alt": "The backdrop of Divad Palu's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "hamish-stewart",
+      "data": {
+        "name": "Hamish Stewart",
+        "role": "Midfield",
+        "group": "Midfield",
+        "cutout": {
+          "url": "/players/western-force/hamish-stewart.webp",
+          "alt": "Hamish Stewart in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/hamish-stewart-bg.webp",
+          "alt": "The backdrop of Hamish Stewart's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "wallace-charlie",
+      "data": {
+        "name": "Wallace Charlie",
+        "role": "Outside back",
+        "group": "Outside backs"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "mac-grealy",
+      "data": {
+        "name": "Mac Grealy",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/western-force/mac-grealy.webp",
+          "alt": "Mac Grealy in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/mac-grealy-bg.webp",
+          "alt": "The backdrop of Mac Grealy's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "dylan-pietsch",
+      "data": {
+        "name": "Dylan Pietsch",
+        "role": "Outside back",
+        "group": "Outside backs",
+        "cutout": {
+          "url": "/players/western-force/dylan-pietsch.webp",
+          "alt": "Dylan Pietsch in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/dylan-pietsch-bg.webp",
+          "alt": "The backdrop of Dylan Pietsch's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-ramm",
+      "data": {
+        "name": "James Ramm",
+        "role": "Outside back",
+        "group": "Outside backs"
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "taj-annan",
+      "data": {
+        "name": "Taj Annan",
+        "role": "Utility",
+        "group": "Utility",
+        "cutout": {
+          "url": "/players/western-force/taj-annan.webp",
+          "alt": "Taj Annan in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/taj-annan-bg.webp",
+          "alt": "The backdrop of Taj Annan's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "zac-lomax",
+      "data": {
+        "name": "Zac Lomax",
+        "role": "Utility",
+        "group": "Utility",
+        "cutout": {
+          "url": "/players/western-force/zac-lomax.webp",
+          "alt": "Zac Lomax in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/zac-lomax-bg.webp",
+          "alt": "The backdrop of Zac Lomax's squad photo"
+        }
+      }
+    },
+    {
+      "collection": "players",
+      "slug": "james-oconnor",
+      "data": {
+        "name": "James O’Connor",
+        "role": "Utility",
+        "group": "Utility",
+        "cutout": {
+          "url": "/players/western-force/james-o-connor.webp",
+          "alt": "James O’Connor in the team's official squad photo"
+        },
+        "background": {
+          "url": "/players/western-force/james-o-connor-bg.webp",
+          "alt": "The backdrop of James O’Connor's squad photo"
+        }
+      }
+    }
+  ]
+}

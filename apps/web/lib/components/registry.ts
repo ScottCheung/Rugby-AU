@@ -1,29 +1,38 @@
 import type { z } from 'zod';
-import { article } from './article';
-import { cardGrid } from './cardGrid';
-import { fixtureList } from './fixtureList';
-import { imageSlider } from './imageSlider';
-import { latestNews } from './latestNews';
-import { profileGrid } from './profileGrid';
+import { cards } from './blocks/cards';
+import type { BlockDefinition } from './blocks/defineBlock';
+import { hero } from './blocks/hero';
+import { matches } from './blocks/matches';
+import { people } from './blocks/people';
+import { photos } from './blocks/photos';
+import { stats } from './blocks/stats';
+import { story } from './blocks/story';
+import { text } from './blocks/text';
 import { section } from './section';
-import { stats } from './stats';
-import { textBlock } from './textBlock';
 
-/** Every component editors can place and the renderer can draw. */
-export const componentDefinitions = [
-  section,
-  textBlock,
-  cardGrid,
-  imageSlider,
+/**
+ * The component library. A page is a tree of these: Sections (which hold
+ * blocks, or other Sections) and blocks (which hold items). To add a
+ * component, define it (lib/components/blocks/*.ts), list it here and give
+ * it a renderer (components/site/siteComponents.ts); the editor's form,
+ * pickers and validation come from the definition.
+ */
+export const blockDefinitions = [
+  text,
+  story,
+  hero,
+  cards,
+  photos,
   stats,
-  article,
-  latestNews,
-  fixtureList,
-  profileGrid,
+  people,
+  matches,
 ] as const;
+
+export const componentDefinitions = [section, ...blockDefinitions] as const;
 
 export type AnyComponentDefinition = (typeof componentDefinitions)[number];
 export type ComponentType = AnyComponentDefinition['type'];
+export type BlockType = (typeof blockDefinitions)[number]['type'];
 export type PropsOf<Type extends ComponentType> = z.infer<
   Extract<AnyComponentDefinition, { type: Type }>['schema']
 >;
@@ -32,4 +41,10 @@ export function getDefinition(
   type: string,
 ): AnyComponentDefinition | undefined {
   return componentDefinitions.find((definition) => definition.type === type);
+}
+
+/** A block type's definition, or undefined for a Section or unknown type. */
+export function getBlock(type: string): BlockDefinition | undefined {
+  return blockDefinitions.find((definition) => definition.type === type) as
+    BlockDefinition | undefined;
 }

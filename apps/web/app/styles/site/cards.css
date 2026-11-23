@@ -1,0 +1,404 @@
+/*
+ * Cards: the link hover, how a card fills a wide or lead cell, and the
+ * text-on-photo, profile and notch (fixture) cards.
+ */
+
+/* Cards that link somewhere lift a little and zoom their photo on hover. */
+/* `translate`, not `transform`: cards also play a Motion entrance, which
+   writes `transform` inline and would cancel a transform on hover. */
+.card-link {
+  transition:
+    translate 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.card-link:hover,
+.card-link:focus-within {
+  translate: 0 -3px;
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.14);
+}
+.card-link img,
+.zoomable img {
+  transition: transform 0.4s ease;
+}
+.card-link:hover img,
+.zoomable:hover img {
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-link:hover,
+  .card-link:focus-within {
+    translate: none;
+  }
+  .card-link,
+  .card-link img,
+  .zoomable img {
+    transition: none;
+  }
+}
+
+/* A card in Featured's lead cell: the photo takes the extra height. */
+@container (min-width: 42rem) {
+  [data-lead] > .card .media-card {
+    aspect-ratio: auto;
+    flex: 1;
+    min-height: 18rem;
+  }
+}
+/* A card in a wide cell (a list): photo beside the text. Wider than a
+   featured card ever gets, so that one stays upright. */
+@container (min-width: 52rem) {
+  .card:not(.card--overlay) {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+  }
+  .card:not(.card--overlay) .media-card {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 12rem;
+  }
+}
+
+/* A list card: more room, so larger type. */
+@container (min-width: 52rem) {
+  .card:not(.card--overlay) .card__body {
+    padding: calc(var(--pad-card) * 1.25);
+  }
+  .card:not(.card--overlay) .card__kicker {
+    font-size: 0.8125rem;
+  }
+  .card:not(.card--overlay) .card__title {
+    font-size: 1.625rem;
+    line-height: 1.2;
+  }
+  .card:not(.card--overlay) .card__text {
+    font-size: 1.125rem;
+  }
+}
+
+/*
+ * Text-on-photo cards (components/site/blocks/OverlayCard.tsx). The card
+ * takes the chosen photo shape; the photo's own colour (picked from its
+ * bottom, lib/imageColor.ts) fades up over it like a person card's, and
+ * carries the text. With details on hover only the heading shows until the
+ * card is pointed at or focused; then the colour rises and the rest slides
+ * in. Touch screens, with no pointer to hover, always show everything.
+ */
+.card--overlay {
+  --shade: #1f2937;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-card);
+  background: var(--shade);
+  color: white;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+}
+.card--overlay[data-ratio='square'] {
+  aspect-ratio: 1 / 1;
+}
+.card--overlay[data-ratio='tall'] {
+  aspect-ratio: 4 / 5;
+}
+/* Featured's lead cell: fills the cell's height beside the others. */
+@container (min-width: 42rem) {
+  [data-lead] > .card--overlay {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 18rem;
+  }
+}
+/* A list (one per row): a banner, whatever the shape. */
+@container (min-width: 52rem) {
+  .card--overlay[data-ratio] {
+    aspect-ratio: 21 / 8;
+  }
+}
+.card-overlay__photo {
+  position: absolute;
+  inset: 0;
+}
+.card-overlay__fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--shade) 0%,
+    color-mix(in oklab, var(--shade), transparent 15%) 22%,
+    transparent 58%
+  );
+}
+.card-overlay__fade--full {
+  opacity: 0;
+  background: linear-gradient(
+    to top,
+    var(--shade) 0%,
+    var(--shade) 30%,
+    color-mix(in oklab, var(--shade), transparent 30%) 62%,
+    transparent 100%
+  );
+  transition: opacity 0.35s ease;
+}
+.card-overlay__body {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-site-xs);
+  max-height: 100%;
+  padding: var(--pad-card);
+}
+.card-overlay__more {
+  display: grid;
+  grid-template-rows: 1fr;
+  width: 100%;
+  transition:
+    grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease;
+}
+.card-overlay__more > div {
+  min-height: 0;
+  overflow: hidden;
+}
+.card--overlay[data-details='always'] .card-overlay__fade--full {
+  opacity: 0.55;
+}
+@media (hover: hover) {
+  .card--overlay[data-details='hover'] .card-overlay__more {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  /* The gap stays with its row, so a hidden row takes no room either. */
+  .card--overlay[data-details='hover'] .card-overlay__body {
+    gap: 0;
+  }
+  .card--overlay[data-details='hover'] .card-overlay__more > div > * {
+    padding-block: calc(var(--spacing-site-xs) / 2);
+  }
+  .card--overlay[data-details='hover']:is(:hover, :focus-within)
+    .card-overlay__more {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .card--overlay[data-details='hover']:is(:hover, :focus-within)
+    .card-overlay__fade--full {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .card--overlay .card-overlay__fade--full {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-overlay__more,
+  .card-overlay__fade--full {
+    transition: none;
+  }
+}
+
+/*
+ * Profile cards. The photo and the cut-out are the same 3:4 frame (see
+ * scripts/players), so they line up exactly. The photo only shows below
+ * the --headroom line; the person is drawn whole, so the head rises above
+ * the card. Layers, back to front: panel (photo + colour), person, front
+ * fade, text. The colour is picked from the photo (lib/imageColor.ts).
+ */
+.profile-card {
+  --headroom: 30%;
+  position: relative;
+  aspect-ratio: 3 / 4;
+  color: white;
+}
+.profile-card__panel,
+.profile-card__front {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(var(--headroom) 0 0 round var(--radius-card));
+}
+.profile-card__panel img,
+.profile-card__person {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Holds the person: open at the top so the head can rise out of the card,
+ * clipped at the sides and bottom so the hover zoom stays inside it. */
+.profile-card__figure {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  clip-path: inset(-50% 0 0 round 0 0 var(--radius-card) var(--radius-card));
+}
+.profile-card__person {
+  transform-origin: 50% 100%;
+  transition: scale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.profile-card__front {
+  z-index: 2;
+  pointer-events: none;
+}
+.profile-card__text {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+  padding: var(--pad-card);
+}
+/* The name's line box leaves space under the letters; pull it down so the
+ * letters sit as far from the bottom edge as from the left one. */
+.profile-card__text > :last-child {
+  margin-bottom: -0.17em;
+}
+.profile-card__line {
+  min-height: 1lh;
+}
+.profile-card:hover .profile-card__person {
+  scale: 1.015;
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile-card__person {
+    transition: none;
+  }
+}
+
+/*
+ * No photo: the same card shape, with a silhouette and initials on the
+ * site's colour, so it sits in a row of photo cards without breaking it.
+ */
+.profile-card--plain {
+  color: var(--color-brand-contrast);
+}
+.profile-card--plain .profile-card__panel {
+  background: linear-gradient(
+    160deg,
+    var(--color-brand),
+    color-mix(in oklch, var(--color-brand), black 35%)
+  );
+}
+.profile-card__initials {
+  position: absolute;
+  top: calc(var(--headroom) + 0.75rem);
+  left: var(--spacing-site-sm);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.9;
+}
+.profile-card__silhouette {
+  position: absolute;
+  right: -4%;
+  bottom: 0;
+  width: 70%;
+  fill: currentColor;
+  opacity: 0.16;
+}
+
+/*
+ * Notch card (components/primitives/NotchCard.tsx), used for fixtures: a
+ * tab joined to the card by a curved notch. Painted with --notch-bg; tab,
+ * notch and body are one solid colour, so nothing shows where they meet.
+ * Theme-agnostic: that colour is the page background nudged toward the
+ * text colour, a little darker on light sites, a little lighter on dark.
+ */
+.site-notch {
+  --notch-bg: color-mix(
+    in oklch,
+    var(--color-background),
+    var(--color-text) 5%
+  );
+  /* Room: generous padding and corners, in the site's own steps. */
+  --notch-pad: var(--pad-card);
+  --notch-radius: var(--radius-card);
+  --notch-tab: 2.75rem;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  /* One radius for all four corners, so the top right (the status corner)
+     matches the bottom ones. */
+  overflow: hidden;
+  border-radius: var(--notch-radius);
+  /* The card is always light, so its text is the site's dark text, never
+     the colour inherited from a dark or image section around it. */
+  color: var(--color-text);
+  /* The status colour fills the whole card behind the body, so it shows in
+     the corner above the body and in the body's rounded top-right corner. */
+  background: var(--notch-aside-bg, transparent);
+}
+.site-notch__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-site-xs);
+}
+.site-notch__tab-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  /* Takes all the room the status does not need; a long title is cut with
+     an ellipsis. */
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: flex-end;
+}
+.site-notch__tab {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  height: var(--notch-tab);
+  align-items: center;
+  padding-left: var(--notch-pad);
+  background: var(--notch-bg);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.site-notch__tab > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-notch__curve {
+  display: block;
+  width: 3.5rem;
+  height: var(--notch-tab);
+  flex-shrink: 0;
+  margin-left: -1px;
+  fill: var(--notch-bg);
+}
+/* The corner beside the tab, filled so the card is a whole rectangle. It
+   starts under the notch's curve (45px wide), so the colour shows through
+   the curve's open side, and its content is centred in what is left. */
+.site-notch__aside {
+  display: flex;
+  /* Exactly as wide as its content, never clipped. */
+  min-width: max-content;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  margin-left: -3.5rem;
+  padding: 0 var(--notch-pad) 0 calc(3.5rem + var(--spacing-site-xs));
+}
+
+.site-notch__body {
+  flex: 1;
+  margin-top: -1px;
+  padding: var(--notch-pad);
+  background: var(--notch-bg);
+  /* The top-right corner is rounded like the bottom ones (those come from
+     the card's own clip), with the status colour showing behind it. */
+  border-top-right-radius: var(--notch-radius);
+}
+
+/* A status pill: its tone mixed with the text colour, readable on any theme. */
+.pill-tone {
+  color: color-mix(in oklch, var(--tone), var(--color-text) 35%);
+}

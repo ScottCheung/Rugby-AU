@@ -1,5 +1,5 @@
 import type { Db } from 'mongodb';
-import { PAGE_VERSIONS, PAGES, SITES } from './documents';
+import { ENTRIES, PAGE_VERSIONS, PAGES, SITES } from './documents';
 
 /**
  * Every index the app relies on. Safe to run again: MongoDB ignores an
@@ -16,4 +16,8 @@ export async function ensureIndexes(db: Db) {
   await db
     .collection(PAGE_VERSIONS)
     .createIndex({ pageId: 1, version: -1 }, { unique: true });
+  // One entry per slug in a site's collection; lists read by collection.
+  await db
+    .collection(ENTRIES)
+    .createIndex({ siteSlug: 1, collection: 1, slug: 1 }, { unique: true });
 }

@@ -18,3 +18,18 @@ describe('motion presets', () => {
     expect(entrance.shown).toEqual({ opacity: 1, y: 0, filter: 'blur(0px)' });
   });
 });
+
+describe('stagger-in', () => {
+  it('has a look per arrangement, each landing at rest', async () => {
+    const { staggerIn, settled } = await import('../src/motion');
+    expect(Object.keys(staggerIn).sort()).toEqual(
+      ['carousel', 'featured', 'grid', 'list', 'slider', 'wall'],
+    );
+    for (const { from, step } of Object.values(staggerIn)) {
+      expect(from.opacity).toBe(0);
+      expect(step).toBeGreaterThan(0);
+      expect(step).toBeLessThanOrEqual(timing.step);
+    }
+    expect(settled).toEqual({ opacity: 1, x: 0, y: 0, filter: 'blur(0px)' });
+  });
+});

@@ -3,9 +3,17 @@ import { fontStack } from './fonts';
 import { deepColour, isDarkSite } from './deepColour';
 import type { Theme } from './types';
 
+const densityFactor = { compact: 0.75, standard: 1, roomy: 1.3 } as const;
+
+/** A spacing step at the site's density; standard leaves it as written. */
+function scaled(value: string, density: Theme['density']): string {
+  const factor = densityFactor[density] ?? 1;
+  return factor === 1 ? value : `calc(${value} * ${factor})`;
+}
+
 /**
  * Theme -> CSS custom properties for the site wrapper element. The names
- * match the Tailwind theme in app/globals.css, so utilities such as
+ * match the Tailwind theme in app/styles/theme.css, so utilities such as
  * `bg-brand`, `text-muted-text` or `rounded-site` pick up the site's values.
  */
 export function themeToCssVars(theme: Theme): CSSProperties {
@@ -25,13 +33,21 @@ export function themeToCssVars(theme: Theme): CSSProperties {
     // Hero top: the soft deep fade on every site, so the header sits white
     // with a dark shadow over the photo. The bar takes the theme colours only
     // once it is solid (SiteHeader mixes them in as you scroll).
-    '--hero-top-tint': 'color-mix(in oklch, var(--color-deep) 35%, transparent)',
+    '--hero-top-tint':
+      'color-mix(in oklch, var(--color-deep) 35%, transparent)',
     '--hero-top-hold': '0%',
     // Hero bottom: light sites fade into the brand band below, dark sites keep deep.
-    '--hero-fade': isDarkSite(theme.colors) ? 'var(--color-deep)' : 'var(--color-brand)',
-    '--hero-text': isDarkSite(theme.colors) ? '#fff' : 'var(--color-brand-contrast)',
+    '--hero-fade': isDarkSite(theme.colors)
+      ? 'var(--color-deep)'
+      : 'var(--color-brand)',
+    '--hero-text': isDarkSite(theme.colors)
+      ? '#fff'
+      : 'var(--color-brand-contrast)',
     '--header-text': '#fff',
-    '--radius-site': theme.radius,
+    '--radius-site': cssLength(theme.radius),
+    // The one corner and padding every card shares.
+    '--radius-card': 'calc(var(--radius-site) * 1.75)',
+    '--pad-card': 'calc(var(--spacing-site-sm) * 1.5)',
     '--font-site': fontStack(theme.fonts.body),
     '--font-site-heading': fontStack(theme.fonts.heading),
     '--heading-transform':
@@ -39,8 +55,21 @@ export function themeToCssVars(theme: Theme): CSSProperties {
     // Uppercase condensed headings read better with a little more spacing.
     '--heading-tracking':
       theme.headingCase === 'uppercase' ? '0.02em' : '-0.01em',
-    '--spacing-site-sm': theme.spacing.sm,
-    '--spacing-site-md': theme.spacing.md,
-    '--spacing-site-lg': theme.spacing.lg,
+    // Every gap and padding on the site is one of these steps, scaled by
+    // the site's density.
+    '--spacing-site-xs': scaled(theme.spacing.xs, theme.density),
+    '--spacing-site-sm': scaled(theme.spacing.sm, theme.density),
+    '--spacing-site-md': scaled(theme.spacing.md, theme.density),
+    '--spacing-site-lg': scaled(theme.spacing.lg, theme.density),
   } as CSSProperties;
+}
+
+/**
+ * A bare 0 is a valid radius on its own, but not inside calc(): there
+ * `calc(0 * 1.75)` is a number, not a length, so every rule using
+ * --radius-card (the person card's clip-path among them) was dropped on
+ * square-cornered sites. Give it a unit.
+ */
+function cssLength(value: string) {
+  return /^\s*0*\.?0+\s*$/.test(value) ? '0px' : value;
 }

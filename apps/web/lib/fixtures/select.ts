@@ -3,14 +3,35 @@ import type { Fixture } from './types';
 export type FixtureShow = 'upcoming' | 'results' | 'both';
 
 /**
- * Fixture list: the matches one block shows. Upcoming (and live) matches
- * soonest first, results newest first, each at most `limit`. Pure, so the
- * public page and the editor canvas pick exactly the same matches.
+ * The matches one block shows: upcoming (and live) matches soonest first,
+ * results newest first, each at most `limit`. Hidden ones are kept and
+ * marked (the editor shows them ghosted; visitors never get them). Hidden matches do not count towards the limit, so
+ * hiding one lets the next take its place.
  */
-export function selectFixtures(
+export function selectFixturesMarked(
   fixtures: Fixture[],
-  options: { team?: string; show: FixtureShow; limit: number },
-): { upcoming: Fixture[]; results: Fixture[] } {
+  options: {
+    team?: string;
+    show: FixtureShow;
+    limit: number;
+    hidden?: string[];
+  },
+): {
+  upcoming: { fixture: Fixture; hidden: boolean }[];
+  results: { fixture: Fixture; hidden: boolean }[];
+} {
+  const hidden = new Set(options.hidden);
+  const take = (list: Fixture[]) => {
+    let visible = 0;
+    const out: { fixture: Fixture; hidden: boolean }[] = [];
+    for (const fixture of list) {
+      const isHidden = hidden.has(fixture.id);
+      if (!isHidden && visible >= options.limit) continue;
+      if (!isHidden) visible += 1;
+      out.push({ fixture, hidden: isHidden });
+    }
+    return out;
+  };
   const own = fixtures.filter(
     (fixture) =>
       !options.team ||
@@ -19,14 +40,14 @@ export function selectFixtures(
   );
   const byKickoff = (a: Fixture, b: Fixture) =>
     a.kickoff.localeCompare(b.kickoff) || a.id.localeCompare(b.id);
-  const upcoming = own
-    .filter((fixture) => fixture.status !== 'result')
-    .sort(byKickoff)
-    .slice(0, options.limit);
-  const results = own
-    .filter((fixture) => fixture.status === 'result')
-    .sort((a, b) => byKickoff(b, a))
-    .slice(0, options.limit);
+  const upcoming = take(
+    own.filter((fixture) => fixture.status !== 'result').sort(byKickoff),
+  );
+  const results = take(
+    own
+      .filter((fixture) => fixture.status === 'result')
+      .sort((a, b) => byKickoff(b, a)),
+  );
   return {
     upcoming: options.show === 'results' ? [] : upcoming,
     results: options.show === 'upcoming' ? [] : results,
@@ -34,16 +55,10 @@ export function selectFixtures(
 }
 
 /**
- * "Sun, 8 Nov, 2:10 am AEDT": kick-off in Sydney time, which is what an
- * Australian supporter plans around. The year is added when it is not the
- * current one. A fixed time zone, so server and browser agree.
+ * Kick-off in Sydney time ("Sun, 8 Nov" and "2:10 am AEDT"), which is what
+ * an Australian supporter plans around. The year is added when it is not
+ * the current one. A fixed time zone, so server and browser agree.
  */
-export function formatKickoff(kickoff: string, now: Date): string {
-  const { day, time } = kickoffParts(kickoff, now);
-  return `${day}, ${time}`;
-}
-
-/** The day and the time of kick-off apart, for layouts that set them differently. */
 export function kickoffParts(
   kickoff: string,
   now: Date,

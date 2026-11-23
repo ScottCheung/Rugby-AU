@@ -8,6 +8,7 @@ import {
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Badge, Card, H1, Paragraph } from '@scottcheung/ui';
+import { SiteTabs } from '@/components/manager/SiteTabs';
 import { NewPageForm } from '@/components/manager/NewPageForm';
 import { PageContainer } from '@/components/manager/PageContainer';
 import { listPages } from '@/lib/db/pages';
@@ -25,6 +26,9 @@ export default async function SitePages({
   const site = await getSiteBySlug(siteSlug);
   if (!site) notFound();
   const pages = await listPages(site.slug);
+  // Site settings open in the editor, on the home page, so changes are
+  // seen on a real page as they are made.
+  const home = pages.find((page) => page.path === '/');
 
   return (
     <PageContainer>
@@ -35,11 +39,15 @@ export default async function SitePages({
         >
           <ChevronLeft className="size-4" /> All sites
         </Link>
-        <H1 className="mt-2">{site.name}</H1>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+          <H1>{site.name}</H1>
+        </div>
         <Paragraph className="mt-1">
           Open a page to edit it visually, or create a new one.
         </Paragraph>
       </div>
+
+      <SiteTabs siteSlug={site.slug} active="pages" homeId={home?.id} />
 
       <div className="grid items-start gap-4 lg:grid-cols-[1fr_20rem]">
         <Card className="flex flex-col gap-2 p-3">
@@ -54,6 +62,7 @@ export default async function SitePages({
             <ul className="m-0 flex list-none flex-col gap-1 p-0">
               {pages.map((page) => {
                 const Icon = page.path === '/' ? House : FileText;
+                const isTemplate = !!page.template;
                 return (
                   <li
                     key={page.id}
@@ -64,7 +73,9 @@ export default async function SitePages({
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="m-0 flex items-center gap-2 truncate font-semibold">
-                        {page.draft.title}
+                        {isTemplate
+                          ? 'Article page template'
+                          : page.draft.title}
                         {page.published ? (
                           <Badge tone="success">
                             Published v{page.published.version}
@@ -74,7 +85,10 @@ export default async function SitePages({
                         )}
                       </p>
                       <p className="m-0 truncate text-xs text-[var(--ui-muted)]">
-                        <span className="font-mono">{page.path}</span> · saved{' '}
+                        <span className="font-mono">
+                          {isTemplate ? '/news/<article>' : page.path}
+                        </span>{' '}
+                        · saved{' '}
                         {new Date(page.updatedAt).toLocaleString('en-AU', {
                           dateStyle: 'medium',
                           timeStyle: 'short',
@@ -88,7 +102,7 @@ export default async function SitePages({
                     >
                       <PencilLine /> Edit
                     </Link>
-                    {page.published && (
+                    {page.published && !isTemplate && (
                       <a
                         href={`/sites/${site.slug}${page.path === '/' ? '' : page.path}`}
                         target="_blank"

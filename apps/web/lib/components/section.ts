@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { defineComponent } from './define';
+import { imageSchema } from './fields';
 
 export const sectionSchema = z.object({
   heading: z
@@ -14,94 +15,147 @@ export const sectionSchema = z.object({
     .min(1, 'Add some text or remove it')
     .optional()
     .meta({ label: 'Intro', multiline: true }),
-  layout: z
-    .enum([
-      'full',
-      'two-column',
-      'two-column-wide',
-      'two-column-wide-right',
-      'three-column',
-    ])
+  // The blocks inside are placed in these columns in order, wrapping to a
+  // new row when there are more blocks than columns.
+  columns: z.enum(['1', '1-1', '2-1', '1-2', '1-1-1']).meta({
+    group: 'layout',
+    label: 'Columns',
+    optionLabels: {
+      '1': 'One',
+      '1-1': 'Two',
+      '2-1': 'Wide left',
+      '1-2': 'Wide right',
+      '1-1-1': 'Three',
+    },
+    optionSketches: {
+      '1': 'one-column',
+      '1-1': 'two-column',
+      '2-1': 'two-column-wide',
+      '1-2': 'two-column-wide-right',
+      '1-1-1': 'three-column',
+    },
+  }),
+  // How the columns line up when they are not the same height.
+  align: z
+    .enum(['stretch', 'start', 'center', 'end'])
+    .default('stretch')
     .meta({
-      group: 'style',
-      label: 'Layout',
-      hint: 'How the components inside are arranged on wide screens. On phones they always stack.',
+      group: 'layout',
+      label: 'Align columns',
       optionLabels: {
-        full: 'One column',
-        'two-column': 'Two columns',
-        'two-column-wide': 'Two columns, wide left',
-        'two-column-wide-right': 'Two columns, wide right',
-        'three-column': 'Three columns',
+        stretch: 'Stretch',
+        start: 'Top',
+        center: 'Middle',
+        end: 'Bottom',
       },
       optionSketches: {
-        full: 'one-column',
-        'two-column': 'two-column',
-        'two-column-wide': 'two-column-wide',
-        'two-column-wide-right': 'two-column-wide-right',
-        'three-column': 'three-column',
+        stretch: 'align-stretch',
+        start: 'align-start',
+        center: 'align-center',
+        end: 'align-end',
       },
     }),
-  background: z.enum(['none', 'light', 'brand']).meta({
+  // Resolved from the site's theme, so one value looks right on every site:
+  // Primary is the brand colour, Secondary a light tint of it, Glass a
+  // frosted pane, Image a photo under a veil of one of those.
+  background: z.enum(['primary', 'secondary', 'glass', 'image', 'none']).meta({
     group: 'style',
     label: 'Background',
-    hint: 'Colours come from the site theme.',
-    optionLabels: { none: 'None', light: 'Light', brand: 'Brand colour' },
+    optionLabels: {
+      primary: 'Primary',
+      secondary: 'Secondary',
+      glass: 'Glass',
+      image: 'Image',
+      none: 'None',
+    },
+    optionSketches: {
+      primary: 'tone-primary',
+      secondary: 'tone-secondary',
+      glass: 'tone-glass',
+      image: 'tone-image',
+      none: 'tone-none',
+    },
   }),
-  // Space inside the section, above and below. Independent of the
-  // background; left out, it follows the width (see sectionPadding).
-  padding: z
-    .enum(['none', 'sm', 'md', 'lg'])
+  backgroundImage: imageSchema.optional().meta({
+    group: 'style',
+    label: 'Background image',
+    showIf: { background: 'image' },
+  }),
+  // What lies over the photo so the text on it stays readable.
+  overlay: z
+    .enum(['primary', 'secondary', 'glass', 'none', 'blur'])
     .optional()
     .meta({
       group: 'style',
-      label: 'Padding',
-      hint: 'Space inside the section, above and below. The same with or without a background. Not set: Medium, or None for Edge to edge.',
-      optionLabels: { none: 'None', sm: 'Small', md: 'Medium', lg: 'Large' },
-    }),
-  // Added after the first version, so it has a default (see README, 4).
-  width: z
-    .enum(['contained', 'full-background', 'full-width'])
-    .default('contained')
-    .meta({
-      group: 'style',
-      label: 'Width',
-      hint: 'Applies to a Section placed directly on the page. Inside another Section it follows its parent.',
+      label: 'Image overlay',
+      emptyIs: 'primary',
+      showIf: { background: 'image' },
       optionLabels: {
-        contained: 'Page column',
-        'full-background': 'Full-width background',
-        'full-width': 'Edge to edge',
+        primary: 'Primary',
+        secondary: 'Secondary',
+        glass: 'Glass',
+        none: 'None',
+        blur: 'Blur',
       },
       optionSketches: {
-        contained: 'contained',
-        'full-background': 'full-background',
-        'full-width': 'full-width',
+        primary: 'veil-primary',
+        secondary: 'veil-secondary',
+        glass: 'veil-glass',
+        none: 'veil-none',
+        blur: 'veil-blur',
+      },
+    }),
+  // Space inside the section, above and below. Independent of the tone.
+  padding: z
+    .enum(['none', 'sm', 'md', 'lg'])
+    .default('md')
+    .meta({
+      group: 'layout',
+      label: 'Padding',
+      optionLabels: { none: 'None', sm: 'Small', md: 'Medium', lg: 'Large' },
+      optionSketches: {
+        none: 'pad-none',
+        sm: 'pad-sm',
+        md: 'pad-md',
+        lg: 'pad-lg',
+      },
+    }),
+  width: z
+    .enum(['full-background', 'full-padded', 'full-width'])
+    .default('full-background')
+    .meta({
+      group: 'layout',
+      label: 'Width',
+      optionLabels: {
+        'full-background': 'Column',
+        'full-padded': 'Wide',
+        'full-width': 'Full',
+      },
+      optionSketches: {
+        'full-background': 'width-column',
+        'full-padded': 'width-wide',
+        'full-width': 'width-full',
       },
     }),
 });
-
-type SectionPadding = NonNullable<z.infer<typeof sectionSchema>['padding']>;
-
-/**
- * The padding a Section really gets. Never depends on the background, so
- * switching colours keeps everything in place. Edge to edge (usually a hero
- * slider) sits flush by default; every other width gets the standard space.
- */
-export function sectionPadding({
-  padding,
-  width,
-}: {
-  padding?: SectionPadding;
-  width: z.infer<typeof sectionSchema>['width'];
-}): SectionPadding {
-  return padding ?? (width === 'full-width' ? 'none' : 'md');
-}
 
 export const section = defineComponent({
   type: 'section',
   label: 'Section',
   description:
-    'Groups other components, with an optional heading, a layout and a background.',
+    'A band of the page: an optional heading and intro, then blocks side by side in one to three columns. It can hold another Section.',
   schema: sectionSchema,
-  defaultProps: { layout: 'full', background: 'none', width: 'contained' },
+  defaultProps: {
+    columns: '1',
+    align: 'stretch',
+    background: 'none',
+    padding: 'md',
+    width: 'full-background',
+  },
   acceptsChildren: true,
 });
+
+/** How many columns a Section has, from its `columns` value ("2-1" -> 2). */
+export function columnCount(columns: unknown): number {
+  return typeof columns === 'string' ? columns.split('-').length : 1;
+}

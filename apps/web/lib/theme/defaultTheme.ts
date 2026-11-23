@@ -13,5 +13,6 @@ export const defaultTheme: Theme = {
   radius: '0.75rem',
   fonts: { body: 'inter', heading: 'inter' },
   headingCase: 'normal',
-  spacing: { sm: '1rem', md: '2rem', lg: '4rem' },
+  spacing: { xs: '0.5rem', sm: '1rem', md: '2rem', lg: '4rem' },
+  density: 'standard',
 };

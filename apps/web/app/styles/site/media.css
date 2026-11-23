@@ -1,0 +1,67 @@
+/*
+ * Photo shapes, heroes and sliders. Plain CSS rather than arbitrary
+ * Tailwind classes (aspect-[16/10]): these decide the page layout, so they
+ * must not depend on a utility being generated in time during development.
+ */
+
+/* A card's photo. Cards: ratio picks another shape. */
+.media-card {
+  aspect-ratio: 16 / 10;
+}
+[data-ratio='square'] .media-card {
+  aspect-ratio: 1 / 1;
+}
+[data-ratio='tall'] .media-card {
+  aspect-ratio: 4 / 5;
+}
+
+/* A hero or slider: taller on phones, wider as the room grows. */
+.media-slider {
+  aspect-ratio: 4 / 5;
+}
+@container (min-width: 28rem) {
+  .media-slider {
+    aspect-ratio: 16 / 9;
+  }
+}
+@container (min-width: 48rem) {
+  .media-slider {
+    aspect-ratio: 21 / 9;
+  }
+}
+/* A shorter hero: a banner at the top of an inner page. */
+@container (min-width: 48rem) {
+  .media-slider.media-banner {
+    aspect-ratio: 3 / 1;
+  }
+}
+/* Edge-to-edge Sections: a slider inside one loses its rounded corners. */
+.section-bleed .media-slider {
+  border-radius: 0;
+}
+
+/* A hero's caption and a slider's controls: one distance from the side and
+   the bottom edge, so the content sits evenly in the photo's corner. */
+.media-slider,
+.slider-controls {
+  --hero-pad: 1.5rem;
+}
+@container (min-width: 48rem) {
+  .media-slider,
+  .slider-controls {
+    --hero-pad: 2.5rem;
+  }
+}
+
+/* A slider's bar indicator: the current bar fills while its slide shows. */
+@keyframes slider-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.slider-fill {
+  animation: slider-fill var(--slider-ms, 6000ms) linear both;
+}

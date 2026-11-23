@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LivePreview } from '@/components/preview/LivePreview';
+import { listEntries } from '@/lib/db/entries';
 import { getPageByPath, listPages } from '@/lib/db/pages';
 import { getSiteBySlug } from '@/lib/db/sites';
 import { pathFromSegments } from '@/lib/paths';
@@ -28,19 +29,27 @@ export default async function PreviewPage({
   const site = await getSiteBySlug(siteSlug);
   const page = site && (await getPageByPath(site.slug, pathFromSegments(path)));
   if (!site || !page) notFound();
-  const sitePages = await listPages(site.slug);
+  const [sitePages, entries] = await Promise.all([
+    listPages(site.slug),
+    listEntries(site.slug, { publishedOnly: true }),
+  ]);
+  // An article template shows a sample: the newest entry.
+  const sample = page.template
+    ? entries.find((entry) => entry.collection === page.template)
+    : undefined;
 
   return (
     <LivePreview
       site={site}
       themeVars={themeToCssVars(resolveTheme(defaultTheme, site.theme))}
       path={page.path}
-      menu={siteMenu(sitePages)}
+      menu={siteMenu(sitePages, site.menuOrder)}
       data={await pageData({
-        sitePages,
+        entries,
+        entry: sample,
         path: page.path,
         components: page.draft.components,
-        allFixtures: true,
+        everything: true,
       })}
       initialTitle={page.draft.title}
       initialComponents={page.draft.components}

@@ -1,5 +1,4 @@
 import { isImageAddress } from './components/fields';
-import type { ComponentNode } from './types';
 
 export type LibraryImage = { url: string; alt: string };
 
@@ -11,12 +10,13 @@ const isImage = (value: unknown): value is LibraryImage =>
   isImageAddress((value as LibraryImage).url);
 
 /**
- * Every image already used in these page trees, once each, in the order
- * found. The editor offers them as a site's image library, so editors can
- * reuse a photo instead of pasting an address. Images are found by shape
- * ({ url, alt }), so a new component's images are included automatically.
+ * Every image in this content (page trees, entries: any JSON), once each,
+ * in the order found. The editor offers them as a site's image library, so
+ * editors can reuse a photo instead of pasting an address. Images are found
+ * by shape ({ url, alt }), so a new component's or collection's images are
+ * included automatically.
  */
-export function collectImages(trees: ComponentNode[][]): LibraryImage[] {
+export function collectImages(...content: unknown[]): LibraryImage[] {
   const found = new Map<string, LibraryImage>();
   const visit = (value: unknown) => {
     if (Array.isArray(value)) value.forEach(visit);
@@ -26,12 +26,6 @@ export function collectImages(trees: ComponentNode[][]): LibraryImage[] {
     } else if (typeof value === 'object' && value !== null)
       Object.values(value).forEach(visit);
   };
-  const walk = (nodes: ComponentNode[]) => {
-    for (const node of nodes) {
-      visit(node.props);
-      walk(node.children ?? []);
-    }
-  };
-  trees.forEach(walk);
+  content.forEach(visit);
   return [...found.values()];
 }

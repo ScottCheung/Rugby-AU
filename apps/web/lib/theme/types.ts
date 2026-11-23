@@ -17,7 +17,10 @@ export type Theme = {
   fonts: { body: FontName; heading: FontName };
   /** Uppercase headings suit condensed sports fonts. */
   headingCase: 'normal' | 'uppercase';
-  spacing: { sm: string; md: string; lg: string };
+  /** xs: inside a card; sm: between cards; md: between blocks; lg: around a Section. */
+  spacing: { xs: string; sm: string; md: string; lg: string };
+  /** Scales every spacing step at once: a site's "Spacing" setting. */
+  density: 'compact' | 'standard' | 'roomy';
 };
 
 export type DeepPartial<T> = {

@@ -1,8 +1,12 @@
-import { profileBackgrounds } from '../components/profileGrid';
-import { getFixtures } from '../fixtures/mockApi';
-import { fixturesForTree } from '../fixtures/forTree';
+import { allNodes } from '../components/tree';
 import { cardColors } from '../imageColor';
-import { summarizeArticles, type SiteData } from '../news';
+import type { Entry } from '../collections';
+import type { BlockProps } from '../components/blocks/defineBlock';
+import { blockItems, tintSource } from '../components/blocks/resolve';
+import { sourceIds } from '../components/blocks/sources';
+import { getBlock } from '../components/registry';
+import { sourceLoaders } from './sourceData';
+import type { SiteData } from '../components/blocks/siteData';
 import type { ComponentNode, MenuItem, Page } from '../types';
 
 /**
@@ -16,46 +20,86 @@ function publishedOnly(pages: Page[]) {
   );
 }
 
-/** The site menu: its published top-level pages ("/" sorts first). */
-export function siteMenu(sitePages: Page[]): MenuItem[] {
+/**
+ * The site menu: its published top-level pages, except those hidden from
+ * it, each under its menu label (else its title; "Home" for /). Home comes
+ * first, then the site's chosen order (`menuOrder`, page ids), then any
+ * page not in that order by path.
+ */
+export function siteMenu(
+  sitePages: Page[],
+  menuOrder: string[] = [],
+): MenuItem[] {
+  const rank = (page: { id: string; path: string }) => {
+    if (page.path === '/') return -1;
+    const at = menuOrder.indexOf(page.id);
+    return at === -1 ? menuOrder.length : at;
+  };
   return publishedOnly(sitePages)
-    .filter((page) => page.path.split('/').length === 2)
-    .map(({ id, path, content }) => ({ id, path, title: content.title }));
+    .filter(
+      (page) => page.path.split('/').length === 2 && !page.content.nav?.hidden,
+    )
+    .sort((a, b) => rank(a) - rank(b) || a.path.localeCompare(b.path))
+    .map(({ id, path, content }) => ({
+      id,
+      path,
+      title: content.nav?.label || (path === '/' ? 'Home' : content.title),
+    }));
 }
 
 /**
- * What data-driven components need to render a page: the site's articles
- * (Latest news), colours picked from photos (Profile cards) and matches
- * (Fixture list). Worked out on the server, before the page renders.
+ * What blocks fed by the site's data need to render a page, worked out on
+ * the server before it renders: each data source loads its own records
+ * (lib/render/sourceData.ts), then the colours of the photos the page's
+ * items will show are picked (person cards arrive in their colour).
  *
- * `allFixtures` is for the editor's preview: an editor can switch a
- * Fixture list to any team, so the preview gets every match up front.
- * The component filters by team itself, so the result looks the same.
+ * `everything` is for the editor: a block can be switched to any team or
+ * group, so it gets every record up front. The block filters itself, so
+ * the result looks the same.
  */
 export async function pageData({
-  sitePages,
+  entries,
   path,
   components,
-  allFixtures = false,
+  entry,
+  everything = false,
 }: {
-  sitePages: Page[];
+  /** The site's published entries (news, players). */
+  entries: Entry[];
   path: string;
   components: ComponentNode[];
-  allFixtures?: boolean;
+  /** On an entry's own page: the entry the template shows. */
+  entry?: Entry;
+  everything?: boolean;
 }): Promise<SiteData> {
   const now = new Date();
-  return {
-    articles: summarizeArticles(
-      publishedOnly(sitePages).map(({ path, content }) => ({
-        path,
-        tree: content.components,
-      })),
+  const loaded = await Promise.all(
+    sourceIds.map((id) =>
+      sourceLoaders[id]({ tree: components, entries, now, everything }),
     ),
+  );
+  const data: SiteData = {
+    articles: [],
+    players: [],
+    fixtures: [],
+    ...Object.assign({}, ...loaded),
+    ...(entry ? { entry } : {}),
     pagePath: path,
-    colors: await cardColors(profileBackgrounds(components)),
-    fixtures: allFixtures
-      ? await getFixtures({ now })
-      : await fixturesForTree(components, now),
+    colors: {},
     now: now.toISOString(),
   };
+  return { ...data, colors: await cardColors(backgrounds(components, data)) };
+}
+
+/** The background photos of every item the page's blocks draw. */
+function backgrounds(tree: ComponentNode[], data: SiteData): string[] {
+  const urls = allNodes(tree).flatMap((node) => {
+    const block = getBlock(node.type);
+    return block
+      ? blockItems(block, node.props as BlockProps, data, true).map(
+          ({ item }) => tintSource(block, item),
+        )
+      : [];
+  });
+  return [...new Set(urls.filter((url): url is string => !!url))];
 }

@@ -48,9 +48,17 @@ export function ScrollHeader({
       animate={{ opacity: 1, y: 0 }}
       className="sticky top-16 z-30 md:top-0"
     >
-      {/* Background: the page colour fading out over a progressive blur. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[150px]">
-        <div className="h-[150px] bg-gradient-to-b from-[var(--ui-bg)] from-20% to-transparent" />
+      {/* Background: solid page colour behind the title and toolbar, so
+          they keep their contrast over dark cards, then a short fade over
+          a progressive blur below the header. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[calc(100%+40px)]">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, var(--ui-bg) calc(100% - 40px), transparent)',
+          }}
+        />
         <ProgressiveBlur
           steps={5}
           strength={24}

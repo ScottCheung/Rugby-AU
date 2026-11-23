@@ -1,3 +1,4 @@
+import { ChevronRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 const variants = {
@@ -32,7 +33,7 @@ export function Button({
       }`}
     >
       {children}
-      <span aria-hidden>→</span>
+      <ChevronRight aria-hidden className="-mr-1 size-4" />
     </a>
   );
 }
