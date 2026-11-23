@@ -172,8 +172,24 @@ Full write-up (theming, versions, assumptions, image credits):
 
 ## Time and tools
 
-- About **TODO** hours. The stretch goals (draft/publish, live preview, data
-  sources, deploy) came after the must-haves worked.
+- About **25 hours** over four days (19–23 Nov), estimated from the commit
+  history. The stretch goals (draft/publish, live preview, data sources,
+  deploy) came after the must-haves worked.
+  - **Core architecture, ~6h (24%)**: MongoDB in Docker, data access and
+    seed, theme tokens, Zod component schemas, tree validation and operations,
+    the renderer, forms generated from schemas.
+  - **Visual editor, ~4.5h (18%)**: drag and drop, insert/move/duplicate,
+    undo and redo, Content/Layout/Style tabs, device-width preview, layout
+    pickers, image picker.
+  - **Components and site polish, ~7h (28%)**: Card Grid, Image Slider,
+    gallery and photo viewer, articles and Latest news, Stats, Profile cards,
+    Fixture list, Motion entrances.
+  - **Sample sites and theming, ~3h (12%)**: 15 sites modelled on Australian
+    rugby, per-site fonts and colours, logos, squad pages and photos.
+  - **Stretch goals, ~3h (12%)**: draft/publish with version history, iframe
+    live preview, mock fixtures API as a data source, Vercel + Atlas deploy.
+  - **Tests and docs, ~1.5h (6%)**: tree, retention and publish tests; README
+    and design notes.
 - AI: **Codex** and **Claude Code** for scaffolding, implementation and review. I
   reviewed every change and can explain or change any line without them.
 
