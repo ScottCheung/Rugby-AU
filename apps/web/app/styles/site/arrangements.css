@@ -54,8 +54,8 @@
   }
 }
 /* Wall: columns where each item keeps its own height, read in rows.
-   As many columns as fit at --cell-min, at most 3; Wall.tsx deals the
-   items into them in turn. */
+   As many columns as fit at --cell-min, at most 3; Wall.tsx places each
+   item in the shortest column (absolutely, over these tracks). */
 .arrange-wall {
   display: grid;
   grid-template-columns: repeat(
@@ -71,10 +71,7 @@
   gap: var(--spacing-site-md);
   align-items: start;
 }
-.arrange-wall-column {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-site-md);
+.arrange-wall-slot {
   min-width: 0;
 }
 /* Carousel: several at once, --per-view across, never narrower than a
