@@ -49,11 +49,6 @@ export function OverlayCard({
       <div className="card-overlay__photo">
         <Image src={image.url} alt={image.alt} />
       </div>
-      <div className="card-overlay__fade" aria-hidden />
-      <div
-        className="card-overlay__fade card-overlay__fade--full"
-        aria-hidden
-      />
       <div className="card-overlay__body">
         {kicker && (
           <div className="card-overlay__more">

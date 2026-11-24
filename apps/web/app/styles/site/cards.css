@@ -118,37 +118,36 @@
   position: absolute;
   inset: 0;
 }
-.card-overlay__fade {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    to top,
-    var(--shade) 0%,
-    color-mix(in oklab, var(--shade), transparent 15%) 22%,
-    transparent 58%
-  );
-}
-.card-overlay__fade--full {
-  opacity: 0;
-  background: linear-gradient(
-    to top,
-    var(--shade) 0%,
-    var(--shade) 30%,
-    color-mix(in oklab, var(--shade), transparent 30%) 62%,
-    transparent 100%
-  );
-  transition: opacity 0.35s ease;
-}
+/*
+ * The panel behind the text: frosted glass in the photo's own colour
+ * (--shade, picked from its bottom). A 70% tint plus a light (5px) backdrop
+ * blur, so the busy detail behind the words is smoothed away rather than
+ * just darkened, and a near-vertical mask (7deg) that keeps it solid
+ * behind the text and dissolves it above. It belongs to the text block,
+ * so it is only as tall as the text plus --fade-reach and grows with it
+ * when the details open; the rest of the photo stays sharp.
+ */
 .card-overlay__body {
+  --fade-reach: 5rem;
   position: absolute;
   inset: auto 0 0;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-site-xs);
   max-height: 100%;
   padding: var(--pad-card);
+}
+.card-overlay__body::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--fade-reach)) 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: color-mix(in oklab, var(--shade), transparent 30%);
+  backdrop-filter: blur(5px);
+  mask-image: linear-gradient(7deg, #000 40%, transparent 90%);
 }
 .card-overlay__more {
   display: grid;
@@ -161,9 +160,6 @@
 .card-overlay__more > div {
   min-height: 0;
   overflow: hidden;
-}
-.card--overlay[data-details='always'] .card-overlay__fade--full {
-  opacity: 0.55;
 }
 @media (hover: hover) {
   .card--overlay[data-details='hover'] .card-overlay__more {
@@ -182,19 +178,9 @@
     grid-template-rows: 1fr;
     opacity: 1;
   }
-  .card--overlay[data-details='hover']:is(:hover, :focus-within)
-    .card-overlay__fade--full {
-    opacity: 1;
-  }
-}
-@media (hover: none) {
-  .card--overlay .card-overlay__fade--full {
-    opacity: 0.55;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card-overlay__more,
-  .card-overlay__fade--full {
+  .card-overlay__more {
     transition: none;
   }
 }

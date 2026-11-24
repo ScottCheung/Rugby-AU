@@ -73,12 +73,10 @@
   font-size: clamp(1.5rem, 0.95rem + 2.2cqi, 2.75rem);
   line-height: 1.12;
   text-wrap: balance;
-  text-shadow: 0 1px 12px rgb(0 0 0 / 0.25);
 }
 .hero-text {
   font-size: clamp(0.875rem, 0.8rem + 0.3cqi, 1.0625rem);
   text-wrap: pretty;
-  text-shadow: 0 1px 8px rgb(0 0 0 / 0.3);
   /* Phones: at most three lines, so the photo keeps its room. */
   display: -webkit-box;
   -webkit-box-orient: vertical;

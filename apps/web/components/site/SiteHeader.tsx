@@ -131,9 +131,6 @@ export function SiteHeader({
     boxShadow: `0 6px 20px rgba(0,0,0,${0.15 * progress})`,
     transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
   } as const;
-  const textShadow = overlay
-    ? `0 1px 2px rgba(0,0,0,${0.7 * (1 - progress)}), 0 0 10px rgba(0,0,0,${0.5 * (1 - progress)})`
-    : undefined;
 
   return (
     <>
@@ -155,7 +152,6 @@ export function SiteHeader({
           <nav
             aria-label="Main"
             className="no-scrollbar -mx-2 hidden max-w-full overflow-x-auto md:block"
-            style={{ textShadow }}
           >
             <ul className="m-0 flex list-none gap-2 p-0 whitespace-nowrap">
               {links.map((item) => (
@@ -163,10 +159,9 @@ export function SiteHeader({
                   <a
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
-                    style={item.current ? { textShadow: 'none' } : undefined}
                     className={`block rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
                       item.current
-                        ? 'bg-brand-contrast text-brand [text-shadow:none]'
+                        ? 'bg-brand-contrast text-brand'
                         : 'hover:bg-brand-contrast/15'
                     }`}
                   >
@@ -243,11 +238,8 @@ export function SiteHeader({
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     onClick={() => setMenuOpen(false)}
-                    style={item.current ? { textShadow: 'none' } : undefined}
                     className={`block rounded-xl px-3 py-3 text-base font-semibold ${
-                      item.current
-                        ? 'bg-brand-contrast text-brand [text-shadow:none]'
-                        : ''
+                      item.current ? 'bg-brand-contrast text-brand' : ''
                     }`}
                   >
                     {item.label}
