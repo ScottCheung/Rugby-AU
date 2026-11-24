@@ -267,7 +267,7 @@ export function Slider({
         >
           <div
             className={`mx-auto flex w-full max-w-6xl ${positions[position]}`}
-            style={{ paddingInline: 'var(--hero-pad)' }}
+            style={{ paddingInline: 'var(--hero-pad-x, var(--hero-pad))' }}
           >
             <Controls
               indicator={indicator}

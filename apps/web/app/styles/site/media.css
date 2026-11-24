@@ -139,6 +139,15 @@
   }
 }
 
+/* An edge-to-edge hero has no frame of its own, so its caption and
+   controls line up with the page column instead: the same gutter as
+   every Section's content (Container's px-site-sm). A contained hero keeps
+   --hero-pad inside its rounded frame, and the frame lines up outside. */
+.section-bleed .media-slider,
+.section-bleed .slider-controls {
+  --hero-pad-x: var(--spacing-site-sm);
+}
+
 /* A slider's bar indicator: the current bar fills while its slide shows. */
 @keyframes slider-fill {
   from {

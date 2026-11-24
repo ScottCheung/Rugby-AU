@@ -54,7 +54,7 @@ export function HeroItem({ item, style, index, siteSlug }: ItemProps<'hero'>) {
           // app/styles/site/media.css). A slider's controls on the left or centre get
           // a row of their own.
           style={{
-            paddingInline: 'var(--hero-pad)',
+            paddingInline: 'var(--hero-pad-x, var(--hero-pad))',
             paddingBottom:
               'calc(var(--hero-pad) + var(--slider-controls-room, 0px))',
           }}

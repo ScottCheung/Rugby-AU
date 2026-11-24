@@ -61,9 +61,10 @@ export function Carousel({
       const left = Math.max(0, Math.round(box.left));
       const right = Math.max(0, Math.round(width - box.right));
       // Where the text above sits: the page column (72rem, centred) plus
-      // its side padding. An edge-to-edge Section's body starts at the edge.
-      const gap = parseFloat(getComputedStyle(element).columnGap) || 16;
-      const pageInset = Math.max(0, (width - Math.min(width, 1152)) / 2) + gap;
+      // its side padding (Container's px-site-sm, the page gutter). An
+      // edge-to-edge Section's body starts at the edge.
+      const pageInset =
+        Math.max(0, (width - Math.min(width, 1152)) / 2) + gutter(element);
       setBleed({
         left,
         right,
@@ -164,6 +165,17 @@ export function Carousel({
       )}
     </div>
   );
+}
+
+/** The page gutter (--spacing-site-sm) in pixels, as the site sets it. */
+function gutter(element: HTMLElement) {
+  const probe = document.createElement('div');
+  probe.style.cssText =
+    'position:absolute;visibility:hidden;width:var(--spacing-site-sm)';
+  element.append(probe);
+  const size = probe.getBoundingClientRect().width;
+  probe.remove();
+  return size || 16;
 }
 
 function ArrowButton({
