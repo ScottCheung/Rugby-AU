@@ -95,30 +95,41 @@
   gap: var(--spacing-site-md);
 }
 /*
- * Slider: one at a time; the items share one grid cell. The new slide
- * fades in on top while the one it replaces stays fully shown underneath,
- * so the hero's fades never dip (a cross-fade lets the page show through).
- * Others hide only after the fade, in case a click lands mid-way.
+ * Slider: one at a time, side by side in a row that scrolls and snaps, so
+ * touch and trackpads swipe natively (Slider.tsx drags it with a mouse).
+ * The row clips to the site's corners; the slides inside are square, so
+ * no corners show mid-swipe. Flex stretches every slide to the tallest.
  */
 .arrange-slider {
-  display: grid;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border-radius: var(--radius-site);
+  touch-action: pan-x pan-y;
+  cursor: grab;
+}
+.arrange-slider::-webkit-scrollbar {
+  display: none;
+}
+.arrange-slider[data-dragging] {
+  scroll-snap-type: none;
+  cursor: grabbing;
+  user-select: none;
 }
 .arrange-slider > .arrange-cell {
-  grid-area: 1 / 1;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0s 0.7s;
+  flex: 0 0 100%;
+  max-width: none;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
-.arrange-slider > .arrange-cell[data-leaving] {
-  z-index: 1;
-  opacity: 1;
-  transition: none;
+.arrange-slider .media-slider {
+  border-radius: 0;
 }
-.arrange-slider > .arrange-cell[data-active] {
-  z-index: 2;
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+.section-bleed .arrange-slider {
+  border-radius: 0;
 }
 /* The outgoing caption leaves quickly, the incoming one staggers in
    (staggerIn.slider in the ui motion presets). */
@@ -166,10 +177,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arrange-slider > .arrange-cell,
-  .arrange-slider > .arrange-cell[data-active] {
-    transition: none;
-  }
   .arrange-slider > .arrange-cell[data-active] [data-stagger] > * {
     animation: none;
   }

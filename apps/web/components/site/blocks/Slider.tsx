@@ -2,10 +2,14 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
+  useCallback,
   useEffect,
+  useRef,
   useState,
   useSyncExternalStore,
   type CSSProperties,
+  type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent,
 } from 'react';
 import type { Cell } from './Arrangement';
 
@@ -22,12 +26,12 @@ const watchMotion = (onChange: () => void) => {
 
 /**
  * A carousel that shows one item at a time, with arrows and dots: a hero
- * banner, rotating quotes. The items share one grid cell, so the slider is
- * as tall as the tallest and nothing jumps. Switching fades the new item
- * in on top of the old one, which stays fully shown underneath until it is
- * covered: the hero's fades are the same on both, so they never dip (a
- * plain cross-fade lets the page show through halfway). The first item is
- * server-rendered and visible before JavaScript runs.
+ * banner, rotating quotes. The items sit side by side in a flex row that
+ * scrolls and snaps, so a finger or trackpad swipes between them natively
+ * (and a mouse can drag); the controls and autoplay just scroll the same
+ * track. Flex rows stretch, so the slider is as tall as the tallest item
+ * and nothing jumps. The first item is server-rendered and visible before
+ * JavaScript runs.
  */
 type Indicator = 'pill' | 'dots' | 'bars' | 'numbers';
 type Theme = 'primary' | 'secondary' | 'glass' | 'none';
@@ -87,32 +91,114 @@ export function Slider({
   position?: Position;
   cells: Cell[];
 }) {
+  const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
-  // The slide being covered by the current one (data-leaving).
-  const [leaving, setLeaving] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const still = useSyncExternalStore(watchMotion, prefersStill, () => true);
   const count = cells.length;
-  const current = count > 0 ? index % count : 0;
+  const current = count > 0 ? Math.min(index, count - 1) : 0;
   // Moving on by itself right now: the bars then fill up as time runs.
-  const running = autoplay && !paused && !still && count > 1;
+  const running = autoplay && !paused && !dragging && !still && count > 1;
 
-  const go = (next: number) => {
-    const target = (next + count) % count;
-    if (target === current) return;
-    setLeaving(current);
-    setIndex(target);
+  /** Scroll the track to a slide; the scroll handler then sets the index. */
+  const go = useCallback(
+    (next: number) => {
+      const element = track.current;
+      if (!element || count === 0) return;
+      const target = (next + count) % count;
+      element.scrollTo({
+        left: target * element.clientWidth,
+        behavior: prefersStill() ? 'auto' : 'smooth',
+      });
+    },
+    [count],
+  );
+
+  // The current slide follows the scroll position, so a swipe, a trackpad
+  // or the controls all end up in the same place.
+  const onScroll = () => {
+    const element = track.current;
+    if (!element || element.clientWidth === 0) return;
+    const next = Math.round(element.scrollLeft / element.clientWidth);
+    setIndex((previous) => (previous === next ? previous : next));
   };
 
-  // A fresh timer per slide, so a click restarts the clock (as the bars do).
+  // Keep the same slide in view when the track changes width.
+  useEffect(() => {
+    const element = track.current;
+    if (!element) return;
+    let width = element.clientWidth;
+    const observer = new ResizeObserver(() => {
+      if (element.clientWidth === width || width === 0) return;
+      const slide = Math.round(element.scrollLeft / width);
+      width = element.clientWidth;
+      element.scrollTo({ left: slide * width });
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  // A fresh timer per slide, so a swipe or click restarts the clock.
   useEffect(() => {
     if (!running) return;
-    const timer = window.setTimeout(() => {
-      setLeaving(current);
-      setIndex((current + 1) % count);
-    }, INTERVAL_MS);
+    const timer = window.setTimeout(() => go(current + 1), INTERVAL_MS);
     return () => window.clearTimeout(timer);
-  }, [running, count, current]);
+  }, [running, current, go]);
+
+  // A mouse drags the track like a finger would (touch and trackpads
+  // scroll it natively). Snapping is off while dragging, then the nearest
+  // slide, or the next one after a quick flick, settles into place.
+  const drag = useRef<{ x: number; left: number; t: number } | null>(null);
+  const moved = useRef(false);
+  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const element = track.current;
+    if (event.pointerType !== 'mouse' || event.button !== 0 || !element) return;
+    drag.current = {
+      x: event.clientX,
+      left: element.scrollLeft,
+      t: event.timeStamp,
+    };
+    moved.current = false;
+  };
+  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const element = track.current;
+    const start = drag.current;
+    if (!element || !start) return;
+    const dx = event.clientX - start.x;
+    if (!moved.current) {
+      if (Math.abs(dx) < 6) return;
+      moved.current = true;
+      setDragging(true);
+      element.setPointerCapture(event.pointerId);
+    }
+    element.scrollLeft = start.left - dx;
+  };
+  const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const element = track.current;
+    const start = drag.current;
+    drag.current = null;
+    if (!element || !start || !moved.current) return;
+    setDragging(false);
+    const dx = event.clientX - start.x;
+    const width = element.clientWidth;
+    const from = Math.round(start.left / width);
+    const flick = Math.abs(dx) / Math.max(1, event.timeStamp - start.t) > 0.4;
+    const target =
+      flick || Math.abs(dx) > width * 0.2 ? from + (dx < 0 ? 1 : -1) : from;
+    element.scrollTo({
+      left: Math.max(0, Math.min(count - 1, target)) * width,
+      behavior: 'smooth',
+    });
+  };
+  // A drag must not also follow the link it started on.
+  const onClickCapture = (event: ReactMouseEvent) => {
+    if (moved.current) {
+      event.preventDefault();
+      event.stopPropagation();
+      moved.current = false;
+    }
+  };
 
   return (
     <div
@@ -123,6 +209,10 @@ export function Slider({
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowLeft') go(current - 1);
+        if (event.key === 'ArrowRight') go(current + 1);
+      }}
       className="relative"
       style={
         count > 1 && position !== 'right'
@@ -130,18 +220,31 @@ export function Slider({
           : undefined
       }
     >
-      <div className="arrange-slider">
-        {cells.map(({ key, mark, node }, position) => {
-          const active = position === current;
+      <div
+        ref={track}
+        onScroll={onScroll}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onClickCapture={onClickCapture}
+        onDragStart={(event) => event.preventDefault()}
+        data-dragging={dragging || undefined}
+        className="arrange-slider"
+      >
+        {cells.map(({ key, mark, node }, slide) => {
+          const active = slide === current;
           return (
             <div
               key={key}
               {...mark}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${slide + 1} of ${count}`}
               aria-hidden={!active}
               // Hidden slides must not be reachable with the keyboard either.
               inert={!active}
               data-active={active || undefined}
-              data-leaving={(!active && position === leaving) || undefined}
               className="arrange-cell"
             >
               {node}

@@ -5,9 +5,11 @@ import { resolveHref } from '@/lib/links';
 import type { ItemProps } from './types';
 
 /**
- * A large photo with its caption on it. Theme-coloured fades keep the text
- * readable: the bottom one carries the caption, the top one keeps light
- * photos readable under the site header.
+ * A large photo with its caption on it, in the flow at the bottom (the hero
+ * grows with a long caption, media.css). The caption stays small and in
+ * one corner so the photo has room; a dark scrim under that corner keeps
+ * it readable, a theme-coloured fade blends the bottom into the page, and
+ * the top fade keeps light photos readable under the site header.
  */
 export function HeroItem({ item, style, index, siteSlug }: ItemProps<'hero'>) {
   const href = item.link && resolveHref(item.link.href, siteSlug);
@@ -26,24 +28,28 @@ export function HeroItem({ item, style, index, siteSlug }: ItemProps<'hero'>) {
             'linear-gradient(to bottom, var(--hero-top-tint, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 35%, transparent)) var(--hero-top-hold, 0%), transparent)',
         }}
       />
+      {/* A dark scrim under the caption's corner, so the text reads on any
+          photo; the theme-coloured fade below it blends into the page. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -bottom-8 h-[50%]"
+        className="hero-scrim pointer-events-none absolute inset-0"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[46%]"
         style={{
           background:
-            'linear-gradient(to top, var(--hero-fade, var(--color-deep)) 0%, var(--hero-fade, var(--color-deep)) 18%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 85%, transparent) 35%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 45%, transparent) 60%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 15%, transparent) 85%, transparent 100%)',
-          transform: 'skewY(2deg)',
-          transformOrigin: 'left bottom',
+            'linear-gradient(to top, var(--hero-fade, var(--color-deep)) 0%, var(--hero-fade, var(--color-deep)) 22%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 82%, transparent) 40%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 50%, transparent) 60%, color-mix(in oklch, var(--hero-fade, var(--color-deep)) 18%, transparent) 82%, transparent 100%)',
         }}
       />
       <div
-        className="absolute inset-x-0 bottom-0"
+        className="relative z-10"
         style={{ color: 'var(--hero-text, #fff)' }}
       >
         <div
           // Its lines stagger in when the hero is a slider's slide.
           data-stagger
-          className="mx-auto flex w-full max-w-6xl flex-col items-start gap-3 pt-site-lg"
+          className="hero-copy mx-auto flex w-full max-w-6xl flex-col items-start gap-2.5 @3xl:gap-3.5"
           // The same distance from the side and the bottom edge (--hero-pad,
           // app/styles/site/media.css). A slider's controls on the left or centre get
           // a row of their own.
@@ -58,11 +64,11 @@ export function HeroItem({ item, style, index, siteSlug }: ItemProps<'hero'>) {
               {item.eyebrow}
             </p>
           )}
-          <Heading level={1} as="h2">
+          <Heading level={1} as="h2" className="hero-title">
             {item.title}
           </Heading>
           {item.text && (
-            <p className="m-0 max-w-2xl text-base leading-relaxed text-white/85 @xl/page:text-lg">
+            <p className="hero-text m-0 leading-relaxed text-white/90">
               {item.text}
             </p>
           )}

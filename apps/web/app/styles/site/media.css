@@ -15,26 +15,112 @@
   aspect-ratio: 4 / 5;
 }
 
-/* A hero or slider: taller on phones, wider as the room grows. */
+/*
+ * A hero or slider. A minimum height that follows the width (taller than
+ * wide on phones, about 16:9 on tablets, 2:1 wide) rather than a fixed
+ * ratio: the caption sits in the flow at the bottom, so a long headline
+ * makes the hero taller instead of running up under the site header. The
+ * top padding keeps the caption clear of the transparent header.
+ */
 .media-slider {
-  aspect-ratio: 4 / 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(30rem, 140cqi, 38rem);
+  padding-top: 5rem;
+}
+.media-slider > img {
+  position: absolute;
+  inset: 0;
 }
 @container (min-width: 28rem) {
   .media-slider {
-    aspect-ratio: 16 / 9;
+    min-height: clamp(26rem, 66cqi, 40rem);
   }
 }
 @container (min-width: 48rem) {
   .media-slider {
-    aspect-ratio: 21 / 9;
+    min-height: clamp(30rem, 48cqi, 46rem);
+    padding-top: 6rem;
   }
 }
 /* A shorter hero: a banner at the top of an inner page. */
 @container (min-width: 48rem) {
   .media-slider.media-banner {
-    aspect-ratio: 3 / 1;
+    min-height: clamp(18rem, 33cqi, 26rem);
   }
 }
+
+/*
+ * A hero's caption: small and in the bottom-left corner, so the photo
+ * stays the subject. The type follows the hero's width; the block itself
+ * never takes more than about a third of a wide hero.
+ */
+.hero-copy > * {
+  max-width: 100%;
+}
+@container (min-width: 36rem) {
+  .hero-copy > * {
+    max-width: 30rem;
+  }
+}
+@container (min-width: 64rem) {
+  .hero-copy > * {
+    max-width: 34rem;
+  }
+}
+.hero-title {
+  font-size: clamp(1.5rem, 0.95rem + 2.2cqi, 2.75rem);
+  line-height: 1.12;
+  text-wrap: balance;
+  text-shadow: 0 1px 12px rgb(0 0 0 / 0.25);
+}
+.hero-text {
+  font-size: clamp(0.875rem, 0.8rem + 0.3cqi, 1.0625rem);
+  text-wrap: pretty;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.3);
+  /* Phones: at most three lines, so the photo keeps its room. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+@container (min-width: 36rem) {
+  .hero-text {
+    -webkit-line-clamp: 4;
+  }
+}
+
+/*
+ * The scrim under the caption: the theme's deep colour, rising in a soft
+ * arc behind the text and fading out towards the top and the far side,
+ * so the caption reads on any photo while the rest stays bright. On a
+ * phone the caption spans the width, so the arc is centred and wider.
+ */
+.hero-scrim {
+  --scrim: var(--hero-fade, var(--color-deep));
+  background: radial-gradient(
+    ellipse 95% 62% at 40% 100%,
+    color-mix(in oklch, var(--scrim) 92%, transparent) 0%,
+    color-mix(in oklch, var(--scrim) 80%, transparent) 35%,
+    color-mix(in oklch, var(--scrim) 45%, transparent) 62%,
+    color-mix(in oklch, var(--scrim) 12%, transparent) 85%,
+    transparent 100%
+  );
+}
+@container (min-width: 36rem) {
+  .hero-scrim {
+    background: radial-gradient(
+      ellipse 62% 58% at 34% 100%,
+      color-mix(in oklch, var(--scrim) 90%, transparent) 0%,
+      color-mix(in oklch, var(--scrim) 78%, transparent) 35%,
+      color-mix(in oklch, var(--scrim) 42%, transparent) 62%,
+      color-mix(in oklch, var(--scrim) 10%, transparent) 85%,
+      transparent 100%
+    );
+  }
+}
+
 /* Edge-to-edge Sections: a slider inside one loses its rounded corners. */
 .section-bleed .media-slider {
   border-radius: 0;

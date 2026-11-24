@@ -2,7 +2,9 @@ import { ChevronRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 const variants = {
-  primary: 'bg-brand text-brand-contrast hover:opacity-90',
+  // Colours from the surface it sits on (app/styles/site/base.css), so it
+  // never takes the same colour as a brand Section or a hero's fade.
+  primary: 'site-button hover:opacity-90',
   outline: 'border-2 border-current hover:bg-current/10',
 } as const;
 

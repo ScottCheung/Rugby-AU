@@ -23,6 +23,29 @@
 }
 
 /*
+ * A primary button takes its colours from the surface around it. On the
+ * page and light panels it is the brand colour. On a strong surface (a
+ * brand Section, a photo's veil, a hero) the brand would melt into the
+ * background, so it turns over: the contrast colour with brand text.
+ */
+.site-button {
+  background-color: var(--button-bg, var(--color-brand));
+  color: var(--button-text, var(--color-brand-contrast));
+}
+.surface-strong,
+.media-slider,
+.card--overlay {
+  --button-bg: var(--color-brand-contrast);
+  --button-text: var(--color-brand);
+}
+/* A light panel inside a strong one goes back to the brand button. */
+.surface-strong .bg-surface-light,
+.surface-strong .bg-background {
+  --button-bg: var(--color-brand);
+  --button-text: var(--color-brand-contrast);
+}
+
+/*
  * A contained Section with a background is a panel. The panel pads its
  * sides so text does not touch the colour's edge. On the page it also
  * reaches out by that same amount, so its content stays on the page
